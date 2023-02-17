@@ -28,8 +28,7 @@ export class Property implements IModel {
   Mandatory?: boolean;
   /**	String	数据类型(枚举值使用Int32)：	O	*/
   DataType?: string;
-  /**	0	String，DateTime，Date，Time，Int32，Double，Object，Boolean	0	*/
-  0: 0;
+
   /**	ValueNamePair[]	枚举值对应列表	O	*/
   EnumeratedValues?: ValueNamePair[];
   /**	String	正则表达式	O	*/

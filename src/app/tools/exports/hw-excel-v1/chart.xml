@@ -1,0 +1,412 @@
+"<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<c:chartSpace xmlns:c="http://schemas.openxmlformats.org/drawingml/2006/chart" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+  <c:date1904 val="0"/>
+  <c:lang val="zh-CN"/>
+  <c:roundedCorners val="0"/>
+  <mc:AlternateContent xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
+    <mc:Choice Requires="c14" xmlns:c14="http://schemas.microsoft.com/office/drawing/2007/8/2/chart">
+      <c14:style val="102"/>
+    </mc:Choice>
+    <mc:Fallback>
+      <c:style val="2"/>
+    </mc:Fallback>
+  </mc:AlternateContent>
+  <c:chart>
+    <c:autoTitleDeleted val="0"/>
+    <c:plotArea>
+      <c:layout/>
+      <c:barChart>
+        <c:barDir val="col"/>
+        <c:grouping val="clustered"/>
+        <c:varyColors val="0"/>
+        <c:ser>
+          <c:idx val="0"/>
+          <c:order val="0"/>
+          <c:tx>
+            <c:strRef>
+              <c:f>Table!$D$2</c:f>
+              <c:strCache>
+                <c:ptCount val="1"/>
+                <c:pt idx="0">
+                  <c:v>进客流</c:v>
+                </c:pt>
+              </c:strCache>
+            </c:strRef>
+          </c:tx>
+          <c:cat>
+            <c:strRef>
+              <c:f>Table!$C$3:$C$16</c:f>
+              <c:strCache>
+                <c:ptCount val="16"/>
+                <c:pt idx="0">
+                  <c:v>00:00</c:v>
+                </c:pt>
+                <c:pt idx="1">
+                  <c:v>01:00</c:v>
+                </c:pt>
+                <c:pt idx="2">
+                  <c:v>02:00</c:v>
+                </c:pt>
+                <c:pt idx="3">
+                  <c:v>03:00</c:v>
+                </c:pt>
+                <c:pt idx="4">
+                  <c:v>04:00</c:v>
+                </c:pt>
+                <c:pt idx="5">
+                  <c:v>05:00</c:v>
+                </c:pt>
+                <c:pt idx="6">
+                  <c:v>06:00</c:v>
+                </c:pt>
+                <c:pt idx="7">
+                  <c:v>07:00</c:v>
+                </c:pt>
+                <c:pt idx="8">
+                  <c:v>08:00</c:v>
+                </c:pt>
+                <c:pt idx="9">
+                  <c:v>09:00</c:v>
+                </c:pt>
+                <c:pt idx="10">
+                  <c:v>10:00</c:v>
+                </c:pt>
+                <c:pt idx="11">
+                  <c:v>11:00</c:v>
+                </c:pt>
+                <c:pt idx="12">
+                  <c:v>12:00</c:v>
+                </c:pt>
+                <c:pt idx="13">
+                  <c:v>13:00</c:v>
+                </c:pt>
+                <c:pt idx="14">
+                  <c:v>14:00</c:v>
+                </c:pt>
+                <c:pt idx="15">
+                  <c:v>15:00</c:v>
+                </c:pt>
+              </c:strCache>
+            </c:strRef>
+          </c:cat>
+          <c:val>
+            <c:numRef>
+              <c:f>Table!$D$3:$D$16</c:f>
+              <c:numCache>
+                <c:formatCode>General</c:formatCode>
+                <c:ptCount val="16"/>
+                <c:pt idx="0">
+                  <c:v>0</c:v>
+                </c:pt>
+                <c:pt idx="1">
+                  <c:v>0</c:v>
+                </c:pt>
+                <c:pt idx="2">
+                  <c:v>0</c:v>
+                </c:pt>
+                <c:pt idx="3">
+                  <c:v>0</c:v>
+                </c:pt>
+                <c:pt idx="4">
+                  <c:v>0</c:v>
+                </c:pt>
+                <c:pt idx="5">
+                  <c:v>0</c:v>
+                </c:pt>
+                <c:pt idx="6">
+                  <c:v>0</c:v>
+                </c:pt>
+                <c:pt idx="7">
+                  <c:v>0</c:v>
+                </c:pt>
+                <c:pt idx="8">
+                  <c:v>0</c:v>
+                </c:pt>
+                <c:pt idx="9">
+                  <c:v>3</c:v>
+                </c:pt>
+                <c:pt idx="10">
+                  <c:v>2</c:v>
+                </c:pt>
+                <c:pt idx="11">
+                  <c:v>3</c:v>
+                </c:pt>
+                <c:pt idx="12">
+                  <c:v>10</c:v>
+                </c:pt>
+                <c:pt idx="13">
+                  <c:v>0</c:v>
+                </c:pt>
+                <c:pt idx="14">
+                  <c:v>0</c:v>
+                </c:pt>
+                <c:pt idx="15">
+                  <c:v>0</c:v>
+                </c:pt>
+              </c:numCache>
+            </c:numRef>
+          </c:val>
+        </c:ser>
+        <c:ser>
+          <c:idx val="1"/>
+          <c:order val="1"/>
+          <c:tx>
+            <c:strRef>
+              <c:f>Table!$E$2</c:f>
+              <c:strCache>
+                <c:ptCount val="1"/>
+                <c:pt idx="0">
+                  <c:v>出客流</c:v>
+                </c:pt>
+              </c:strCache>
+            </c:strRef>
+          </c:tx>
+          <c:cat>
+            <c:strRef>
+              <c:f>Table!$C$3:$C$16</c:f>
+              <c:strCache>
+                <c:ptCount val="16"/>
+                <c:pt idx="0">
+                  <c:v>00:00</c:v>
+                </c:pt>
+                <c:pt idx="1">
+                  <c:v>01:00</c:v>
+                </c:pt>
+                <c:pt idx="2">
+                  <c:v>02:00</c:v>
+                </c:pt>
+                <c:pt idx="3">
+                  <c:v>03:00</c:v>
+                </c:pt>
+                <c:pt idx="4">
+                  <c:v>04:00</c:v>
+                </c:pt>
+                <c:pt idx="5">
+                  <c:v>05:00</c:v>
+                </c:pt>
+                <c:pt idx="6">
+                  <c:v>06:00</c:v>
+                </c:pt>
+                <c:pt idx="7">
+                  <c:v>07:00</c:v>
+                </c:pt>
+                <c:pt idx="8">
+                  <c:v>08:00</c:v>
+                </c:pt>
+                <c:pt idx="9">
+                  <c:v>09:00</c:v>
+                </c:pt>
+                <c:pt idx="10">
+                  <c:v>10:00</c:v>
+                </c:pt>
+                <c:pt idx="11">
+                  <c:v>11:00</c:v>
+                </c:pt>
+                <c:pt idx="12">
+                  <c:v>12:00</c:v>
+                </c:pt>
+                <c:pt idx="13">
+                  <c:v>13:00</c:v>
+                </c:pt>
+                <c:pt idx="14">
+                  <c:v>14:00</c:v>
+                </c:pt>
+                <c:pt idx="15">
+                  <c:v>15:00</c:v>
+                </c:pt>
+              </c:strCache>
+            </c:strRef>
+          </c:cat>
+          <c:val>
+            <c:numRef>
+              <c:f>Table!$E$3:$E$16</c:f>
+              <c:numCache>
+                <c:formatCode>General</c:formatCode>
+                <c:ptCount val="16"/>
+                <c:pt idx="0">
+                  <c:v>0</c:v>
+                </c:pt>
+                <c:pt idx="1">
+                  <c:v>0</c:v>
+                </c:pt>
+                <c:pt idx="2">
+                  <c:v>0</c:v>
+                </c:pt>
+                <c:pt idx="3">
+                  <c:v>0</c:v>
+                </c:pt>
+                <c:pt idx="4">
+                  <c:v>0</c:v>
+                </c:pt>
+                <c:pt idx="5">
+                  <c:v>0</c:v>
+                </c:pt>
+                <c:pt idx="6">
+                  <c:v>0</c:v>
+                </c:pt>
+                <c:pt idx="7">
+                  <c:v>0</c:v>
+                </c:pt>
+                <c:pt idx="8">
+                  <c:v>0</c:v>
+                </c:pt>
+                <c:pt idx="9">
+                  <c:v>3</c:v>
+                </c:pt>
+                <c:pt idx="10">
+                  <c:v>2</c:v>
+                </c:pt>
+                <c:pt idx="11">
+                  <c:v>3</c:v>
+                </c:pt>
+                <c:pt idx="12">
+                  <c:v>10</c:v>
+                </c:pt>
+                <c:pt idx="13">
+                  <c:v>1</c:v>
+                </c:pt>
+                <c:pt idx="14">
+                  <c:v>0</c:v>
+                </c:pt>
+                <c:pt idx="15">
+                  <c:v>0</c:v>
+                </c:pt>
+              </c:numCache>
+            </c:numRef>
+          </c:val>
+        </c:ser>
+        <c:dLbls>
+          <c:showLegendKey val="0"/>
+          <c:showVal val="0"/>
+          <c:showCatName val="0"/>
+          <c:showSerName val="0"/>
+          <c:showPercent val="0"/>
+          <c:showBubbleSize val="0"/>
+        </c:dLbls>
+        <c:gapWidth val="150"/>
+        <c:axId val="49222784"/>
+        <c:axId val="49224320"/>
+      </c:barChart>
+      <c:catAx>
+        <c:axId val="49222784"/>
+        <c:scaling>
+          <c:orientation val="minMax"/>
+        </c:scaling>
+        <c:delete val="0"/>
+        <c:axPos val="b"/>
+        <c:majorTickMark val="out"/>
+        <c:minorTickMark val="none"/>
+        <c:tickLblPos val="nextTo"/>
+        <c:txPr>
+          <a:bodyPr rot="-60000000" spcFirstLastPara="0" vertOverflow="ellipsis" vert="horz" wrap="square" anchor="ctr" anchorCtr="1"/>
+          <a:lstStyle/>
+          <a:p>
+            <a:pPr>
+              <a:defRPr lang="zh-CN" sz="1000" b="0" i="0" u="none" strike="noStrike" kern="1200" baseline="0">
+                <a:solidFill>
+                  <a:schemeClr val="tx1"/>
+                </a:solidFill>
+                <a:latin typeface="+mn-lt"/>
+                <a:ea typeface="+mn-ea"/>
+                <a:cs typeface="+mn-cs"/>
+              </a:defRPr>
+            </a:pPr>
+          </a:p>
+        </c:txPr>
+        <c:crossAx val="49224320"/>
+        <c:crosses val="autoZero"/>
+        <c:auto val="1"/>
+        <c:lblAlgn val="ctr"/>
+        <c:lblOffset val="100"/>
+        <c:noMultiLvlLbl val="0"/>
+      </c:catAx>
+      <c:valAx>
+        <c:axId val="49224320"/>
+        <c:scaling>
+          <c:orientation val="minMax"/>
+        </c:scaling>
+        <c:delete val="0"/>
+        <c:axPos val="l"/>
+        <c:majorGridlines/>
+        <c:numFmt formatCode="General" sourceLinked="1"/>
+        <c:majorTickMark val="out"/>
+        <c:minorTickMark val="none"/>
+        <c:tickLblPos val="nextTo"/>
+        <c:txPr>
+          <a:bodyPr rot="-60000000" spcFirstLastPara="0" vertOverflow="ellipsis" vert="horz" wrap="square" anchor="ctr" anchorCtr="1"/>
+          <a:lstStyle/>
+          <a:p>
+            <a:pPr>
+              <a:defRPr lang="zh-CN" sz="1000" b="0" i="0" u="none" strike="noStrike" kern="1200" baseline="0">
+                <a:solidFill>
+                  <a:schemeClr val="tx1"/>
+                </a:solidFill>
+                <a:latin typeface="+mn-lt"/>
+                <a:ea typeface="+mn-ea"/>
+                <a:cs typeface="+mn-cs"/>
+              </a:defRPr>
+            </a:pPr>
+          </a:p>
+        </c:txPr>
+        <c:crossAx val="49222784"/>
+        <c:crosses val="autoZero"/>
+        <c:crossBetween val="between"/>
+      </c:valAx>
+    </c:plotArea>
+    <c:legend>
+      <c:legendPos val="r"/>
+      <c:layout/>
+      <c:overlay val="0"/>
+      <c:txPr>
+        <a:bodyPr rot="0" spcFirstLastPara="0" vertOverflow="ellipsis" vert="horz" wrap="square" anchor="ctr" anchorCtr="1"/>
+        <a:lstStyle/>
+        <a:p>
+          <a:pPr>
+            <a:defRPr lang="zh-CN" sz="1000" b="0" i="0" u="none" strike="noStrike" kern="1200" baseline="0">
+              <a:solidFill>
+                <a:schemeClr val="tx1"/>
+              </a:solidFill>
+              <a:latin typeface="+mn-lt"/>
+              <a:ea typeface="+mn-ea"/>
+              <a:cs typeface="+mn-cs"/>
+            </a:defRPr>
+          </a:pPr>
+        </a:p>
+      </c:txPr>
+    </c:legend>
+    <c:plotVisOnly val="1"/>
+    <c:dispBlanksAs val="gap"/>
+    <c:showDLblsOverMax val="0"/>
+    <c:title>
+      <c:tx>
+        <c:rich>
+          <a:bodyPr/>
+          <a:lstStyle/>
+          <a:p>
+            <a:pPr>
+              <a:defRPr/>
+            </a:pPr>
+            <a:r>
+              <a:rPr lang="ru-RU"/>
+              <a:t>AI营业厅 2022年08月22日 客流统计</a:t>
+            </a:r>
+          </a:p>
+        </c:rich>
+      </c:tx>
+      <c:layout/>
+      <c:overlay val="0"/>
+    </c:title>
+  </c:chart>
+  <c:txPr>
+    <a:bodyPr/>
+    <a:lstStyle/>
+    <a:p>
+      <a:pPr>
+        <a:defRPr lang="zh-CN"/>
+      </a:pPr>
+    </a:p>
+  </c:txPr>
+  <c:externalData r:id="rId1">
+    <c:autoUpdate val="0"/>
+  </c:externalData>
+</c:chartSpace>"
