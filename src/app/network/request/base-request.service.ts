@@ -44,10 +44,8 @@ export class BaseRequestService {
     if (params) {
       data = instanceToPlain(params) as IParams;
     }
-    let response = await this.http
-      .post<IParams, Array<T>>(url, data)
-      .toPromise();
-    return ServiceHelper.ResponseProcess(response, type);
+    let response = firstValueFrom(this.http.post<IParams, Array<T>>(url, data));
+    return ServiceHelper.ResponseProcess(await response, type);
   }
   async postToArray<T, R = T>(url: string, data?: T): Promise<Array<R>> {
     let response = this.http.post(url, data);
@@ -69,17 +67,19 @@ export class BaseRequestService {
   }
 
   async getArray<T>(url: string, type: ClassConstructor<T>) {
-    let response = await this.http
-      .getHowellResponse<IParams, Array<T>>(url)
-      .toPromise();
-    return ServiceHelper.ResponseProcess(response, type);
+    let response = firstValueFrom(
+      this.http.getHowellResponse<IParams, Array<T>>(url)
+    );
+
+    return ServiceHelper.ResponseProcess(await response, type);
   }
   async paged<T>(url: string, type: ClassConstructor<T>, params: IParams) {
     let data = instanceToPlain(params) as IParams;
-    let response = await this.http
-      .post<IParams, PagedList<T>>(url, data)
-      .toPromise();
-    return ServiceHelper.ResponseProcess(response, type);
+    let response = firstValueFrom(
+      this.http.post<IParams, PagedList<T>>(url, data)
+    );
+
+    return ServiceHelper.ResponseProcess(await response, type);
   }
 
   async getExcel(url: string) {

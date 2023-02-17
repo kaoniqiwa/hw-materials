@@ -1,6 +1,8 @@
-import { GarbageStationEntity } from '../network/entity/garbage-station.entity';
-import { Division } from './division.model';
+import { GarbageStationProfile } from '../network/entity/garbage-station-profile.entity';
 
-export class GarbageStation extends GarbageStationEntity {
-  Division?: Promise<Division>;
+export class GarbageStationProfileModel extends GarbageStationProfile {
+  LFImage?: Promise<string>;
+  RFImage?: Promise<string>;
+  FImage?: Promise<string>;
+  PowerImage?: Promise<string>;
 }
