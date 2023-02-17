@@ -1,0 +1,337 @@
+// 伪类
+.hw-middle-btn() {
+  width: 46px;
+  height: 34px;
+  font-size: 16px;
+
+  cursor: pointer;
+  background-color: unset;
+  border: unset;
+  border-radius: 0px;
+
+  margin-right: 10px;
+  &:last-child {
+    margin-right: 0;
+  }
+  &:disabled {
+    filter: brightness(60%);
+  }
+}
+
+.hw-normal-btn() {
+  // width: 76px;
+  padding: 0 12px;
+  height: 34px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: unset;
+  border: unset;
+  border-radius: 0px;
+  background-size: 100% 100%;
+  margin-right: 10px;
+  flex-shrink: 0;
+  &:last-child {
+    margin-right: 0;
+  }
+  &:disabled {
+    filter: brightness(60%);
+  }
+}
+.hw-normal-round-btn() {
+  width: 69px;
+  height: 69px;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+.form-control() {
+  width: 100%;
+  height: 32px;
+  padding: 0 10px;
+  color: #cfd7ff;
+  border: 1px solid #5e6ebf;
+  font-size: 16px;
+  border-radius: unset;
+  background-color: #1d233b;
+  box-sizing: border-box;
+  outline: none;
+}
+
+// m-btn
+.hw-green-m-btn {
+  .hw-middle-btn();
+  background-image: url("/assets/img/green-m-btn.png");
+}
+
+.hw-green-m-btn:hover {
+  background-image: url("/assets/img/green-m-btn-hover.png");
+}
+
+.hw-green-m-btn:active {
+  background-image: url("/assets/img/green-m-btn-focus.png");
+}
+
+.hw-blue-m-btn {
+  .hw-middle-btn();
+  background-image: url("/assets/img/blue-m-btn.png");
+}
+
+.hw-blue-m-btn:hover {
+  background-image: url("/assets/img/blue-m-btn-hover.png");
+}
+
+.hw-blue-m-btn.active {
+  background-image: url("/assets/img/blue-m-btn-focus.png");
+}
+
+.hw-cyan-m-btn {
+  .hw-middle-btn();
+  background-image: url("/assets/img/cyan-m-btn.png");
+}
+
+.hw-cyan-m-btn:hover {
+  background-image: url("/assets/img/cyan-m-btn-hover.png");
+}
+
+.hw-cyan-m-btn.active {
+  background-image: url("/assets/img/cyan-m-btn-focus.png");
+}
+
+.hw-gray-m-btn {
+  width: 46px;
+  color: rgba(207, 215, 255, 0.5);
+  height: 34px;
+  border: 1px solid rgba(94, 110, 191, 0.5);
+  background: #0c1127;
+  cursor: pointer;
+  margin-right: 10px;
+  &:last-child {
+    margin-right: 0;
+  }
+  &:disabled {
+    filter: brightness(60%);
+  }
+}
+
+.hw-gray-m-btn:hover {
+  border: 1px solid rgb(94, 110, 191);
+  color: #eaedff;
+}
+
+// btn
+.hw-green-btn {
+  .hw-normal-btn();
+  background-image: url("/assets/img/green-btn.png");
+}
+
+.hw-green-btn:hover {
+  background-image: url("/assets/img/green-btn-hover.png");
+}
+
+.hw-green-btn:active {
+  background-image: url("/assets/img/green-btn-focus.png");
+}
+
+.hw-green-btn.black {
+  background: #0d5d15;
+  cursor: no-drop;
+}
+
+.hw-red-btn {
+  .hw-normal-btn();
+  background-image: url("/assets/img/red-btn.png");
+}
+
+.hw-red-btn:not(.black):hover {
+  background-image: url("/assets/img/red-btn-hover.png");
+}
+
+.hw-red-btn:active {
+  background-image: url("/assets/img/red-btn-focus.png");
+}
+
+.hw-red-btn.black {
+  background: #570c0c;
+  cursor: no-drop;
+}
+
+.hw-blue-btn {
+  .hw-normal-btn();
+  background-image: url("/assets/img/blue-btn.png");
+}
+
+.hw-blue-btn:hover {
+  background-image: url("/assets/img/blue-btn-hover.png");
+}
+
+.hw-blue-btn:active {
+  background-image: url("/assets/img/blue-btn-focus.png");
+}
+
+.hw-blue-btn.black {
+  background: #194076;
+  cursor: no-drop;
+}
+
+.hw-cyan-btn {
+  .hw-normal-btn();
+  background-image: url("/assets/img/cyan-btn.png");
+}
+
+.hw-cyan-btn:hover {
+  background-image: url("/assets/img/cyan-btn-hover.png");
+}
+
+.hw-cyan-btn:active {
+  background-image: url("/assets/img/cyan-btn-focus.png");
+}
+
+.hw-cyan-btn.black {
+  background: #144c4e;
+  cursor: no-drop;
+}
+
+// round-btn
+.blue-round-btn {
+  .hw-normal-round-btn();
+  background-image: url("/assets/img/blue-round.png");
+}
+
+.gray-round-btn {
+  .hw-normal-round-btn();
+  background-image: url("/assets/img/gray-round.png");
+}
+
+.middle-round-btn {
+  background-image: url("/assets/img/middle-round.png");
+  width: 99px;
+  height: 99px;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+// form-controls
+input[type="text"],
+input[type="number"] {
+  .form-control();
+}
+
+input[type="file"] {
+  display: none;
+}
+textarea {
+  resize: none;
+  padding: 0;
+  padding: 4px 12px 0px;
+  width: 100%;
+  min-height: 200px;
+  .form-control();
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+  background-color: #0d1f38;
+  border: 1px solid #3a93ff;
+  color: #cfd7ff;
+}
+
+input[type="text"][disabled],
+input[type="number"][disabled],
+textarea[disabled] {
+  opacity: 0.7;
+  border-color: rgba(94, 110, 191, 0.5);
+}
+select {
+  .form-control();
+  min-width: 120px;
+  background-image: url("/assets/img/technology-custom-select.png");
+  appearance: none;
+  background-position: right 0.75rem center;
+  background-repeat: no-repeat;
+}
+
+// 特殊属性
+::-moz-placeholder {
+  color: #cfd7ff;
+  opacity: 0.5;
+}
+
+::-webkit-input-placeholder {
+  color: #cfd7ff;
+  opacity: 0.5;
+}
+
+::-ms-placeholder {
+  color: #cfd7ff;
+  opacity: 0.5;
+}
+
+/* 滚动条整体样式*/
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+.bold-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 10px;
+}
+::-webkit-scrollbar-track-piece {
+  /* 内层轨道 */
+  background-color: rgba(50, 131, 229, 0);
+}
+
+::-webkit-scrollbar-corner {
+  background-color: rgba(0, 0, 0, 0);
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(117, 134, 224, 0.5);
+  background-clip: padding-box;
+  border-radius: 8px;
+  min-height: 28px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(117, 134, 224, 0.5);
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-transition-delay: 99999s;
+  transition-delay: 99999s;
+  -webkit-transition: color 99999s, background-color 99999s;
+  transition: color 99999s, background-color 99999s;
+}
+
+input[type="number"] {
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  -moz-appearance: textfield;
+}
+
+a {
+  cursor: pointer;
+
+  color: #7586e0;
+  margin-right: 5px;
+  &:hover {
+    color: white;
+  }
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}

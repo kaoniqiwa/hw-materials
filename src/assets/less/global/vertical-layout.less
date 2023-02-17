@@ -1,0 +1,55 @@
+/*
+  垂直布局,header和footer不能shrink
+*/
+.vertical-layout {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  padding-bottom: 0;
+  min-width: 400px;
+  height: 100%;
+
+  .vertical-header {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 5px;
+  }
+
+  .vertical-main {
+    flex-grow: 1;
+    overflow: auto;
+    position: relative;
+  }
+
+  .vertical-footer {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 50px;
+    border-top: 1px solid #7586e0;
+    // padding: 0 20px;
+    box-sizing: border-box;
+    overflow: auto;
+
+    .footer-item {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+
+      .footer-info {
+        display: flex;
+
+        .info-item {
+          margin: 0 5px;
+          font-size: 14px;
+          color: #cfd7ff;
+        }
+      }
+    }
+  }
+}

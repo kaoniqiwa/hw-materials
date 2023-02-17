@@ -1,5 +1,3 @@
-import { ChartType } from 'src/app/enums/chart-type.enum';
-
 export class ExcelData {
   chart: string = '';
   chartTitle: string = '';

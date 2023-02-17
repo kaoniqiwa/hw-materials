@@ -1,0 +1,49 @@
+.hw-form {
+  width: 100%;
+  box-sizing: border-box;
+  overflow: auto;
+  display: flex;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  justify-content: space-between;
+  align-content: flex-start;
+
+  .hw-form-group {
+    margin-bottom: 15px;
+
+    display: flex;
+    align-items: flex-start;
+    flex-grow: 1;
+
+    flex-basis: 50%;
+
+    flex-wrap: wrap;
+    &:last-child {
+      margin-bottom: 0;
+    }
+    > .title {
+      margin-right: 10px;
+      flex-basis: 15%;
+      text-align: left;
+    }
+    > .content {
+      flex-basis: 95%;
+    }
+  }
+}
+
+.hw-form-label {
+  color: #eaedff;
+  font-size: 18px;
+  // font-weight: bold;
+  line-height: 35px;
+  flex-shrink: 0;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.hw-form-icon {
+  color: #fc4b6c;
+  vertical-align: sub;
+}

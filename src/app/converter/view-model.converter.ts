@@ -66,6 +66,12 @@ export class ViewModelConverter {
   }
 
   GarbageStationProfile(
+    source: GarbageStationProfile
+  ): GarbageStationProfileModel;
+  GarbageStationProfile(
+    source: Promise<GarbageStationProfile>
+  ): Promise<GarbageStationProfileModel>;
+  GarbageStationProfile(
     source: GarbageStationProfile | Promise<GarbageStationProfile>
   ): GarbageStationProfileModel | Promise<GarbageStationProfileModel> {
     if (source instanceof GarbageStationProfile) {

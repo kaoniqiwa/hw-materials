@@ -1,13 +1,14 @@
-import { ViewModelConverter } from 'src/app/converter/view-model.converter';
+import { Injectable } from '@angular/core';
 import { IBusiness } from 'src/app/interface/business.interface';
-import { IConverter } from 'src/app/interface/converter.interface';
 import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { Page, PagedList } from 'src/app/network/entity/page.entity';
 import { GetGarbageStationProfilesParams } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
 import { GarbageStationProfilesRequestService } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
+import { GarbageStationProfileTableConverter } from './garbage-station-profile-table.converter';
 import { GarbageStationProfileTableArgs } from './garbage-station-profile-table.model';
 
+@Injectable()
 export class GarbageStationProfileTableBusiness
   implements
     IBusiness<
@@ -17,22 +18,21 @@ export class GarbageStationProfileTableBusiness
 {
   constructor(
     private service: GarbageStationProfilesRequestService,
-    private converter: ViewModelConverter
+    public Converter: GarbageStationProfileTableConverter
   ) {}
-  Converter?: IConverter<
-    PagedList<GarbageStationProfile>,
-    PagedList<GarbageStationProfileModel>
-  >;
   async load(
-    args: GarbageStationProfileTableArgs
+    args: GarbageStationProfileTableArgs,
+    index: number,
+    size: number = 10
   ): Promise<PagedList<GarbageStationProfileModel>> {
-    let data = await this.getData(args.index, args.name, args.size);
-    return data;
+    let data = await this.getData(index, size, args.name);
+    let model = this.Converter.Convert(data);
+    return model;
   }
   getData(
     index: number,
-    name?: string,
-    size: number = 10
+    size: number = 10,
+    name?: string
   ): Promise<PagedList<GarbageStationProfile>> {
     let params = new GetGarbageStationProfilesParams();
     params.PageIndex = index;
