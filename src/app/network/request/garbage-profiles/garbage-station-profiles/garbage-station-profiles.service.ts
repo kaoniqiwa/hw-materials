@@ -5,6 +5,7 @@ import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-pr
 import { Label } from 'src/app/network/entity/label.entity';
 import { PagedList } from 'src/app/network/entity/page.entity';
 import { IPartialData } from 'src/app/network/entity/partial-data.interface';
+import { PartialResult } from 'src/app/network/entity/partial-result.entity';
 import { Property } from 'src/app/network/entity/property.entity';
 import { GarbageStationProfilesUrl } from 'src/app/network/url/garbage_profiles/garbage-station-profiles/garbage-station-profiles.url';
 import {
@@ -130,14 +131,12 @@ class GarbageStationProfilesPartialDatasRequestService {
     let plain = instanceToPlain(args);
     return this.basic.paged(url, type, plain);
   }
-  // batch<T extends IPartialData>(
-  //   datas: T[],
-  //   type: ClassConstructor<T>
-  // ): Promise<PartialResult<T>> {
-  //   let url = GarbageStationProfilesUrl.partialData.basic();
-  //   let plain = instanceToPlain(datas);
-  //   return this.basic.postArray<T, PartialResult<T>>(url, type, plain);
-  // }
+  batch<T extends IPartialData>(datas: T[]): Promise<PartialResult<T>[]> {
+    let url = GarbageStationProfilesUrl.partialData.basic();
+    let plain = instanceToPlain(datas);
+    let response = this.basic.postToArray<T, PartialResult<T>>(url, plain as T);
+    return response;
+  }
 }
 
 class GarbageStationProfilesLabelsRequestService extends AbstractService<Label> {

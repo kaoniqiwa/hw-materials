@@ -39,11 +39,7 @@ export class BaseRequestService {
     return ServiceHelper.ResponseProcess(response, type);
   }
 
-  async postArray<T, R = T>(
-    url: string,
-    type: ClassConstructor<T>,
-    params?: IParams
-  ): Promise<Array<R>> {
+  async postArray<T>(url: string, type: ClassConstructor<T>, params?: IParams) {
     let data: IParams | undefined;
     if (params) {
       data = instanceToPlain(params) as IParams;
@@ -53,6 +49,11 @@ export class BaseRequestService {
       .toPromise();
     return ServiceHelper.ResponseProcess(response, type);
   }
+  async postToArray<T, R = T>(url: string, data?: T): Promise<Array<R>> {
+    let response = this.http.post(url, data);
+    return firstValueFrom(response);
+  }
+
   async postReturnString(url: string, params?: IParams) {
     let data: IParams | undefined;
     if (params) {
