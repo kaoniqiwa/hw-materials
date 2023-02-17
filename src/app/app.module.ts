@@ -4,10 +4,9 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
-import { SystemModeComponent } from './components/system-mode/system-mode.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, SystemModeComponent],
+  declarations: [AppComponent, LoginComponent],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent],
