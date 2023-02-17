@@ -1,0 +1,40 @@
+.mat-chip-list-wrapper span {
+  padding-left: 10px;
+  color: #cfd7ff;
+  font-size: 18px;
+}
+
+.mat-chip-list {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  overflow: hidden;
+  background-color: #1d233b;
+  border: 1px solid #5e6ebf;
+  height: 32px;
+
+  .mat-chip-list-wrapper {
+    flex-wrap: nowrap;
+  }
+}
+
+app-root .mat-standard-chip {
+  background-color: rgb(69, 75, 112);
+  color: #eaedff;
+  font-size: 14px;
+  height: 24px;
+  margin-right: 5px;
+  padding: 5px 10px 5px 10px;
+  border-radius: 3px;
+}
+
+.mat-chip.mat-standard-chip {
+  background-color: rgb(69, 75, 112);
+  color: #eaedff;
+}
+
+.mat-standard-chip.mat-chip-with-trailing-icon {
+  border-radius: 0;
+}

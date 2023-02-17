@@ -1,0 +1,46 @@
+.mat-checkbox {
+  overflow: hidden;
+
+  .mat-checkbox-layout {
+    margin-bottom: 0; //受bootstrap的影响
+
+    .mat-checkbox-label {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+.mat-checkbox {
+  flex-grow: 1;
+
+  label.mat-checkbox-layout {
+    width: 100%;
+
+    .mat-checkbox-inner-container {
+      margin: 0;
+      margin-right: 8px;
+      width: 14px;
+      height: 14px;
+
+      .mat-checkbox-background {
+        background: transparent !important;
+
+        .mat-checkbox-checkmark-path {
+          stroke-width: 4px;
+        }
+
+        .mat-checkbox-mixedmark {
+          width: 6px;
+          height: 6px;
+          border-radius: 0;
+        }
+      }
+
+      .mat-checkbox-frame {
+        border-color: #7586e0;
+      }
+    }
+  }
+}

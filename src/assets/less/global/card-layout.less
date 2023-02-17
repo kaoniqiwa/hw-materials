@@ -1,0 +1,50 @@
+.hw-card-layout {
+  display: flex;
+  flex-direction: column;
+  background: rgba(117, 134, 224, 0.15);
+  padding: 15px;
+  padding-bottom: 5px;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  color: #cfd7ff;
+  .hw-card-header {
+    display: flex;
+    justify-content: space-between;
+    .left-wrapper {
+      flex-shrink: 1;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .right-wrapper {
+      flex-grow: 1;
+      flex-shrink: 0;
+      justify-content: flex-end;
+      align-items: center;
+
+      display: inline-flex;
+      div {
+        flex-shrink: 0;
+      }
+      a {
+        font-size: 18px;
+      }
+    }
+  }
+  .hw-card-body {
+    flex: 1 1 auto;
+    overflow: auto;
+
+    margin: 5px 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .hw-card-footer {
+    display: flex;
+    justify-content: space-between;
+  }
+}

@@ -1,0 +1,37 @@
+// 和 app-root是兄弟元素
+&~.cdk-overlay-container {
+  .cdk-overlay-pane {
+    .mat-menu-panel {
+      background-color: rgb(21, 27, 51);
+      border: 2px solid #7a8de6;
+      border-radius: 0;
+
+      .mat-menu-content {
+        padding: 0;
+
+        .mat-menu-item {
+          color: #cfd7ff;
+          font-size: 1.1rem;
+          cursor: auto;
+
+          [class^="howell-icon"] {
+            margin-right: 5px;
+          }
+
+          .mat-menu-submenu-icon {
+            color: currentColor;
+          }
+
+          & {
+            cursor: pointer;
+
+            &:hover {
+              background-color: #4a8bd0;
+              color: #fff;
+            }
+          }
+        }
+      }
+    }
+  }
+}
