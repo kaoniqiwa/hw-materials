@@ -1,1 +1,3 @@
-export class Division {}
+export class DivisionModel {
+  Parent?: Promise<DivisionModel>;
+}

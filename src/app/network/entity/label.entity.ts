@@ -2,7 +2,7 @@ import { Transform } from 'class-transformer';
 import { IModel } from 'src/app/interface/model.interface';
 import { transformDateTime } from './transform.model';
 
-/**	0	*/
+/**	人员标签	*/
 export class Label implements IModel {
   /**	Int32	ID，最低2位是子标签0-99。	M	*/
   Id!: number;
