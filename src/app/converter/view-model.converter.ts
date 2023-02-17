@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { DivisionModel } from '../model/division.model';
-import { GarbageStationProfileModel } from '../model/garbagestation.model';
+import { GarbageStationProfileModel } from '../model/garbage-station-profile.model';
 import { PropertyModel } from '../model/property.model';
 import { Division } from '../network/entity/division.entity';
 import { GarbageStationProfile } from '../network/entity/garbage-station-profile.entity';

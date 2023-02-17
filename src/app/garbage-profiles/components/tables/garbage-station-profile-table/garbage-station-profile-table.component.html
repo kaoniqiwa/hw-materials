@@ -1,0 +1,38 @@
+<div class="hw-table">
+  <div class="table-header-container">
+    <table>
+      <colgroup>
+        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>名称</th>
+          <th>联系人</th>
+          <th>联系电话</th>
+          <th>摄像机名称</th>
+          <th>上报时间</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div class="table-body-container" *ngIf="datas.length > 0">
+    <table>
+      <colgroup>
+        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+      </colgroup>
+      <tbody>
+        <tr *ngFor="let item of datas" (click)="onitemclicked(item)">
+          <td>
+            {{ item.ProfileName }}
+          </td>
+          <td>{{ item.ProfileState }}</td>
+          <td>{{ item.UpdateTime | date_time_pipe }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="table-body-container nodata" *ngIf="datas.length <= 0">
+    暂无数据
+  </div>
+</div>
