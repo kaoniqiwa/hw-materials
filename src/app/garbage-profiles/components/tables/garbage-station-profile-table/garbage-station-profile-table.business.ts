@@ -37,7 +37,7 @@ export class GarbageStationProfileTableBusiness
     let params = new GetGarbageStationProfilesParams();
     params.PageIndex = index;
     params.PageSize = size;
-    params.Name = name;
+    params.ProfileName = name;
     return this.service.list(params).catch((x) => {
       let paged = new PagedList<GarbageStationProfile>();
       paged.Data = [];

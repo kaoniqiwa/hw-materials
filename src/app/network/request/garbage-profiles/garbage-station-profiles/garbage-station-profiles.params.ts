@@ -4,7 +4,7 @@ import { PagedParams } from '../../IParams.interface';
 
 export class GetGarbageStationProfilesParams extends PagedParams {
   /**	String[]	垃圾厢房档案ID	O	*/ Ids?: string[];
-  /**	String	垃圾厢房档案名称，支持LIKE	O	*/ Name?: string;
+  /**	String	垃圾厢房档案名称，支持LIKE	O	*/ ProfileName?: string;
 }
 
 export class GetPropertiesParams extends PagedParams {
