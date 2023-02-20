@@ -1,26 +1,13 @@
 // 导入第三方包样式
 @import "~ngx-toastr/toastr";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-// 加权
+// 导入字体图标
+@import url(assets/fonts/index.less);
+// 导入通用样式
+@import url(assets/css/howell.css);
+
+// 导入自定义样式
 app-root {
   @import url(assets/less/index.less);
-}
-
-html,
-body {
-  height: 100%;
-  min-width: 800px;
-  min-height: 600px;
-  background: hsl(214, 13%, 25%);
-  color: #99abb4;
-}
-
-body {
-  margin: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-button {
-  color: white;
 }
