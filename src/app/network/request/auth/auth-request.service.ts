@@ -23,7 +23,7 @@ import { SessionStorageService } from 'src/app/common/service/session-storage.se
 import { GlobalStorageService } from 'src/app/common/service/global-storage.service';
 import CryptoJS from 'crypto-js';
 import { Md5 } from 'ts-md5';
-import { DigestResponse } from './digest-response.class';
+import { DigestResponse } from '../../entity/digest-response.entity';
 import { User } from '../../entity/user.model';
 import { UserUrl } from '../../url/user.url';
 import { HowellUrl } from '../../url/howell-url';
@@ -35,7 +35,9 @@ export class AuthorizationService implements CanActivate {
   private _username: string = '';
   private _password: string = '';
   private _nc: number = 0;
-  private _config: AxiosRequestConfig = {};
+  private _config: AxiosRequestConfig = {
+    headers: {},
+  };
 
   constructor(
     private _localStorageService: LocalStorageService,
@@ -66,7 +68,6 @@ export class AuthorizationService implements CanActivate {
 
       this._password = password;
     }
-    this._config.headers = {};
   }
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -196,10 +197,6 @@ export class AuthorizationService implements CanActivate {
     this._nc++;
     const nc = this._nc.toString(16).padStart(8, '0');
 
-    // 16位随机数
-    // const cnonce = Md5.hashStr(
-    //   ((Math.random() * 1e9) | 0).toString(16).padStart(8, '0')
-    // );
     var cnonce = ('00000000' + Math.random().toString(36).slice(2)).slice(-8);
     const qop = challenge.qop;
 

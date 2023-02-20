@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AxiosError } from 'axios';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 import { RoutePath } from '../app-routing.path';
 import { AuthorizationService } from '../network/request/auth/auth-request.service';
 
@@ -11,7 +12,7 @@ import { AuthorizationService } from '../network/request/auth/auth-request.servi
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.less'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   disableLogin: boolean = false;
   savePassWord: boolean = false;
   autoLogin: boolean = false;
@@ -19,28 +20,54 @@ export class LoginComponent implements OnInit {
   formGroup = this._fb.group({
     username: ['', [Validators.required, Validators.maxLength(15)]],
     password: ['', Validators.required],
+    storepass: false,
+    autologin: false,
   });
+
+  get passControl() {
+    return this.formGroup.get('storepass')!;
+  }
+  get autoControl() {
+    return this.formGroup.get('autologin')!;
+  }
+  passControlSub: Subscription;
+  autoControlSub: Subscription;
   constructor(
     private _fb: FormBuilder,
     private _authorizationService: AuthorizationService,
     private _toastrService: ToastrService,
     private _router: Router
-  ) {}
+  ) {
+    this.passControlSub = this.passControl.valueChanges.subscribe((val) => {
+      console.log('pass control', val);
+      if (!val && this.autoControl.value == true) {
+        this.autoControl.setValue(val);
+      }
+    });
+    this.autoControlSub = this.autoControl.valueChanges.subscribe((val) => {
+      console.log('auto control', val);
+
+      this.passControl.setValue(val);
+    });
+  }
   ngOnInit() {
     this.fillForm();
   }
+  ngOnDestroy(): void {
+    this.passControlSub.unsubscribe();
+    this.autoControlSub.unsubscribe();
+  }
   fillForm() {}
   async login() {
+    console.log(this.formGroup.value);
     if (this._checkForm()) {
       this.disableLogin = true;
-
       try {
         let res = await this._authorizationService.login(
           this.formGroup.value.username ?? '',
           this.formGroup.value.password ?? ''
         );
-        this._router.navigateByUrl(RoutePath.garbage_profiles);
-
+        // this._router.navigateByUrl(RoutePath.garbage_profiles);
         console.log(res);
       } catch (e) {
         if (this._isAxiosError(e)) {

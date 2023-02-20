@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-06-22 14:23:36
  */
 import { Injectable } from '@angular/core';
-import { DigestResponse } from 'src/app/network/request/auth/digest-response.class';
+import { DigestResponse } from 'src/app/network/entity/digest-response.entity';
 
 @Injectable({
   providedIn: 'root',
