@@ -40,8 +40,8 @@ export class AuthorizationService implements CanActivate {
   };
 
   constructor(
-    private _localStorageService: LocalStorageService,
-    private _sessionStorageService: SessionStorageService,
+    private _localStorage: LocalStorageService,
+    private _sessionStorage: SessionStorageService,
 
     private _cookieService: CookieService,
     private _router: Router,
@@ -72,8 +72,8 @@ export class AuthorizationService implements CanActivate {
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     // console.log(route, state);
-    let challenge = this._sessionStorageService.challenge;
-    let user = this._localStorageService.user;
+    let challenge = this._sessionStorage.challenge;
+    let user = this._localStorage.user;
     let holdCookie = this._cookieService.check('username');
     if (challenge && user && user.Id && holdCookie) {
       return true;
@@ -120,46 +120,15 @@ export class AuthorizationService implements CanActivate {
           'GET',
           UserUrl.login(username)
         );
-        this._sessionStorageService.challenge = challenge;
+        this._sessionStorage.challenge = challenge;
         return axios(this._config).then((res: AxiosResponse<User>) => {
           let result = plainToInstance(User, res.data);
-          this._storeUserInfo(result, password, result.Id);
+          this._localStorage.user = result;
           return result;
         });
       }
       return null;
     });
-  }
-
-  private _storeUserInfo(user: User, password: string, userId: string) {
-    let options = {
-      expires: new Date(Date.now() + 60 * 60 * 1000),
-      path: '/',
-      secure: false,
-    };
-    // username
-    let prefix = CryptoJS.MD5(
-      ((Math.random() * 1e9) | 0).toString(16).padStart(8, '0')
-    ).toString();
-    let suffix = CryptoJS.MD5(
-      ((Math.random() * 1e9) | 0).toString(16).padStart(8, '0')
-    ).toString();
-
-    let userName = btoa(prefix + user.Username + suffix);
-    this._cookieService.set('username', userName, options);
-
-    //password
-    prefix = CryptoJS.MD5(
-      ((Math.random() * 1e9) | 0).toString(16).padStart(8, '0')
-    ).toString();
-    suffix = CryptoJS.MD5(
-      ((Math.random() * 1e9) | 0).toString(16).padStart(8, '0')
-    ).toString();
-    let passWord = btoa(prefix + password + suffix);
-    this._cookieService.set('password', passWord, options);
-
-    this._localStorageService.user = user;
-    // this._store.password = passWord;
   }
 
   loginByUrl(url: string): Promise<AxiosResponse<any> | User | null> {
@@ -214,7 +183,7 @@ export class AuthorizationService implements CanActivate {
     return authHeaders;
   }
   public generateHttpHeader(method: string, uri: string) {
-    let chanllenge = this._sessionStorageService.challenge;
+    let chanllenge = this._sessionStorage.challenge;
     // console.log(chanllenge);
     const authHeader = this._generateChallengeHeader(chanllenge, method, uri);
     return new HttpHeaders({
