@@ -29,14 +29,20 @@ export class AccountOperationComponent implements OnInit {
   display = new AccountOperationDisplay();
 
   ngOnInit(): void {
-    // let userName = this._cookieService.get('userName');
-    // if (!userName) this._router.navigateByUrl(RoutePath.login);
-    // userName = atob(userName);
-    // let res = userName.match(
-    //   /[a-zA-Z0-9+/=]{32}(?<userName>\w*)[a-zA-Z0-9+/=]{32}/
-    // )!;
-    // userName = res.groups!['userName'];
-    // this.userName = userName;
+    let userName = this._cookieService.get('userName');
+    if (!userName) {
+      // this._router.navigateByUrl(RoutePath.login);
+      return;
+    }
+    userName = atob(userName);
+
+    let res = userName.match(
+      /[a-zA-Z0-9+/=]{32}(?<userName>\w*)[a-zA-Z0-9+/=]{32}/
+    )!;
+
+    userName = res.groups!['userName'];
+
+    this.userName = userName;
   }
   logoutHandler() {
     this._sessionStorageService.clear();
