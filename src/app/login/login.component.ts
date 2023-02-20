@@ -2,9 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AxiosError } from 'axios';
+import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { RoutePath } from '../app-routing.path';
+import { User } from '../network/entity/user.model';
 import { AuthorizationService } from '../network/request/auth/auth-request.service';
 
 @Component({
@@ -34,6 +36,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   autoControlSub: Subscription;
   constructor(
     private _fb: FormBuilder,
+    private _cookieService: CookieService,
+
     private _authorizationService: AuthorizationService,
     private _toastrService: ToastrService,
     private _router: Router
@@ -67,7 +71,13 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.formGroup.value.username ?? '',
           this.formGroup.value.password ?? ''
         );
-        // this._router.navigateByUrl(RoutePath.garbage_profiles);
+        if (res instanceof User) {
+          // this._storeUserInfo(
+          //   this.formGroup.value.username!,
+          //   this.formGroup.value.password!
+          // );
+        }
+        this._router.navigateByUrl(RoutePath.garbage_profiles);
         console.log(res);
       } catch (e) {
         if (this._isAxiosError(e)) {
@@ -96,5 +106,32 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
   private _isAxiosError(cadidate: any): cadidate is AxiosError {
     return cadidate.isAxiosError === true;
+  }
+  private _storeUserInfo(username: string, password: string) {
+    let options = {
+      expires: new Date(Date.now() + 60 * 60 * 1000),
+      path: '/',
+      secure: false,
+    };
+    // username
+    let prefix = CryptoJS.MD5(
+      ((Math.random() * 1e9) | 0).toString(16).padStart(8, '0')
+    ).toString();
+    let suffix = CryptoJS.MD5(
+      ((Math.random() * 1e9) | 0).toString(16).padStart(8, '0')
+    ).toString();
+
+    let userName = btoa(prefix + username + suffix);
+    this._cookieService.set('username', userName, options);
+
+    //password
+    prefix = CryptoJS.MD5(
+      ((Math.random() * 1e9) | 0).toString(16).padStart(8, '0')
+    ).toString();
+    suffix = CryptoJS.MD5(
+      ((Math.random() * 1e9) | 0).toString(16).padStart(8, '0')
+    ).toString();
+    let passWord = btoa(prefix + password + suffix);
+    this._cookieService.set('password', passWord, options);
   }
 }

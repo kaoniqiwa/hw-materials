@@ -1,26 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
+// 导入第三方包样式
 @import "~ngx-toastr/toastr";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-// 加权
+// 导入字体图标
+@import url(assets/fonts/font-awesome/css/font-awesome.min.css);
+@import url(assets//fonts/glyphicons/css/glyphicons-halflings.css);
+@import url(assets/fonts/howell.font/css/howell.font.css);
+@import url(assets/fonts/material-icons/css/material-icons.css);
+@import url(assets/fonts/source-han-sans/css/source-han-sans.css);
+@import url(assets/fonts/themify-icons/css/themify-icons.css);
+
+// 导入通用样式
+@import url(assets/css/howell.css);
+
+// 导入自定义样式
 app-root {
   @import url(assets/less/index.less);
-}
-
-html,
-body {
-  height: 100%;
-  min-width: 800px;
-  min-height: 600px;
-  background: hsl(214, 13%, 25%);
-  color: #99abb4;
-}
-
-body {
-  margin: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-button {
-  color: white;
 }

@@ -91,7 +91,7 @@
             },
             "development": {
               "host": "127.0.0.1",
-              "browserTarget": "hw-materials:build:development",              
+              "browserTarget": "hw-materials:build:development",
               "port": 9000,
               "open": false
             }
@@ -112,7 +112,7 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.css"
+              "src/styles.less"
             ],
             "scripts": []
           }
