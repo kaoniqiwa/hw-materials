@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { RoutePath } from '../app-routing.path';
 import { AuthorizationService } from '../network/request/auth/auth-request.service';
 
 @Component({
@@ -11,13 +12,19 @@ import { AuthorizationService } from '../network/request/auth/auth-request.servi
 export class LoginComponent {
   disableLogin: boolean = false;
 
-  formGroup = new FormGroup({});
+  formGroup = this._fb.group({
+    username: ['1', [Validators.required, Validators.maxLength(15)]],
+    password: ['2', Validators.required],
+  });
   constructor(
+    private _fb: FormBuilder,
     private _authorizationService: AuthorizationService,
     private _router: Router
   ) {}
-  login() {
-    this._authorizationService.login('test01', 'test01');
+  async login() {
+    let res = await this._authorizationService.login('test01', 'test01');
+
+    this._router.navigateByUrl(RoutePath.garbage_profiles);
   }
   forgetPassword() {}
 }

@@ -7,4 +7,5 @@ export enum RoutePath {
   password_to_change = 'password-to-change',
   garbage_vehicle = 'garbage_vehicle',
   system_manage = 'system_manage',
+  garbage_profiles = 'garbage-profiles',
 }

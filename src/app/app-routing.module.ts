@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
+import { AuthorizationService } from './network/request/auth/auth-request.service';
 
 const routes: Routes = [
   {
@@ -18,6 +19,7 @@ const routes: Routes = [
       import('./garbage-profiles/garbage-profiles.module').then(
         (mod) => mod.GarbageProfilesModule
       ),
+    canActivate: [AuthorizationService],
   },
 ];
 
