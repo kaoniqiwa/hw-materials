@@ -4,16 +4,18 @@ import {
   Input,
   OnChanges,
   OnInit,
+  Output,
   SimpleChanges,
 } from '@angular/core';
-import { IBusiness } from 'src/app/common/interfaces/bussiness.interface';
-import { IComponent } from 'src/app/common/interfaces/component.interfact';
-import { IModel } from 'src/app/common/interfaces/model.interface';
 import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
-import { Page, PagedList } from 'src/app/network/entity/page.entity';
+import { PagedTableAbstractComponent } from '../table-paged-abstract.component';
 import { GarbageStationProfileTableBusiness } from './garbage-station-profile-table.business';
 import { GarbageStationProfileTableConverter } from './garbage-station-profile-table.converter';
-import { GarbageStationProfileTableArgs } from './garbage-station-profile-table.model';
+import {
+  GarbageStationProfileTableArgs,
+  IGarbageStationProfileTableBusiness,
+  IGarbageStationProfileTableComponent,
+} from './garbage-station-profile-table.model';
 
 @Component({
   selector: 'garbage-station-profile-table',
@@ -28,13 +30,11 @@ import { GarbageStationProfileTableArgs } from './garbage-station-profile-table.
   ],
 })
 export class GarbageStationProfileTableComponent
-  implements
-    IComponent<IModel, PagedList<GarbageStationProfileModel>>,
-    OnInit,
-    OnChanges
+  extends PagedTableAbstractComponent<GarbageStationProfileModel>
+  implements IGarbageStationProfileTableComponent, OnInit, OnChanges
 {
   @Input()
-  business: IBusiness<IModel, PagedList<GarbageStationProfileModel>>;
+  business: IGarbageStationProfileTableBusiness;
 
   @Input()
   args: GarbageStationProfileTableArgs = new GarbageStationProfileTableArgs();
@@ -42,27 +42,47 @@ export class GarbageStationProfileTableComponent
   @Input()
   load?: EventEmitter<GarbageStationProfileTableArgs>;
 
+  @Input()
+  selected?: GarbageStationProfileModel[];
+  @Output()
+  selectedChange: EventEmitter<GarbageStationProfileModel[]> =
+    new EventEmitter();
+
   constructor(business: GarbageStationProfileTableBusiness) {
+    super();
     this.business = business;
   }
 
   widths = [];
-  datas: GarbageStationProfileModel[] = [];
-  page: Page = new Page();
 
   ngOnChanges(changes: SimpleChanges): void {
-    // this.loadData();
+    if (changes['load']) {
+      if (this.load) {
+        this.load.subscribe((args) => {
+          this.args = args;
+          this.loadData(1, this.pageSize);
+        });
+      }
+    }
   }
   ngOnInit(): void {
     this.loadData(1);
   }
 
   loadData(index: number, size: number = 10) {
+    this.selected = undefined;
     this.business.load(this.args, index, size).then((paged) => {
       this.page = paged.Page;
       this.datas = paged.Data;
     });
   }
 
-  onitemclicked(item: GarbageStationProfileModel) {}
+  async onupdate(e: Event, item: GarbageStationProfileModel) {
+    e.stopImmediatePropagation();
+    let result = await this.business.update(item);
+    let index = this.datas.findIndex((x) => x.Id === result.Id);
+    if (index >= 0) {
+      this.datas[index] = result;
+    }
+  }
 }

@@ -1,0 +1,134 @@
+<div class="paginator-outer-container">
+  <div class="paginator-container">
+    <div class="paginator-range-actions">
+      <button
+        mat-button
+        type="button"
+        class="paginator-navigation-first"
+        (click)="firstPage()"
+        [matTooltip]="intl.firstPageLabel"
+        [matTooltipDisabled]="_previousButtonsDisabled()"
+        [matTooltipPosition]="'above'"
+        [disabled]="_previousButtonsDisabled()"
+        *ngIf="showFirstLastButtons"
+      >
+        <svg class="paginator-icon" viewBox="0 0 30 30" focusable="false">
+          <path
+            d="M18.41 16.59L13.82 12l4.59-4.59L17 6l-6 6 6 6zM6 6h2v12H6z"
+          />
+        </svg>
+      </button>
+      <button
+        mat-button
+        type="button"
+        class="paginator-navigation-previous"
+        (click)="previousPage()"
+        [matTooltip]="intl.previousPageLabel"
+        [matTooltipDisabled]="_previousButtonsDisabled()"
+        [matTooltipPosition]="'above'"
+        [disabled]="_previousButtonsDisabled()"
+      >
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+
+      <button
+        mat-button
+        class="pager"
+        type="button"
+        *ngIf="getNumberOfPages() > 0"
+        [class.active]="pageIndex == 0"
+        (click)="swipePage(0)"
+      >
+        1
+      </button>
+
+      <button
+        *ngIf="showFirst"
+        class="pager"
+        mat-button
+        type="button"
+        (click)="previousGroup()"
+      >
+        <mat-icon [style.fontSize.px]="16">more_horiz</mat-icon>
+      </button>
+
+      <ng-container *ngFor="let pager of pagers">
+        <button
+          mat-button
+          class="pager"
+          type="button"
+          [class.active]="pageIndex == pager - 1"
+          (click)="swipePage(pager - 1)"
+        >
+          {{ pager }}
+        </button>
+      </ng-container>
+
+      <button
+        *ngIf="showLast"
+        class="pager"
+        mat-button
+        type="button"
+        (click)="nextGroup()"
+      >
+        <mat-icon [style.fontSize.px]="16">more_horiz</mat-icon>
+      </button>
+
+      <button
+        mat-button
+        class="pager"
+        type="button"
+        *ngIf="getNumberOfPages() > 1"
+        [class.active]="pageIndex == getNumberOfPages() - 1"
+        (click)="swipePage(getNumberOfPages() - 1)"
+      >
+        {{ getNumberOfPages() }}
+      </button>
+
+      <button
+        mat-button
+        type="button"
+        class="paginator-navigation-next"
+        (click)="nextPage()"
+        [matTooltip]="intl.nextPageLabel"
+        [matTooltipDisabled]="_nextButtonsDisabled()"
+        [matTooltipPosition]="'above'"
+        [disabled]="_nextButtonsDisabled()"
+      >
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+      <button
+        mat-button
+        type="button"
+        class="paginator-navigation-last"
+        (click)="lastPage()"
+        [matTooltip]="intl.lastPageLabel"
+        [matTooltipDisabled]="_nextButtonsDisabled()"
+        [matTooltipPosition]="'above'"
+        [disabled]="_nextButtonsDisabled()"
+        *ngIf="showFirstLastButtons"
+      >
+        <svg class="paginator-icon" viewBox="0 0 30 30" focusable="false">
+          <path
+            d="M5.59 7.41L10.18 12l-4.59 4.59L7 18l6-6-6-6zM16 6h2v12h-2z"
+          />
+        </svg>
+      </button>
+      <div class="jump-to">
+        <span class="jump-to-label"> 跳至</span>
+
+        <input
+          type="number"
+          class="jump-to-input"
+          [(ngModel)]="jumpToIndex"
+          (keypress)="validateInput($event)"
+          (keydown.enter)="operateJump()"
+        />
+
+        <span class="jump-to-label">页</span>
+
+        <div class="jump-to-button" #ToBtn (click)="operateJump()">确定</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,16 +1,22 @@
 import { EventEmitter } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { Language } from 'src/app/common/tools/language';
 import { Page } from 'src/app/network/entity/page.entity';
-import { Language } from 'src/app/tools/language.tool';
 
 export abstract class PagedTableAbstractComponent<T> {
   abstract widths: Array<string>;
   abstract load?: EventEmitter<any>;
+
+  abstract loadData(index: number, size: number, ...args: any[]): void;
+
+  abstract selected?: T[];
+  abstract selectedChange: EventEmitter<T[]>;
+
   Language = Language;
   datas: T[] = [];
   page: Page = new Page();
   loading = false;
-  pageSize = 9;
+  pageSize = 10;
 
   getPaged(count: number, size: number): Page {
     let current = size % count;
@@ -28,9 +34,20 @@ export abstract class PagedTableAbstractComponent<T> {
     return page;
   }
 
-  abstract loadData(index: number, size: number, ...args: any[]): void;
-
   pageEvent(page: PageEvent) {
     this.loadData(page.pageIndex + 1, this.pageSize);
+  }
+
+  onselected(item: T) {
+    if (!this.selected) {
+      this.selected = [];
+    }
+    let index = this.selected.indexOf(item);
+    if (index < 0) {
+      this.selected.push(item);
+    } else {
+      this.selected.splice(index, 1);
+    }
+    this.selectedChange.emit(this.selected);
   }
 }

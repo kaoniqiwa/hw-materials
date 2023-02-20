@@ -1,0 +1,124 @@
+.paginator-outer-container {
+  display: flex;
+  color: #cfd7ff;
+  font-size: 14px;
+  .paginator-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap-reverse;
+    width: 100%;
+    min-width: 56px;
+
+    .paginator-range-actions {
+      display: flex;
+      align-items: center;
+      > .mat-button {
+        background: #1f2e57;
+        padding: 0;
+        min-width: 30px;
+        height: 30px;
+
+        margin: 0 5px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        svg {
+          fill: #cfd7ff;
+        }
+        &.paginator-navigation-last,
+        &.paginator-navigation-first {
+          span {
+            height: 100%;
+            width: 100%;
+          }
+        }
+        &.mat-button-disabled {
+          cursor: not-allowed;
+
+          span {
+            color: gray;
+          }
+          svg {
+            fill: gray;
+          }
+        }
+
+        &.pager {
+          padding: 0 5px;
+          &.active,
+          &:hover {
+            background-color: #2d76ce;
+            color: #fff;
+          }
+        }
+      }
+      .jump-to {
+        display: flex;
+        align-items: center;
+        margin: 0 10px;
+
+        .jump-to-label {
+          display: flex;
+          align-items: center;
+          height: 30px;
+        }
+
+        .jump-to-div {
+          // align-self: normal;
+          box-sizing: border-box;
+          height: 24px;
+          width: 40px;
+          color: #cfd7ff;
+          border: 1px solid #5e6ebf;
+          font-size: 14px;
+          border-radius: unset;
+          background-color: #1d233b;
+          outline: none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: Arial;
+          margin: 0 5px;
+          line-height: 24px;
+          text-align: center;
+          overflow: hidden;
+          &:focus-visible {
+            border-color: #3a93ff;
+          }
+        }
+        .jump-to-input {
+          width: 40px;
+          height: 24px;
+          font-size: 14px;
+          text-align: center;
+          padding: 0;
+          box-sizing: border-box;
+          margin: 0 5px;
+          background-color: #1d233b;
+          color: #cfd7ff;
+          border: 1px solid #5e6ebf;
+          outline: none;
+        }
+        .jump-to-button {
+          background: #1f2e57;
+          cursor: pointer;
+          min-width: 30px;
+          height: 24px;
+          margin: 0 5px;
+          padding: 0 10px;
+          padding-top: 2px;
+
+          display: flex;
+          align-items: center;
+          &:hover {
+            background-color: #2d76ce;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}

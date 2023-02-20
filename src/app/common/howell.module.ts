@@ -4,16 +4,15 @@
  * @Last Modified by: pmx
  * @Last Modified time: 2022-11-08 13:34:19
  */
-import { CommonModule, DatePipe } from '@angular/common';
-import { forwardRef, NgModule, StaticProvider } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { MaterialModule } from '../material.module';
 import { CUSTOM_COMPONENTS } from './components';
 import { CUSTOM_PIPES } from './pipes';
 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularResizeEventModule } from 'angular-resize-event';
 import { CUSTOM_DIRECTIVES } from './directives';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
   declarations: [...CUSTOM_COMPONENTS, ...CUSTOM_PIPES, ...CUSTOM_DIRECTIVES],
@@ -24,7 +23,6 @@ import { NgxEchartsModule } from 'ngx-echarts';
     AngularResizeEventModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxEchartsModule,
   ],
 })
 export class HowellModule {}

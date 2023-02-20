@@ -1,37 +1,77 @@
-<div class="hw-table">
-  <div class="table-header-container">
-    <table>
+<div class="garbage-station-profile-table">
+  <div class="garbage-station-profile-table-main vertical-layout">
+    <table border="0" cellpadding="0" cellspacing="0">
       <colgroup>
         <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
       </colgroup>
       <thead>
         <tr>
-          <th>名称</th>
-          <th>联系人</th>
-          <th>联系电话</th>
-          <th>摄像机名称</th>
-          <th>上报时间</th>
-          <th>操作</th>
+          <td>编号</td>
+          <td>档案名称</td>
+          <td>联系人</td>
+          <td>联系电话</td>
+          <td class="operation center"><div>操作</div></td>
         </tr>
       </thead>
     </table>
+    <div class="body vertical-main">
+      <table *ngIf="datas" border="0" cellpadding="0" cellspacing="0">
+        <colgroup>
+          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        </colgroup>
+        <tbody>
+          <tr
+            *ngFor="let item of datas; let i = index"
+            [ngClass]="{
+              selected: this.selected && this.selected.includes(item)
+            }"
+            (click)="onselected(item)"
+          >
+            <td>{{ item.Id }}</td>
+            <td>
+              {{ item.ProfileName }}
+            </td>
+            <td>{{ item.Contact }}</td>
+            <td>
+              {{ item.ContactPhoneNo }}
+            </td>
+
+            <td class="operation center">
+              <div (click)="onupdate($event, item)" class="center">
+                <i class="howell-icon-modification"></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div
+      class="vertical-footer garbage-station-profile-table-main-footer footer"
+      *ngIf="page"
+    >
+      <div class="footer-item">
+        <div class="footer-info">
+          <div class="info-item">当前数量: {{ page && page.RecordCount }}</div>
+          <div class="info-item">
+            总数量: {{ page && page.TotalRecordCount }}
+          </div>
+        </div>
+
+        <app-paginator
+          [length]="page ? page.TotalRecordCount : 0"
+          [pageSize]="page ? page.PageSize : 0"
+          [pagerCount]="5"
+          [pageIndex]="0"
+          [showFirstLastButtons]="true"
+          (page)="pageEvent($event)"
+        >
+        </app-paginator>
+      </div>
+    </div>
   </div>
-  <div class="table-body-container" *ngIf="datas.length > 0">
-    <table>
-      <colgroup>
-        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
-      </colgroup>
-      <tbody>
-        <tr *ngFor="let item of datas" (click)="onitemclicked(item)">
-          <td>
-            {{ item.ProfileName }}
-          </td>
-          <td>{{ item.ProfileState }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="table-body-container nodata" *ngIf="datas.length <= 0">
-    暂无数据
+
+  <div class="loading" *ngIf="loading">
+    <mat-spinner></mat-spinner>
   </div>
 </div>
