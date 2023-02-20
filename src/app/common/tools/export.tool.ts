@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ExportType } from '../enum/export-type.enum';
-import { IConverter } from '../interface/converter.interface';
+import { ExportType } from 'src/app/enum/export-type.enum';
+import { IConverter } from '../interfaces/converter.interface';
 import { HowellExportChart } from './exports/hw-export-chart';
 import { HowellCSV } from './exports/hw-export-csv';
 import { HowellExcel } from './exports/hw-export-excel';

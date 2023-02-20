@@ -7,9 +7,20 @@ export interface IExcelValue extends IExcelColumnValue {
 }
 
 export class HowellExportModel {
+  /** 标题 */
   title: string = '';
+  /** 表格表头 */
   headers: string[] = [];
-  datas: Array<string | number>[] = [];
+  /** 行数据 */
+  rowValues: Array<string | number>[] = [];
+  /** 用于定位图表标题 */
   headIndex?: number;
+  /** 用于定位图表数据，列序号 */
   dataIndex?: number[];
+}
+
+export interface HowellExportRowModel {
+  row: number;
+  column: number;
+  value: string | number;
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
+import { Medium } from '../common/tools/medium';
 import { DivisionModel } from '../model/division.model';
 import { GarbageStationProfileModel } from '../model/garbage-station-profile.model';
 import { PropertyModel } from '../model/property.model';
@@ -8,7 +9,6 @@ import { GarbageStationProfile } from '../network/entity/garbage-station-profile
 import { Property } from '../network/entity/property.entity';
 import { GarbageProfilesBasicRequestService } from '../network/request/garbage-profiles/basics/garbage-profiles-basics.service';
 import { GarbageStationProfilesRequestService } from '../network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
-import { Medium } from '../tools/medium';
 
 @Injectable({
   providedIn: 'root',

@@ -14,21 +14,21 @@ export class HowellExportChart {
     xDataIndex: number[]
   ) {
     this.http
-      .get('/assets/column.xlsx', {
+      .get('/assets/xlsx/column.xlsx', {
         responseType: 'arraybuffer',
       })
       .subscribe((x) => {
         let data = new ExcelData();
         data.titles = [model.title];
         data.chartTitle = model.title;
-        data.dataLen = model.datas.length;
+        data.dataLen = model.rowValues.length + yDataIndex;
         data.dataKey = xDataIndex.map((x) => model.headers[x]);
-        data.fields = model.datas.map((x) => x[yDataIndex].toString());
+        data.fields = model.rowValues.map((x) => x[yDataIndex].toString());
         data.data = new Object();
         xDataIndex.forEach((index) => {
           let head = model.headers[index];
           if (!data.data[head]) data.data[head] = {};
-          model.datas.forEach((x) => {
+          model.rowValues.forEach((x) => {
             data.data[head][x[yDataIndex]] = x[index];
           });
         });
