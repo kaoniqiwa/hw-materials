@@ -1,0 +1,42 @@
+.app-account-operation {
+  display: flex;
+  margin: 0 5px;
+
+  .operation-item {
+    width: 40px;
+    height: 40px;
+    background-color: #2d3559;
+    color: #68adfd;
+    border-radius: 50%;
+    padding: 4px;
+    font-size: 21px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 5px;
+    .mat-icon {
+      font-size: 20px;
+    }
+  }
+}
+
+// 和 app-root是兄弟元素
+& ~ .cdk-overlay-container {
+  .cdk-overlay-pane {
+    .mat-menu-panel {
+      .mat-menu-content {
+        .mat-menu-item {
+          &:not(:first-child) {
+            cursor: pointer;
+
+            &:hover {
+              background-color: #4a8bd0;
+              color: #fff;
+            }
+          }
+        }
+      }
+    }
+  }
+}

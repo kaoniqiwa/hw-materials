@@ -1,0 +1,7 @@
+<div class="app-time">
+  <div class="time">{{ today | date : "HH:mm:ss" }}</div>
+  <div class="slash"></div>
+  <div class="date">
+    {{ today | date : "yyyy 年 M 月 dd 日 EEEE" : "OOOO" : "zh-CN" }}
+  </div>
+</div>

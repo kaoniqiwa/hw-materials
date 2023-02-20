@@ -59,8 +59,6 @@ export class User implements IModel {
   State!: UserState;
   /**	String	微信OpenID	O	RW */
   OpenId?: string;
-  /**	ResourceRole[]	资源列表	O	RW */
-  Resources?: UserResource[];
   /**	String	服务器ID	O	R */
   ServerId?: string;
   /**	Boolean	是否可以分配微信子用户	O	R */
@@ -69,18 +67,4 @@ export class User implements IModel {
   CreatorId?: string;
   /**	Int32[]	停止推送的事件类型	O	RW */
   OffEvents?: number[];
-}
-
-export class UserResource implements IModel {
-  /**	String	资源ID	M	R */
-  Id!: string;
-  /**	String	资源名称	O	R */
-  Name?: string;
-
-  /**	Int32	资源标签，权限级别	M	R */
-  RoleFlags!: number;
-  /**	Boolean	开放全部的子节点资源	M	R */
-  AllSubResources!: boolean;
-  /**	ResourceRole[]	子资源列表	O	R */
-  Resources?: UserResource;
 }
