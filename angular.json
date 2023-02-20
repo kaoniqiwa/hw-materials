@@ -82,12 +82,18 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "proxyConfig": "proxy.conf.ts"
+          },
           "configurations": {
             "production": {
               "browserTarget": "hw-materials:build:production"
             },
             "development": {
-              "browserTarget": "hw-materials:build:development"
+              "host": "127.0.0.1",
+              "browserTarget": "hw-materials:build:development",              
+              "port": 9000,
+              "open": false
             }
           },
           "defaultConfiguration": "development"
