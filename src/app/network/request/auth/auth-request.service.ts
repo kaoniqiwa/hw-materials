@@ -78,18 +78,7 @@ export class AuthorizationService implements CanActivate {
       return true;
     }
 
-    let url: string = state.url;
-    if (url) {
-      try {
-        let result = await this.login(url);
-        if (result instanceof User) {
-          return this._router.parseUrl(`/${RoutePath.garbage_system}`);
-        }
-      } catch (error) {
-        return this._router.parseUrl('/login');
-      }
-    }
-    return this._router.parseUrl('/login');
+    return this._router.navigateByUrl('/login');
   }
   login(url: string): Promise<User | AxiosResponse<any> | null>;
   login(
@@ -156,7 +145,7 @@ export class AuthorizationService implements CanActivate {
     ).toString();
 
     let userName = btoa(prefix + user.Username + suffix);
-    this._cookieService.set('userName', userName, options);
+    this._cookieService.set('username', userName, options);
 
     //password
     prefix = CryptoJS.MD5(
@@ -237,40 +226,3 @@ export class AuthorizationService implements CanActivate {
     });
   }
 }
-
-// 用自带的 HttpClient
-
-// async loginByUsername(username: string, password: string) {
-//   this._username = username;
-//   this._password = password;
-
-//   let res = await this._http.get<User>(UserUrl.login(username), {
-//     headers: this._header
-//   }).pipe(
-//     catchError((error: HttpErrorResponse) => {
-//       return this._handlerError(error)
-//     }),
-//   ).toPromise()
-//   if (res)
-//     this._storeUserInfo(res, this._password, res?.Id, res?.Resources ?? [])
-//   return plainToInstance(User, res);
-
-// }
-// private _handlerError(error: HttpErrorResponse) {
-//   if (error.status == 403) {
-//     let authenticateHeader = error.headers.get('www-authenticate') ?? "";
-//     let challenge = this._parseAuthenticateHeader(authenticateHeader);
-//     this._sessionStorageService.challenge = challenge
-//     let authorization = this._generateChallengeHeader(
-//       challenge,
-//       'GET',
-//       UserUrl.login(this._username)
-//     );
-//     this._header = this._header.append('Authorization', authorization)
-//     return this._http.get<User>(UserUrl.login(this._username), {
-//       headers: this._header
-//     })
-//   }
-
-//   return of(null);
-// }
