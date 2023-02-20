@@ -13,7 +13,7 @@ const PROXY_CONFIG = [
     ],
     // target: 'http://iebs.51hws.cn',
     // target: 'http://192.168.21.241:9000',
-    target: 'http://wechat.51hws.cn',
+    target: 'http://wechat.51hws.cn:8080',
     // target: 'http://192.168.21.122:8080',
     changeOrigin: true,
     secure: false,
