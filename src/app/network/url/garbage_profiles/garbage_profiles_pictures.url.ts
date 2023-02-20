@@ -2,7 +2,7 @@ import { BasicUrl } from '../base.url';
 
 export abstract class PicturesUrl {
   protected static get basic(): string {
-    return `${BasicUrl.garbage.profiles}/Medium/Pictures`;
+    return `${BasicUrl.garbage_profiles}/Medium/Pictures`;
   }
   static create() {
     return this.basic;

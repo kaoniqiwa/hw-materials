@@ -19,9 +19,9 @@ const PROXY_CONFIG = [
     secure: false,
   },
   {
-    context: ['/amap/'],
+    context: ['/api/howell/ver10/garbage_profiles/'],
     // target: 'http://192.168.21.241:9000',
-    target: 'http://garbage01.51hws.com',
+    target: 'http://wechat.51hws.cn:9999',
     changeOrigin: true,
     secure: false,
   },

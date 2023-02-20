@@ -4,7 +4,7 @@ import { BasicUrl } from '../../base.url';
 export class GarbageStationProfilesUrl {
   /** /api/howell/ver10/aiop_service/garbage_profiles/GarbageStationProfiles */
   static get basic(): string {
-    return `${BasicUrl.garbage.profiles}/GarbageStationProfiles`;
+    return `${BasicUrl.garbage_profiles}/GarbageStationProfiles`;
   }
 
   static item(id: string) {

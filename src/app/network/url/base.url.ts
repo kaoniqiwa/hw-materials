@@ -27,6 +27,10 @@ export class BasicUrl {
   static get struct() {
     return `${this.aiop}/struct_service`;
   }
+  /** /api/howell/ver10/aiop_service/garbage_profiles */
+  static get garbage_profiles() {
+    return `${this.api}/garbage_profiles`;
+  }
 
   private static _garbage?: GarbageBasicUrl;
   static get garbage() {
@@ -51,9 +55,5 @@ class GarbageBasicUrl {
   /** /api/howell/ver10/aiop_service/garbage_vehicles */
   get vehicle() {
     return `${this.current}vehicles`;
-  }
-  /** /api/howell/ver10/aiop_service/garbage_profiles */
-  get profiles() {
-    return `${this.current}profiles`;
   }
 }
