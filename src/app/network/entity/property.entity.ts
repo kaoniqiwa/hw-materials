@@ -1,5 +1,5 @@
+import { IModel } from 'src/app/common/interfaces/model.interface';
 import { PropertyCategory } from 'src/app/enum/property-category.enum';
-import { IModel } from 'src/app/interface/model.interface';
 import { ValueNamePair } from './value-name-pair.entity';
 
 /**	对象属性	*/

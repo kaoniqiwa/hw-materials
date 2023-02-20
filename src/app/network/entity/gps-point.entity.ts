@@ -1,6 +1,6 @@
-import { IModel } from 'src/app/interface/model.interface';
-
 /**	GPS坐标	*/
+
+import { IModel } from "src/app/common/interfaces/model.interface";
 
 export class GPSPoint implements IModel {
   /**	Double	经度	M	*/

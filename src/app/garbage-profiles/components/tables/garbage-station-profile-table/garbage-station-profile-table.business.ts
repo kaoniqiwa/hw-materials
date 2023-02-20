@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IBusiness } from 'src/app/interface/business.interface';
+import { IBusiness } from 'src/app/common/interfaces/bussiness.interface';
 import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { Page, PagedList } from 'src/app/network/entity/page.entity';

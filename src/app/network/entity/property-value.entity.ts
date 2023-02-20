@@ -1,4 +1,4 @@
-import { IModel } from 'src/app/interface/model.interface';
+import { IModel } from "src/app/common/interfaces/model.interface";
 
 /**	属性数值	*/
 export class PropertyValue<T = IModel> implements IModel {

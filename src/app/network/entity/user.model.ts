@@ -1,7 +1,7 @@
 import { Transform } from 'class-transformer';
+import { IModel } from 'src/app/common/interfaces/model.interface';
 import { Gender } from 'src/app/enum/gender.enum';
 import { UserState } from 'src/app/enum/user-state.enum';
-import { IModel } from 'src/app/interface/model.interface';
 
 import { transformDateTime } from './transform.model';
 export class User implements IModel {

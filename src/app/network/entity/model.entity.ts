@@ -1,5 +1,5 @@
 import { ClassConstructor } from 'class-transformer';
-import { IObjectModel } from 'src/app/interface/model.interface';
+import { IObjectModel } from 'src/app/common/interfaces/model.interface';
 
 export class Model implements IObjectModel {
   Id!: string;

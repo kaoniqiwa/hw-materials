@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ClassConstructor, instanceToPlain } from 'class-transformer';
-import { IPropertyModel } from 'src/app/interface/model.interface';
+import { IPropertyModel } from 'src/app/common/interfaces/model.interface';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { Label } from 'src/app/network/entity/label.entity';
 import { PagedList } from 'src/app/network/entity/page.entity';

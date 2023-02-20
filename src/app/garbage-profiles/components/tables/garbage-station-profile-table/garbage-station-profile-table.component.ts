@@ -6,9 +6,9 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { IBusiness } from 'src/app/interface/business.interface';
-import { IComponent } from 'src/app/interface/component.interfact';
-import { IModel } from 'src/app/interface/model.interface';
+import { IBusiness } from 'src/app/common/interfaces/bussiness.interface';
+import { IComponent } from 'src/app/common/interfaces/component.interfact';
+import { IModel } from 'src/app/common/interfaces/model.interface';
 import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
 import { Page, PagedList } from 'src/app/network/entity/page.entity';
 import { GarbageStationProfileTableBusiness } from './garbage-station-profile-table.business';
@@ -51,7 +51,7 @@ export class GarbageStationProfileTableComponent
   page: Page = new Page();
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.loadData();
+    // this.loadData();
   }
   ngOnInit(): void {
     this.loadData(1);

@@ -1,4 +1,4 @@
-import { IModel } from 'src/app/interface/model.interface';
+import { IModel } from "src/app/common/interfaces/model.interface";
 
 /**	分页信息	*/
 export class Page implements IModel {

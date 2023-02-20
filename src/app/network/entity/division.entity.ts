@@ -1,4 +1,4 @@
-import { IModel } from 'src/app/interface/model.interface';
+import { IModel } from "src/app/common/interfaces/model.interface";
 
 /**	摄像机	*/
 export class Division implements IModel {

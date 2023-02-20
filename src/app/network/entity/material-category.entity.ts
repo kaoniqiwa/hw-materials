@@ -1,4 +1,4 @@
-import { IModel } from 'src/app/interface/model.interface';
+import { IModel } from "src/app/common/interfaces/model.interface";
 
 /**	物料分类	*/
 export class MaterialCategory implements IModel {

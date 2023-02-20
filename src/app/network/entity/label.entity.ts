@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { IModel } from 'src/app/interface/model.interface';
+import { IModel } from 'src/app/common/interfaces/model.interface';
 import { transformDateTime } from './transform.model';
 
 /**	人员标签	*/

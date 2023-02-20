@@ -21,12 +21,12 @@ import { RoutePath } from 'src/app/app-routing.path';
 import { LocalStorageService } from 'src/app/common/service/local-storage.service';
 import { SessionStorageService } from 'src/app/common/service/session-storage.service';
 import { GlobalStorageService } from 'src/app/common/service/global-storage.service';
-import { UserUrl } from 'src/app/network/url/garbage/user.url';
-import { HowellUrl } from 'src/app/view-model/howell-url';
 import CryptoJS from 'crypto-js';
 import { Md5 } from 'ts-md5';
-import { User, UserResource } from '../../model/user.model';
 import { DigestResponse } from './digest-response.class';
+import { User } from '../../entity/user.model';
+import { UserUrl } from '../../url/user.url';
+import { HowellUrl } from '../../url/howell-url';
 
 @Injectable({
   providedIn: 'root',
@@ -66,6 +66,7 @@ export class AuthorizationService implements CanActivate {
 
       this._password = passWord;
     }
+    this._config.headers = {};
   }
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -125,7 +126,7 @@ export class AuthorizationService implements CanActivate {
 
         // console.log('challenge', challenge);
 
-        this._config.headers['Authorization'] = this._generateChallengeHeader(
+        this._config.headers!['Authorization'] = this._generateChallengeHeader(
           challenge,
           'GET',
           UserUrl.login(username)
@@ -133,12 +134,7 @@ export class AuthorizationService implements CanActivate {
         this._sessionStorageService.challenge = challenge;
         return axios(this._config).then((res: AxiosResponse<User>) => {
           let result = plainToInstance(User, res.data);
-          this._storeUserInfo(
-            result,
-            password,
-            result.Id,
-            result.Resources ?? []
-          );
+          this._storeUserInfo(result, password, result.Id);
           return result;
         });
       }
@@ -146,12 +142,7 @@ export class AuthorizationService implements CanActivate {
     });
   }
 
-  private _storeUserInfo(
-    user: User,
-    password: string,
-    userId: string,
-    userResource: Array<UserResource>
-  ) {
+  private _storeUserInfo(user: User, password: string, userId: string) {
     let options = {
       expires: new Date(Date.now() + 60 * 60 * 1000),
       path: '/',
@@ -179,44 +170,10 @@ export class AuthorizationService implements CanActivate {
     this._cookieService.set('passWord', passWord, options);
 
     this._localStorageService.user = user;
-    this._store.password = passWord;
+    // this._store.password = passWord;
   }
 
   loginByUrl(url: string): Promise<AxiosResponse<any> | User | null> {
-    let uri = new HowellUrl(url);
-    if (uri.Querys) {
-      try {
-        let auto = false;
-        for (const key in uri.Querys) {
-          let lower = key.toLocaleLowerCase();
-          let value = uri.Querys[key];
-          switch (lower) {
-            case 'auth':
-              let encode = decodeURIComponent(value);
-              let urlParam = base64decode(encode);
-              let paramSplit = urlParam.split('&');
-              this._username = paramSplit[0];
-              this._password = paramSplit[1];
-              auto = true;
-              break;
-            case 'hidetitlebar':
-              this._store.HideTitlebar = JSON.parse(value);
-              break;
-            case 'hidebutton':
-              this._store.HideButton = JSON.parse(value);
-              break;
-            default:
-              break;
-          }
-        }
-        if (auto) {
-          //this.sessionUser.clear();
-        }
-      } catch (error) {
-        console.error('login by url: query is null');
-        throw error;
-      }
-    }
     return this.login(this._username, this._password);
   }
 

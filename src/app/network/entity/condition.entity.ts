@@ -1,5 +1,5 @@
+import { IModel } from 'src/app/common/interfaces/model.interface';
 import { ConditionOperator } from 'src/app/enum/condition-operator.enum';
-import { IModel } from 'src/app/interface/model.interface';
 
 /**	查询条件	*/
 export class Condition<T> implements IModel {

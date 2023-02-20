@@ -1,8 +1,8 @@
 import { Transform } from 'class-transformer';
+import { IModel } from 'src/app/common/interfaces/model.interface';
 import { GarbageStationFunction } from 'src/app/enum/garbage-station-function.enum';
 import { StrongCurrentWireMode } from 'src/app/enum/strong-current-wire-mode.enum';
 import { YesOrNo } from 'src/app/enum/yes-or-no.enum';
-import { IModel } from 'src/app/interface/model.interface';
 import { Camera } from './camera.entity';
 import { GPSPoint } from './gps-point.entity';
 import { MaterialItem } from './material-item.enitty';

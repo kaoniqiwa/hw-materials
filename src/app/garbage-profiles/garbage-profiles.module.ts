@@ -2,17 +2,18 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { PIPE_Modules } from '../pipes/pipe.module';
+import { HowellModule } from '../common/howell.module';
 import { TableComponents } from './components/tables/tables.module';
 import { GarbageProfilesRoutingModule } from './garbage-profiles-routing.module';
 
 @NgModule({
-  declarations: [...TableComponents, ...PIPE_Modules],
+  declarations: [...TableComponents],
   imports: [
     GarbageProfilesRoutingModule,
     BrowserModule,
     CommonModule,
     FormsModule,
+    HowellModule,
   ],
 })
 export class GarbageProfilesModule {}

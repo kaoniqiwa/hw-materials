@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { IConverter } from 'src/app/common/interfaces/converter.interface';
 import { ViewModelConverter } from 'src/app/converter/view-model.converter';
-import { IConverter } from 'src/app/interface/converter.interface';
 import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { PagedList } from 'src/app/network/entity/page.entity';

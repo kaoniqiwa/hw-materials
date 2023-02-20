@@ -1,6 +1,6 @@
-import { IModel } from 'src/app/interface/model.interface';
-
 /**	摄像机	*/
+
+import { IModel } from "src/app/common/interfaces/model.interface";
 
 export class Camera implements IModel {
   /**	String	摄像机名称	M	*/

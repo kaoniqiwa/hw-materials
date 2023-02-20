@@ -1,4 +1,4 @@
-import { IModel } from 'src/app/interface/model.interface';
+import { IModel } from "src/app/common/interfaces/model.interface";
 
 export class Material implements IModel {
   /**	Int32	物料ID：	M	*/

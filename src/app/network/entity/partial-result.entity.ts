@@ -1,4 +1,4 @@
-import { IModel } from 'src/app/interface/model.interface';
+import { IModel } from 'src/app/common/interfaces/model.interface';
 import { IPartialData } from './partial-data.interface';
 
 /**	部分修改返回结果	*/

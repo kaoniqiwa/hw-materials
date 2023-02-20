@@ -1,6 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Md5 } from 'ts-md5';
-import { HowellRequest } from '../model/howell-request.model';
+import { HowellRequest } from '../entity/howell-request.entiry';
 
 export class Digest {
   private header: string | null = null;
