@@ -3,11 +3,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HowellModule } from '../common/howell.module';
 import { MaterialModule } from '../material.module';
+import { SystemModeComponent } from './components/system-mode/system-mode.component';
 import { TableComponents } from './components/tables/tables.module';
 import { GarbageProfilesRoutingModule } from './garbage-profiles-routing.module';
 
 @NgModule({
-  declarations: [...TableComponents],
+  declarations: [SystemModeComponent, ...TableComponents],
   imports: [
     GarbageProfilesRoutingModule,
     CommonModule,
