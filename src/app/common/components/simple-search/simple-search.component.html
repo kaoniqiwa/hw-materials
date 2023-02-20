@@ -1,0 +1,10 @@
+<div class="hw-search" (click)="$event.stopPropagation()">
+  <input
+    type="text"
+    class="hw-search-bar"
+    [placeholder]="placeHolder"
+    [(ngModel)]="value"
+    (keyup.enter)="onsearch()"
+  />
+  <i class="material-icons hw-search-icon" (click)="onsearch()">search</i>
+</div>

@@ -1,0 +1,29 @@
+:host {
+  width: 100%;
+  height: 100%;
+}
+.hw-search {
+  flex-shrink: 0;
+  // width: 100%;
+  height: 34px;
+  font-size: 18px;
+  position: relative;
+  flex-grow: 1;
+  &-bar {
+    padding-left: 12px !important;
+    padding-right: 30px !important;
+  }
+  &-icon {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translate(0, -50%);
+    color: #7f94ff;
+    font-size: 20px;
+    cursor: pointer;
+
+    &:hover {
+      color: #3a93ff;
+    }
+  }
+}

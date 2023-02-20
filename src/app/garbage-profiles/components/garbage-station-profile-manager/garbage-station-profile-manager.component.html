@@ -1,1 +1,13 @@
-<p>garbage-station-profile-manager works!</p>
+<div class="garbage-station-profile-manager">
+  <div class="garbage-station-profile-manager-head">
+    <div class="hw-simple-title">档案管理</div>
+    <div class="filter">
+      <div class="filter-item">
+        <howell-simple-search [(value)]="args.name"></howell-simple-search>
+      </div>
+    </div>
+  </div>
+  <div class="garbage-station-profile-manager-content">
+    <garbage-station-profile-table> </garbage-station-profile-table>
+  </div>
+</div>
