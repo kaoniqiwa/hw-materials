@@ -1,4 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~ngx-toastr/toastr";
+
+// 加权
+app-root {
+  @import url(assets/less/index.less);
+}
 
 html,
 body {
@@ -15,11 +21,6 @@ body {
   overflow-y: auto;
 }
 
-
-// 加权
-app-root {
-  @import url(assets/less/index.less);
+button {
+  color: white;
 }
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
