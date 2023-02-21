@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { LocalStorageService } from 'src/app/common/service/local-storage.service';
 
 @Component({
   selector: 'app-account-info',
@@ -7,12 +6,10 @@ import { LocalStorageService } from 'src/app/common/service/local-storage.servic
   styleUrls: ['./account-info.component.less'],
 })
 export class AccountInfoComponent implements OnInit {
-  desc: string = '生活垃圾分类全程监管平台';
+  desc: string = '生活垃圾档案管理系统';
   title: string = '';
 
-  constructor(private _localStorageService: LocalStorageService) {}
+  constructor() {}
 
-  ngOnInit(): void {
-    let user = this._localStorageService.user;
-  }
+  ngOnInit(): void {}
 }
