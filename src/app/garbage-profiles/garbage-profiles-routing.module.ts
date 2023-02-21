@@ -1,41 +1,41 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { GarbageProfilesMaterialManagerComponent } from './components/garbage-profiles-material-manager/garbage-profiles-material-manager.component';
-import { GarbageStationProfileManagerComponent } from './components/garbage-station-profile-manager/garbage-station-profile-manager.component';
-import { SystemModeComponent } from './components/system-mode/system-mode.component';
+import { ProfileIndexComponent } from './components/profile-index/profile-index.component';
+import { ProfileModeComponent } from './components/profile-mode/profile-mode.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'system-mode',
+    redirectTo: 'profile-index',
     pathMatch: 'full',
   },
   {
-    path: 'system-mode',
-    component: SystemModeComponent,
+    path: 'profile-index',
+    component: ProfileIndexComponent,
     children: [
       {
         path: '',
-        redirectTo: 'station-profiles',
+        redirectTo: 'profile-mode',
         pathMatch: 'full',
       },
       {
-        path: 'station-profiles',
-        children: [
-          {
-            path: '',
-            redirectTo: 'station-manager',
-            pathMatch: 'full',
-          },
-          {
-            path: 'station-manager',
-            component: GarbageStationProfileManagerComponent,
-          },
-          {
-            path: 'material-manager',
-            component: GarbageProfilesMaterialManagerComponent,
-          },
-        ],
+        path: 'profile-mode',
+        component: ProfileModeComponent,
+        // children: [
+        //   {
+        //     path: '',
+        //     redirectTo: 'station-manager',
+        //     pathMatch: 'full',
+        //   },
+        //   {
+        //     path: 'station-manager',
+        //     component: GarbageStationProfileManagerComponent,
+        //   },
+        //   {
+        //     path: 'material-manager',
+        //     component: GarbageProfilesMaterialManagerComponent,
+        //   },
+        // ],
       },
     ],
   },
