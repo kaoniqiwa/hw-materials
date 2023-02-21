@@ -14,7 +14,7 @@
         </tr>
       </thead>
     </table>
-    <div class="body vertical-main">
+    <div class="body vertical-main paged">
       <table *ngIf="datas" border="0" cellpadding="0" cellspacing="0">
         <colgroup>
           <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
@@ -46,10 +46,7 @@
       </table>
     </div>
 
-    <div
-      class="vertical-footer garbage-station-profile-table-main-footer footer"
-      *ngIf="page"
-    >
+    <div class="garbage-station-profile-table-main-footer footer" *ngIf="page">
       <div class="footer-item">
         <div class="footer-info">
           <div class="info-item">当前数量: {{ page && page.RecordCount }}</div>

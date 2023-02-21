@@ -6,8 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./account-info.component.less'],
 })
 export class AccountInfoComponent implements OnInit {
-  desc: string = '生活垃圾档案管理系统';
-  title: string = '';
+  desc: string = '';
+  title: string = '生活垃圾档案管理系统';
 
   constructor() {}
 

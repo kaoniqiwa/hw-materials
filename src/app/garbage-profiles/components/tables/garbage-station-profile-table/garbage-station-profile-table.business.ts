@@ -43,9 +43,9 @@ export class GarbageStationProfileTableBusiness
       paged.Page.PageCount = 1;
       paged.Page.PageIndex = 1;
       paged.Page.PageSize = 10;
-      paged.Page.RecordCount = 10;
+      paged.Page.RecordCount = 3;
       paged.Page.TotalRecordCount = 10;
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < paged.Page.RecordCount; i++) {
         let item = new GarbageStationProfile();
         item.ProfileName = '档案' + (i + 1);
         paged.Data.push(item);
