@@ -8,18 +8,18 @@
       "children": [
         {
           "title": "厢房档案",
-          "id": "garbage-station-profile-manager",
-          "path": "/garbage-profiles/profile-index/profile-mode/garbage-station-profile-manager"
+          "id": "profile-manager",
+          "path": "/garbage-profiles/profile-index/profile-mode/profile-manager"
         },
         {
           "title": "物料档案",
-          "id": "garbage-profiles-material-manager",
-          "path": "/garbage-profiles/profile-index/profile-mode/garbage-profiles-material-manager"
+          "id": "material-manager",
+          "path": "/garbage-profiles/profile-index/profile-mode/material-manager"
         },
         {
           "title": "标签",
-          "id": "garbage-profiles-label-manager",
-          "path": "/garbage-profiles/profile-index/profile-mode/garbage-profiles-label-manager"
+          "id": "label-manager",
+          "path": "/garbage-profiles/profile-index/profile-mode/label-manager"
         }
       ]
     }

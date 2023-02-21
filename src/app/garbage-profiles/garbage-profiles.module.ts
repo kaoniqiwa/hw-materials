@@ -8,6 +8,7 @@ import { GarbageProfilesMaterialManagerComponent } from './components/garbage-pr
 import { GarbageStationProfileDetailsComponent } from './components/garbage-station-profile-details/garbage-station-profile-details.component';
 import { GarbageStationProfileManagerComponent } from './components/garbage-station-profile-manager/garbage-station-profile-manager.component';
 import { ProfileIndexComponent } from './components/profile-index/profile-index.component';
+import { ProfileModeComponent } from './components/profile-mode/profile-mode.component';
 import { TableComponents } from './components/tables/tables.module';
 import { GarbageProfilesRoutingModule } from './garbage-profiles-routing.module';
 
@@ -15,6 +16,7 @@ import { GarbageProfilesRoutingModule } from './garbage-profiles-routing.module'
   declarations: [
     ...TableComponents,
     ProfileIndexComponent,
+    ProfileModeComponent,
     GarbageStationProfileManagerComponent,
     GarbageStationProfileDetailsComponent,
     GarbageProfilesMaterialManagerComponent,
