@@ -1,0 +1,20 @@
+<div class="profile-index">
+  <div class="profile-index-header">
+    <mat-toolbar>
+      <app-account-info></app-account-info>
+      <div class="spacer"></div>
+      <common-time></common-time>
+      <app-account-operation></app-account-operation>
+    </mat-toolbar>
+  </div>
+  <div class="profile-index-body">
+    <div class="sidenav">
+      <howell-sidenav></howell-sidenav>
+    </div>
+    <main class="sidenav-main">
+      <div class="sidenav-content">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>
+</div>

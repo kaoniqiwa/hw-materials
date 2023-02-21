@@ -1,0 +1,27 @@
+{
+  "$schema": "./sidenav.schema.json",
+  "data": [
+    {
+      "title": "垃圾厢房档案",
+      "id": "profile-mode",
+      "path": "/garbage-profiles/profile-index/profile-mode/",
+      "children": [
+        {
+          "title": "厢房档案",
+          "id": "garbage-station-profile-manager",
+          "path": "/garbage-profiles/profile-index/profile-mode/garbage-station-profile-manager"
+        },
+        {
+          "title": "物料档案",
+          "id": "garbage-profiles-material-manager",
+          "path": "/garbage-profiles/profile-index/profile-mode/garbage-profiles-material-manager"
+        },
+        {
+          "title": "标签",
+          "id": "garbage-profiles-label-manager",
+          "path": "/garbage-profiles/profile-index/profile-mode/garbage-profiles-label-manager"
+        }
+      ]
+    }
+  ]
+}

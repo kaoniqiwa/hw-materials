@@ -56,7 +56,7 @@ export class SidenavComponent implements OnInit, OnChanges, OnDestroy {
       if (e instanceof NavigationEnd) {
         // console.log('router', e);
         let reg =
-          /(?<=\/garbage-profiles\/system-mode\/)(?<first>[\w-]*)\/(?<second>[\w-]*)(?=\/?)$/;
+          /(?<=\/garbage-profiles\/profile-index\/)(?<first>[\w-]*)(\/(?<second>[\w-]*))?(?=\/?)$/;
 
         let mode = e.urlAfterRedirects.match(reg);
         console.log('mode: ', mode);

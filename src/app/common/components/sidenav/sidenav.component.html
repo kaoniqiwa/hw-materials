@@ -12,7 +12,7 @@
       </button>
       <ul
         (click)="navigate($event)"
-        *ngIf="state == 'grow' && model.id == groups.first"
+        *ngIf="state == 'grow' && model.id == groups.first && groups.second"
       >
         <li
           *ngFor="let node of model.children"
