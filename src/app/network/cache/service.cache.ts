@@ -147,7 +147,7 @@ export class ServiceCache<T extends IData> implements IServiceCache {
     });
   }
 
-  async get(id: string): Promise<T> {
+  async get(id: string | number): Promise<T> {
     return this.service.get(id).then((x) => {
       let datas = this.load();
       if (!datas) datas = [];

@@ -6,7 +6,7 @@ import { PagedList } from 'src/app/network/entity/page.entity';
 import { GetGarbageProfilesBasicMaterialsParams } from 'src/app/network/request/garbage-profiles/basics/garbage-profiles-basics.params';
 import { GarbageProfilesBasicRequestService } from 'src/app/network/request/garbage-profiles/basics/garbage-profiles-basics.service';
 import { GarbageProfilesMaterialTablConverter } from './garbage-profiles-material-table.converter';
-import { GarbageProfilesMaterialTablArgs } from './garbage-profiles-material-table.model';
+import { GarbageProfilesMaterialTableArgs } from './garbage-profiles-material-table.model';
 
 @Injectable()
 export class GarbageProfilesMaterialTablBusiness
@@ -17,7 +17,7 @@ export class GarbageProfilesMaterialTablBusiness
     public Converter: GarbageProfilesMaterialTablConverter
   ) {}
   async load(
-    args: GarbageProfilesMaterialTablArgs,
+    args: GarbageProfilesMaterialTableArgs,
     index: number,
     size: number = 10
   ): Promise<PagedList<MaterialModel>> {

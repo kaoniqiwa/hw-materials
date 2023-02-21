@@ -17,4 +17,6 @@ export class Material implements IModel {
   /**	DateTime	更新时间	O	*/
   @Transform(transformDateTime)
   UpdateTime?: Date;
+  /**	Int64	库存数量	M */
+  Quantity!: number;
 }

@@ -9,7 +9,7 @@ import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-pr
 import { PagedList } from 'src/app/network/entity/page.entity';
 
 export class GarbageStationProfileTableArgs {
-  name?: string;
+  Name?: string;
 }
 
 export interface IGarbageStationProfileTableBusiness

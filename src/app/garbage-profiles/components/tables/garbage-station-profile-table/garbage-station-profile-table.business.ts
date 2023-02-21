@@ -23,7 +23,7 @@ export class GarbageStationProfileTableBusiness
     index: number,
     size: number = 10
   ): Promise<PagedList<GarbageStationProfileModel>> {
-    let data = await this.getData(index, size, args.name);
+    let data = await this.getData(index, size, args.Name);
     let model = this.Converter.Convert(data);
     return model;
   }
