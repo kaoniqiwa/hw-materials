@@ -13,9 +13,9 @@ import { IModel } from 'src/app/common/interfaces/model.interface';
 import { MaterialModel } from 'src/app/model/material.model';
 import { PagedList } from 'src/app/network/entity/page.entity';
 import { PagedTableAbstractComponent } from '../table-paged-abstract.component';
-import { GarbageProfilesMaterialTablBusiness } from './garbage-profiles-material-table.business';
-import { GarbageProfilesMaterialTablConverter } from './garbage-profiles-material-table.converter';
-import { GarbageProfilesMaterialTablArgs } from './garbage-profiles-material-table.model';
+import { GarbageProfilesMaterialTablBusiness as GarbageProfilesMaterialTableBusiness } from './garbage-profiles-material-table.business';
+import { GarbageProfilesMaterialTablConverter as GarbageProfilesMaterialTableConverter } from './garbage-profiles-material-table.converter';
+import { GarbageProfilesMaterialTableArgs } from './garbage-profiles-material-table.model';
 
 @Component({
   selector: 'garbage-profiles-material-table',
@@ -25,8 +25,8 @@ import { GarbageProfilesMaterialTablArgs } from './garbage-profiles-material-tab
     './garbage-profiles-material-table.component.less',
   ],
   providers: [
-    GarbageProfilesMaterialTablConverter,
-    GarbageProfilesMaterialTablBusiness,
+    GarbageProfilesMaterialTableConverter,
+    GarbageProfilesMaterialTableBusiness,
   ],
 })
 export class GarbageProfilesMaterialTableComponent
@@ -36,16 +36,17 @@ export class GarbageProfilesMaterialTableComponent
   @Input()
   business: IBusiness<IModel, PagedList<MaterialModel>>;
   @Input()
-  args: GarbageProfilesMaterialTablArgs = new GarbageProfilesMaterialTablArgs();
+  args: GarbageProfilesMaterialTableArgs =
+    new GarbageProfilesMaterialTableArgs();
   @Input()
-  load?: EventEmitter<GarbageProfilesMaterialTablArgs>;
+  load?: EventEmitter<GarbageProfilesMaterialTableArgs>;
   @Input()
   selected?: MaterialModel[] | undefined;
   @Output()
   selectedChange: EventEmitter<MaterialModel[]> = new EventEmitter();
   @Output()
   check: EventEmitter<MaterialModel> = new EventEmitter();
-  constructor(business: GarbageProfilesMaterialTablBusiness) {
+  constructor(business: GarbageProfilesMaterialTableBusiness) {
     super();
     this.business = business;
   }
@@ -65,7 +66,10 @@ export class GarbageProfilesMaterialTableComponent
     }
   }
   loadData(index: number, size: number = 10): void {
-    this.business.load(this.args, index, size);
+    this.business.load(this.args, index, size).then((paged) => {
+      this.page = paged.Page;
+      this.datas = paged.Data;
+    });
   }
   oncheck(e: Event, item: MaterialModel) {
     e.stopImmediatePropagation();

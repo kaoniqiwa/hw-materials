@@ -1,4 +1,4 @@
-export class GarbageProfilesMaterialTablArgs {
+export class GarbageProfilesMaterialTableArgs {
   Name?: string;
   Category?: number;
 }

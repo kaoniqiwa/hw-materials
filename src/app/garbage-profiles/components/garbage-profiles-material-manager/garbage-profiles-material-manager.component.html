@@ -1,1 +1,20 @@
 <garbage-profiles-material-table></garbage-profiles-material-table>
+<div class="garbage-profiles-material-manager">
+  <div class="garbage-profiles-material-manager-head">
+    <div class="hw-simple-title">物料档案管理</div>
+    <div class="filter">
+      <div class="filter-item">
+        <howell-simple-search [(value)]="args.Name"></howell-simple-search>
+      </div>
+    </div>
+  </div>
+  <div class="garbage-profiles-material-manager-content">
+    <garbage-profiles-material-table (check)="onselected($event)">
+    </garbage-profiles-material-table>
+  </div>
+</div>
+
+<!-- <app-window [Model]="window" [style]="style" *ngIf="window.show">
+  <garbage-profiles-material-details [model]="selected">
+  </garbage-profiles-material-details>
+</app-window> -->

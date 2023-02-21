@@ -9,6 +9,7 @@
           <td>编号</td>
           <td>名称</td>
           <td>类别</td>
+          <td>库存</td>
           <td>备注</td>
           <td class="operation center"><div>操作</div></td>
         </tr>
@@ -31,7 +32,10 @@
             <td>
               {{ item.Name }}
             </td>
-            <td>{{ item.Category }}</td>
+            <td>{{ (item.CategoryInfo | async)?.Name }}</td>
+            <td>
+              {{ item.Quantity }}
+            </td>
             <td>
               {{ item.Description }}
             </td>

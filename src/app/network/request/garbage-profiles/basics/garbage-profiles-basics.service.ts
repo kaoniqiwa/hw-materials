@@ -74,11 +74,10 @@ class BasicDivisionRequestService extends AbstractService<Division> {
   }
 }
 
-class BasicMaterialRequestService extends AbstractService<Material> {
+class BasicMaterialRequestService {
   private type: BaseTypeRequestService<Material>;
 
   constructor(private basic: BaseRequestService) {
-    super();
     this.type = this.basic.type(Material);
   }
   create(instance: Material): Promise<Material> {
@@ -116,10 +115,13 @@ class BasicMaterialRequestService extends AbstractService<Material> {
   }
 }
 
-class BasicMaterialCategoryRequestService {
+class BasicMaterialCategoryRequestService extends AbstractService<MaterialCategory> {
   private type: BaseTypeRequestService<MaterialCategory>;
 
+  datas: MaterialCategory[] = [];
+
   constructor(private basic: BaseRequestService) {
+    super();
     this.type = this.basic.type(MaterialCategory);
   }
   create(instance: MaterialCategory): Promise<MaterialCategory> {
@@ -127,17 +129,35 @@ class BasicMaterialCategoryRequestService {
     let plain = instanceToPlain(instance);
     return this.type.post(url, plain);
   }
-  get(id: number): Promise<MaterialCategory> {
+  async get(id: number): Promise<MaterialCategory> {
+    let result = this.datas.find((x) => x.Id === id);
+    if (result) {
+      return result;
+    }
     let url = GarbageProfilesBasicsUrl.material.category.item(id);
-    return this.type.get(url);
+    result = await this.type.get(url);
+    this.datas.push(result);
+    return result;
   }
   update(instance: MaterialCategory): Promise<MaterialCategory> {
     let url = GarbageProfilesBasicsUrl.material.category.item(instance.Id);
     let plain = instanceToPlain(instance);
-    return this.type.put(url, plain as MaterialCategory);
+    return this.type.put(url, plain as MaterialCategory).then((result) => {
+      let index = this.datas.findIndex((x) => x.Id === result.Id);
+      if (index >= 0) {
+        this.datas[index] = result;
+      }
+      return result;
+    });
   }
   delete(id: string): Promise<MaterialCategory> {
     let url = GarbageProfilesBasicsUrl.material.category.item(id);
-    return this.type.delete(url);
+    return this.type.delete(url).then((result) => {
+      let index = this.datas.findIndex((x) => x.Id === result.Id);
+      if (index >= 0) {
+        this.datas.splice(index, 1);
+      }
+      return result;
+    });
   }
 }
