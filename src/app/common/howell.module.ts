@@ -13,6 +13,7 @@ import { CUSTOM_PIPES } from './pipes';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularResizeEventModule } from 'angular-resize-event';
 import { CUSTOM_DIRECTIVES } from './directives';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [...CUSTOM_COMPONENTS, ...CUSTOM_PIPES, ...CUSTOM_DIRECTIVES],
@@ -23,6 +24,7 @@ import { CUSTOM_DIRECTIVES } from './directives';
     AngularResizeEventModule,
     FormsModule,
     ReactiveFormsModule,
+    RouterModule,
   ],
 })
 export class HowellModule {}

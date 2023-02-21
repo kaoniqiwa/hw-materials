@@ -34,6 +34,10 @@ a {
 a:hover {
   color: #fff;
 }
+a,
+a[href] {
+  text-decoration: none;
+}
 
 .form-control,
 .btn-secondary:hover,

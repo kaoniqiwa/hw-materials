@@ -1,0 +1,22 @@
+{
+  "$schema": "./sidenav.schema.json",
+  "data": [
+    {
+      "title": "垃圾厢房档案",
+      "id": "station-profiles",
+      "path": "/garbage-profiles/system-mode/station-profiles/",
+      "children": [
+        {
+          "title": "档案管理",
+          "id": "station-manager",
+          "path": "/garbage-profiles/system-mode/station-profiles/station-manager"
+        },
+        {
+          "title": "物料管理",
+          "id": "material-manager",
+          "path": "/garbage-profiles/system-mode/station-profiles/material-manager"
+        }
+      ]
+    }
+  ]
+}
