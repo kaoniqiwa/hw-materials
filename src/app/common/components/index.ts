@@ -4,6 +4,7 @@ import { CommonTimeComponent } from './common-time/common-time.component';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { SimpleSearchComponent } from './simple-search/simple-search.component';
+import { WindowComponent } from './window-control/window.component';
 
 export const CUSTOM_COMPONENTS = [
   PaginatorComponent,
@@ -12,4 +13,5 @@ export const CUSTOM_COMPONENTS = [
   CommonTimeComponent,
   AccountOperationComponent,
   SidenavComponent,
+  WindowComponent,
 ];

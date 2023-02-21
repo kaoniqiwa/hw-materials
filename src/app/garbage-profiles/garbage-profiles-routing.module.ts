@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { GarbageStationProfileDetailsComponent } from './components/garbage-station-profile-details/garbage-station-profile-details.component';
+import { GarbageProfilesMaterialManagerComponent } from './components/garbage-profiles-material-manager/garbage-profiles-material-manager.component';
 import { GarbageStationProfileManagerComponent } from './components/garbage-station-profile-manager/garbage-station-profile-manager.component';
 import { SystemModeComponent } from './components/system-mode/system-mode.component';
 
@@ -33,7 +33,7 @@ const routes: Routes = [
           },
           {
             path: 'material-manager',
-            component: GarbageStationProfileDetailsComponent,
+            component: GarbageProfilesMaterialManagerComponent,
           },
         ],
       },

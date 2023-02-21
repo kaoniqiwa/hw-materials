@@ -1,0 +1,37 @@
+.close-winow {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  cursor: pointer;
+  z-index: 9;
+  height: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.close-winow:hover {
+  color: red;
+}
+
+.custom-form-wrap {
+  background-image: url("/assets/img/window-background.png");
+}
+
+
+.window-mask {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.window-content {
+  padding: 20px 20px 20px 20px;
+  border: 2px #5e6ebf solid;
+  box-shadow: 0 0 10px 0 rgb(105 173 255);
+  background: #0c1127;
+  height: 100%;
+}

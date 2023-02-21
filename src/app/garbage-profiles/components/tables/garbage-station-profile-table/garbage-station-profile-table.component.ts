@@ -48,6 +48,9 @@ export class GarbageStationProfileTableComponent
   selectedChange: EventEmitter<GarbageStationProfileModel[]> =
     new EventEmitter();
 
+  @Output()
+  check: EventEmitter<GarbageStationProfileModel> = new EventEmitter();
+
   constructor(business: GarbageStationProfileTableBusiness) {
     super();
     this.business = business;
@@ -78,11 +81,7 @@ export class GarbageStationProfileTableComponent
   }
 
   async onupdate(e: Event, item: GarbageStationProfileModel) {
+    this.check.emit(item);
     e.stopImmediatePropagation();
-    let result = await this.business.update(item);
-    let index = this.datas.findIndex((x) => x.Id === result.Id);
-    if (index >= 0) {
-      this.datas[index] = result;
-    }
   }
 }

@@ -1,7 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { GlobalStorageService } from 'src/app/common/service/global-storage.service';
 import { LocalStorageService } from 'src/app/common/service/local-storage.service';
 import { SessionStorageService } from 'src/app/common/service/session-storage.service';
 import { AccountOperationDisplay } from './account-operation.model';
@@ -20,7 +19,6 @@ export class AccountOperationComponent implements OnInit {
   constructor(
     private _sessionStorageService: SessionStorageService,
     private _localStorageService: LocalStorageService,
-    private _store: GlobalStorageService,
     private _cookieService: CookieService,
     private _router: Router
   ) {}

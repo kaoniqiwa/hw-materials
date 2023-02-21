@@ -1,1 +1,39 @@
-<p>garbage-station-profile-details works!</p>
+<div class="garbage-station-profile-details">
+  <div class="hw-simple-title">创建布控对象</div>
+  <div class="garbage-station-profile-details-content">
+    <div class="garbage-station-profile-details-content-list">
+      <div class="garbage-station-profile-details-content-list-item">
+        <div class="garbage-station-profile-details-content-list-item-title">
+          档案名称
+        </div>
+        <div class="garbage-station-profile-details-content-list-item-value">
+          <input type="text" [(ngModel)]="model.ProfileName" />
+        </div>
+      </div>
+      <div class="garbage-station-profile-details-content-list-item">
+        <div class="garbage-station-profile-details-content-list-item-title">
+          省
+        </div>
+        <div class="garbage-station-profile-details-content-list-item-value">
+          <input type="text" [(ngModel)]="model.Province" />
+        </div>
+      </div>
+      <div class="garbage-station-profile-details-content-list-item">
+        <div class="garbage-station-profile-details-content-list-item-title">
+          市
+        </div>
+        <div class="garbage-station-profile-details-content-list-item-value">
+          <select [(ngModel)]="model.City">
+            <option [ngValue]="item" *ngFor="let item of source.citys">
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="garbage-station-profile-details-foot">
+    <button class="hw-green-btn" (click)="onok()">确定</button>
+    <button class="hw-blue-btn" (click)="oncancel()">取消</button>
+  </div>
+</div>

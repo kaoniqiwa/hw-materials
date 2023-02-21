@@ -8,6 +8,12 @@
     </div>
   </div>
   <div class="garbage-station-profile-manager-content">
-    <garbage-station-profile-table> </garbage-station-profile-table>
+    <garbage-station-profile-table (check)="onselected($event)">
+    </garbage-station-profile-table>
   </div>
 </div>
+
+<app-window [Model]="window" *ngIf="window.show">
+  <garbage-station-profile-details [model]="selected">
+  </garbage-station-profile-details>
+</app-window>
