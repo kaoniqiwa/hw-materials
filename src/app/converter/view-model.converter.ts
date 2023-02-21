@@ -11,6 +11,7 @@ import { Material } from '../network/entity/material.entity';
 import { Property } from '../network/entity/property.entity';
 import { GarbageProfilesBasicRequestService } from '../network/request/garbage-profiles/basics/garbage-profiles-basics.service';
 import { GarbageStationProfilesRequestService } from '../network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
+import { GarbageProfilesMaterialRequestService } from '../network/request/garbage-profiles/materials/garbage-profiles-materials.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,8 @@ import { GarbageStationProfilesRequestService } from '../network/request/garbage
 export class ViewModelConverter {
   constructor(
     private basicService: GarbageProfilesBasicRequestService,
-    private profileService: GarbageStationProfilesRequestService
+    private profileService: GarbageStationProfilesRequestService,
+    private materialService: GarbageProfilesMaterialRequestService
   ) {}
 
   Division(source: Division): DivisionModel;
@@ -108,9 +110,7 @@ export class ViewModelConverter {
       let plain = instanceToPlain(source);
       let model = plainToInstance(MaterialModel, plain);
 
-      model.CategoryInfo = this.basicService.material.category.get(
-        source.Category
-      );
+      model.CategoryInfo = this.materialService.category.get(source.Category);
 
       return model;
     } else {

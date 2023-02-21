@@ -3,8 +3,8 @@ import { IBusiness } from 'src/app/common/interfaces/bussiness.interface';
 import { MaterialModel } from 'src/app/model/material.model';
 import { Material } from 'src/app/network/entity/material.entity';
 import { PagedList } from 'src/app/network/entity/page.entity';
-import { GetGarbageProfilesBasicMaterialsParams } from 'src/app/network/request/garbage-profiles/basics/garbage-profiles-basics.params';
-import { GarbageProfilesBasicRequestService } from 'src/app/network/request/garbage-profiles/basics/garbage-profiles-basics.service';
+import { GetGarbageProfilesMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
+import { GarbageProfilesMaterialRequestService } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.service';
 import { GarbageProfilesMaterialTablConverter } from './garbage-profiles-material-table.converter';
 import { GarbageProfilesMaterialTableArgs } from './garbage-profiles-material-table.model';
 
@@ -13,7 +13,7 @@ export class GarbageProfilesMaterialTablBusiness
   implements IBusiness<PagedList<Material>, PagedList<MaterialModel>>
 {
   constructor(
-    private service: GarbageProfilesBasicRequestService,
+    private service: GarbageProfilesMaterialRequestService,
     public Converter: GarbageProfilesMaterialTablConverter
   ) {}
   async load(
@@ -31,12 +31,12 @@ export class GarbageProfilesMaterialTablBusiness
     category?: number,
     name?: string
   ): Promise<PagedList<Material>> {
-    let params = new GetGarbageProfilesBasicMaterialsParams();
+    let params = new GetGarbageProfilesMaterialsParams();
     params.PageIndex = index;
     params.PageSize = size;
     params.Category = category;
     params.Name = name;
 
-    return this.service.material.list(params);
+    return this.service.list(params);
   }
 }

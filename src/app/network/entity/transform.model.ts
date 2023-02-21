@@ -94,3 +94,12 @@ export function transformImageData(params: TransformFnParams) {
   }
   return params.value;
 }
+
+export function transformNumber(params: TransformFnParams) {
+  if (params.type === TransformationType.CLASS_TO_PLAIN) {
+    if (params.value === 0) {
+      return undefined;
+    }
+  }
+  return params.value;
+}

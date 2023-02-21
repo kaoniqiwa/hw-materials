@@ -1,0 +1,73 @@
+<!-- <div class="select-group">
+  <div class="select-item">
+    <div class="select-head" (click)="toggle($event)">
+      <div
+        class="select-item__title"
+        [innerHtml]="selected ? selected.language : '请选择'"
+      ></div>
+      <div class="select-item__controls">
+        <div
+          *ngIf="cannull && !!selected"
+          class="clear howell-icon-Close"
+          (click)="clear($event)"
+        ></div>
+        <div class="select-item__button"></div>
+      </div>
+    </div>
+    <ng-container *ngIf="opened">
+      <div class="select-body">
+        <div
+          class="select-search"
+          *ngIf="cansearch"
+          (click)="onsearching($event)"
+        >
+          <howell-simple-search
+            placeHolder="请输入关键字"
+            (searchEvent)="search($event)"
+          ></howell-simple-search>
+        </div>
+        <ng-container *ngFor="let item of data">
+          <div
+            class="select-option"
+            (click)="onselect(item, $event)"
+            [innerHtml]="item.language"
+          ></div>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+</div> -->
+<!-- <div class="select">
+<div class="select-head" [matMenuTriggerFor]="menu">
+  <div class="select-item__title">
+    {{ selected.language }}
+  </div>
+  <div class="select-item__button"></div>
+</div>
+<mat-menu #menu="matMenu" xPosition="before">
+  <ng-container *ngFor="let item of data">
+    <button mat-menu-item (click)="select($event, item)">
+      {{ item.language }}
+    </button>
+  </ng-container>
+</mat-menu>
+</div> -->
+
+<!-- <mat-select [value]="1" style="width: 100%">
+  <mat-option *ngFor="let item of data" [value]="item.value">
+    {{ item.language }}
+  </mat-option>
+</mat-select> -->
+<div class="select-control" [ngStyle]="style">
+  <select #element [(ngModel)]="selected">
+    <option
+      [ngValue]="item"
+      *ngFor="let item of data"
+      [innerHTML]="item.Name"
+    ></option>
+  </select>
+  <div class="clear" *ngIf="cannull && !!selected" (click)="onclear($event)">
+    <i class="howell-icon-Close"></i>
+  </div>
+  <div class="default" *ngIf="!selected">请选择</div>
+</div>

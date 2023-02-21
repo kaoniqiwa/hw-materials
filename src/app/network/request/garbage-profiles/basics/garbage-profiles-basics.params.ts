@@ -18,9 +18,3 @@ export class GetGarbageProfilesBasicDivisionsParams extends PagedParams {
   /**	String	降序排列字段，数组字段无法排序	O	*/
   Desc?: string;
 }
-
-export class GetGarbageProfilesBasicMaterialsParams extends PagedParams {
-  /**	String[]	ID	O	*/ Ids?: string[];
-  /**	String	名称，LIKE支持	O	*/ Name?: string;
-  /**	Int32	分类	O	*/ Category?: number;
-}

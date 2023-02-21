@@ -1,4 +1,4 @@
 export class GarbageProfilesMaterialTableArgs {
   Name?: string;
-  Category?: number;
+  Category: number = 0;
 }

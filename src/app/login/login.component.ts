@@ -1,14 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { AxiosError } from 'axios';
+import CryptoJS from 'crypto-js';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { RoutePath } from '../app-routing.path';
 import { User } from '../network/entity/user.model';
 import { AuthorizationService } from '../network/request/auth/auth-request.service';
-import CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-login',
@@ -41,8 +42,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     private _authorizationService: AuthorizationService,
     private _toastrService: ToastrService,
-    private _router: Router
+    private _router: Router,
+    title: Title
   ) {
+    title.setTitle('生活垃圾档案管理系统');
     this.passControlSub = this.passControl.valueChanges.subscribe((val) => {
       console.log('pass control', val);
       if (!val && this.autoControl.value == true) {
