@@ -3,9 +3,11 @@ import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { Medium } from '../common/tools/medium';
 import { DivisionModel } from '../model/division.model';
 import { GarbageStationProfileModel } from '../model/garbage-station-profile.model';
+import { MaterialModel } from '../model/material.model';
 import { PropertyModel } from '../model/property.model';
 import { Division } from '../network/entity/division.entity';
 import { GarbageStationProfile } from '../network/entity/garbage-station-profile.entity';
+import { Material } from '../network/entity/material.entity';
 import { Property } from '../network/entity/property.entity';
 import { GarbageProfilesBasicRequestService } from '../network/request/garbage-profiles/basics/garbage-profiles-basics.service';
 import { GarbageStationProfilesRequestService } from '../network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
@@ -93,6 +95,27 @@ export class ViewModelConverter {
     } else {
       return source.then((x) => {
         return this.GarbageStationProfile(x);
+      });
+    }
+  }
+
+  Material(source: Material): MaterialModel;
+  Material(source: Promise<Material>): Promise<MaterialModel>;
+  Material(
+    source: Material | Promise<Material>
+  ): MaterialModel | Promise<MaterialModel> {
+    if (source instanceof Material) {
+      let plain = instanceToPlain(source);
+      let model = plainToInstance(MaterialModel, plain);
+
+      model.CategoryInfo = this.basicService.material.category.get(
+        source.Category
+      );
+
+      return model;
+    } else {
+      return source.then((x) => {
+        return this.Material(x);
       });
     }
   }

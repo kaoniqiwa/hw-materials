@@ -55,7 +55,7 @@ class BasicDivisionRequestService extends AbstractService<Division> {
   list(
     args: GetGarbageProfilesBasicDivisionsParams = new GetGarbageProfilesBasicDivisionsParams()
   ): Promise<PagedList<Division>> {
-    let url = GarbageProfilesBasicsUrl.division.basic();
+    let url = GarbageProfilesBasicsUrl.division.list();
     let plain = instanceToPlain(args);
     return this.type.paged(url, plain);
   }
@@ -127,7 +127,7 @@ class BasicMaterialCategoryRequestService {
     let plain = instanceToPlain(instance);
     return this.type.post(url, plain);
   }
-  get(id: string): Promise<MaterialCategory> {
+  get(id: number): Promise<MaterialCategory> {
     let url = GarbageProfilesBasicsUrl.material.category.item(id);
     return this.type.get(url);
   }

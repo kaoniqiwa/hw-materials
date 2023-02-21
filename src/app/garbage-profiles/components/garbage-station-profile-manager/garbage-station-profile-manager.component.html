@@ -13,7 +13,7 @@
   </div>
 </div>
 
-<app-window [Model]="window" *ngIf="window.show">
+<app-window [Model]="window" [style]="style" *ngIf="window.show">
   <garbage-station-profile-details [model]="selected">
   </garbage-station-profile-details>
 </app-window>

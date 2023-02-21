@@ -14,6 +14,9 @@ export class GarbageStationProfileManagerComponent {
   selected: GarbageStationProfileModel = new GarbageStationProfileModel();
 
   window: WindowViewModel = new WindowViewModel();
+  style = {
+    width: '600px',
+  };
 
   onselected(item: GarbageStationProfileModel) {
     this.selected = item;

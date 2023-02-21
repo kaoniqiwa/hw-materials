@@ -25,13 +25,19 @@ export class GarbageStationProfileDetailsSourceBusiness
     );
     let province = model.provinces.find((x) => x.Name === station.Province);
     if (province) {
-      model.citys = await this.getChild(province.Id);
+      model.citys = (await this.getChild(province.Id)).map((x) =>
+        this.converter.Division(x)
+      );
       let city = model.citys.find((x) => x.Name === station.City);
       if (city) {
-        model.countys = await this.getChild(city.Id);
+        model.countys = (await this.getChild(city.Id)).map((x) =>
+          this.converter.Division(x)
+        );
         let county = model.countys.find((x) => x.Name === station.County);
         if (county) {
-          model.streets = await this.getChild(county.Id);
+          model.streets = (await this.getChild(county.Id)).map((x) =>
+            this.converter.Division(x)
+          );
         }
       }
     }

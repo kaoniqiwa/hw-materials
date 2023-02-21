@@ -1,0 +1,77 @@
+<div class="garbage-profiles-material-table">
+  <div class="garbage-profiles-material-table-main vertical-layout">
+    <table border="0" cellpadding="0" cellspacing="0">
+      <colgroup>
+        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+      </colgroup>
+      <thead>
+        <tr>
+          <td>编号</td>
+          <td>名称</td>
+          <td>类别</td>
+          <td>备注</td>
+          <td class="operation center"><div>操作</div></td>
+        </tr>
+      </thead>
+    </table>
+    <div class="body vertical-main paged">
+      <table *ngIf="datas" border="0" cellpadding="0" cellspacing="0">
+        <colgroup>
+          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        </colgroup>
+        <tbody>
+          <tr
+            *ngFor="let item of datas; let i = index"
+            [ngClass]="{
+              selected: this.selected && this.selected.includes(item)
+            }"
+            (click)="onselected(item)"
+          >
+            <td>{{ item.Id }}</td>
+            <td>
+              {{ item.Name }}
+            </td>
+            <td>{{ item.Category }}</td>
+            <td>
+              {{ item.Description }}
+            </td>
+
+            <td class="operation center">
+              <div (click)="oncheck($event, item)" class="center">
+                <i class="howell-icon-modification"></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div
+      class="garbage-profiles-material-table-main-footer footer"
+      *ngIf="page"
+    >
+      <div class="footer-item">
+        <div class="footer-info">
+          <div class="info-item">当前数量: {{ page && page.RecordCount }}</div>
+          <div class="info-item">
+            总数量: {{ page && page.TotalRecordCount }}
+          </div>
+        </div>
+
+        <app-paginator
+          [length]="page ? page.TotalRecordCount : 0"
+          [pageSize]="page ? page.PageSize : 0"
+          [pagerCount]="5"
+          [pageIndex]="0"
+          [showFirstLastButtons]="true"
+          (page)="pageEvent($event)"
+        >
+        </app-paginator>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+</div>

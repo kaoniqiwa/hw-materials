@@ -15,7 +15,11 @@
           省
         </div>
         <div class="garbage-station-profile-details-content-list-item-value">
-          <input type="text" [(ngModel)]="model.Province" />
+          <select [(ngModel)]="model.Province" (change)="onchange()">
+            <option [ngValue]="item.Name" *ngFor="let item of source.provinces">
+              {{ item.Name }}
+            </option>
+          </select>
         </div>
       </div>
       <div class="garbage-station-profile-details-content-list-item">
@@ -23,8 +27,32 @@
           市
         </div>
         <div class="garbage-station-profile-details-content-list-item-value">
-          <select [(ngModel)]="model.City">
-            <option [ngValue]="item" *ngFor="let item of source.citys">
+          <select [(ngModel)]="model.City" (change)="onchange()">
+            <option [ngValue]="item.Name" *ngFor="let item of source.citys">
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="garbage-station-profile-details-content-list-item">
+        <div class="garbage-station-profile-details-content-list-item-title">
+          区、县
+        </div>
+        <div class="garbage-station-profile-details-content-list-item-value">
+          <select [(ngModel)]="model.County" (change)="onchange()">
+            <option [ngValue]="item.Name" *ngFor="let item of source.countys">
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="garbage-station-profile-details-content-list-item">
+        <div class="garbage-station-profile-details-content-list-item-title">
+          街道、村
+        </div>
+        <div class="garbage-station-profile-details-content-list-item-value">
+          <select [(ngModel)]="model.Street" (change)="onchange()">
+            <option [ngValue]="item.Name" *ngFor="let item of source.streets">
               {{ item.Name }}
             </option>
           </select>

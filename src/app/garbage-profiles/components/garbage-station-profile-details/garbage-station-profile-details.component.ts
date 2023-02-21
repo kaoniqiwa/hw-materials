@@ -25,6 +25,12 @@ export class GarbageStationProfileDetailsComponent implements OnInit {
   source: GarbageStationProfileDetailsSource =
     new GarbageStationProfileDetailsSource();
 
+  onchange() {
+    this.sourceBusiness.load(this.model).then((source) => {
+      this.source = source;
+    });
+  }
+
   onok() {}
   oncancel() {}
 }
