@@ -19,7 +19,7 @@ const routes: Routes = [
       import('./garbage-profiles/garbage-profiles.module').then(
         (mod) => mod.GarbageProfilesModule
       ),
-    // canActivate: [AuthorizationService],
+    canActivate: [AuthorizationService],
   },
 ];
 

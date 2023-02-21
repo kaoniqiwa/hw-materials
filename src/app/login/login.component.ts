@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { RoutePath } from '../app-routing.path';
 import { User } from '../network/entity/user.model';
 import { AuthorizationService } from '../network/request/auth/auth-request.service';
+import CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-login',
@@ -72,10 +73,10 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.formGroup.value.password ?? ''
         );
         if (res instanceof User) {
-          // this._storeUserInfo(
-          //   this.formGroup.value.username!,
-          //   this.formGroup.value.password!
-          // );
+          this._storeUserInfo(
+            this.formGroup.value.username!,
+            this.formGroup.value.password!
+          );
         }
         this._router.navigateByUrl(RoutePath.garbage_profiles);
         console.log(res);
