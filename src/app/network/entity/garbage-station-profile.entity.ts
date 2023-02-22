@@ -30,6 +30,8 @@ export class GarbageStationProfile implements IModel {
   Contact?: string;
   /**	String	联系人电话	O	*/
   ContactPhoneNo?: string;
+  /**	String	厢房名称（新增）	O */
+  GarbageStationName?: string;
   /**	String	小区名称	O	*/
   CommunityName?: string;
   /**	Int32	强电拉线	O	*/
@@ -84,4 +86,64 @@ export class GarbageStationProfile implements IModel {
   UpdateTime?: Date;
   /**	Int32[]	自定义标签数组	O	*/
   Labels?: number[];
+
+  static getKeys() {
+    return [
+      'Id',
+      'ProfileName',
+      'Province',
+      'City',
+      'County',
+      'Street',
+      'Committee',
+      'Address',
+      'Contact',
+      'ContactPhoneNo',
+      'GarbageStationName',
+      'CommunityName',
+      'StrongCurrentWire',
+      'StrongCurrentWireMode',
+      'StrongCurrentWireLength',
+      'LFImageUrl',
+      'RFImageUrl',
+      'FImageUrl',
+      'PowerImageUrl',
+      'CameraNumber',
+      'Functions',
+      'GarbageStationType',
+      'Remarks',
+      'MaterialItems',
+      'Id',
+      'Name',
+      'Number',
+      'ConstructionContact',
+      'ConstructionContactPhoneNo',
+      'ConstructionDate',
+      'GPSPoint',
+      'Longitude',
+      'Latitude',
+      'TimeToDump',
+      'IMEI',
+      'NB',
+      'Cameras',
+      'Name',
+      'Model',
+      'SerialNo',
+      'Placement',
+      'AccessServer',
+      'Resolution',
+      'Bitrate',
+      'StorageTime',
+      'ActionEquipment',
+      'AudioOutputState',
+      'AudioVolume',
+      'AIModelType',
+      'BsCameraId',
+      'ProfileState',
+      'BsStationId',
+      'CreationTime',
+      'UpdateTime',
+      'Labels',
+    ];
+  }
 }

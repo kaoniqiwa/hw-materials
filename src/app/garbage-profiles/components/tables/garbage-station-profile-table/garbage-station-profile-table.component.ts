@@ -7,6 +7,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
 import { PagedTableAbstractComponent } from '../table-paged-abstract.component';
 import { GarbageStationProfileTableBusiness } from './garbage-station-profile-table.business';
@@ -51,7 +52,10 @@ export class GarbageStationProfileTableComponent
   @Output()
   check: EventEmitter<GarbageStationProfileModel> = new EventEmitter();
 
-  constructor(business: GarbageStationProfileTableBusiness) {
+  constructor(
+    business: GarbageStationProfileTableBusiness,
+    public source: GarbageStationProfilesSourceTools
+  ) {
     super();
     this.business = business;
   }

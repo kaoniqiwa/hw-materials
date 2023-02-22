@@ -16,11 +16,11 @@ export class GarbageProfilesMaterialsUrl {
   }
 
   static get category() {
-    return new BasicMateriaCategoryUrl(this.basic);
+    return new MateriaCategoryUrl(this.basic);
   }
 }
 
-class BasicMateriaCategoryUrl extends AbstractUrl {
+class MateriaCategoryUrl extends AbstractUrl {
   constructor(base: string) {
     super(`${base}/Categories`);
   }

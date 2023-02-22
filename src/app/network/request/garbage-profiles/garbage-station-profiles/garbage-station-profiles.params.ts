@@ -1,5 +1,6 @@
 import { Condition } from 'src/app/network/entity/condition.entity';
 import { ElemMatch } from 'src/app/network/entity/elem-match.entity';
+import { Label } from 'src/app/network/entity/label.entity';
 import { PagedParams } from '../../IParams.interface';
 
 export class GetGarbageStationProfilesParams extends PagedParams {
@@ -33,6 +34,6 @@ export class GetLabelsParams extends PagedParams {
   /**	String	名称，模糊查询	O	*/ Name?: string;
   /**	Int32	状态，0-正常，1-注销	O	*/ State?: number;
   /**	Int32	类别，用于区分不同类别的标签	O	*/ Category?: number;
-  /**	String	升序排列字段，数组字段无法排序	O	*/ Asc?: string;
-  /**	String	降序排列字段，数组字段无法排序	O	*/ Desc?: string;
+  /**	String	升序排列字段，数组字段无法排序	O	*/ Asc?: keyof Label;
+  /**	String	降序排列字段，数组字段无法排序	O	*/ Desc?: keyof Label;
 }

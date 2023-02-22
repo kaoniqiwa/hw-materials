@@ -1,23 +1,26 @@
 <div class="garbage-profiles-material-manager">
   <div class="garbage-profiles-material-manager-head">
     <div class="hw-simple-title">物料档案管理</div>
-    <div class="filter">
-      <div class="filter-item">
-        <div>类别</div>
-        <div>
-          <select [(ngModel)]="args.Category">
-            <option [ngValue]="item.Id" *ngFor="let item of source.categorys">
-              {{ item.Name }}
-            </option>
-          </select>
+    <div class="garbage-profiles-material-manager-head-operation">
+      <div></div>
+      <div class="filter">
+        <div class="filter-item">
+          <div>类别</div>
+          <div>
+            <select [(ngModel)]="args.Category">
+              <option [ngValue]="item.Id" *ngFor="let item of source.categorys">
+                {{ item.Name }}
+              </option>
+            </select>
+          </div>
         </div>
+        <div class="filter-item">
+          <howell-simple-search [(value)]="args.Name"></howell-simple-search>
+        </div>
+        <button mat-raised-button color="primary" (click)="onsearch()">
+          搜索
+        </button>
       </div>
-      <div class="filter-item">
-        <howell-simple-search [(value)]="args.Name"></howell-simple-search>
-      </div>
-      <button mat-raised-button color="primary" (click)="onsearch()">
-        搜索
-      </button>
     </div>
   </div>
   <div class="garbage-profiles-material-manager-content">

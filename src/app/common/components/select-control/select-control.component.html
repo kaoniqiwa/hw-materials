@@ -61,13 +61,17 @@
 <div class="select-control" [ngStyle]="style">
   <select #element [(ngModel)]="selected">
     <option
-      [ngValue]="item"
+      [ngValue]="item.Value"
       *ngFor="let item of data"
       [innerHTML]="item.Name"
     ></option>
   </select>
-  <div class="clear" *ngIf="cannull && !!selected" (click)="onclear($event)">
+  <div
+    class="clear"
+    *ngIf="cannull && selected !== undefined"
+    (click)="onclear($event)"
+  >
     <i class="howell-icon-Close"></i>
   </div>
-  <div class="default" *ngIf="!selected">请选择</div>
+  <div class="default" *ngIf="selected === undefined">请选择</div>
 </div>

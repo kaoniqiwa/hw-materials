@@ -6,10 +6,10 @@
       </colgroup>
       <thead>
         <tr>
-          <td>编号</td>
-          <td>档案名称</td>
-          <td>联系人</td>
-          <td>联系电话</td>
+          <td>{{ source.language["Id"] | async }}</td>
+          <td>{{ source.language["ProfileName"] | async }}</td>
+          <td>{{ source.language["Contact"] | async }}</td>
+          <td>{{ source.language["ContactPhoneNo"] | async }}</td>
           <td class="operation center"><div>操作</div></td>
         </tr>
       </thead>

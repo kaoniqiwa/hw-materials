@@ -5,6 +5,7 @@ import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profil
 import { Division } from 'src/app/network/entity/division.entity';
 import { GetGarbageProfilesBasicDivisionsParams } from 'src/app/network/request/garbage-profiles/basics/garbage-profiles-basics.params';
 import { GarbageProfilesBasicRequestService } from 'src/app/network/request/garbage-profiles/basics/garbage-profiles-basics.service';
+import { GarbageStationProfilesRequestService } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
 import { GarbageStationProfileDetailsSource } from './garbage-station-profile-details.model';
 
 @Injectable()
@@ -12,7 +13,8 @@ export class GarbageStationProfileDetailsSourceBusiness
   implements IBusiness<Division[], GarbageStationProfileDetailsSource>
 {
   constructor(
-    private service: GarbageProfilesBasicRequestService,
+    private basicService: GarbageProfilesBasicRequestService,
+    private profileService: GarbageStationProfilesRequestService,
     private converter: ViewModelConverter
   ) {}
 
@@ -41,9 +43,9 @@ export class GarbageStationProfileDetailsSourceBusiness
         }
       }
     }
-
     return model;
   }
+
   getData(...args: any): Promise<Division[]> {
     throw new Error('Method not implemented.');
   }
@@ -51,14 +53,14 @@ export class GarbageStationProfileDetailsSourceBusiness
   async getProvinces() {
     let params = new GetGarbageProfilesBasicDivisionsParams();
     params.ParentIdIsNull = true;
-    let paged = await this.service.division.list(params);
+    let paged = await this.basicService.division.list(params);
     return paged.Data;
   }
 
   async getChild(parentId: string) {
     let params = new GetGarbageProfilesBasicDivisionsParams();
     params.ParentId = parentId;
-    let paged = await this.service.division.list(params);
+    let paged = await this.basicService.division.list(params);
     return paged.Data;
   }
 }

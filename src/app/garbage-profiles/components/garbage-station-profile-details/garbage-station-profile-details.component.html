@@ -1,10 +1,10 @@
 <div class="garbage-station-profile-details">
-  <div class="hw-simple-title">创建布控对象</div>
+  <div class="hw-simple-title">厢房档案</div>
   <div class="garbage-station-profile-details-content">
     <div class="garbage-station-profile-details-content-list">
       <div class="garbage-station-profile-details-content-list-item">
         <div class="garbage-station-profile-details-content-list-item-title">
-          档案名称
+          {{ source.language["ProfileName"] | async }}
         </div>
         <div class="garbage-station-profile-details-content-list-item-value">
           <input type="text" [(ngModel)]="model.ProfileName" />
@@ -12,11 +12,14 @@
       </div>
       <div class="garbage-station-profile-details-content-list-item">
         <div class="garbage-station-profile-details-content-list-item-title">
-          省
+          {{ source.language["Province"] | async }}
         </div>
         <div class="garbage-station-profile-details-content-list-item-value">
           <select [(ngModel)]="model.Province" (change)="onchange()">
-            <option [ngValue]="item.Name" *ngFor="let item of source.provinces">
+            <option
+              [ngValue]="item.Name"
+              *ngFor="let item of divisionSource.provinces"
+            >
               {{ item.Name }}
             </option>
           </select>
@@ -24,11 +27,14 @@
       </div>
       <div class="garbage-station-profile-details-content-list-item">
         <div class="garbage-station-profile-details-content-list-item-title">
-          市
+          {{ source.language["City"] | async }}
         </div>
         <div class="garbage-station-profile-details-content-list-item-value">
           <select [(ngModel)]="model.City" (change)="onchange()">
-            <option [ngValue]="item.Name" *ngFor="let item of source.citys">
+            <option
+              [ngValue]="item.Name"
+              *ngFor="let item of divisionSource.citys"
+            >
               {{ item.Name }}
             </option>
           </select>
@@ -36,11 +42,14 @@
       </div>
       <div class="garbage-station-profile-details-content-list-item">
         <div class="garbage-station-profile-details-content-list-item-title">
-          区、县
+          {{ source.language["County"] | async }}
         </div>
         <div class="garbage-station-profile-details-content-list-item-value">
           <select [(ngModel)]="model.County" (change)="onchange()">
-            <option [ngValue]="item.Name" *ngFor="let item of source.countys">
+            <option
+              [ngValue]="item.Name"
+              *ngFor="let item of divisionSource.countys"
+            >
               {{ item.Name }}
             </option>
           </select>
@@ -48,14 +57,39 @@
       </div>
       <div class="garbage-station-profile-details-content-list-item">
         <div class="garbage-station-profile-details-content-list-item-title">
-          街道、村
+          {{ source.language["Street"] | async }}
         </div>
         <div class="garbage-station-profile-details-content-list-item-value">
           <select [(ngModel)]="model.Street" (change)="onchange()">
-            <option [ngValue]="item.Name" *ngFor="let item of source.streets">
+            <option
+              [ngValue]="item.Name"
+              *ngFor="let item of divisionSource.streets"
+            >
               {{ item.Name }}
             </option>
           </select>
+        </div>
+      </div>
+      <div class="garbage-station-profile-details-content-list-item">
+        <div class="garbage-station-profile-details-content-list-item-title">
+          {{ source.language["StrongCurrentWire"] | async }}
+        </div>
+        <div class="garbage-station-profile-details-content-list-item-value">
+          <!-- <select [(ngModel)]="model.StrongCurrentWire" (change)="onchange()">
+            <option
+              [ngValue]="item.Value"
+              *ngFor="let item of source.StrongCurrentWire"
+            >
+              {{ item.Name }}
+            </option>
+          </select> -->
+          <app-select-control
+            [data]="source.StrongCurrentWire"
+            [(selected)]="model.StrongCurrentWire"
+            [cannull]="true"
+            [default]="false"
+          >
+          </app-select-control>
         </div>
       </div>
     </div>

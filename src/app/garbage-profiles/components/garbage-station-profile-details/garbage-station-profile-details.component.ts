@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
+import { GarbageStationProfilesSourceTools } from '../../tools/source.tool';
 import { GarbageStationProfileDetailsSourceBusiness } from './garbage-station-profile-details-source.business';
 import { GarbageStationProfileDetailsSource } from './garbage-station-profile-details.model';
 
@@ -14,20 +15,21 @@ export class GarbageStationProfileDetailsComponent implements OnInit {
   model: GarbageStationProfileModel = new GarbageStationProfileModel();
 
   constructor(
-    public sourceBusiness: GarbageStationProfileDetailsSourceBusiness
+    public sourceBusiness: GarbageStationProfileDetailsSourceBusiness,
+    public source: GarbageStationProfilesSourceTools
   ) {}
   ngOnInit(): void {
     this.sourceBusiness.load(this.model).then((source) => {
-      this.source = source;
+      this.divisionSource = source;
     });
   }
 
-  source: GarbageStationProfileDetailsSource =
+  divisionSource: GarbageStationProfileDetailsSource =
     new GarbageStationProfileDetailsSource();
 
   onchange() {
     this.sourceBusiness.load(this.model).then((source) => {
-      this.source = source;
+      this.divisionSource = source;
     });
   }
 

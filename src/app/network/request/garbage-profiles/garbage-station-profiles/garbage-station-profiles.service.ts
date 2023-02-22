@@ -7,6 +7,7 @@ import { PagedList } from 'src/app/network/entity/page.entity';
 import { IPartialData } from 'src/app/network/entity/partial-data.interface';
 import { PartialResult } from 'src/app/network/entity/partial-result.entity';
 import { Property } from 'src/app/network/entity/property.entity';
+import { ValueNamePair } from 'src/app/network/entity/value-name-pair.entity';
 import { GarbageStationProfilesUrl } from 'src/app/network/url/garbage_profiles/garbage-station-profiles/garbage-station-profiles.url';
 import {
   BaseRequestService,
@@ -98,7 +99,15 @@ class GarbageStationProfilesPropertiesRequestService extends AbstractService<Pro
     this.type = this.basic.type(Property);
   }
 
-  get(id: string): Promise<Property> {
+  properties: Property[] = [];
+
+  async get(id: string): Promise<Property> {
+    if (this.properties && this.properties.length > 0) {
+      let property = this.properties.find((x) => x.Id === id);
+      if (property) {
+        return property;
+      }
+    }
     let url = GarbageStationProfilesUrl.property.item(id);
     return this.type.get(url);
   }
@@ -117,6 +126,47 @@ class GarbageStationProfilesPropertiesRequestService extends AbstractService<Pro
     let url = GarbageStationProfilesUrl.property.list();
     let plain = instanceToPlain(args);
     return this.type.paged(url, plain);
+  }
+
+  async name(name: string): Promise<ValueNamePair[]> {
+    if (!this.properties || this.properties.length === 0) {
+      this.properties = (await this.list()).Data;
+    }
+    let names = this.properties.map((x) => x.Name);
+    console.log(names);
+    let property = this.properties.find((x) => x.Name === name);
+    if (property && property.EnumeratedValues) {
+      return property.EnumeratedValues;
+    }
+    throw new Error(`${name} enum undefined`);
+  }
+
+  async language(name: string): Promise<string> {
+    if (!this.properties || this.properties.length === 0) {
+      this.properties = (await this.list()).Data;
+    }
+
+    let property = this.properties.find((x) => x.Name === name);
+    if (property) {
+      return property.Description;
+    }
+    throw new Error(`${name} name undefined`);
+  }
+
+  StrongCurrentWire() {
+    return this.name('StrongCurrentWire');
+  }
+  StrongCurrentWireMode() {
+    return this.name('StrongCurrentWireMode');
+  }
+  Functions() {
+    return this.name('Functions');
+  }
+  GarbageStationType() {
+    return this.name('GarbageStationType');
+  }
+  ProfileState() {
+    return this.name('ProfileState');
   }
 }
 
