@@ -58,6 +58,28 @@ const routes: Routes = [
               },
             ],
           },
+          {
+            path: 'garbage-classify',
+            children: [
+              {
+                path: '',
+                redirectTo: 'division-manage',
+                pathMatch: 'full',
+              },
+              {
+                path: 'division-manage',
+                component: GarbageStationProfileManagerComponent,
+              },
+              {
+                path: 'deploy-map',
+                component: GarbageProfilesMaterialManagerComponent,
+              },
+              {
+                path: 'garbage-station-manage',
+                component: GarbageProfilesLabelManagerComponent,
+              },
+            ],
+          },
         ],
       },
     ],
