@@ -5,15 +5,12 @@
         class="btn"
         [class]="{ grow: state == 'grow', shrink: state == 'shrink' }"
         [class.selected]="model.id == groups.second"
-        (click)="groups.second = model.id"
+        (click)="clickBtn(model)"
       >
         <i [class]="model.icon ?? 'howell-icon-device2'"></i>
         <span *ngIf="state == 'grow'">{{ model.title }}</span>
       </button>
-      <ul
-        (click)="navigate($event)"
-        *ngIf="state == 'grow' && model.id == groups.second && groups.third"
-      >
+      <ul *ngIf="state == 'grow' && model.id == groups.second">
         <li
           *ngFor="let node of model.children"
           [class.selected]="node.id == groups.third"

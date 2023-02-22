@@ -5,7 +5,7 @@
       "title": "垃圾厢房档案",
       "id": "station-archive",
       "icon": "howell-icon-garbagebags",
-      "path": "/garbage-profiles/underwater/monitor-platform/station-archive/",
+      "path": "/garbage-profiles/underwater/monitor-platform/station-archive",
       "showChildren": false,
       "children": [
         {
