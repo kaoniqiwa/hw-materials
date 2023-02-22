@@ -132,8 +132,6 @@ class GarbageStationProfilesPropertiesRequestService extends AbstractService<Pro
     if (!this.properties || this.properties.length === 0) {
       this.properties = (await this.list()).Data;
     }
-    let names = this.properties.map((x) => x.Name);
-    console.log(names);
     let property = this.properties.find((x) => x.Name === name);
     if (property && property.EnumeratedValues) {
       return property.EnumeratedValues;

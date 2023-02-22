@@ -4,17 +4,17 @@
     {
       "title": "监督平台",
       "icon": "howell-icon-cam-all1",
-      "path": "/aiop/aiop-manage/super-vision"
+      "path": "/garbage-profiles/underwater/monitor-platform"
     },
     {
       "title": "垃圾事件",
       "icon": "howell-icon-system",
-      "path": "/aiop/aiop-manage/garbage-events"
+      "path": "/garbage-profiles/underwater/monitor-platform"
     },
     {
       "title": "系统设置",
       "icon": "howell-icon-setting",
-      "path": "/aiop/aiop-manage/system-setting"
+      "path": "/garbage-profiles/underwater/monitor-platform"
     }
   ]
 }

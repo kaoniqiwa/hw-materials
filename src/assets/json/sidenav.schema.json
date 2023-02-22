@@ -22,6 +22,9 @@
           },
           "children": {
             "$ref": "#/properties/data"
+          },
+          "showChildren": {
+            "type": "boolean"
           }
         },
         "required": ["title", "id", "path"],

@@ -3,44 +3,60 @@ import { RouterModule, Routes } from '@angular/router';
 import { GarbageProfilesLabelManagerComponent } from './components/garbage-profiles-label-manager/garbage-profiles-label-manager.component';
 import { GarbageProfilesMaterialManagerComponent } from './components/garbage-profiles-material-manager/garbage-profiles-material-manager.component';
 import { GarbageStationProfileManagerComponent } from './components/garbage-station-profile-manager/garbage-station-profile-manager.component';
-import { ProfileIndexComponent } from './components/profile-index/profile-index.component';
+import { UnderwaterComponent } from './components/underwater/underwater.component';
 import { ProfileModeComponent } from './components/profile-mode/profile-mode.component';
+import { SystemModeComponent } from './components/system-mode/system-mode.component';
+import { MonitorPlatformComponent } from './components/monitor-platform/monitor-platform.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'profile-index',
+    redirectTo: 'system-mode',
     pathMatch: 'full',
   },
   {
-    path: 'profile-index',
-    component: ProfileIndexComponent,
+    path: 'system-mode',
+    component: SystemModeComponent,
+  },
+  {
+    path: 'underwater',
+    component: UnderwaterComponent,
     children: [
       {
         path: '',
-        redirectTo: 'profile-mode',
+        redirectTo: 'monitor-platform',
         pathMatch: 'full',
       },
       {
-        path: 'profile-mode',
-        component: ProfileModeComponent,
+        path: 'monitor-platform',
+        component: MonitorPlatformComponent,
         children: [
           {
             path: '',
-            redirectTo: 'profile-manager',
+            redirectTo: 'station-archive',
             pathMatch: 'full',
           },
           {
-            path: 'profile-manager',
-            component: GarbageStationProfileManagerComponent,
-          },
-          {
-            path: 'material-manager',
-            component: GarbageProfilesMaterialManagerComponent,
-          },
-          {
-            path: 'label-manager',
-            component: GarbageProfilesLabelManagerComponent,
+            path: 'station-archive',
+            children: [
+              {
+                path: '',
+                redirectTo: 'profile-manager',
+                pathMatch: 'full',
+              },
+              {
+                path: 'profile-manager',
+                component: GarbageStationProfileManagerComponent,
+              },
+              {
+                path: 'material-manager',
+                component: GarbageProfilesMaterialManagerComponent,
+              },
+              {
+                path: 'label-manager',
+                component: GarbageProfilesLabelManagerComponent,
+              },
+            ],
           },
         ],
       },

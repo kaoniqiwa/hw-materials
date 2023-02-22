@@ -67,7 +67,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
   fillForm() {}
   async login() {
-    console.log(this.formGroup.value);
     if (this._checkForm()) {
       this.disableLogin = true;
       try {
@@ -82,7 +81,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           );
         }
         this._router.navigateByUrl(RoutePath.garbage_profiles);
-        console.log(res);
+        // console.log(res);
       } catch (e) {
         if (this._isAxiosError(e)) {
           if (e.response?.status == 403 || e.response?.status == 500) {

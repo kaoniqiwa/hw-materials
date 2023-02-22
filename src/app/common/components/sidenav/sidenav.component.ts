@@ -55,8 +55,9 @@ export class SidenavComponent implements OnInit, OnChanges, OnDestroy {
     this._subscription = this._router.events.subscribe((e) => {
       if (e instanceof NavigationEnd) {
         // console.log('router', e);
+        // /(?<=\/garbage-profiles\/profile-index\/)(?<first>[\w-]*)(\/(?<second>[\w-]*))?(?=\/?)$/;
         let reg =
-          /(?<=\/garbage-profiles\/profile-index\/)(?<first>[\w-]*)(\/(?<second>[\w-]*))?(?=\/?)$/;
+          /(?<=\/[\w-]+\/[\w-]+\/)(?<first>[\w-]*)(?:\/(?<second>[\w-]*)(?:\/(?<third>[\w-]*))?)?\/?$/;
 
         let mode = e.urlAfterRedirects.match(reg);
         console.log('mode: ', mode);
@@ -64,7 +65,7 @@ export class SidenavComponent implements OnInit, OnChanges, OnDestroy {
           Object.assign(this.groups, mode.groups);
           import(`src/assets/json/${mode.groups['first']}.json`).then(
             (config) => {
-              // console.log('config', config.data);
+              console.log('config', config.data);
 
               this.models = config.data;
             }

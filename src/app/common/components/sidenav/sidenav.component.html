@@ -4,7 +4,7 @@
       <button
         class="btn"
         [class]="{ grow: state == 'grow', shrink: state == 'shrink' }"
-        [class.selected]="model.id == groups.first"
+        [class.selected]="model.id == groups.second"
         (click)="groups.second = model.id"
       >
         <i [class]="model.icon ?? 'howell-icon-device2'"></i>
@@ -12,11 +12,11 @@
       </button>
       <ul
         (click)="navigate($event)"
-        *ngIf="state == 'grow' && model.id == groups.first && groups.second"
+        *ngIf="state == 'grow' && model.id == groups.second && groups.third"
       >
         <li
           *ngFor="let node of model.children"
-          [class.selected]="node.id == groups.second"
+          [class.selected]="node.id == groups.third"
         >
           <a [routerLink]="[node.path]"> {{ node.title }} </a>
         </li>
