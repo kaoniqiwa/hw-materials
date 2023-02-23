@@ -1,19 +1,19 @@
-export interface ISideNavConfig {
+export interface ISystemModeConfig {
   title: string;
   id: string;
   path: string;
   icon?: string;
-  children?: Array<ISideNavConfig>;
+  children?: Array<ISystemModeConfig>;
   CanNavigate?: boolean;
   hideChildren?: boolean;
 }
 
-export class SideNavConfig {
+export class SystemModeConfig {
   title!: string;
   id!: string;
   path!: string;
   icon?: string;
-  children?: Array<SideNavConfig>;
+  children?: Array<SystemModeConfig>;
   CanNavigate?: boolean;
   hideChildren?: boolean;
 }
