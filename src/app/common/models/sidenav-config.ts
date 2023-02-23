@@ -6,6 +6,7 @@ export interface ISideNavConfig {
   children?: Array<ISideNavConfig>;
   CanNavigate?: boolean;
   hideChildren?: boolean;
+  hideSelf?: boolean;
 }
 
 export class SideNavConfig {
@@ -16,4 +17,5 @@ export class SideNavConfig {
   children?: Array<SideNavConfig>;
   CanNavigate?: boolean;
   hideChildren?: boolean;
+  hideSelf?: boolean;
 }

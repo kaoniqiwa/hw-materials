@@ -15,12 +15,11 @@
           state == 'grow' && model.id == groups.second && !model.hideChildren
         "
       >
-        <li
-          *ngFor="let node of model.children"
-          [class.selected]="node.id == groups.third"
+        <ng-container *ngFor="let node of model.children">
+          <li [class.selected]="node.id == groups.third" *ngIf="!node.hideSelf">
+            <a [routerLink]="[node.path]"> {{ node.title }} </a>
+          </li></ng-container
         >
-          <a [routerLink]="[node.path]"> {{ node.title }} </a>
-        </li>
       </ul>
     </nav>
   </div>

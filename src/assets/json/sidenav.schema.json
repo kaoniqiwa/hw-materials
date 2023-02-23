@@ -28,6 +28,10 @@
             "type": "boolean",
             "default": false
           },
+          "hideSelf": {
+            "type": "boolean",
+            "default": false
+          },
           "CanNavigate": {
             "type": "boolean",
             "default": false
