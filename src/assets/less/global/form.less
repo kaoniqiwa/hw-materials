@@ -1,0 +1,80 @@
+.form {
+  display: flex;
+  padding: 10px 0;
+
+  &-list {
+    width: 100%;
+    padding: 0 10px;
+    color: #cfd7ff;
+
+    &-item {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      height: 34px;
+      margin: 10px 0;
+
+      @title-width: 74px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      &-title {
+        width: @title-width;
+        text-align: justify;
+
+        vertical-align: middle;
+        padding-right: 10px;
+
+        &::after,
+        &::before {
+          display: inline-block;
+          width: 100%;
+          content: "";
+        }
+      }
+
+      &-rowtitle {
+        margin-top: 16px;
+        width: @title-width;
+        text-align: justify;
+
+        vertical-align: middle;
+        padding-right: 10px;
+        height: 34px;
+
+        &::after {
+          display: inline-block;
+          width: 100%;
+          content: "";
+        }
+      }
+
+      &-value {
+        width: calc(100% - @title-width);
+
+        &.panel-outer {
+          position: relative;
+        }
+
+      }
+    }
+
+    .group {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &-image {
+      height: 300px;
+    }
+  }
+}
+
+&-foot {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
