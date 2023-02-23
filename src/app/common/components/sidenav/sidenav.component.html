@@ -10,7 +10,11 @@
         <i [class]="model.icon ?? 'howell-icon-device2'"></i>
         <span *ngIf="state == 'grow'">{{ model.title }}</span>
       </button>
-      <ul *ngIf="state == 'grow' && model.id == groups.second">
+      <ul
+        *ngIf="
+          state == 'grow' && model.id == groups.second && !model.hideChildren
+        "
+      >
         <li
           *ngFor="let node of model.children"
           [class.selected]="node.id == groups.third"

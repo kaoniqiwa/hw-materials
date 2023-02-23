@@ -15,7 +15,8 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { SidenavModel } from 'src/app/common/components/sidenav/sidenav.model';
+import { ISideNavConfig } from '../../models/sidenav-config';
+import { ValidPathExp } from '../../tools/tool';
 
 @Component({
   selector: 'howell-sidenav',
@@ -47,20 +48,16 @@ export class SidenavComponent implements OnInit, OnChanges, OnDestroy {
     third: '',
   };
 
-  private _subscription!: Subscription;
+  private _subscription: Subscription;
 
-  // 后行断言+捕获+量词+非捕获
-  private regExp =
-    /(?<=\/[\w-]+\/[\w-]+\/)(?<first>[\w-]*)(?:\/(?<second>[\w-]*)(?:\/(?<third>[\w-]*))?)?\/?$/;
-
-  models: Array<SidenavModel> = [];
+  models: Array<ISideNavConfig> = [];
 
   constructor(private _router: Router, private _activeRoute: ActivatedRoute) {
     this._subscription = this._router.events.subscribe((e) => {
       if (e instanceof NavigationEnd) {
         // console.log('router', e);
 
-        let mode = e.urlAfterRedirects.match(this.regExp);
+        let mode = e.urlAfterRedirects.match(ValidPathExp);
         // console.log('mode: ', mode);
         if (mode && mode.groups && mode.groups['first']) {
           Object.assign(this.groups, mode.groups);
@@ -88,11 +85,14 @@ export class SidenavComponent implements OnInit, OnChanges, OnDestroy {
       this.state = 'grow';
     }
   }
-  clickBtn(model: SidenavModel) {
-    let mode = model.path.match(this.regExp);
-    if (mode?.groups?.['second'] == this.groups.second) {
-      console.log('同一父标签');
-      return;
+  clickBtn(model: ISideNavConfig) {
+    console.log(model);
+    if (!model.CanNavigate) {
+      let mode = model.path.match(ValidPathExp);
+      if (mode?.groups?.['second'] == this.groups.second) {
+        console.log('同一父标签');
+        return;
+      }
     }
 
     this._router.navigateByUrl(model.path);

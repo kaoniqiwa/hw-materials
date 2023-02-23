@@ -9,7 +9,7 @@ import { GarbageProfilesMaterialManagerComponent } from './garbage-profiles-mate
 import { GarbageStationProfileDetailsComponent } from './garbage-station-profile-details/garbage-station-profile-details.component';
 import { GarbageStationProfileManagerComponent } from './garbage-station-profile-manager/garbage-station-profile-manager.component';
 import { MonitorPlatformComponent } from './monitor-platform/monitor-platform.component';
-import { ProfileModeComponent } from './profile-mode/profile-mode.component';
+import { StationArchiveComponent } from './station-archive/station-archive.component';
 import { SystemModeComponent } from './system-mode/system-mode.component';
 import { TableComponents } from './tables';
 import { UnderwaterComponent } from './underwater/underwater.component';
@@ -20,7 +20,7 @@ import { UnderwaterComponent } from './underwater/underwater.component';
     MonitorPlatformComponent,
     SystemModeComponent,
     UnderwaterComponent,
-    ProfileModeComponent,
+    StationArchiveComponent,
     GarbageStationProfileManagerComponent,
     GarbageStationProfileDetailsComponent,
     GarbageProfilesMaterialManagerComponent,

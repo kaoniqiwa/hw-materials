@@ -4,14 +4,14 @@ import { GarbageProfilesLabelManagerComponent } from './components/garbage-profi
 import { GarbageProfilesMaterialManagerComponent } from './components/garbage-profiles-material-manager/garbage-profiles-material-manager.component';
 import { GarbageStationProfileManagerComponent } from './components/garbage-station-profile-manager/garbage-station-profile-manager.component';
 import { UnderwaterComponent } from './components/underwater/underwater.component';
-import { ProfileModeComponent } from './components/profile-mode/profile-mode.component';
+import { StationArchiveComponent } from './components/station-archive/station-archive.component';
 import { SystemModeComponent } from './components/system-mode/system-mode.component';
 import { MonitorPlatformComponent } from './components/monitor-platform/monitor-platform.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'system-mode',
+    redirectTo: 'underwater',
     pathMatch: 'full',
   },
   {
@@ -38,12 +38,8 @@ const routes: Routes = [
           },
           {
             path: 'station-archive',
+            component: StationArchiveComponent,
             children: [
-              {
-                path: '',
-                redirectTo: 'profile-manager',
-                pathMatch: 'full',
-              },
               {
                 path: 'profile-manager',
                 component: GarbageStationProfileManagerComponent,
