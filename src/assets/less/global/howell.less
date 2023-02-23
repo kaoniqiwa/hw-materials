@@ -10,9 +10,11 @@
   border-radius: 0px;
 
   margin-right: 10px;
+
   &:last-child {
     margin-right: 0;
   }
+
   &:disabled {
     filter: brightness(60%);
   }
@@ -21,7 +23,7 @@
 .hw-normal-btn() {
   // width: 76px;
   padding: 0 12px;
-  height: 34px;
+  height: 32px;
   font-size: 16px;
   cursor: pointer;
   background-color: unset;
@@ -30,13 +32,16 @@
   background-size: 100% 100%;
   margin-right: 10px;
   flex-shrink: 0;
+
   &:last-child {
     margin-right: 0;
   }
+
   &:disabled {
     filter: brightness(60%);
   }
 }
+
 .hw-normal-round-btn() {
   width: 69px;
   height: 69px;
@@ -44,6 +49,7 @@
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }
+
 .form-control() {
   width: 100%;
   height: 32px;
@@ -105,9 +111,11 @@
   background: #0c1127;
   cursor: pointer;
   margin-right: 10px;
+
   &:last-child {
     margin-right: 0;
   }
+
   &:disabled {
     filter: brightness(60%);
   }
@@ -220,6 +228,7 @@ input[type="number"] {
 input[type="file"] {
   display: none;
 }
+
 textarea {
   resize: none;
   padding: 0;
@@ -243,6 +252,7 @@ textarea[disabled] {
   opacity: 0.7;
   border-color: rgba(94, 110, 191, 0.5);
 }
+
 select {
   .form-control();
   min-width: 120px;
@@ -273,10 +283,12 @@ select {
   width: 4px;
   height: 4px;
 }
+
 .bold-scrollbar::-webkit-scrollbar {
   width: 8px;
   height: 10px;
 }
+
 ::-webkit-scrollbar-track-piece {
   /* 内层轨道 */
   background-color: rgba(50, 131, 229, 0);
@@ -285,6 +297,7 @@ select {
 ::-webkit-scrollbar-corner {
   background-color: rgba(0, 0, 0, 0);
 }
+
 ::-webkit-scrollbar-thumb {
   background-color: rgba(117, 134, 224, 0.5);
   background-clip: padding-box;
@@ -312,11 +325,13 @@ select:-webkit-autofill:focus {
 }
 
 input[type="number"] {
+
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;
     appearance: none;
   }
+
   -moz-appearance: textfield;
 }
 
@@ -325,6 +340,7 @@ a {
 
   color: #7586e0;
   margin-right: 5px;
+
   &:hover {
     color: white;
   }

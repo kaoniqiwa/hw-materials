@@ -1,0 +1,56 @@
+<div class="garbage-profiles-material-putin" *ngIf="model">
+  <div class="hw-simple-title">物料入库</div>
+  <div class="garbage-profiles-material-putin-content">
+    <div class="garbage-profiles-material-putin-content-list">
+      <div class="garbage-profiles-material-putin-content-list-item">
+        <div class="garbage-profiles-material-putin-content-list-item-title">
+          物料ID
+        </div>
+        <div class="garbage-profiles-material-putin-content-list-item-value">
+          {{ model.Id }}
+        </div>
+      </div>
+      <div class="garbage-profiles-material-putin-content-list-item">
+        <div class="garbage-profiles-material-putin-content-list-item-title">
+          名称
+        </div>
+        <div class="garbage-profiles-material-putin-content-list-item-value">
+          {{ model.Name }}
+        </div>
+      </div>
+      <div class="garbage-profiles-material-putin-content-list-item">
+        <div class="garbage-profiles-material-putin-content-list-item-title">
+          类别
+        </div>
+        <div class="garbage-profiles-material-putin-content-list-item-value">
+          {{ (model.CategoryInfo | async)?.Name }}
+        </div>
+      </div>
+      <div class="garbage-profiles-material-putin-content-list-item">
+        <div class="garbage-profiles-material-putin-content-list-item-title">
+          入库数量
+        </div>
+        <div class="garbage-profiles-material-putin-content-list-item-value">
+          <input
+            type="number"
+            (touchSpinChange)="touchSpinChange($event)"
+            appTouchSpin
+            [(ngModel)]="item.Number"
+          />
+        </div>
+      </div>
+      <div class="garbage-profiles-material-putin-content-list-item">
+        <div class="garbage-profiles-material-putin-content-list-item-title">
+          存档照片
+        </div>
+        <div class="garbage-profiles-material-putin-content-list-item-value">
+          <div>点击上传</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="garbage-profiles-material-putin-foot">
+    <button class="hw-green-btn" (click)="onok()">确定</button>
+    <button class="hw-blue-btn" (click)="oncancel()">取消</button>
+  </div>
+</div>

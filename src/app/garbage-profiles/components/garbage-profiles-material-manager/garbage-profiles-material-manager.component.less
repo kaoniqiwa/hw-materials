@@ -4,26 +4,42 @@
   box-sizing: border-box;
   padding: 20px;
 
+  @head-height: 100px;
+
   &-head {
-    height: 70px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    height: @head-height;
 
-    .filter {
+
+    &-operation {
+      height: 70px;
       display: flex;
-      justify-content: end;
+      justify-content: space-between;
+      align-items: center;
 
-      &-item {
-        width: 200px;
+      .filter {
         display: flex;
+        justify-content: end;
 
+        &-item {
+          width: 200px;
+          display: flex;
+          color: #cfd7ff;
+          align-items: center;
+          margin-right: 10px;
+
+          &-title {
+            margin-right: 5px;
+            width: 50px;
+          }
+
+          &-control {}
+        }
       }
     }
   }
 
   &-content {
     width: 100%;
-    height: calc(100% - 70px);
+    height: calc(100% - @head-height);
   }
 }

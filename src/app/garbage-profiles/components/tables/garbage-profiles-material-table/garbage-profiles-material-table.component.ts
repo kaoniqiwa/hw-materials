@@ -12,7 +12,7 @@ import { IComponent } from 'src/app/common/interfaces/component.interfact';
 import { IModel } from 'src/app/common/interfaces/model.interface';
 import { MaterialModel } from 'src/app/model/material.model';
 import { PagedList } from 'src/app/network/entity/page.entity';
-import { PagedTableAbstractComponent } from '../table-paged-abstract.component';
+import { PagedTableSelectionAbstractComponent } from '../table-paged-abstract.component';
 import { GarbageProfilesMaterialTablBusiness as GarbageProfilesMaterialTableBusiness } from './garbage-profiles-material-table.business';
 import { GarbageProfilesMaterialTablConverter as GarbageProfilesMaterialTableConverter } from './garbage-profiles-material-table.converter';
 import { GarbageProfilesMaterialTableArgs } from './garbage-profiles-material-table.model';
@@ -30,7 +30,7 @@ import { GarbageProfilesMaterialTableArgs } from './garbage-profiles-material-ta
   ],
 })
 export class GarbageProfilesMaterialTableComponent
-  extends PagedTableAbstractComponent<MaterialModel>
+  extends PagedTableSelectionAbstractComponent<MaterialModel>
   implements IComponent<IModel, PagedList<MaterialModel>>, OnInit, OnChanges
 {
   @Input()
@@ -45,7 +45,9 @@ export class GarbageProfilesMaterialTableComponent
   @Output()
   selectedChange: EventEmitter<MaterialModel[]> = new EventEmitter();
   @Output()
-  check: EventEmitter<MaterialModel> = new EventEmitter();
+  putin: EventEmitter<MaterialModel> = new EventEmitter();
+  @Output()
+  putout: EventEmitter<MaterialModel> = new EventEmitter();
   constructor(business: GarbageProfilesMaterialTableBusiness) {
     super();
     this.business = business;
@@ -71,8 +73,12 @@ export class GarbageProfilesMaterialTableComponent
       this.datas = paged.Data;
     });
   }
-  oncheck(e: Event, item: MaterialModel) {
+  onputin(e: Event, item: MaterialModel) {
     e.stopImmediatePropagation();
-    this.check.emit(item);
+    this.putin.emit(item);
+  }
+  onputout(e: Event, item: MaterialModel) {
+    e.stopImmediatePropagation();
+    this.putout.emit(item);
   }
 }

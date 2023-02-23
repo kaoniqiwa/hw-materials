@@ -9,9 +9,6 @@ export abstract class PagedTableAbstractComponent<T> {
 
   abstract loadData(index: number, size: number, ...args: any[]): void;
 
-  abstract selected?: T[];
-  abstract selectedChange: EventEmitter<T[]>;
-
   Language = Language;
   datas: T[] = [];
   page: Page = new Page();
@@ -37,7 +34,13 @@ export abstract class PagedTableAbstractComponent<T> {
   pageEvent(page: PageEvent) {
     this.loadData(page.pageIndex + 1, this.pageSize);
   }
+}
 
+export abstract class PagedTableSelectionAbstractComponent<
+  T
+> extends PagedTableAbstractComponent<T> {
+  abstract selected?: T[];
+  abstract selectedChange: EventEmitter<T[]>;
   onselected(item: T) {
     if (!this.selected) {
       this.selected = [];

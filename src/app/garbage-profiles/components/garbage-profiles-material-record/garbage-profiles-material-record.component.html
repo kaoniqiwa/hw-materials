@@ -1,0 +1,62 @@
+<div class="garbage-profiles-material-record">
+  <div class="garbage-profiles-material-record-head">
+    <app-tab-title [title]="'物料记录'"> </app-tab-title>
+  </div>
+  <div class="garbage-profiles-material-record-content">
+    <div class="garbage-profiles-material-record-content-filter">
+      <div class="filter-item">
+        <div class="filter-item-title">开始时间：</div>
+        <div class="filter-item-control">
+          <input
+            type="text"
+            DateTimePicker
+            [format]="'yyyy年MM月dd日 HH:mm'"
+            [startView]="DateTimePickerView.day"
+            [minView]="DateTimePickerView.hour"
+            [(date)]="args.duration.begin"
+            class=""
+          />
+        </div>
+      </div>
+      <div class="filter-item">
+        <div class="filter-item-title">结束时间：</div>
+        <div class="filter-item-control">
+          <input
+            type="text"
+            DateTimePicker
+            [format]="'yyyy年MM月dd日 HH:mm'"
+            [startView]="DateTimePickerView.day"
+            [minView]="DateTimePickerView.hour"
+            [(date)]="args.duration.end"
+            class=""
+          />
+        </div>
+      </div>
+      <div class="filter-item">
+        <div class="filter-item-title">记录类型：</div>
+        <div class="filter-item-control">
+          <select [(ngModel)]="type">
+            <option [ngValue]="MaterialRecordType.in">入库记录</option>
+            <option [ngValue]="MaterialRecordType.out">出库记录</option>
+          </select>
+        </div>
+      </div>
+      <div class="filter-item">
+        <div class="filter-item-title">档案名称:</div>
+        <div class="filter-item-control">
+          <input type="text" [(ngModel)]="args.name" />
+        </div>
+      </div>
+      <div>
+        <button class="hw-blue-btn" (click)="onsearch()">
+          <i class="howell-icon-search"></i> 搜索
+        </button>
+      </div>
+    </div>
+
+    <div class="garbage-profiles-material-record-content-table">
+      <garbage-profiles-record-material-table [args]="args" [load]="load">
+      </garbage-profiles-record-material-table>
+    </div>
+  </div>
+</div>

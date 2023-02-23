@@ -5,6 +5,7 @@ import { PaginatorComponent } from './paginator/paginator.component';
 import { SelectControlComponent } from './select-control/select-control.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { SimpleSearchComponent } from './simple-search/simple-search.component';
+import { TabTitleComponent } from './tab-title/tab-title.component';
 import { WindowComponent } from './window-control/window.component';
 
 export const CUSTOM_COMPONENTS = [
@@ -16,4 +17,5 @@ export const CUSTOM_COMPONENTS = [
   SidenavComponent,
   WindowComponent,
   SelectControlComponent,
+  TabTitleComponent,
 ];

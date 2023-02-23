@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
-import { PagedTableAbstractComponent } from '../table-paged-abstract.component';
+import { PagedTableSelectionAbstractComponent } from '../table-paged-abstract.component';
 import { GarbageStationProfileTableBusiness } from './garbage-station-profile-table.business';
 import { GarbageStationProfileTableConverter } from './garbage-station-profile-table.converter';
 import {
@@ -31,7 +31,7 @@ import {
   ],
 })
 export class GarbageStationProfileTableComponent
-  extends PagedTableAbstractComponent<GarbageStationProfileModel>
+  extends PagedTableSelectionAbstractComponent<GarbageStationProfileModel>
   implements IGarbageStationProfileTableComponent, OnInit, OnChanges
 {
   @Input()

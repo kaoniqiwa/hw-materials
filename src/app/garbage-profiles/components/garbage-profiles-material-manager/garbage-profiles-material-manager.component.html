@@ -2,11 +2,21 @@
   <div class="garbage-profiles-material-manager-head">
     <div class="hw-simple-title">物料档案管理</div>
     <div class="garbage-profiles-material-manager-head-operation">
-      <div></div>
+      <div class="operation">
+        <button class="hw-blue-btn" (click)="onrecordin()">
+          <i class="howell-icon-inbox"></i> 入库记录
+        </button>
+        <button class="hw-blue-btn" (click)="onrecordout()">
+          <i class="howell-icon-outbox"></i> 出库记录
+        </button>
+        <button class="hw-blue-btn" (click)="onsearch()">
+          <i class="howell-icon-plus"></i> 添加
+        </button>
+      </div>
       <div class="filter">
         <div class="filter-item">
-          <div>类别</div>
-          <div>
+          <div class="filter-item-title">类别</div>
+          <div class="filter-item-control">
             <select [(ngModel)]="args.Category">
               <option [ngValue]="item.Id" *ngFor="let item of source.categorys">
                 {{ item.Name }}
@@ -15,21 +25,42 @@
           </div>
         </div>
         <div class="filter-item">
-          <howell-simple-search [(value)]="args.Name"></howell-simple-search>
+          <div class="filter-item-title">名称</div>
+          <div class="filter-item-control">
+            <input type="text" [(ngModel)]="args.Name" />
+          </div>
         </div>
-        <button mat-raised-button color="primary" (click)="onsearch()">
-          搜索
+        <button class="hw-blue-btn" (click)="onsearch()">
+          <i class="howell-icon-search"></i> 搜索
         </button>
       </div>
     </div>
   </div>
   <div class="garbage-profiles-material-manager-content">
-    <garbage-profiles-material-table [load]="load" (check)="onselected($event)">
+    <garbage-profiles-material-table
+      [load]="load"
+      (putin)="onputin($event)"
+      (putout)="onputout($event)"
+    >
     </garbage-profiles-material-table>
   </div>
 </div>
 
-<!-- <app-window [Model]="window" [style]="style" *ngIf="window.show">
+<app-window [Model]="window.details" *ngIf="window.details.show">
   <garbage-profiles-material-details [model]="selected">
   </garbage-profiles-material-details>
-</app-window> -->
+</app-window>
+
+<app-window [Model]="window.record" *ngIf="window.record.show">
+  <garbage-profiles-material-record [type]="window.record.type">
+  </garbage-profiles-material-record>
+</app-window>
+
+<app-window
+  [Model]="window.putin"
+  *ngIf="window.putin.show"
+  [style]="window.putin.style"
+>
+  <garbage-profiles-material-putin [model]="selected">
+  </garbage-profiles-material-putin>
+</app-window>

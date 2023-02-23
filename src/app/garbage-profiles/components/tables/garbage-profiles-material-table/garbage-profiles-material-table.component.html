@@ -27,6 +27,9 @@
               selected: this.selected && this.selected.includes(item)
             }"
             (click)="onselected(item)"
+            [ngStyle]="{
+              height: '57px'
+            }"
           >
             <td>{{ item.Id }}</td>
             <td>
@@ -41,8 +44,13 @@
             </td>
 
             <td class="operation center">
-              <div (click)="oncheck($event, item)" class="center">
-                <i class="howell-icon-modification"></i>
+              <div class="center">
+                <button (click)="onputin($event, item)" class="hw-green-btn">
+                  入库
+                </button>
+                <button (click)="onputout($event, item)" class="hw-cyan-btn">
+                  出库
+                </button>
               </div>
             </td>
           </tr>

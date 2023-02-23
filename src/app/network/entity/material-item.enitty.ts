@@ -1,4 +1,4 @@
-import { IModel } from "src/app/common/interfaces/model.interface";
+import { IModel } from 'src/app/common/interfaces/model.interface';
 
 /** 物料项 */
 export class MaterialItem implements IModel {
@@ -7,5 +7,5 @@ export class MaterialItem implements IModel {
   /**	String	名称	M	*/
   Name!: string;
   /**	Int32	数量	M	*/
-  Number!: number;
+  Number: number = 0;
 }
