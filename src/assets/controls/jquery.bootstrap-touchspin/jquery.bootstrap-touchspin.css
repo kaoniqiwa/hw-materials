@@ -7,6 +7,42 @@
  *  Under Apache License v2.0 License
  */
 /* This CSS file is unnecessary if you are not using vertical buttons functionality */
+.input-group {
+  position: relative;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+}
+
+.input-group .form-control:not(:last-child),
+.input-group-addon:not(:last-child),
+.input-group-btn:not(:first-child)>.btn-group:not(:last-child)>.btn,
+.input-group-btn:not(:first-child)>.btn:not(:last-child):not(.dropdown-toggle),
+.input-group-btn:not(:last-child)>.btn,
+.input-group-btn:not(:last-child)>.btn-group>.btn,
+.input-group-btn:not(:last-child)>.dropdown-toggle {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.input-group .form-control,
+.input-group-addon,
+.input-group-btn {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.input-group .form-control {
+  position: relative;
+  z-index: 2;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  width: 1%;
+  margin-bottom: 0;
+}
+
 
 .bootstrap-touchspin .input-group-btn-vertical {
   position: absolute;
@@ -15,7 +51,7 @@
   z-index: 11;
 }
 
-.bootstrap-touchspin .input-group-btn-vertical > .btn {
+.bootstrap-touchspin .input-group-btn-vertical>.btn {
   position: absolute;
   right: 0;
   height: 50%;
@@ -39,12 +75,9 @@
   background: transparent;
   border: 0;
   color: #5e6ebf;
-}  
-.bootstrap-touchspin .input-group-btn-vertical .bootstrap-touchspin-up:hover
-,.bootstrap-touchspin .input-group-btn-vertical .bootstrap-touchspin-down:hover{
-color:#cfd7ff
 }
 
-
-
-
+.bootstrap-touchspin .input-group-btn-vertical .bootstrap-touchspin-up:hover,
+.bootstrap-touchspin .input-group-btn-vertical .bootstrap-touchspin-down:hover {
+  color: #cfd7ff
+}

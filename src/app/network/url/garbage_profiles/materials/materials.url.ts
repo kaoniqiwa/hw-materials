@@ -15,6 +15,13 @@ export class GarbageProfilesMaterialsUrl {
     return `${this.basic}/List`;
   }
 
+  static putin() {
+    return `${this.basic}/PutIn`;
+  }
+  static putout() {
+    return `${this.basic}/PutOut`;
+  }
+
   static get category() {
     return new MateriaCategoryUrl(this.basic);
   }

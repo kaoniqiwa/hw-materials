@@ -7,7 +7,7 @@
           物料ID
         </div>
         <div class="garbage-profiles-material-putin-content-list-item-value">
-          {{ model.Id }}
+          <input type="text" readonly [value]="model.Id" />
         </div>
       </div>
       <div class="garbage-profiles-material-putin-content-list-item">
@@ -15,7 +15,7 @@
           名称
         </div>
         <div class="garbage-profiles-material-putin-content-list-item-value">
-          {{ model.Name }}
+          <input type="text" readonly [value]="model.Name" />
         </div>
       </div>
       <div class="garbage-profiles-material-putin-content-list-item">
@@ -23,7 +23,11 @@
           类别
         </div>
         <div class="garbage-profiles-material-putin-content-list-item-value">
-          {{ (model.CategoryInfo | async)?.Name }}
+          <input
+            type="text"
+            readonly
+            [value]="(model.CategoryInfo | async)?.Name"
+          />
         </div>
       </div>
       <div class="garbage-profiles-material-putin-content-list-item">
@@ -35,17 +39,23 @@
             type="number"
             (touchSpinChange)="touchSpinChange($event)"
             appTouchSpin
-            [(ngModel)]="item.Number"
+            [(ngModel)]="value"
           />
         </div>
       </div>
       <div class="garbage-profiles-material-putin-content-list-item">
         <div class="garbage-profiles-material-putin-content-list-item-title">
-          存档照片
+          备注信息
         </div>
         <div class="garbage-profiles-material-putin-content-list-item-value">
-          <div>点击上传</div>
+          <input type="text" [(ngModel)]="description" />
         </div>
+      </div>
+      <div class="garbage-profiles-material-putin-content-list-item-rowtitle">
+        存档照片
+      </div>
+      <div class="garbage-profiles-material-putin-content-list-image">
+        <app-image-upload (upload)="onimage($event)"> </app-image-upload>
       </div>
     </div>
   </div>

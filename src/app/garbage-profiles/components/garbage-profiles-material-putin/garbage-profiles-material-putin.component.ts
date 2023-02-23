@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MaterialModel } from 'src/app/model/material.model';
 import { MaterialItem } from 'src/app/network/entity/material-item.enitty';
+import { PutInMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
 
 @Component({
   selector: 'garbage-profiles-material-putin',
@@ -10,12 +11,37 @@ import { MaterialItem } from 'src/app/network/entity/material-item.enitty';
 export class GarbageProfilesMaterialPutInComponent {
   @Input()
   model?: MaterialModel;
+  @Output()
+  ok: EventEmitter<PutInMaterialsParams> = new EventEmitter();
+  @Output()
+  cancel: EventEmitter<void> = new EventEmitter();
 
-  item: MaterialItem = new MaterialItem();
+  value: number = 0;
+  description: string = '';
+  image?: string;
 
   touchSpinChange(num: any) {
-    this.item.Number = num;
+    this.value = num;
   }
-  onok() {}
-  oncancel() {}
+  onimage(image: string) {
+    this.image = image;
+  }
+  onok() {
+    if (this.model) {
+      let item = new MaterialItem();
+      item.Id = this.model.Id;
+      item.Name = this.model.Name;
+      item.Number = this.value;
+      let params = new PutInMaterialsParams();
+      params.MaterialItems = [item];
+      params.Description = this.description;
+      if (this.image) {
+        params.ImageUrls = [this.image];
+      }
+      this.ok.emit(params);
+    }
+  }
+  oncancel() {
+    this.cancel.emit();
+  }
 }

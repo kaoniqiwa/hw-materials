@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { instanceToPlain } from 'class-transformer';
 import { MaterialCategory } from 'src/app/network/entity/material-category.entity';
+import { MaterialRecord } from 'src/app/network/entity/material-record.entity';
 import { Material } from 'src/app/network/entity/material.entity';
 import { PagedList } from 'src/app/network/entity/page.entity';
 import { GarbageProfilesMaterialsUrl } from 'src/app/network/url/garbage_profiles/materials/materials.url';
@@ -9,7 +10,11 @@ import {
   BaseTypeRequestService,
 } from '../../base-request.service';
 import { HowellAuthHttpService } from '../../howell-auth-http.service';
-import { GetGarbageProfilesMaterialsParams } from './garbage-profiles-materials.param';
+import {
+  GetGarbageProfilesMaterialsParams,
+  PutInMaterialsParams,
+  PutOutMaterialsParams,
+} from './garbage-profiles-materials.param';
 
 @Injectable({
   providedIn: 'root',
@@ -41,11 +46,23 @@ export class GarbageProfilesMaterialRequestService {
     return this.type.delete(url);
   }
   list(
-    args: GetGarbageProfilesMaterialsParams = new GetGarbageProfilesMaterialsParams()
+    params: GetGarbageProfilesMaterialsParams = new GetGarbageProfilesMaterialsParams()
   ): Promise<PagedList<Material>> {
     let url = GarbageProfilesMaterialsUrl.list();
-    let plain = instanceToPlain(args);
+    let plain = instanceToPlain(params);
     return this.type.paged(url, plain);
+  }
+
+  putin(params: PutInMaterialsParams) {
+    let url = GarbageProfilesMaterialsUrl.putin();
+    let plain = instanceToPlain(params);
+    return this.basic.post(url, MaterialRecord, plain);
+  }
+
+  putout(params: PutOutMaterialsParams) {
+    let url = GarbageProfilesMaterialsUrl.putout();
+    let plain = instanceToPlain(params);
+    return this.basic.post(url, MaterialRecord, plain);
   }
 
   private _category?: BasicMaterialCategoryRequestService;

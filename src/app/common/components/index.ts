@@ -1,6 +1,7 @@
 import { AccountInfoComponent } from './account-info/account-info.component';
 import { AccountOperationComponent } from './account-operation/account-operation.component';
 import { CommonTimeComponent } from './common-time/common-time.component';
+import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { SelectControlComponent } from './select-control/select-control.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
@@ -18,4 +19,5 @@ export const CUSTOM_COMPONENTS = [
   WindowComponent,
   SelectControlComponent,
   TabTitleComponent,
+  ImageUploadComponent,
 ];

@@ -15,7 +15,7 @@
       </div>
       <div class="filter">
         <div class="filter-item">
-          <div class="filter-item-title">类别</div>
+          <div class="filter-item-title">类别：</div>
           <div class="filter-item-control">
             <select [(ngModel)]="args.Category">
               <option [ngValue]="item.Id" *ngFor="let item of source.categorys">
@@ -25,7 +25,7 @@
           </div>
         </div>
         <div class="filter-item">
-          <div class="filter-item-title">名称</div>
+          <div class="filter-item-title">名称：</div>
           <div class="filter-item-control">
             <input type="text" [(ngModel)]="args.Name" />
           </div>
@@ -61,6 +61,10 @@
   *ngIf="window.putin.show"
   [style]="window.putin.style"
 >
-  <garbage-profiles-material-putin [model]="selected">
+  <garbage-profiles-material-putin
+    [model]="selected"
+    (ok)="onputinok($event)"
+    (cancel)="onwindowcancel()"
+  >
   </garbage-profiles-material-putin>
 </app-window>

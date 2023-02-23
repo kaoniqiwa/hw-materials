@@ -12,7 +12,7 @@ export class GarbageProfilesMaterialRecordWindow extends WindowViewModel {
 export class GarbageProfilesMaterialDetailsWindow extends WindowViewModel {}
 export class GarbageProfilesMaterialPutInWindow extends WindowViewModel {
   style = {
-    width: '300px',
-    height: '400px',
+    width: '400px',
+    height: '670px',
   };
 }

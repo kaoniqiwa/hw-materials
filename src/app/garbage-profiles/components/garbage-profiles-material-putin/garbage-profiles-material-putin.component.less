@@ -1,30 +1,13 @@
 .garbage-profiles-material-putin {
-  width: 500px;
-  height: 600px;
 
   &-content {
     display: flex;
     padding: 10px 0;
 
-    &-img {
-      width: calc(50% - 10px);
-      border: 1px solid #5c6ebf;
-      margin: 10px;
-      margin-left: 0;
-      display: flex;
-
-      img {
-        max-width: 100%;
-        max-height: 100%;
-        display: block;
-        margin: auto;
-      }
-    }
-
-
     &-list {
       width: 100%;
       padding: 0 10px;
+      color: #cfd7ff;
 
       &-item {
         width: 100%;
@@ -43,12 +26,28 @@
         &-title {
           width: @title-width;
           text-align: justify;
-          color: #cfd7ff;
+
           vertical-align: middle;
           padding-right: 10px;
 
           &::after,
           &::before {
+            display: inline-block;
+            width: 100%;
+            content: "";
+          }
+        }
+
+        &-rowtitle {
+          margin-top: 16px;
+          width: @title-width;
+          text-align: justify;
+
+          vertical-align: middle;
+          padding-right: 10px;
+          height: 34px;
+
+          &::after {
             display: inline-block;
             width: 100%;
             content: "";
@@ -61,12 +60,17 @@
           &.panel-outer {
             position: relative;
           }
+
         }
       }
 
       .group {
         display: flex;
         justify-content: space-between;
+      }
+
+      &-image {
+        height: 300px;
       }
     }
   }

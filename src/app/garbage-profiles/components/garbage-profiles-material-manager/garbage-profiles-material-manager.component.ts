@@ -1,8 +1,10 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { MaterialRecordType } from 'src/app/enum/material-record-type.enum';
 import { MaterialModel } from 'src/app/model/material.model';
+import { PutInMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
 import { GarbageProfilesMaterialTableArgs } from '../tables/garbage-profiles-material-table/garbage-profiles-material-table.model';
 import { GarbageProfilesMaterialManagerSourceBusiness } from './garbage-profiles-material-manager-source.business';
+import { GarbageProfilesMaterialManagerBusiness } from './garbage-profiles-material-manager.business';
 import {
   GarbageProfilesMaterialDetailsWindow,
   GarbageProfilesMaterialManagerSource,
@@ -14,11 +16,15 @@ import {
   selector: 'garbage-profiles-material-manager',
   templateUrl: './garbage-profiles-material-manager.component.html',
   styleUrls: ['./garbage-profiles-material-manager.component.less'],
-  providers: [GarbageProfilesMaterialManagerSourceBusiness],
+  providers: [
+    GarbageProfilesMaterialManagerSourceBusiness,
+    GarbageProfilesMaterialManagerBusiness,
+  ],
 })
 export class GarbageProfilesMaterialManagerComponent implements OnInit {
   constructor(
-    public sourceBusiness: GarbageProfilesMaterialManagerSourceBusiness
+    public sourceBusiness: GarbageProfilesMaterialManagerSourceBusiness,
+    private business: GarbageProfilesMaterialManagerBusiness
   ) {}
 
   args: GarbageProfilesMaterialTableArgs =
@@ -56,12 +62,22 @@ export class GarbageProfilesMaterialManagerComponent implements OnInit {
     this.window.record.show = true;
   }
 
+  onputout(model: MaterialModel) {
+    this.selected = model;
+    this.window.details.show = true;
+  }
+  onwindowcancel() {
+    this.window.putin.show = false;
+    this.window.details.show = false;
+    this.window.record.show = false;
+  }
+
   onputin(model: MaterialModel) {
     this.selected = model;
     this.window.putin.show = true;
   }
-  onputout(model: MaterialModel) {
-    this.selected = model;
-    this.window.details.show = true;
+  onputinok(item: PutInMaterialsParams) {
+    this.business.putin(item);
+    this.window.putin.show = false;
   }
 }
