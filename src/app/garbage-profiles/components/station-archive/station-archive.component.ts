@@ -7,7 +7,6 @@ import {
 } from 'src/app/common/models/sidenav-config';
 import { ValidPathExp } from 'src/app/common/tools/tool';
 import Config from 'src/assets/json/monitor-platform.json';
-console.log(Config);
 
 @Component({
   selector: 'station-archive',
@@ -25,7 +24,7 @@ export class StationArchiveComponent implements OnDestroy {
     this.config = Config.data.find((data) => {
       return data.id == this.id;
     });
-    console.log(this.config);
+    // console.log(this.config);
 
     this._subscription = this._router.events.subscribe((e) => {
       if (e instanceof Scroll) {
