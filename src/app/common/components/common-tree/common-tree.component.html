@@ -1,0 +1,64 @@
+<div class="common-tree">
+  <mat-tree
+    [dataSource]="dataSource"
+    [treeControl]="treeControl"
+    [trackBy]="trackBy"
+    #tree
+  >
+    <mat-tree-node
+      *matTreeNodeDef="let node"
+      [matTreeNodePadding]="node.Level + 1"
+      [matTreeNodePaddingIndent]="15"
+      [class.high-light]="highLight(node)"
+      (click)="singleSelectNode(node)"
+    >
+      <!-- 下拉箭头 -->
+      <ng-container *ngIf="node.Expandable">
+        <button
+          class="tree-select"
+          matTreeNodeToggle
+          (click)="loadChildren(node)"
+        >
+          <div
+            class="select"
+            [class.expanded]="treeControl.isExpanded(node)"
+          ></div>
+        </button>
+      </ng-container>
+
+      <!-- 下拉箭头 -->
+      <ng-container *ngIf="!node.Expandable && !node.hideArrow">
+        <button class="tree-select" disabled></button>
+      </ng-container>
+
+      <!-- 单选模式 -->
+      <ng-template [ngIf]="selectStrategy == SelectStrategy.Single">
+        <div [title]="node.Name">
+          <i [class]="node.IconClass"></i>
+          {{ node.Name }}
+        </div>
+        <div class="btns" *ngIf="showButtonIcon">
+          <i
+            [class]="icon"
+            (click)="buttonIconClick(node, i, $event)"
+            *ngFor="let icon of node.ButtonIconClasses; let i = index"
+          ></i>
+        </div>
+      </ng-template>
+
+      <!-- 多选模式 -->
+      <ng-template [ngIf]="selectStrategy == SelectStrategy.Multiple">
+        <mat-checkbox
+          (click)="$event.stopPropagation()"
+          (change)="multipleSelectNode(node)"
+          [checked]="selection.isSelected(node)"
+          [indeterminate]="descendantsPartiallySelected(node)"
+          [title]="node.Name"
+        >
+          <i [class]="node.IconClass"></i>
+          {{ node.Name }}
+        </mat-checkbox>
+      </ng-template>
+    </mat-tree-node>
+  </mat-tree>
+</div>

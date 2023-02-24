@@ -1,6 +1,7 @@
 import { AccountInfoComponent } from './account-info/account-info.component';
 import { AccountOperationComponent } from './account-operation/account-operation.component';
 import { CommonTimeComponent } from './common-time/common-time.component';
+import { CommonTreeComponent } from './common-tree/common-tree.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { SelectControlComponent } from './select-control/select-control.component';
@@ -20,4 +21,5 @@ export const CUSTOM_COMPONENTS = [
   SelectControlComponent,
   TabTitleComponent,
   ImageUploadComponent,
+  CommonTreeComponent,
 ];

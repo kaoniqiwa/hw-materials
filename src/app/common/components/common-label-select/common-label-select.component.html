@@ -1,0 +1,29 @@
+<div class="label-select" tabindex="-1">
+  <div class="label-select-header" (click)="toggleHandler($event)">
+    <div class="placeholder" *ngIf="!selectedNodes.length">请选择</div>
+    <div class="wrapper">
+      <div class="label-select-item" *ngFor="let node of selectedNodes">
+        <div class="title">{{ node.Name }}</div>
+        <div
+          class="close-btn"
+          *ngIf="showCloseIcon"
+          (click)="removeNode($event, node)"
+        >
+          <i class="howell-icon-Close"></i>
+        </div>
+      </div>
+    </div>
+    <button class="btn">
+      <i
+        class="mdi"
+        [class]="{
+          'mdi-menu-down': !showDropDown,
+          'mdi-menu-up': showDropDown
+        }"
+      ></i>
+    </button>
+  </div>
+  <div class="label-select-body" *ngIf="showDropDown">
+    <ng-content></ng-content>
+  </div>
+</div>
