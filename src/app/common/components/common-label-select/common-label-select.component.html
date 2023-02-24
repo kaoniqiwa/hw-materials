@@ -23,7 +23,11 @@
       ></i>
     </button>
   </div>
-  <div class="label-select-body" *ngIf="showDropDown">
+  <div
+    class="label-select-body"
+    *ngIf="showDropDown"
+    (click)="$event.stopPropagation()"
+  >
     <ng-content></ng-content>
   </div>
 </div>
