@@ -11,6 +11,7 @@
     position: relative;
     border: 1px solid #5e6ebf;
     cursor: pointer;
+
     .placeholder {
       position: absolute;
       top: 0;
@@ -21,6 +22,7 @@
       padding-left: 5px;
       color: #cfd7ff;
     }
+
     .wrapper {
       flex-grow: 1;
       height: 100%;
@@ -29,11 +31,15 @@
       justify-content: flex-start;
       overflow: overlay;
     }
+
     .btn {
       flex-shrink: 0;
       font-size: 23px;
+      border: transparent 1px solid;
+      height: 100%;
     }
   }
+
   .label-select-body {
     position: absolute;
     top: 34px;
@@ -43,13 +49,15 @@
     height: auto;
     max-height: 325px;
     background-color: #0c1127;
-    border: 1px solid #5e6ebf;
+    border: 2px solid #5e6ebf;
     border-top: none;
     overflow: auto;
-    padding: 5px;
+    // padding: 5px;
+
     &.show {
       display: block;
     }
+
     &.hide {
       display: none;
     }
@@ -69,9 +77,11 @@
   justify-content: center;
 
   background-color: rgb(25, 64, 118);
+
   &:first-child {
     margin-left: 5px;
   }
+
   &:last-child {
     margin-right: 5px;
   }
@@ -79,8 +89,10 @@
   .title {
     margin-right: 10px;
   }
+
   .close-btn {
     color: #fff;
+
     &:hover {
       color: #e15e64;
     }
@@ -92,6 +104,7 @@
     background: #1e7925;
   }
 }
+
 .blue-label-select {
   .label-select-item {
     background: #3a94ff;
@@ -101,6 +114,7 @@
 .select-item--green {
   background: #1e7925;
 }
+
 .select-item--blue {
   background: #3a94ff;
 }
