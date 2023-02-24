@@ -11,6 +11,7 @@ import { GarbageProfilesMaterialPutInComponent } from './garbage-profiles-materi
 import { GarbageProfilesMaterialRecordComponent } from './garbage-profiles-material-record/garbage-profiles-material-record.component';
 import { GarbageStationProfileDetailsComponent } from './garbage-station-profile-details/garbage-station-profile-details.component';
 import { GarbageStationProfileManagerComponent } from './garbage-station-profile-manager/garbage-station-profile-manager.component';
+import { MaterialTreeComponent } from './material-tree/material-tree.component';
 import { MonitorPlatformComponent } from './monitor-platform/monitor-platform.component';
 import { StationArchiveComponent } from './station-archive/station-archive.component';
 import { SystemModeComponent } from './system-mode/system-mode.component';
@@ -31,6 +32,8 @@ import { UnderwaterComponent } from './underwater/underwater.component';
     GarbageProfilesMaterialRecordComponent,
     GarbageProfilesMaterialPutInComponent,
     GarbageProfilesLabelManagerComponent,
+
+    MaterialTreeComponent,
   ],
   imports: [
     MaterialModule,

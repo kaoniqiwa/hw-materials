@@ -3,6 +3,6 @@ export interface IPropertyModel {
   Id: string;
 }
 export interface IObjectModel {
-  Id: string;
+  Id: string | number;
   Name: string;
 }

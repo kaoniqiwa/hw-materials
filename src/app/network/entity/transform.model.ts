@@ -6,7 +6,7 @@ export function transformDateTime(params: TransformFnParams) {
   if (params.type === TransformationType.PLAIN_TO_CLASS) {
     return new Date(params.value);
   } else if (params.type === TransformationType.CLASS_TO_PLAIN) {
-    return (params.value as Date).toISOString();
+    return formatDate(params.value as Date, 'yyyy-MM-ddTHH:mm:ssZZZZZ', 'en');
   } else if (params.type === TransformationType.CLASS_TO_CLASS) {
     return new Date(params.value);
   } else {

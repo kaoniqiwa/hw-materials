@@ -1,5 +1,6 @@
 import { AccountInfoComponent } from './account-info/account-info.component';
 import { AccountOperationComponent } from './account-operation/account-operation.component';
+import { CommonLabelSelecComponent } from './common-label-select/common-label-select.component';
 import { CommonTimeComponent } from './common-time/common-time.component';
 import { CommonTreeComponent } from './common-tree/common-tree.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
@@ -22,4 +23,5 @@ export const CUSTOM_COMPONENTS = [
   TabTitleComponent,
   ImageUploadComponent,
   CommonTreeComponent,
+  CommonLabelSelecComponent,
 ];

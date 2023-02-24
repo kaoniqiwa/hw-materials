@@ -1,5 +1,5 @@
 export interface CommonTreeModel {
   Name: string;
-  Id: string;
+  Id: string | number;
   [key: string]: any;
 }

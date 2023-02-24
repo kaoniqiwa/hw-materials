@@ -1,5 +1,4 @@
 import { WindowViewModel } from 'src/app/common/components/window-control/window.model';
-import { MaterialRecordType } from 'src/app/enum/material-record-type.enum';
 import { MaterialCategory } from 'src/app/network/entity/material-category.entity';
 
 export class GarbageProfilesMaterialManagerSource {
@@ -7,7 +6,13 @@ export class GarbageProfilesMaterialManagerSource {
 }
 
 export class GarbageProfilesMaterialRecordWindow extends WindowViewModel {
-  type: MaterialRecordType = MaterialRecordType.in;
+  constructor() {
+    super();
+    this.show = true;
+  }
+  style = {
+    width: '60%',
+  };
 }
 export class GarbageProfilesMaterialDetailsWindow extends WindowViewModel {}
 export class GarbageProfilesMaterialPutInWindow extends WindowViewModel {

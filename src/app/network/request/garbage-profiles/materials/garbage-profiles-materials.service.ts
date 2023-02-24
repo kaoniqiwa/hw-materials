@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { instanceToPlain } from 'class-transformer';
+import { wait } from 'src/app/common/tools/tool';
 import { MaterialCategory } from 'src/app/network/entity/material-category.entity';
 import { MaterialRecord } from 'src/app/network/entity/material-record.entity';
 import { Material } from 'src/app/network/entity/material.entity';
@@ -78,6 +79,7 @@ class BasicMaterialCategoryRequestService {
   private type: BaseTypeRequestService<MaterialCategory>;
 
   private datas: MaterialCategory[] = [];
+  loading = false;
 
   constructor(private basic: BaseRequestService) {
     this.type = this.basic.type(MaterialCategory);
@@ -86,21 +88,45 @@ class BasicMaterialCategoryRequestService {
     let url = GarbageProfilesMaterialsUrl.category.basic();
     return this.type.getArray(url);
   }
-
+  load() {
+    if (this.loading) {
+      return false;
+    }
+    if (this.datas && this.datas.length > 0) {
+      return true;
+    }
+    this.loading = true;
+    this.all().then((x) => {
+      this.datas = x;
+      this.loading = false;
+    });
+    return false;
+  }
   create(instance: MaterialCategory): Promise<MaterialCategory> {
     let url = GarbageProfilesMaterialsUrl.category.basic();
     let plain = instanceToPlain(instance);
     return this.type.post(url, plain);
   }
   async get(id: number): Promise<MaterialCategory> {
-    let result = this.datas.find((x) => x.Id === id);
-    if (result) {
-      return result;
-    }
-    let url = GarbageProfilesMaterialsUrl.category.item(id);
-    result = await this.type.get(url);
-    this.datas.push(result);
-    return result;
+    return new Promise((resolve) => {
+      wait(
+        () => {
+          return this.load();
+        },
+        () => {
+          let result = this.datas.find((x) => x.Id === id);
+          if (result) {
+            resolve(result);
+            return;
+          }
+          let url = GarbageProfilesMaterialsUrl.category.item(id);
+          this.type.get(url).then((x) => {
+            this.datas.push(x);
+            resolve(x);
+          });
+        }
+      );
+    });
   }
   update(instance: MaterialCategory): Promise<MaterialCategory> {
     let url = GarbageProfilesMaterialsUrl.category.item(instance.Id);

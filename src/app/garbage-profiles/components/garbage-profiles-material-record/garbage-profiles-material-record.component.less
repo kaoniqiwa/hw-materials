@@ -34,6 +34,11 @@
           align-items: center;
           margin-right: 10px;
 
+          &:last-child {
+            margin-right: 0;
+          }
+
+
           @filter-title-width: 80px;
 
           &-title {
@@ -42,13 +47,37 @@
 
           &-control {
             width: calc(100% - @filter-title-width);
+
+
           }
+
+          &.expand {
+            width: calc(100% - 387px);
+          }
+        }
+      }
+
+      .search {
+        width: 80px;
+
+        button {
+          width: 100%;
         }
       }
     }
 
     &-table {
-      height: calc(100% - @filter-height);
+      height: calc(100% - @filter-height * 2);
     }
   }
+}
+
+.panel {
+  position: absolute;
+  background-color: #0e1027;
+  border: 1px solid #5e6ebf;
+  width: 100%;
+  z-index: 12;
+  height: 500px;
+  top: 0;
 }

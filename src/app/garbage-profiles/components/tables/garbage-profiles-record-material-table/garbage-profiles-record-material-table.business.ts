@@ -27,10 +27,12 @@ export class GarbageProfilesRecordMaterialTableBusiness
     let data = await this.getData(
       index,
       size,
-      args.type,
       args.duration.begin,
       args.duration.end,
-      args.name
+      args.type,
+      args.profileName,
+      args.materialName,
+      args.materialIds
     );
     let model = new PagedList<MaterialRecordModel>();
     model.Page = data.Page;
@@ -42,11 +44,12 @@ export class GarbageProfilesRecordMaterialTableBusiness
   getData(
     index: number,
     size: number = 10,
-    type: MaterialRecordType,
     begin: Date,
     end: Date,
-
-    name?: string
+    type?: MaterialRecordType,
+    profileName?: string,
+    materialName?: string,
+    materialIds?: number[]
   ) {
     let params = new GetMaterialRecordsParams();
     params.PageIndex = index;
@@ -54,7 +57,9 @@ export class GarbageProfilesRecordMaterialTableBusiness
     params.BeginTime = begin;
     params.EndTime = end;
     params.MaterialRecordType = type;
-    params.ProfileName = name;
+    params.ProfileName = profileName;
+    params.MaterialName = materialName;
+    params.MaterialIds = materialIds;
     return this.service.material.list(params);
   }
 }

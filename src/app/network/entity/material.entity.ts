@@ -1,8 +1,8 @@
 import { Transform } from 'class-transformer';
-import { IModel } from 'src/app/common/interfaces/model.interface';
+import { IObjectModel } from 'src/app/common/interfaces/model.interface';
 import { transformDateTime } from './transform.model';
 
-export class Material implements IModel {
+export class Material implements IObjectModel {
   /**	Int32	物料ID：	M	*/
   Id!: number;
   /**	String	名称	M	*/

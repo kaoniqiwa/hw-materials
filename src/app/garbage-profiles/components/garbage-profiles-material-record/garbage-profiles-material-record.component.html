@@ -35,25 +35,54 @@
       <div class="filter-item">
         <div class="filter-item-title">记录类型：</div>
         <div class="filter-item-control">
-          <select [(ngModel)]="type">
+          <select [(ngModel)]="args.type">
+            <option [ngValue]="undefined">全部</option>
             <option [ngValue]="MaterialRecordType.in">入库记录</option>
             <option [ngValue]="MaterialRecordType.out">出库记录</option>
           </select>
         </div>
       </div>
-      <div class="filter-item">
-        <div class="filter-item-title">档案名称:</div>
+      <div class="filter-item" style="width: 424px">
+        <div class="filter-item-title">
+          <!-- <select [(ngModel)]="propertyName">
+            <option [value]="'MaterialName'">物料名称</option>
+            <option [value]="'ProfileName'">档案名称</option>
+          </select> -->
+          档案名称：
+        </div>
         <div class="filter-item-control">
-          <input type="text" [(ngModel)]="args.name" />
+          <input type="text" [(ngModel)]="args.profileName" />
         </div>
       </div>
-      <div>
+    </div>
+    <div class="garbage-profiles-material-record-content-filter">
+      <div class="filter-item expand">
+        <div class="filter-item-title">物料：</div>
+        <div class="filter-item-control">
+          <common-label-select
+            [selectedNodes]="selectedNodes"
+            [autoclose]="true"
+          >
+            <howell-material-tree
+              #tree
+              [defaultIds]="defaultIds"
+              (selectTreeNode)="selectLabelTreeNode($event)"
+            ></howell-material-tree>
+          </common-label-select>
+        </div>
+      </div>
+      <div class="filter-item">
+        <div class="filter-item-title">物料名称：</div>
+        <div class="filter-item-control">
+          <input type="text" [(ngModel)]="args.materialName" />
+        </div>
+      </div>
+      <div class="search">
         <button class="hw-blue-btn" (click)="onsearch()">
           <i class="howell-icon-search"></i> 搜索
         </button>
       </div>
     </div>
-
     <div class="garbage-profiles-material-record-content-table">
       <garbage-profiles-record-material-table [args]="args" [load]="load">
       </garbage-profiles-record-material-table>

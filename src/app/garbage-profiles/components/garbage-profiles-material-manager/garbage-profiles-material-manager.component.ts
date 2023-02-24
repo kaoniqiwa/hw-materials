@@ -1,5 +1,4 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
-import { MaterialRecordType } from 'src/app/enum/material-record-type.enum';
 import { MaterialModel } from 'src/app/model/material.model';
 import { PutInMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
 import { GarbageProfilesMaterialTableArgs } from '../tables/garbage-profiles-material-table/garbage-profiles-material-table.model';
@@ -53,12 +52,7 @@ export class GarbageProfilesMaterialManagerComponent implements OnInit {
   onsearch() {
     this.load.emit(this.args);
   }
-  onrecordin() {
-    this.window.record.type = MaterialRecordType.in;
-    this.window.record.show = true;
-  }
-  onrecordout() {
-    this.window.record.type = MaterialRecordType.out;
+  onrecord() {
     this.window.record.show = true;
   }
 

@@ -4,6 +4,8 @@ import { Duration } from 'src/app/model/duration.model';
 
 export class GarbageProfilesRecordMaterialTableArgs {
   duration: Duration = DateTimeTool.allDay(new Date());
-  name: string = '';
-  type: MaterialRecordType = MaterialRecordType.in;
+  profileName?: string;
+  materialName?: string;
+  type?: MaterialRecordType;
+  materialIds?: number[];
 }

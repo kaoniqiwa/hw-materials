@@ -130,78 +130,47 @@ class GarbageStationProfilesPropertiesRequestService extends AbstractService<Pro
     return this.type.paged(url, plain);
   }
 
-  // async name(name: string): Promise<ValueNamePair[]> {
-  //   if (!this.properties || this.properties.length === 0) {
-  //     this.properties = (await this.list()).Data;
-  //   }
-  //   let property = this.properties.find((x) => x.Name === name);
-  //   if (property && property.EnumeratedValues) {
-  //     return property.EnumeratedValues;
-  //   }
-  //   throw new Error(`${name} enum undefined`);
-  // }
+  load() {
+    if (this.loading) {
+      return false;
+    }
+    if (this.properties && this.properties.length > 0) {
+      return true;
+    }
+    this.loading = true;
+    this.list().then((x) => {
+      this.properties = x.Data;
+      this.loading = false;
+    });
+    return false;
+  }
 
   async name(name: string): Promise<ValueNamePair[]> {
     return new Promise((resolve) => {
       wait(
         () => {
-          return this.loading === false;
+          return this.load();
         },
         () => {
-          if (!this.properties || this.properties.length === 0) {
-            this.loading = true;
-            this.list().then((x) => {
-              this.properties = x.Data;
-              this.loading = false;
-              let property = this.properties.find((x) => x.Name === name);
-              if (property && property.EnumeratedValues) {
-                resolve(property.EnumeratedValues);
-              }
-            });
-          } else {
-            let property = this.properties.find((x) => x.Name === name);
-            if (property && property.EnumeratedValues) {
-              resolve(property.EnumeratedValues);
-            }
+          let property = this.properties.find((x) => x.Name === name);
+          if (property && property.EnumeratedValues) {
+            resolve(property.EnumeratedValues);
           }
         }
       );
     });
   }
 
-  // async language(name: string): Promise<string> {
-  //   if (!this.properties || this.properties.length === 0) {
-  //     this.properties = (await this.list()).Data;
-  //   }
-
-  //   let property = this.properties.find((x) => x.Name === name);
-  //   if (property) {
-  //     return property.Description;
-  //   }
-  //   throw new Error(`${name} name undefined`);
-  // }
   async language(name: string): Promise<string> {
     return new Promise((resolve) => {
       wait(
         () => {
-          return this.loading === false;
+          return this.load();
         },
         () => {
-          if (!this.properties || this.properties.length === 0) {
-            this.loading = true;
-            this.list().then((x) => {
-              this.properties = x.Data;
-              this.loading = false;
-              let property = this.properties.find((x) => x.Name === name);
-              if (property) {
-                resolve(property.Description);
-              }
-            });
-          } else {
-            let property = this.properties.find((x) => x.Name === name);
-            if (property) {
-              resolve(property.Description);
-            }
+          let property = this.properties.find((x) => x.Name === name);
+          if (property) {
+            resolve(property.Description);
           }
         }
       );
