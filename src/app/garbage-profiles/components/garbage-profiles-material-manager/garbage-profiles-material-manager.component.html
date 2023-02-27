@@ -6,8 +6,11 @@
         <button class="hw-blue-btn" (click)="onrecord()">
           <i class="howell-icon-details"></i> 出入库记录
         </button>
-        <button class="hw-blue-btn" (click)="onsearch()">
-          <i class="howell-icon-plus"></i> 添加
+        <button class="hw-green-btn" (click)="onputin()">
+          <i class="howell-icon-inbox"></i> 入库
+        </button>
+        <button class="hw-cyan-btn" (click)="onputout()">
+          <i class="howell-icon-inbox"></i> 出库
         </button>
       </div>
       <div class="filter">
@@ -34,11 +37,7 @@
     </div>
   </div>
   <div class="garbage-profiles-material-manager-content">
-    <garbage-profiles-material-table
-      [load]="load"
-      (putin)="onputin($event)"
-      (putout)="onputout($event)"
-    >
+    <garbage-profiles-material-table [load]="load">
     </garbage-profiles-material-table>
   </div>
 </div>
@@ -58,8 +57,8 @@
 
 <app-window
   [Model]="window.putin"
-  *ngIf="window.putin.show"
   [style]="window.putin.style"
+  *ngIf="window.putin.show"
 >
   <garbage-profiles-material-putin
     [model]="selected"

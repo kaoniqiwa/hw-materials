@@ -38,6 +38,7 @@ export class GarbageProfilesMaterialManagerComponent implements OnInit {
     details: new GarbageProfilesMaterialDetailsWindow(),
     record: new GarbageProfilesMaterialRecordWindow(),
     putin: new GarbageProfilesMaterialPutInWindow(),
+    putout: new GarbageProfilesMaterialRecordWindow(),
   };
 
   selected: MaterialModel = new MaterialModel();
@@ -56,22 +57,20 @@ export class GarbageProfilesMaterialManagerComponent implements OnInit {
     this.window.record.show = true;
   }
 
-  onputout(model: MaterialModel) {
-    this.selected = model;
-    this.window.details.show = true;
-  }
   onwindowcancel() {
     this.window.putin.show = false;
     this.window.details.show = false;
     this.window.record.show = false;
   }
 
-  onputin(model: MaterialModel) {
-    this.selected = model;
+  onputin() {
     this.window.putin.show = true;
   }
   onputinok(item: PutInMaterialsParams) {
     this.business.putin(item);
     this.window.putin.show = false;
+  }
+  onputout() {
+    this.window.putout.show = true;
   }
 }

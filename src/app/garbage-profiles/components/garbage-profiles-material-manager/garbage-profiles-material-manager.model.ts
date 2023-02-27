@@ -6,18 +6,26 @@ export class GarbageProfilesMaterialManagerSource {
 }
 
 export class GarbageProfilesMaterialRecordWindow extends WindowViewModel {
-  constructor() {
-    super();
-    this.show = true;
-  }
   style = {
     width: '60%',
   };
 }
 export class GarbageProfilesMaterialDetailsWindow extends WindowViewModel {}
 export class GarbageProfilesMaterialPutInWindow extends WindowViewModel {
+  constructor() {
+    super();
+    this.show = true;
+  }
   style = {
-    width: '400px',
-    height: '670px',
+    width: '50%',
+  };
+}
+export class GarbageProfilesMaterialPutOutWindow extends WindowViewModel {
+  constructor() {
+    super();
+    this.show = true;
+  }
+  style = {
+    width: '50%',
   };
 }

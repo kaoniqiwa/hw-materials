@@ -1,5 +1,5 @@
 export class HowellTouchSpinOptions {
   verticalbuttons: boolean = true;
-  min = 1;
+  min = 0;
   max = 65536;
 }

@@ -35,8 +35,7 @@ export class GarbageProfilesMaterialRecordComponent implements OnInit {
 
   selectedNodes: CommonFlatNode[] = [];
   defaultIds: string[] = [];
-  selectLabelTreeNode(nodes: CommonFlatNode[]) {
-    // console.log('外部结果', nodes)
+  onTreeNodeSelected(nodes: CommonFlatNode[]) {
     this.selectedNodes = nodes;
     this.args.materialIds = this.selectedNodes.map((n) => parseInt(n.Id));
   }
