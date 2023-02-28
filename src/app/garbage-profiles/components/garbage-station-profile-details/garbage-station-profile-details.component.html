@@ -3,204 +3,54 @@
   <form [formGroup]="formGroup" class="garbage-station-profile-details-content">
     <mat-stepper formArrayName="formArray" linear>
       <mat-step
-        label="初建档案"
-        formGroupName="0"
         class="garbage-station-profile-details-content-list"
+        *ngFor="let control of formArray.controls; let i = index; let c = count"
+        [formGroupName]="i"
       >
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["ProfileName"] | async }}
+        <ng-container
+          *ngFor="let item of control.controls | keyvalue : customCompare"
+        >
+          <div class="garbage-station-profile-details-content-list-item">
+            <div
+              class="garbage-station-profile-details-content-list-item-title"
+            >
+              {{ source.language[item.key] | async }}
+            </div>
+            <div
+              class="garbage-station-profile-details-content-list-item-value"
+            >
+              <input type="text" [formControlName]="item.key" />
+            </div>
           </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="ProfileName" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["Province"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="Province" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["City"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="City" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["County"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="County" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["Street"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="Street" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["Committee"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="Committee" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["Address"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="Address" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["Contact"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="Contact" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["ContactPhoneNo"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="ContactPhoneNo" />
-          </div>
-        </div>
+        </ng-container>
         <div>
-          <button class="hw-green-btn" type="button" (click)="createModel()">
+          <button
+            class="hw-green-btn"
+            type="button"
+            (click)="createModel()"
+            *ngIf="i == 0 && state == FormState.add"
+          >
             创建
           </button>
-          <button class="hw-green-btn" matStepperNext type="button">
+          <button
+            class="hw-green-btn"
+            matStepperPrevious
+            type="button"
+            *ngIf="i != 0"
+          >
+            上一步
+          </button>
+          <button
+            class="hw-green-btn"
+            matStepperNext
+            type="button"
+            *ngIf="i != c - 1"
+          >
             下一步
           </button>
-        </div>
-      </mat-step>
-      <mat-step
-        label="勘察完成"
-        formGroupName="1"
-        class="garbage-station-profile-details-content-list"
-      >
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["GarbageStationName"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="GarbageStationName" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["CommunityName"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="CommunityName" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["StrongCurrentWire"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="StrongCurrentWire" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["StrongCurrentWireMode"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="StrongCurrentWireMode" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["StrongCurrentWireLength"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="StrongCurrentWireLength" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["GarbageStationType"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="GarbageStationType" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["Remarks"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="Remarks" />
-          </div>
-        </div>
-
-        <div>
-          <button mat-button matStepperNext type="button">Next</button>
-        </div> </mat-step
-      ><mat-step
-        label="安装完成"
-        formGroupName="2"
-        class="garbage-station-profile-details-content-list"
-      >
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["ProfileName"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="ProfileName" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["Province"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="Province" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["City"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="City" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["County"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="County" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["Street"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="Street" />
-          </div>
-        </div>
-
-        <div>
-          <button mat-button matStepperNext type="button">Next</button>
+          <button class="hw-green-btn" type="button" *ngIf="i == c - 1">
+            完成
+          </button>
         </div>
       </mat-step>
     </mat-stepper>

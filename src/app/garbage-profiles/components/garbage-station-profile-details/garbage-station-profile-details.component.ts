@@ -1,5 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
 import { GarbageStationProfilesSourceTools } from '../../tools/source.tool';
@@ -8,6 +14,7 @@ import { GarbageStationProfileDetailsBusiness } from './garbage-station-profile-
 import { GarbageStationProfileDetailsSource } from './garbage-station-profile-details.model';
 import { Guid } from 'src/app/common/tools/guid';
 import { FormState } from 'src/app/enum/form-state.enum';
+import { KeyValue } from '@angular/common';
 @Component({
   selector: 'garbage-station-profile-details',
   templateUrl: './garbage-station-profile-details.component.html',
@@ -19,6 +26,7 @@ import { FormState } from 'src/app/enum/form-state.enum';
 })
 export class GarbageStationProfileDetailsComponent implements OnInit {
   FormState = FormState;
+  Object = Object;
 
   @Input()
   state: FormState = FormState.none;
@@ -37,50 +45,34 @@ export class GarbageStationProfileDetailsComponent implements OnInit {
         ContactPhoneNo: ['', Validators.required], // 联系人电话
       }),
       this._formBuilder.group({
-        GarbageStationName: [''],
-        CommunityName: [''],
-        StrongCurrentWire: [''],
-        StrongCurrentWireMode: [''],
-        StrongCurrentWireLength: [''],
-        LFImageUrl: [''],
-        RFImageUrl: [''],
-        FImageUrl: [''],
-        PowerImageUrl: [''],
-        Functions: [''],
-        GarbageStationType: [''],
-        Remarks: [''],
+        GarbageStationName: ['', Validators.required],
+        CommunityName: ['', Validators.required],
+        StrongCurrentWire: ['', Validators.required],
+        StrongCurrentWireMode: ['', Validators.required],
+        StrongCurrentWireLength: ['', Validators.required],
+        LFImageUrl: ['', Validators.required],
+        RFImageUrl: ['', Validators.required],
+        FImageUrl: ['', Validators.required],
+        PowerImageUrl: ['', Validators.required],
+        Functions: ['', Validators.required],
+        GarbageStationType: ['', Validators.required],
+        Remarks: ['', Validators.required],
       }),
       this._formBuilder.group({
-        ProfileName: [''],
-        Province: [''],
-        City: [''],
-        County: [''],
-        Street: [''],
-        StrongCurrentWire: [''],
-        Contact: [''],
-      }),
-      this._formBuilder.group({
-        ProfileName: [''],
-        Province: [''],
-        City: [''],
-        County: [''],
-        Street: [''],
-        StrongCurrentWire: [''],
-        Contact: [''],
-      }),
-      this._formBuilder.group({
-        ProfileName: [''],
-        Province: [''],
-        City: [''],
-        County: [''],
-        Street: [''],
-        StrongCurrentWire: [''],
-        Contact: [''],
+        ConstructionContact: ['', Validators.required],
+        ConstructionContactPhoneNo: ['', Validators.required],
+        ConstructionDate: ['', Validators.required],
       }),
     ]),
   });
+  customCompare = (
+    keyValueA: KeyValue<string, AbstractControl<any, any>>,
+    keyValueB: KeyValue<string, AbstractControl<any, any>>
+  ): number => {
+    return 0;
+  };
   get formArray() {
-    return this.formGroup.get('formArray') as FormArray;
+    return this.formGroup.get('formArray') as FormArray<FormGroup>;
   }
   @Input()
   model: GarbageStationProfileModel = new GarbageStationProfileModel();
@@ -94,9 +86,13 @@ export class GarbageStationProfileDetailsComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     console.log(this.model);
-    this.sourceBusiness.load(this.model).then((source) => {
-      this.divisionSource = source;
-    });
+    // this.sourceBusiness.load(this.model).then((source) => {
+    //   this.divisionSource = source;
+    // });
+    if (this.state == FormState.add) {
+    } else if (this.state == FormState.edit) {
+      this._updateForm();
+    }
   }
 
   divisionSource: GarbageStationProfileDetailsSource =
@@ -145,6 +141,16 @@ export class GarbageStationProfileDetailsComponent implements OnInit {
     return true;
   }
 
+  private _updateForm() {
+    let groups = this.formArray.controls;
+    console.log(groups);
+
+    for (let i = 0; i < groups.length; i++) {
+      let formGroup = groups[i];
+      let controls = formGroup.controls;
+      console.log(controls);
+    }
+  }
   onok() {}
   oncancel() {}
 }
