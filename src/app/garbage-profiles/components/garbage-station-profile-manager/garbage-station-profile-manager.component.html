@@ -22,7 +22,14 @@
   </div>
 </div>
 
-<app-window [Model]="window" [style]="style" *ngIf="window.show">
-  <garbage-station-profile-details [model]="selected">
+<app-window
+  [Model]="window.details"
+  [style]="window.details.style"
+  *ngIf="window.details.show"
+>
+  <garbage-station-profile-details
+    [model]="selected"
+    [state]="window.details.state"
+  >
   </garbage-station-profile-details>
 </app-window>
