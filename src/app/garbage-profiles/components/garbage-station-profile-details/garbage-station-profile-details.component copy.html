@@ -1,0 +1,93 @@
+<div class="garbage-station-profile-details">
+  <div class="hw-simple-title">厢房档案</div>
+  <div class="garbage-station-profile-details-content">
+    <div class="garbage-station-profile-details-content-list">
+      <div class="garbage-station-profile-details-content-list-item">
+        <div class="garbage-station-profile-details-content-list-item-title">
+          {{ source.language["ProfileName"] | async }}
+        </div>
+        <div class="garbage-station-profile-details-content-list-item-value">
+          <input type="text" [(ngModel)]="model.ProfileName" />
+        </div>
+      </div>
+      <div class="garbage-station-profile-details-content-list-item">
+        <div class="garbage-station-profile-details-content-list-item-title">
+          {{ source.language["Province"] | async }}
+        </div>
+        <div class="garbage-station-profile-details-content-list-item-value">
+          <select [(ngModel)]="model.Province" (change)="onchange()">
+            <option
+              [ngValue]="item.Name"
+              *ngFor="let item of divisionSource.provinces"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="garbage-station-profile-details-content-list-item">
+        <div class="garbage-station-profile-details-content-list-item-title">
+          {{ source.language["City"] | async }}
+        </div>
+        <div class="garbage-station-profile-details-content-list-item-value">
+          <select [(ngModel)]="model.City" (change)="onchange()">
+            <option
+              [ngValue]="item.Name"
+              *ngFor="let item of divisionSource.citys"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="garbage-station-profile-details-content-list-item">
+        <div class="garbage-station-profile-details-content-list-item-title">
+          {{ source.language["County"] | async }}
+        </div>
+        <div class="garbage-station-profile-details-content-list-item-value">
+          <select [(ngModel)]="model.County" (change)="onchange()">
+            <option
+              [ngValue]="item.Name"
+              *ngFor="let item of divisionSource.countys"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="garbage-station-profile-details-content-list-item">
+        <div class="garbage-station-profile-details-content-list-item-title">
+          {{ source.language["Street"] | async }}
+        </div>
+        <div class="garbage-station-profile-details-content-list-item-value">
+          <select [(ngModel)]="model.Street" (change)="onchange()">
+            <option
+              [ngValue]="item.Name"
+              *ngFor="let item of divisionSource.streets"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="garbage-station-profile-details-content-list-item">
+        <div class="garbage-station-profile-details-content-list-item-title">
+          {{ source.language["StrongCurrentWire"] | async }}
+        </div>
+        <div class="garbage-station-profile-details-content-list-item-value">
+          <app-select-control
+            [data]="source.StrongCurrentWire"
+            [(selected)]="model.StrongCurrentWire"
+            [cannull]="true"
+            [default]="false"
+          >
+          </app-select-control>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="garbage-station-profile-details-foot">
+    <button class="hw-green-btn" (click)="onok()">确定</button>
+    <button class="hw-blue-btn" (click)="oncancel()">取消</button>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HowellModule } from 'src/app/common/howell.module';
 import { MaterialModule } from 'src/app/material.module';
@@ -43,6 +43,7 @@ import { UnderwaterComponent } from './underwater/underwater.component';
     FormsModule,
     HowellModule,
     RouterModule,
+    ReactiveFormsModule,
   ],
   exports: [],
 })
