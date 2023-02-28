@@ -7,6 +7,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { CommonFlatNode } from 'src/app/common/components/common-tree/common-flat-node.model';
 import { IBusiness } from 'src/app/common/interfaces/bussiness.interface';
 import { IComponent } from 'src/app/common/interfaces/component.interfact';
 import { IModel } from 'src/app/common/interfaces/model.interface';
@@ -43,12 +44,14 @@ export class GarbageProfilesRecordMaterialTableComponent
   selected?: MaterialRecordModel;
   @Output()
   selectedChange: EventEmitter<MaterialRecordModel> = new EventEmitter();
+  @Output()
+  loaded: EventEmitter<MaterialRecordModel[]> = new EventEmitter();
   constructor(business: GarbageProfilesRecordMaterialTableBusiness) {
     super();
     this.business = business;
   }
-  widths: string[] = [];
-
+  widths: string[] = ['', '', '', '', '30%'];
+  selectedNodes: { [key: string]: CommonFlatNode[] } = {};
   ngOnInit(): void {
     this.loadData(1);
   }
@@ -64,7 +67,20 @@ export class GarbageProfilesRecordMaterialTableComponent
   }
 
   loadData(index: number, size: number = 10): void {
-    this.business.load(index, size, this.args);
+    this.selectedNodes = {};
+    this.business.load(index, size, this.args).then((x) => {
+      this.page = x.Page;
+      this.datas = x.Data;
+      this.datas.forEach((data) => {
+        this.selectedNodes[data.Id] = data.MaterialItems.map((item) => {
+          let node = new CommonFlatNode();
+          node.Id = item.Id.toString();
+          node.Name = `${item.Name}:${item.Number}`;
+          return node;
+        });
+      });
+      this.loaded.emit(this.datas);
+    });
   }
 
   oncheck(e: Event, item: MaterialRecordModel) {

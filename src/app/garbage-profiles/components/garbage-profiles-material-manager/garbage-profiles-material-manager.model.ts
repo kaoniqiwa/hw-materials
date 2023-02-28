@@ -7,15 +7,11 @@ export class GarbageProfilesMaterialManagerSource {
 
 export class GarbageProfilesMaterialRecordWindow extends WindowViewModel {
   style = {
-    width: '60%',
+    height: '85%',
   };
 }
 export class GarbageProfilesMaterialDetailsWindow extends WindowViewModel {}
 export class GarbageProfilesMaterialPutInWindow extends WindowViewModel {
-  constructor() {
-    super();
-    this.show = true;
-  }
   style = {
     width: '50%',
   };

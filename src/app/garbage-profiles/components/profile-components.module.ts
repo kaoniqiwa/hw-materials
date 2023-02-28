@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HowellModule } from 'src/app/common/howell.module';
 import { MaterialModule } from 'src/app/material.module';
+import { GarbageProfilesLabelDetailsComponent } from './garbage-profiles-label-details/garbage-profiles-label-details.component';
 import { GarbageProfilesLabelManagerComponent } from './garbage-profiles-label-manager/garbage-profiles-label-manager.component';
 import { GarbageProfilesMaterialDetailsComponent } from './garbage-profiles-material-details/garbage-profiles-material-details.component';
 import { GarbageProfilesMaterialManagerComponent } from './garbage-profiles-material-manager/garbage-profiles-material-manager.component';
@@ -32,6 +33,7 @@ import { UnderwaterComponent } from './underwater/underwater.component';
     GarbageProfilesMaterialRecordComponent,
     GarbageProfilesMaterialPutInComponent,
     GarbageProfilesLabelManagerComponent,
+    GarbageProfilesLabelDetailsComponent,
 
     MaterialTreeComponent,
   ],

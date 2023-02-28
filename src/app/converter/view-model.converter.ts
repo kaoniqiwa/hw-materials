@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { Medium } from '../common/tools/medium';
+import { MaterialRecordType } from '../enum/material-record-type.enum';
 import { DivisionModel } from '../model/division.model';
 import { GarbageStationProfileModel } from '../model/garbage-station-profile.model';
+import { LabelModel } from '../model/label.model';
 import { MaterialRecordModel } from '../model/material-record.model';
 import { MaterialModel } from '../model/material.model';
 import { ModificationRecordModel } from '../model/modification-record.model';
 import { PropertyModel } from '../model/property.model';
 import { Division } from '../network/entity/division.entity';
 import { GarbageStationProfile } from '../network/entity/garbage-station-profile.entity';
+import { Label } from '../network/entity/label.entity';
 import { MaterialRecord } from '../network/entity/material-record.entity';
 import { Material } from '../network/entity/material.entity';
 import { ModificationRecord } from '../network/entity/modification-record.entity';
@@ -143,10 +146,20 @@ export class ViewModelConverter {
       if (source.ImageUrls) {
         let all = source.ImageUrls.map((x) => {
           return new Promise<string>((resolve) => {
-            resolve(Medium.jpg(x));
+            resolve(Medium.data(x));
           });
         });
         model.Images = Promise.all(all);
+      }
+      switch (source.MaterialRecordType) {
+        case MaterialRecordType.in:
+          model.MaterialRecordTypeName = '入库记录';
+          break;
+        case MaterialRecordType.out:
+          model.MaterialRecordTypeName = '出库记录';
+          break;
+        default:
+          break;
       }
       return model;
     } else {
@@ -181,5 +194,21 @@ export class ViewModelConverter {
         return this.ModificationRecord(x);
       });
     }
+  }
+
+  Label(source: Label): LabelModel {
+    let plain = instanceToPlain(source);
+    let model = plainToInstance(LabelModel, plain);
+    switch (source.State) {
+      case 1:
+        model.StateName = '注销';
+        break;
+      case 0:
+
+      default:
+        model.StateName = '正常';
+        break;
+    }
+    return model;
   }
 }

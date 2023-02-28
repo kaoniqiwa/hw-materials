@@ -7,30 +7,46 @@
       </div>
       <div class="garbage-profiles-material-putin-body-tree-content">
         <howell-material-tree
+          [defaultIds]="selectedIds"
           (selectTreeNode)="onTreeNodeSelected($event)"
         ></howell-material-tree>
       </div>
     </div>
     <div class="garbage-profiles-material-putin-body-content">
-      <div class="garbage-profiles-material-putin-body-content-list">
-        <div class="garbage-profiles-material-putin-body-title">
-          <div class="hw-simple-title">入库信息</div>
-        </div>
-        <div
-          class="garbage-profiles-material-putin-body-content-list-item"
-          *ngFor="let item of materials"
-        >
-          <div>{{ item.Name }}</div>
-          <div class="operation">
-            <div class="operation-number">
-              <input type="number" appTouchSpin [(number)]="item.Number" />
+      <div class="garbage-profiles-material-putin-body-title">
+        <div class="hw-simple-title">入库信息</div>
+      </div>
+      <div class="garbage-profiles-material-putin-body-content-item list">
+        <div class="item-title">入库物料：</div>
+        <div class="item-content">
+          <div class="list-content">
+            <div class="list-item" *ngFor="let item of materials">
+              <div>{{ item.Name }}</div>
+              <div class="operation">
+                <div class="operation-number">
+                  <input type="number" appTouchSpin [(number)]="item.Number" />
+                </div>
+                <div class="operation-close" (click)="onremove(item)">
+                  <i class="howell-icon-Close"></i>
+                </div>
+              </div>
             </div>
-            <div class="operation-close"><i class="howell-icon-Close"></i></div>
           </div>
         </div>
       </div>
-      <div class="garbage-profiles-material-putin-body-content-image">
-        <app-image-upload (upload)="onimage($event)"> </app-image-upload>
+      <div
+        class="garbage-profiles-material-putin-body-content-item description"
+      >
+        <div class="item-title">备注：</div>
+        <div class="item-content">
+          <textarea [(ngModel)]="description" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="garbage-profiles-material-putin-body-content-item image">
+        <div class="item-title">照片凭证：</div>
+        <div class="item-content">
+          <app-image-upload (upload)="onimage($event)"> </app-image-upload>
+        </div>
       </div>
     </div>
   </div>

@@ -26,15 +26,8 @@ export class MaterialTreeComponent extends CommonTree implements OnInit {
   selectStrategy = SelectStrategy.Multiple;
 
   // 默认选中列表
-  private _defaultIds: string[] = [];
   @Input()
-  set defaultIds(ids: string[]) {
-    // 排除空字符串
-    this._defaultIds = ids.filter((id) => id);
-  }
-  get defaultIds() {
-    return this._defaultIds;
-  }
+  defaultIds: string[] = [];
 
   @Input() showSearchBar = true;
 

@@ -1,4 +1,4 @@
 export enum MaterialRecordType {
-  in = 0,
-  out = 1,
+  in = 1,
+  out = 2,
 }

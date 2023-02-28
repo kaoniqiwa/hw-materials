@@ -1,16 +1,16 @@
-<div class="garbage-profiles-record-material-table">
-  <div class="garbage-profiles-record-material-table-main vertical-layout">
+<div class="garbage-profiles-label-table">
+  <div class="garbage-profiles-label-table-main vertical-layout">
     <table border="0" cellpadding="0" cellspacing="0">
       <colgroup>
         <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
       </colgroup>
       <thead>
         <tr>
-          <td>存档照片</td>
-          <td>文档名称</td>
-          <td>记录类型</td>
-          <td>备注信息</td>
-          <td class="operation center"><div>物料</div></td>
+          <td>ID</td>
+          <td>名称</td>
+          <td>状态</td>
+          <td>类别</td>
+          <td class="operation center"><div>操作</div></td>
         </tr>
       </thead>
     </table>
@@ -22,43 +22,31 @@
         <tbody>
           <tr
             *ngFor="let item of datas; let i = index"
-            [ngStyle]="{
-              height: 'height:calc(100% / ' + page.PageCount + ')'
+            [ngClass]="{
+              selected: this.selected && this.selected.includes(item)
             }"
+            (click)="onselected(item)"
           >
+            <td>{{ item.Id }}</td>
             <td>
-              <div
-                *ngFor="let img of item.Images | async"
-                class="img"
-                [ngStyle]="{
-                  backgroundImage: 'url(' + img + ')'
-                }"
-              ></div>
+              {{ item.Name }}
             </td>
+            <td>{{ item.StateName }}</td>
             <td>
-              {{ item.ProfileName }}
-            </td>
-            <td>{{ item.MaterialRecordTypeName }}</td>
-            <td>
-              {{ item.Description }}
+              {{ item.CategoryName }}
             </td>
 
             <td class="operation center">
-              <mat-chip-list class="mat-chip-list-region-tree" #chipList>
-                <mat-chip *ngFor="let item of item.MaterialItems">
-                  {{ item.Name }}:{{ item.Number }}
-                </mat-chip>
-              </mat-chip-list>
+              <div (click)="onupdate($event, item)" class="center">
+                <i class="howell-icon-modification"></i>
+              </div>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <div
-      class="garbage-profiles-record-material-table-main-footer footer"
-      *ngIf="page"
-    >
+    <div class="garbage-profiles-label-table-main-footer footer" *ngIf="page">
       <div class="footer-item">
         <div class="footer-info">
           <div class="info-item">当前数量: {{ page && page.RecordCount }}</div>

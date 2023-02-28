@@ -6,7 +6,7 @@ import { Page } from 'src/app/network/entity/page.entity';
 export abstract class PagedTableAbstractComponent<T> {
   abstract widths: Array<string>;
   abstract load?: EventEmitter<any>;
-
+  abstract loaded: EventEmitter<T[]>;
   abstract loadData(index: number, size: number, ...args: any[]): void;
 
   Language = Language;

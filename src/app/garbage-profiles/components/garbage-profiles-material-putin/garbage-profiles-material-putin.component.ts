@@ -23,6 +23,7 @@ export class GarbageProfilesMaterialPutInComponent {
   image?: string;
 
   materials: MaterialItem[] = [];
+  selectedIds: string[] = [];
   onTreeNodeSelected(nodes: CommonFlatNode[]) {
     this.materials = nodes.map((n) => {
       let data = n.RawData as Material;
@@ -37,13 +38,23 @@ export class GarbageProfilesMaterialPutInComponent {
   touchSpinChange(num: any) {
     this.value = num;
   }
+  onremove(item: MaterialItem) {
+    let index = this.materials.findIndex((x) => x.Id === item.Id);
+    if (index < 0) return;
+    this.materials.splice(index, 1);
+    this.selectedIds = this.materials.map((x) => x.Id.toString());
+  }
   onimage(image: string) {
     this.image = image;
   }
   onok() {
     let params = new PutInMaterialsParams();
     params.MaterialItems = this.materials;
-    console.log(params);
+    params.Description = this.description;
+    if (this.image) {
+      params.ImageUrls = [this.image];
+    }
+    this.ok.emit(params);
   }
   oncancel() {
     this.cancel.emit();

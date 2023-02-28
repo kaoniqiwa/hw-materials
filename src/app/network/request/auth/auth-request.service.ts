@@ -12,21 +12,17 @@ import {
   CanActivate,
   Router,
   RouterStateSnapshot,
-  UrlTree,
 } from '@angular/router';
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { plainToInstance } from 'class-transformer';
 import { CookieService } from 'ngx-cookie-service';
-import { RoutePath } from 'src/app/app-routing.path';
+import { GlobalStorageService } from 'src/app/common/service/global-storage.service';
 import { LocalStorageService } from 'src/app/common/service/local-storage.service';
 import { SessionStorageService } from 'src/app/common/service/session-storage.service';
-import { GlobalStorageService } from 'src/app/common/service/global-storage.service';
-import CryptoJS from 'crypto-js';
 import { Md5 } from 'ts-md5';
 import { DigestResponse } from '../../entity/digest-response.entity';
 import { User } from '../../entity/user.model';
 import { UserUrl } from '../../url/user.url';
-import { HowellUrl } from '../../url/howell-url';
 
 @Injectable({
   providedIn: 'root',
@@ -182,13 +178,21 @@ export class AuthorizationService implements CanActivate {
     // console.log('authHeaders', authHeaders);
     return authHeaders;
   }
-  public generateHttpHeader(method: string, uri: string) {
+  public generateHttpHeader(method: string, uri: string, contentType?: string) {
     let chanllenge = this._sessionStorage.challenge;
     // console.log(chanllenge);
     const authHeader = this._generateChallengeHeader(chanllenge, method, uri);
-    return new HttpHeaders({
-      Authorization: authHeader,
-      'X-WebBrowser-Authentication': 'Forbidden',
-    });
+    if (contentType) {
+      return new HttpHeaders({
+        Authorization: authHeader,
+        'X-WebBrowser-Authentication': 'Forbidden',
+        'content-type': contentType,
+      });
+    } else {
+      return new HttpHeaders({
+        Authorization: authHeader,
+        'X-WebBrowser-Authentication': 'Forbidden',
+      });
+    }
   }
 }

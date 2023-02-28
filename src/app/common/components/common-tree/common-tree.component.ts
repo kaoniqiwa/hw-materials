@@ -254,6 +254,9 @@ export class CommonTreeComponent implements OnInit, OnChanges {
   }
 
   setDefaultNodes() {
+    if (this.selection) {
+      this.selection.clear();
+    }
     if (this.defaultIds.length == 0) return;
     if (this.selectStrategy == SelectStrategy.Single) {
       this.defaultIds.length = 1;
@@ -262,6 +265,7 @@ export class CommonTreeComponent implements OnInit, OnChanges {
     let len = this.defaultIds.length;
 
     let res: string[] = [];
+
     for (let i = 0; i < len; i++) {
       let id = this.defaultIds.shift(); // 会改变数组长度
       if (id) {
@@ -286,9 +290,11 @@ export class CommonTreeComponent implements OnInit, OnChanges {
       }
     }
     // 循环结束后，留下的都是没有匹配到的节点
-    this.defaultIds = res;
-    if (len !== this.defaultIds.length)
-      this.defaultIdsChange.emit(this.defaultIds);
+    // if (this.defaultIds) {
+    //   this.defaultIds = res;
+    // }
+    // if (len !== this.defaultIds.length)
+    //   this.defaultIdsChange.emit(this.defaultIds);
   }
 
   /**

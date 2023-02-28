@@ -1,0 +1,49 @@
+.garbage-profiles-label-manager {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+
+  @head-height: 100px;
+
+  &-head {
+    height: @head-height;
+
+
+    &-operation {
+      height: 70px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .filter {
+        display: flex;
+        justify-content: end;
+
+        &-item {
+          width: 240px;
+          display: flex;
+          color: #cfd7ff;
+          align-items: center;
+          margin-right: 10px;
+
+          @title-width: 50px;
+
+          &-title {
+            margin-right: 5px;
+            width: @title-width;
+          }
+
+          &-control {
+            width: calc(100% - @title-width);
+          }
+        }
+      }
+    }
+  }
+
+  &-content {
+    width: 100%;
+    height: calc(100% - @head-height);
+  }
+}

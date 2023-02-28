@@ -1,11 +1,14 @@
 import { BasicUrl } from '../base.url';
 
 export abstract class PicturesUrl {
-  protected static get basic(): string {
+  static get basic(): string {
     return `${BasicUrl.garbage_profiles}/Medium/Pictures`;
   }
-  static create() {
-    return this.basic;
+
+  /** /howell/ver10/data_service/medium/Pictures?ContentType=Fixed */
+  static upload() {
+    // return `${BasicUrl.data}/medium/Pictures?ContentType=Fixed`;
+    return `${this.basic}?ContentType=Fixed`;
   }
 
   static item(id: string) {

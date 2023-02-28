@@ -205,6 +205,11 @@ class GarbageStationProfilesLabelsRequestService extends AbstractService<Label> 
     this.type = this.basic.type(Label);
   }
 
+  create(instance: Label) {
+    let url = GarbageStationProfilesUrl.label.basic();
+    let plain = instanceToPlain(instance);
+    return this.type.post(url, plain);
+  }
   get(id: string): Promise<Label> {
     let url = GarbageStationProfilesUrl.label.item(id);
     return this.type.get(url);

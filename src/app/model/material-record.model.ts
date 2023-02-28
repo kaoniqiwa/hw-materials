@@ -5,4 +5,5 @@ import { GarbageStationProfileModel } from './garbage-station-profile.model';
 export class MaterialRecordModel extends MaterialRecord {
   Images?: Promise<string[]>;
   Profile?: Promise<GarbageStationProfileModel>;
+  MaterialRecordTypeName?: string;
 }

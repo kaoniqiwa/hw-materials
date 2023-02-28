@@ -138,6 +138,18 @@ export class HowellAuthHttpService {
     return this._http.post<T>(url, data, httpOptions);
   }
 
+  public postImage<T>(url: string, data: string) {
+    const myHeaders = this._authorizationService.generateHttpHeader(
+      'POST',
+      url,
+      'application/json'
+    );
+    const httpOptions = {
+      headers: myHeaders,
+    };
+    return this._http.post<T>(url, data, httpOptions);
+  }
+
   public postReturnString<T = any>(
     url: string,
     model?: T,

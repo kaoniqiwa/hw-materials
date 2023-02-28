@@ -1,0 +1,17 @@
+<div class="garbage-profiles-label-details" *ngIf="model">
+  <div class="hw-simple-title">厢房标签</div>
+  <div class="form">
+    <div class="form-list">
+      <div class="form-list-item">
+        <div class="form-list-item-title">名称</div>
+        <div class="form-list-item-value">
+          <input type="text" [(ngModel)]="model.Name" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="garbage-profiles-label-details-foot">
+    <button class="hw-green-btn" (click)="onok()">确定</button>
+    <button class="hw-blue-btn" (click)="oncancel()">取消</button>
+  </div>
+</div>

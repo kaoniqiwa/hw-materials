@@ -45,6 +45,8 @@ export class GarbageProfilesMaterialTableComponent
   @Output()
   selectedChange: EventEmitter<MaterialModel[]> = new EventEmitter();
   @Output()
+  loaded: EventEmitter<MaterialModel[]> = new EventEmitter();
+  @Output()
   putin: EventEmitter<MaterialModel> = new EventEmitter();
   @Output()
   putout: EventEmitter<MaterialModel> = new EventEmitter();
@@ -67,10 +69,11 @@ export class GarbageProfilesMaterialTableComponent
       }
     }
   }
-  loadData(index: number, size: number = 10): void {
+  loadData(index: number, size: number = 5): void {
     this.business.load(this.args, index, size).then((paged) => {
       this.page = paged.Page;
       this.datas = paged.Data;
+      this.loaded.emit(this.datas);
     });
   }
   onputin(e: Event, item: MaterialModel) {

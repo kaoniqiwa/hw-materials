@@ -1,3 +1,4 @@
+import { GarbageProfilesLabelTableComponent } from './garbage-profiles-label-table/garbage-profiles-label-table.component';
 import { GarbageProfilesMaterialTableComponent } from './garbage-profiles-material-table/garbage-profiles-material-table.component';
 import { GarbageProfilesRecordMaterialTableComponent } from './garbage-profiles-record-material-table/garbage-profiles-record-material-table.component';
 import { GarbageProfilesRecordModificationTableComponent } from './garbage-profiles-record-modification-table/garbage-profiles-record-modification-table.component';
@@ -8,4 +9,5 @@ export const TableComponents = [
   GarbageProfilesMaterialTableComponent,
   GarbageProfilesRecordMaterialTableComponent,
   GarbageProfilesRecordModificationTableComponent,
+  GarbageProfilesLabelTableComponent,
 ];

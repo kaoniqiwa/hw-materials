@@ -11,7 +11,6 @@
           <td>类别</td>
           <td>库存</td>
           <td>备注</td>
-          <td class="operation center"><div>操作</div></td>
         </tr>
       </thead>
     </table>
@@ -41,17 +40,6 @@
             </td>
             <td>
               {{ item.Description }}
-            </td>
-
-            <td class="operation center">
-              <div class="center">
-                <button (click)="onputin($event, item)" class="hw-green-btn">
-                  入库
-                </button>
-                <button (click)="onputout($event, item)" class="hw-cyan-btn">
-                  出库
-                </button>
-              </div>
             </td>
           </tr>
         </tbody>

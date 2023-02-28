@@ -48,7 +48,8 @@ export class GarbageStationProfileTableComponent
   @Output()
   selectedChange: EventEmitter<GarbageStationProfileModel[]> =
     new EventEmitter();
-
+  @Output()
+  loaded: EventEmitter<GarbageStationProfileModel[]> = new EventEmitter();
   @Output()
   check: EventEmitter<GarbageStationProfileModel> = new EventEmitter();
 
@@ -81,6 +82,7 @@ export class GarbageStationProfileTableComponent
     this.business.load(this.args, index, size).then((paged) => {
       this.page = paged.Page;
       this.datas = paged.Data;
+      this.loaded.emit(this.datas);
     });
   }
 

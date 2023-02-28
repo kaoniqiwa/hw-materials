@@ -1,3 +1,29 @@
 .garbage-profiles-record-material-table {
   height: 100%;
+
+  .img {
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size: contain;
+    width: 140px;
+    height: 80px !important;
+    margin-right: 10px;
+  }
+
+  ::ng-deep .mat-chip-list {
+    overflow-y: auto !important;
+    height: 80px;
+
+    .mat-chip-list-wrapper {
+      display: flex;
+      justify-content: start;
+      flex-wrap: wrap;
+      margin: 0;
+
+      &>* {
+        margin: 2;
+      }
+    }
+  }
+
 }
