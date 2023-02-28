@@ -3,6 +3,6 @@ import { WindowViewModel } from 'src/app/common/components/window-control/window
 export class GarbageProfilesLabelDetailsWindow extends WindowViewModel {
   style = {
     width: '300px',
-    height: '150px',
+    height: '200px',
   };
 }

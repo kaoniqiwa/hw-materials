@@ -7,6 +7,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { IBusiness } from 'src/app/common/interfaces/bussiness.interface';
 import { IComponent } from 'src/app/common/interfaces/component.interfact';
 import { IModel } from 'src/app/common/interfaces/model.interface';
@@ -37,9 +38,10 @@ export class GarbageProfilesLabelTableComponent
   selected?: LabelModel[];
   @Output()
   selectedChange: EventEmitter<LabelModel[]> = new EventEmitter();
-
   @Output()
-  loaded: EventEmitter<LabelModel[]> = new EventEmitter();
+  loaded: EventEmitter<PagedList<LabelModel>> = new EventEmitter();
+  @Output()
+  modify: EventEmitter<LabelModel> = new EventEmitter();
   constructor(business: GarbageProfilesLabelTableBusiness) {
     super();
     this.business = business;
@@ -65,9 +67,14 @@ export class GarbageProfilesLabelTableComponent
     this.business.load(index, size, this.args).then((x) => {
       this.page = x.Page;
       this.datas = x.Data;
-      this.loaded.emit(this.datas);
+      this.loaded.emit(x);
     });
   }
 
-  onupdate(e: Event, item: LabelModel) {}
+  onupdate(e: Event, item: LabelModel) {
+    e.stopImmediatePropagation();
+    let plain = instanceToPlain(item);
+    let instance = plainToInstance(LabelModel, plain);
+    this.modify.emit(instance);
+  }
 }

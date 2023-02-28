@@ -3,6 +3,12 @@
   <div class="form">
     <div class="form-list">
       <div class="form-list-item">
+        <div class="form-list-item-title">编号</div>
+        <div class="form-list-item-value">
+          <input type="number" appTouchSpin [(number)]="model.Id" />
+        </div>
+      </div>
+      <div class="form-list-item">
         <div class="form-list-item-title">名称</div>
         <div class="form-list-item-value">
           <input type="text" [(ngModel)]="model.Name" />

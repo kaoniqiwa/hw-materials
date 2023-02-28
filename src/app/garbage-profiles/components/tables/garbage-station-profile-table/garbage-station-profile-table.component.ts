@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
+import { PagedList } from 'src/app/network/entity/page.entity';
 import { PagedTableSelectionAbstractComponent } from '../table-paged-abstract.component';
 import { GarbageStationProfileTableBusiness } from './garbage-station-profile-table.business';
 import { GarbageStationProfileTableConverter } from './garbage-station-profile-table.converter';
@@ -49,7 +50,8 @@ export class GarbageStationProfileTableComponent
   selectedChange: EventEmitter<GarbageStationProfileModel[]> =
     new EventEmitter();
   @Output()
-  loaded: EventEmitter<GarbageStationProfileModel[]> = new EventEmitter();
+  loaded: EventEmitter<PagedList<GarbageStationProfileModel>> =
+    new EventEmitter();
   @Output()
   check: EventEmitter<GarbageStationProfileModel> = new EventEmitter();
 
@@ -82,7 +84,7 @@ export class GarbageStationProfileTableComponent
     this.business.load(this.args, index, size).then((paged) => {
       this.page = paged.Page;
       this.datas = paged.Data;
-      this.loaded.emit(this.datas);
+      this.loaded.emit(paged);
     });
   }
 

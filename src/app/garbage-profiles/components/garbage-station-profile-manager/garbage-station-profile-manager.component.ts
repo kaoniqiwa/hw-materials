@@ -22,4 +22,8 @@ export class GarbageStationProfileManagerComponent {
     this.selected = item;
     this.window.show = true;
   }
+
+  oncreate() {
+    this.window.show = true;
+  }
 }

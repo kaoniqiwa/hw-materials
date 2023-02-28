@@ -6,7 +6,11 @@
         <button class="hw-green-btn" (click)="oncreate()">
           <i class="howell-icon-plus"></i> 添加
         </button>
-        <button class="hw-red-btn">
+        <button
+          class="hw-red-btn"
+          (click)="ondelete()"
+          *ngIf="selecteds && selecteds.length > 0"
+        >
           <i class="howell-icon-delete-bin"></i> 删除
         </button>
       </div>
@@ -34,14 +38,31 @@
     </div>
   </div>
   <div class="garbage-profiles-label-manager-content">
-    <garbage-profiles-label-table [load]="load"> </garbage-profiles-label-table>
+    <garbage-profiles-label-table
+      [load]="load"
+      (loaded)="loaded($event)"
+      [(selected)]="selecteds"
+    >
+    </garbage-profiles-label-table>
   </div>
 </div>
 
 <app-window
-  [Model]="window.details"
-  [style]="window.details.style"
-  *ngIf="window.details.show"
+  [Model]="window.creater"
+  [style]="window.creater.style"
+  *ngIf="window.creater.show"
+>
+  <garbage-profiles-label-details
+    [model]="selected"
+    (ok)="oncreateok($event)"
+    (cancel)="onwindowclose()"
+  >
+  </garbage-profiles-label-details>
+</app-window>
+<app-window
+  [Model]="window.creater"
+  [style]="window.creater.style"
+  *ngIf="window.creater.show"
 >
   <garbage-profiles-label-details
     [model]="selected"

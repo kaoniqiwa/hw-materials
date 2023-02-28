@@ -24,7 +24,16 @@
               <div>{{ item.Name }}</div>
               <div class="operation">
                 <div class="operation-number">
-                  <input type="number" appTouchSpin [(number)]="item.Number" />
+                  <input
+                    type="number"
+                    [options]="{
+                      verticalbuttons: true,
+                      min: 0,
+                      max: 99
+                    }"
+                    appTouchSpin
+                    [(number)]="item.Number"
+                  />
                 </div>
                 <div class="operation-close" (click)="onremove(item)">
                   <i class="howell-icon-Close"></i>

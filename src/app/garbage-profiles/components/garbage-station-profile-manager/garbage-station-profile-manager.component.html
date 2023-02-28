@@ -3,9 +3,16 @@
     <div>
       <div class="hw-simple-title">厢房档案管理</div>
     </div>
-    <div class="filter">
-      <div class="filter-item">
-        <howell-simple-search [(value)]="args.Name"></howell-simple-search>
+    <div class="garbage-station-profile-manager-head-operation">
+      <div class="operation">
+        <button class="hw-green-btn" (click)="oncreate()">
+          <i class="howell-icon-plus"></i> 添加
+        </button>
+      </div>
+      <div class="filter">
+        <div class="filter-item">
+          <howell-simple-search [(value)]="args.Name"></howell-simple-search>
+        </div>
       </div>
     </div>
   </div>

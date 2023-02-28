@@ -6,8 +6,7 @@
       </colgroup>
       <thead>
         <tr>
-          <td>存档照片</td>
-          <td>文档名称</td>
+          <td>记录时间</td>
           <td>记录类型</td>
           <td>备注信息</td>
           <td class="operation center"><div>物料</div></td>
@@ -27,16 +26,7 @@
             }"
           >
             <td>
-              <div
-                *ngFor="let img of item.Images | async"
-                class="img"
-                [ngStyle]="{
-                  backgroundImage: 'url(' + img + ')'
-                }"
-              ></div>
-            </td>
-            <td>
-              {{ item.ProfileName }}
+              {{ item.CreationTime | date : "YYYY-MM-dd HH:mm:ss" }}
             </td>
             <td>{{ item.MaterialRecordTypeName }}</td>
             <td>

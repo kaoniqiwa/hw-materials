@@ -45,7 +45,7 @@ export class GarbageProfilesRecordMaterialTableComponent
   @Output()
   selectedChange: EventEmitter<MaterialRecordModel> = new EventEmitter();
   @Output()
-  loaded: EventEmitter<MaterialRecordModel[]> = new EventEmitter();
+  loaded: EventEmitter<PagedList<MaterialRecordModel>> = new EventEmitter();
   constructor(business: GarbageProfilesRecordMaterialTableBusiness) {
     super();
     this.business = business;
@@ -79,7 +79,7 @@ export class GarbageProfilesRecordMaterialTableComponent
           return node;
         });
       });
-      this.loaded.emit(this.datas);
+      this.loaded.emit(x);
     });
   }
 

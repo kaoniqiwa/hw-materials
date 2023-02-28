@@ -219,7 +219,7 @@ class GarbageStationProfilesLabelsRequestService extends AbstractService<Label> 
     let plain = instanceToPlain(instance);
     return this.type.put(url, plain as Label);
   }
-  delete(id: string): Promise<Label> {
+  delete(id: number): Promise<Label> {
     let url = GarbageStationProfilesUrl.label.item(id);
     return this.type.delete(url);
   }

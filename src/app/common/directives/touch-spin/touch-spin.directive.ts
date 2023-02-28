@@ -27,6 +27,8 @@ export class TouchSpinDirective implements AfterViewInit, OnChanges {
     if (changes['number']) {
       if (this.number !== undefined) {
         let input = this._ele.nativeElement as HTMLInputElement;
+        if (this.number > this.options.max) return;
+        if (this.number < this.options.min) return;
         input.value = this.number.toString();
       }
     }

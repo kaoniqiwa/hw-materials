@@ -19,7 +19,12 @@ export class GarbageProfilesLabelManagerBusiness
   update(...args: any[]): Promise<Label> {
     throw new Error('Method not implemented.');
   }
-  delete(...args: any[]): Promise<Label[]> {
-    throw new Error('Method not implemented.');
+  delete(models: Label[]): Promise<Label[]> {
+    let all = models
+      .map((x) => x.Id)
+      .map((id) => {
+        return this.service.label.delete(id);
+      });
+    return Promise.all(all);
   }
 }
