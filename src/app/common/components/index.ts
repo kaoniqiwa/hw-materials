@@ -1,5 +1,6 @@
 import { AccountInfoComponent } from './account-info/account-info.component';
 import { AccountOperationComponent } from './account-operation/account-operation.component';
+import { CardComponent } from './card/card.component';
 import { CommonLabelSelecComponent } from './common-label-select/common-label-select.component';
 import { CommonTimeComponent } from './common-time/common-time.component';
 import { CommonTreeComponent } from './common-tree/common-tree.component';
@@ -24,4 +25,5 @@ export const CUSTOM_COMPONENTS = [
   ImageUploadComponent,
   CommonTreeComponent,
   CommonLabelSelecComponent,
+  CardComponent,
 ];
