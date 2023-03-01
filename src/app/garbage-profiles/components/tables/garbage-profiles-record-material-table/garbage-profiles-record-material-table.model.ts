@@ -8,4 +8,6 @@ export class GarbageProfilesRecordMaterialTableArgs {
   materialName?: string;
   type?: MaterialRecordType;
   materialIds?: number[];
+  asc?: string;
+  desc?: string;
 }

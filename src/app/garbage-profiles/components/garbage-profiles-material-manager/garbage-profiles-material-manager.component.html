@@ -52,7 +52,8 @@
   *ngIf="window.record.show"
   [style]="window.record.style"
 >
-  <garbage-profiles-material-record> </garbage-profiles-material-record>
+  <garbage-profiles-material-record (picture)="onpicture($event)">
+  </garbage-profiles-material-record>
 </app-window>
 
 <app-window
@@ -66,4 +67,14 @@
     (cancel)="onwindowcancel()"
   >
   </garbage-profiles-material-putin>
+</app-window>
+
+<app-window
+  [Model]="window.picture"
+  [style]="window.picture.style"
+  *ngIf="window.picture.show"
+>
+  <div class="picture-window">
+    <picture-control [url]="window.picture.url"> </picture-control>
+  </div>
 </app-window>

@@ -6,6 +6,7 @@ import { CommonTimeComponent } from './common-time/common-time.component';
 import { CommonTreeComponent } from './common-tree/common-tree.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { PaginatorComponent } from './paginator/paginator.component';
+import { PictureControlComponent } from './picture-control/picture-control.component';
 import { SelectControlComponent } from './select-control/select-control.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { SimpleSearchComponent } from './simple-search/simple-search.component';
@@ -26,4 +27,5 @@ export const CUSTOM_COMPONENTS = [
   CommonTreeComponent,
   CommonLabelSelecComponent,
   CardComponent,
+  PictureControlComponent,
 ];

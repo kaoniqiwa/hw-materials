@@ -21,7 +21,7 @@
       height: @filter-height;
       box-sizing: border-box;
       display: flex;
-      justify-content: start;
+      justify-content: space-between;
       align-items: center;
       color: #cfd7ff;
       padding-bottom: 10px;
@@ -33,6 +33,7 @@
           justify-content: start;
           align-items: center;
           margin-right: 10px;
+          width: calc(100% / 5);
 
           &:last-child {
             margin-right: 0;
@@ -52,7 +53,7 @@
           }
 
           &.expand {
-            width: calc(100% - 387px);
+            width: calc(100% - 80px);
           }
         }
       }

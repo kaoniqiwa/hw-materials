@@ -6,9 +6,11 @@ export class GarbageProfilesMaterialManagerSource {
 }
 
 export class GarbageProfilesMaterialRecordWindow extends WindowViewModel {
-  style = {
-    height: '85%',
-  };
+  constructor() {
+    super();
+    this.show = true;
+  }
+  style = {};
 }
 export class GarbageProfilesMaterialDetailsWindow extends WindowViewModel {}
 export class GarbageProfilesMaterialPutInWindow extends WindowViewModel {
@@ -17,11 +19,14 @@ export class GarbageProfilesMaterialPutInWindow extends WindowViewModel {
   };
 }
 export class GarbageProfilesMaterialPutOutWindow extends WindowViewModel {
-  constructor() {
-    super();
-    this.show = true;
-  }
   style = {
     width: '50%',
   };
+}
+export class GarbageProfilesMaterialPictureWindow extends WindowViewModel {
+  style = {
+    width: '50%',
+    height: '50%',
+  };
+  url?: string;
 }

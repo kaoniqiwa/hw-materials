@@ -2,19 +2,14 @@ import { DOCUMENT } from '@angular/common';
 import {
   AfterContentInit,
   AfterViewInit,
-  ChangeDetectorRef,
   Component,
   ContentChild,
   EventEmitter,
   Inject,
   Input,
-  OnChanges,
   OnDestroy,
   OnInit,
   Output,
-  SimpleChanges,
-  Type,
-  ViewChild,
 } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 import { CommonFlatNode } from '../common-tree/common-flat-node.model';
@@ -42,6 +37,8 @@ export class CommonLabelSelecComponent
 
   @Input()
   showCloseIcon = true;
+  @Input()
+  heightFixed = true;
 
   @Output() toggleDropDown = new EventEmitter<boolean>();
   @Output() removeDropItem = new EventEmitter();

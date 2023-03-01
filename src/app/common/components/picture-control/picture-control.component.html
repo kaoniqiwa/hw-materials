@@ -1,0 +1,9 @@
+<div *ngIf="url" class="picture-control">
+  <!-- <img [src]="model.src" (error)="onError($event)" [title]="model.name" /> -->
+  <div
+    class="img"
+    [ngStyle]="{
+      backgroundImage: 'url(' + url + ')'
+    }"
+  ></div>
+</div>

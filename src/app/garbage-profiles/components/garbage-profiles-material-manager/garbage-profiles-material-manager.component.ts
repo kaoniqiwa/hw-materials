@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
+import { MaterialRecordModel } from 'src/app/model/material-record.model';
 import { MaterialModel } from 'src/app/model/material.model';
 import { PutInMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
 import { GarbageProfilesMaterialTableArgs } from '../tables/garbage-profiles-material-table/garbage-profiles-material-table.model';
@@ -7,6 +8,7 @@ import { GarbageProfilesMaterialManagerBusiness } from './garbage-profiles-mater
 import {
   GarbageProfilesMaterialDetailsWindow,
   GarbageProfilesMaterialManagerSource,
+  GarbageProfilesMaterialPictureWindow,
   GarbageProfilesMaterialPutInWindow,
   GarbageProfilesMaterialRecordWindow,
 } from './garbage-profiles-material-manager.model';
@@ -39,6 +41,7 @@ export class GarbageProfilesMaterialManagerComponent implements OnInit {
     record: new GarbageProfilesMaterialRecordWindow(),
     putin: new GarbageProfilesMaterialPutInWindow(),
     putout: new GarbageProfilesMaterialRecordWindow(),
+    picture: new GarbageProfilesMaterialPictureWindow(),
   };
 
   selected: MaterialModel = new MaterialModel();
@@ -72,5 +75,15 @@ export class GarbageProfilesMaterialManagerComponent implements OnInit {
   }
   onputout() {
     this.window.putout.show = true;
+  }
+
+  async onpicture(record: MaterialRecordModel) {
+    if (record.Images) {
+      let array = await record.Images;
+      if (array && array.length > 0) {
+        this.window.picture.url = array[0];
+        this.window.picture.show = true;
+      }
+    }
   }
 }

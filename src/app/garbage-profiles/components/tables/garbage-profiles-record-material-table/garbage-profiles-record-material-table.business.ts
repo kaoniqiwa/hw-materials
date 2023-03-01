@@ -49,7 +49,9 @@ export class GarbageProfilesRecordMaterialTableBusiness
     type?: MaterialRecordType,
     profileName?: string,
     materialName?: string,
-    materialIds?: number[]
+    materialIds?: number[],
+    asc?: string,
+    desc?: string
   ) {
     let params = new GetMaterialRecordsParams();
     params.PageIndex = index;
@@ -60,6 +62,8 @@ export class GarbageProfilesRecordMaterialTableBusiness
     params.ProfileName = profileName;
     params.MaterialName = materialName;
     params.MaterialIds = materialIds;
+    params.Asc = asc;
+    params.Desc = desc;
     return this.service.material.list(params);
   }
 }

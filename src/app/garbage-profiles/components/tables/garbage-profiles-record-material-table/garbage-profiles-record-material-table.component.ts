@@ -7,6 +7,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { Sort } from '@angular/material/sort';
 import { CommonFlatNode } from 'src/app/common/components/common-tree/common-flat-node.model';
 import { IBusiness } from 'src/app/common/interfaces/bussiness.interface';
 import { IComponent } from 'src/app/common/interfaces/component.interfact';
@@ -46,11 +47,16 @@ export class GarbageProfilesRecordMaterialTableComponent
   selectedChange: EventEmitter<MaterialRecordModel> = new EventEmitter();
   @Output()
   loaded: EventEmitter<PagedList<MaterialRecordModel>> = new EventEmitter();
+  @Output()
+  picture: EventEmitter<MaterialRecordModel> = new EventEmitter();
+  @Output()
+  details: EventEmitter<MaterialRecordModel> = new EventEmitter();
+
   constructor(business: GarbageProfilesRecordMaterialTableBusiness) {
     super();
     this.business = business;
   }
-  widths: string[] = ['', '', '', '', '30%'];
+  widths: string[] = ['', '10%', '30%', '', ''];
   selectedNodes: { [key: string]: CommonFlatNode[] } = {};
   ngOnInit(): void {
     this.loadData(1);
@@ -83,9 +89,21 @@ export class GarbageProfilesRecordMaterialTableComponent
     });
   }
 
-  oncheck(e: Event, item: MaterialRecordModel) {
+  ondetails(e: Event, item: MaterialRecordModel) {
     e.stopImmediatePropagation();
-    this.selected = item;
-    this.selectedChange.emit(item);
+    this.details.emit(item);
+  }
+  onpicture(e: Event, item: MaterialRecordModel) {
+    e.stopImmediatePropagation();
+    this.picture.emit(item);
+  }
+
+  sortData(sort: Sort) {
+    const isAsc = sort.direction === 'asc';
+    if (isAsc) {
+      this.args.asc = sort.active;
+    } else {
+      this.args.desc = sort.active;
+    }
   }
 }

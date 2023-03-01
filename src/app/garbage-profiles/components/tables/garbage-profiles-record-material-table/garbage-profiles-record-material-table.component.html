@@ -1,15 +1,28 @@
 <div class="garbage-profiles-record-material-table">
   <div class="garbage-profiles-record-material-table-main vertical-layout">
-    <table border="0" cellpadding="0" cellspacing="0">
+    <table
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      matSort
+      (matSortChange)="sortData($event)"
+    >
       <colgroup>
         <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
       </colgroup>
       <thead>
         <tr>
-          <td>记录时间</td>
+          <td
+            mat-sort-header="GarbageRatio"
+            [disableClear]="true"
+            [start]="'desc'"
+          >
+            记录时间
+          </td>
           <td>记录类型</td>
+          <td>物料</td>
           <td>备注信息</td>
-          <td class="operation center"><div>物料</div></td>
+          <td class="operation center"><div>操作</div></td>
         </tr>
       </thead>
     </table>
@@ -29,16 +42,36 @@
               {{ item.CreationTime | date : "YYYY-MM-dd HH:mm:ss" }}
             </td>
             <td>{{ item.MaterialRecordTypeName }}</td>
-            <td>
-              {{ item.Description }}
-            </td>
 
-            <td class="operation center">
+            <td>
               <mat-chip-list class="mat-chip-list-region-tree" #chipList>
-                <mat-chip *ngFor="let item of item.MaterialItems">
+                <mat-chip
+                  *ngFor="let item of item.MaterialItems"
+                  [title]="item.Name + ':' + item.Number"
+                >
                   {{ item.Name }}:{{ item.Number }}
                 </mat-chip>
               </mat-chip-list>
+            </td>
+
+            <td>
+              {{ item.Description }}
+            </td>
+            <td class="operation center">
+              <div
+                (click)="ondetails($event, item)"
+                class="center"
+                title="查看详情"
+              >
+                <i class="howell-icon-details"></i>
+              </div>
+              <div
+                (click)="onpicture($event, item)"
+                class="center"
+                title="查看照片凭证"
+              >
+                <i class="howell-icon-picture"></i>
+              </div>
             </td>
           </tr>
         </tbody>

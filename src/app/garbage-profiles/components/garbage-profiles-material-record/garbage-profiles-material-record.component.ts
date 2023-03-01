@@ -1,7 +1,9 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonFlatNode } from 'src/app/common/components/common-tree/common-flat-node.model';
 import { DateTimePickerView } from 'src/app/common/directives/date-time-picker/date-time-picker.directive';
+import { DateTimeTool } from 'src/app/common/tools/datetime.tool';
 import { MaterialRecordType } from 'src/app/enum/material-record-type.enum';
+import { MaterialRecordModel } from 'src/app/model/material-record.model';
 import { GarbageProfilesRecordMaterialTableArgs } from '../tables/garbage-profiles-record-material-table/garbage-profiles-record-material-table.model';
 import { GarbageProfilesMaterialRecordSourceBusiness } from './garbage-profiles-material-record-source.business';
 import { GarbageProfilesMaterialRecordBusiness } from './garbage-profiles-material-record.business';
@@ -19,7 +21,16 @@ type SearchPropertyName = 'MaterialName' | 'ProfileName';
   ],
 })
 export class GarbageProfilesMaterialRecordComponent implements OnInit {
-  constructor(private business: GarbageProfilesMaterialRecordBusiness) {}
+  @Output()
+  picture: EventEmitter<MaterialRecordModel> = new EventEmitter();
+  @Output()
+  details: EventEmitter<MaterialRecordModel> = new EventEmitter();
+
+  constructor(private business: GarbageProfilesMaterialRecordBusiness) {
+    let date = new Date();
+    date.setDate(date.getDate() - 1);
+    this.args.duration = DateTimeTool.allDay(date);
+  }
 
   load: EventEmitter<GarbageProfilesRecordMaterialTableArgs> =
     new EventEmitter();
@@ -48,5 +59,11 @@ export class GarbageProfilesMaterialRecordComponent implements OnInit {
 
   onsearch() {
     this.load.emit(this.args);
+  }
+  onpicture(model: MaterialRecordModel) {
+    this.picture.emit(model);
+  }
+  ondetails(model: MaterialRecordModel) {
+    this.details.emit(model);
   }
 }

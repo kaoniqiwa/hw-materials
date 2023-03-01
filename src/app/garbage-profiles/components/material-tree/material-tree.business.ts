@@ -20,9 +20,13 @@ export class MaterialListBusiness {
     let params = new GetGarbageProfilesMaterialsParams();
     params.Name = condition;
 
+    let category = await this.Categories();
+
     let tmp = await this._listMaterials(params);
 
-    let res = this._converter.buildNestTree(tmp.Data);
+    let data = [...category, ...tmp.Data];
+
+    let res = this._converter.buildNestTree(data);
     return res;
   }
   searchNode(condition: string) {
@@ -31,5 +35,8 @@ export class MaterialListBusiness {
 
   private _listMaterials(params: GetGarbageProfilesMaterialsParams) {
     return this.service.list(params);
+  }
+  private Categories() {
+    return this.service.category.all();
   }
 }
