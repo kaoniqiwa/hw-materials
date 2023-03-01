@@ -2,7 +2,10 @@ import { Component } from '@angular/core';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
 import { GarbageStationProfileTableArgs } from '../tables/garbage-station-profile-table/garbage-station-profile-table.model';
-import { GarbageStationProfileDetailsWindow } from './garbage-station-profile-manager.model';
+import {
+  GarbageStationProfileDetailsWindow,
+  GarbageStationProfileSettingWindow,
+} from './garbage-station-profile-manager.model';
 
 @Component({
   selector: 'garbage-station-profile-manager',
@@ -16,6 +19,7 @@ export class GarbageStationProfileManagerComponent {
 
   window = {
     details: new GarbageStationProfileDetailsWindow(),
+    setting: new GarbageStationProfileSettingWindow(),
   };
 
   onselected(item: GarbageStationProfileModel) {
@@ -27,5 +31,8 @@ export class GarbageStationProfileManagerComponent {
   oncreate() {
     this.window.details.state = FormState.add;
     this.window.details.show = true;
+  }
+  onsetting() {
+    this.window.setting.show = true;
   }
 }

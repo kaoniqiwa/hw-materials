@@ -105,7 +105,7 @@ export class ViewModelConverter {
         model.PowerImage = Medium.img(source.LFImageUrl);
       }
       model.ProfileStateName = this.profileService.property
-        .name('ProfileState')
+        .getEnumByName('ProfileState')
         .then((array) => {
           return array.find((x) => x.Value === source.ProfileState)!.Name;
         });

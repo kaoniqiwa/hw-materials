@@ -1,0 +1,16 @@
+<div class="garbage-station-profile-setting">
+  <div class="garbage-station-profile-setting-head">
+    <div class="hw-simple-title">设置</div>
+  </div>
+  <div class="garbage-station-profile-setting-body">
+    <garbage-station-profile-property-tree
+      [defaultIds]="selectedIds"
+      (selectTreeNode)="onselect($event)"
+    >
+    </garbage-station-profile-property-tree>
+  </div>
+  <div class="garbage-station-profile-setting-foot">
+    <button class="hw-green-btn">确定</button>
+    <button class="hw-blue-btn">取消</button>
+  </div>
+</div>

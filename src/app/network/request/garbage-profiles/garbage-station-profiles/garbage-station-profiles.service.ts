@@ -130,6 +130,19 @@ class GarbageStationProfilesPropertiesRequestService extends AbstractService<Pro
     return this.type.paged(url, plain);
   }
 
+  all(): Promise<Property[]> {
+    return new Promise((resolve) => {
+      wait(
+        () => {
+          return this.load();
+        },
+        () => {
+          resolve(this.properties);
+        }
+      );
+    });
+  }
+
   load() {
     if (this.loading) {
       return false;
@@ -145,7 +158,7 @@ class GarbageStationProfilesPropertiesRequestService extends AbstractService<Pro
     return false;
   }
 
-  async name(name: string): Promise<ValueNamePair[]> {
+  async getEnumByName(name: string): Promise<ValueNamePair[]> {
     return new Promise((resolve) => {
       wait(
         () => {

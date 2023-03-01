@@ -6,10 +6,6 @@ export class GarbageProfilesMaterialManagerSource {
 }
 
 export class GarbageProfilesMaterialRecordWindow extends WindowViewModel {
-  constructor() {
-    super();
-    this.show = true;
-  }
   style = {};
 }
 export class GarbageProfilesMaterialDetailsWindow extends WindowViewModel {}

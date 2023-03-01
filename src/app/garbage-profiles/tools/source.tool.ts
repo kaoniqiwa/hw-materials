@@ -10,40 +10,40 @@ export class GarbageStationProfilesSourceTools {
   }
 
   private init(service: GarbageStationProfilesRequestService) {
-    service.property.name('StrongCurrentWire').then((x) => {
+    service.property.getEnumByName('StrongCurrentWire').then((x) => {
       this.StrongCurrentWire = x;
     });
-    service.property.name('StrongCurrentWireMode').then((x) => {
+    service.property.getEnumByName('StrongCurrentWireMode').then((x) => {
       this.StrongCurrentWireMode = x;
     });
-    service.property.name('Functions').then((x) => {
+    service.property.getEnumByName('Functions').then((x) => {
       this.Functions = x;
     });
-    service.property.name('GarbageStationType').then((x) => {
+    service.property.getEnumByName('GarbageStationType').then((x) => {
       this.GarbageStationType = x;
     });
-    service.property.name('Model').then((x) => {
+    service.property.getEnumByName('Model').then((x) => {
       this.Model = x;
     });
-    service.property.name('AccessServer').then((x) => {
+    service.property.getEnumByName('AccessServer').then((x) => {
       this.AccessServer = x;
     });
-    service.property.name('Resolution').then((x) => {
+    service.property.getEnumByName('Resolution').then((x) => {
       this.Resolution = x;
     });
-    service.property.name('StorageTime').then((x) => {
+    service.property.getEnumByName('StorageTime').then((x) => {
       this.StorageTime = x;
     });
-    service.property.name('ActionEquipment').then((x) => {
+    service.property.getEnumByName('ActionEquipment').then((x) => {
       this.ActionEquipment = x;
     });
-    service.property.name('AudioOutputState').then((x) => {
+    service.property.getEnumByName('AudioOutputState').then((x) => {
       this.AudioOutputState = x;
     });
-    service.property.name('AIModelType').then((x) => {
+    service.property.getEnumByName('AIModelType').then((x) => {
       this.AIModelType = x;
     });
-    service.property.name('ProfileState').then((x) => {
+    service.property.getEnumByName('ProfileState').then((x) => {
       this.ProfileState = x;
     });
 

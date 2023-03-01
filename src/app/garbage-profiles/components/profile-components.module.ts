@@ -12,16 +12,18 @@ import { GarbageProfilesMaterialPutInComponent } from './garbage-profiles-materi
 import { GarbageProfilesMaterialRecordComponent } from './garbage-profiles-material-record/garbage-profiles-material-record.component';
 import { GarbageStationProfileDetailsComponent } from './garbage-station-profile-details/garbage-station-profile-details.component';
 import { GarbageStationProfileManagerComponent } from './garbage-station-profile-manager/garbage-station-profile-manager.component';
-import { MaterialTreeComponent } from './material-tree/material-tree.component';
+import { GarbageStationProfileSettingComponent } from './garbage-station-profile-setting/garbage-station-profile-setting.component';
 import { MonitorPlatformComponent } from './monitor-platform/monitor-platform.component';
 import { StationArchiveComponent } from './station-archive/station-archive.component';
 import { SystemModeComponent } from './system-mode/system-mode.component';
-import { TableComponents } from './tables';
+import { TableComponents } from './tables/tables';
+import { TreeComponents } from './trees/trees';
 import { UnderwaterComponent } from './underwater/underwater.component';
 
 @NgModule({
   declarations: [
     ...TableComponents,
+    ...TreeComponents,
     MonitorPlatformComponent,
     SystemModeComponent,
     UnderwaterComponent,
@@ -34,8 +36,7 @@ import { UnderwaterComponent } from './underwater/underwater.component';
     GarbageProfilesMaterialPutInComponent,
     GarbageProfilesLabelManagerComponent,
     GarbageProfilesLabelDetailsComponent,
-
-    MaterialTreeComponent,
+    GarbageStationProfileSettingComponent,
   ],
   imports: [
     MaterialModule,

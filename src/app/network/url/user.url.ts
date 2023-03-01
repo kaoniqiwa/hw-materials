@@ -1,10 +1,4 @@
-/*
- * @Author: pmx
- * @Date: 2021-09-13 15:05:27
- * @Last Modified by: zzl
- * @Last Modified time: 2021-12-21 17:26:04
- */
-
+import { UserConfigType } from 'src/app/enum/user-config-type.enum';
 import { AbstractUrl } from './abstract.url';
 import { BasicUrl } from './base.url';
 
@@ -22,5 +16,18 @@ export class UserUrl extends AbstractUrl {
   }
   static login(username: string): string {
     return `${this.basic()}/Login/${username}`;
+  }
+
+  static config(userId: string) {
+    return new UserConfigUrl(this.item(userId));
+  }
+}
+
+export class UserConfigUrl extends AbstractUrl {
+  constructor(base: string) {
+    super(`${base}/Config`);
+  }
+  override item<T = UserConfigType>(type: T) {
+    return `${this.basic()}/${type}`;
   }
 }
