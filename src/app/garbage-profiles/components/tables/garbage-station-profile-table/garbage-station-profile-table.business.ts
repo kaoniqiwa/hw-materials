@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
+import { IBusiness } from 'src/app/common/interfaces/bussiness.interface';
 import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { Page, PagedList } from 'src/app/network/entity/page.entity';
 import { GetGarbageStationProfilesParams } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
 import { GarbageStationProfilesRequestService } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
 import { GarbageStationProfileTableConverter } from './garbage-station-profile-table.converter';
-import {
-  GarbageStationProfileTableArgs,
-  IGarbageStationProfileTableBusiness,
-} from './garbage-station-profile-table.model';
+import { GarbageStationProfileTableArgs } from './garbage-station-profile-table.model';
 
 @Injectable()
 export class GarbageStationProfileTableBusiness
-  implements IGarbageStationProfileTableBusiness
+  implements
+    IBusiness<
+      PagedList<GarbageStationProfile>,
+      PagedList<GarbageStationProfileModel>
+    >
 {
   constructor(
     private service: GarbageStationProfilesRequestService,

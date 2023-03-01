@@ -8,7 +8,7 @@
     <mat-tree-node
       *matTreeNodeDef="let node"
       [matTreeNodePadding]="node.Level + 1"
-      [matTreeNodePaddingIndent]="15"
+      [matTreeNodePaddingIndent]="node.Level === 0 ? 15 : 28"
       [class.high-light]="highLight(node)"
       (click)="singleSelectNode(node)"
     >

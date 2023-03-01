@@ -5,4 +5,6 @@ export class GarbageStationProfileModel extends GarbageStationProfile {
   RFImage?: Promise<string>;
   FImage?: Promise<string>;
   PowerImage?: Promise<string>;
+
+  ProfileStateName!: Promise<string>;
 }

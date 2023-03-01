@@ -1,5 +1,6 @@
 import { Transform } from 'class-transformer';
 import { IObjectModel } from 'src/app/common/interfaces/model.interface';
+import { MaterialCategoryType } from 'src/app/enum/material-category-type.enum';
 import { transformDateTime } from './transform.model';
 
 export class Material implements IObjectModel {
@@ -8,7 +9,7 @@ export class Material implements IObjectModel {
   /**	String	名称	M	*/
   Name!: string;
   /**	Int32	类别	M	*/
-  Category!: number;
+  Category!: MaterialCategoryType;
   /**	String	备注	O	*/
   Description?: string;
   /**	DateTime	创建时间	O	*/

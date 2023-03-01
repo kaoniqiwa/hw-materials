@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CommonNestNode } from 'src/app/common/components/common-tree/common-nest-node.model';
+import { ViewModelConverter } from 'src/app/converter/view-model.converter';
 import { Material } from 'src/app/network/entity/material.entity';
 
 import { GetGarbageProfilesMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
@@ -12,7 +13,8 @@ export class MaterialListBusiness {
 
   constructor(
     private service: GarbageProfilesMaterialRequestService,
-    private _converter: MaterialTreeConverter
+    private _converter: MaterialTreeConverter,
+    private converter: ViewModelConverter
   ) {}
   async init(condition: string = '') {
     this.nestedNodeMap.clear();
@@ -24,7 +26,12 @@ export class MaterialListBusiness {
 
     let tmp = await this._listMaterials(params);
 
-    let data = [...category, ...tmp.Data];
+    let data = [
+      ...category,
+      ...tmp.Data.map((x) => {
+        return this.converter.Material(x);
+      }),
+    ];
 
     let res = this._converter.buildNestTree(data);
     return res;

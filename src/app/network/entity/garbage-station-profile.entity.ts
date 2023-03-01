@@ -74,8 +74,8 @@ export class GarbageStationProfile implements IModel {
   NB?: string;
   /**	Camera[]	摄像机列表	O	*/
   Cameras?: Camera[];
-  /**	Int32	档案状态	O	*/
-  ProfileState?: number;
+  /**	Int32	档案状态	M	*/
+  ProfileState!: number;
   /**	String	业务平台厢房ID	O	*/
   BsStationId?: string;
   /**	DateTime	建档日期	O	*/

@@ -100,10 +100,13 @@ export class GarbageProfilesRecordMaterialTableComponent
 
   sortData(sort: Sort) {
     const isAsc = sort.direction === 'asc';
+    this.args.desc = undefined;
+    this.args.asc = undefined;
     if (isAsc) {
       this.args.asc = sort.active;
     } else {
       this.args.desc = sort.active;
     }
+    this.loadData(1);
   }
 }

@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonFlatNode } from 'src/app/common/components/common-tree/common-flat-node.model';
+import { MaterialItemModel } from 'src/app/model/material-item.model';
 import { MaterialModel } from 'src/app/model/material.model';
-import { MaterialItem } from 'src/app/network/entity/material-item.enitty';
-import { Material } from 'src/app/network/entity/material.entity';
 import { PutInMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
 
 @Component({
@@ -22,23 +21,30 @@ export class GarbageProfilesMaterialPutInComponent {
   description: string = '';
   image?: string;
 
-  materials: MaterialItem[] = [];
+  materials: MaterialItemModel[] = [];
   selectedIds: string[] = [];
   onTreeNodeSelected(nodes: CommonFlatNode[]) {
-    this.materials = nodes.map((n) => {
-      let data = n.RawData as Material;
-      let item = new MaterialItem();
-      item.Id = data.Id;
-      item.Name = data.Name;
-      item.Number = 0;
-      return item;
-    });
+    this.materials = nodes
+      .filter((x) => {
+        return x.RawData instanceof MaterialModel;
+      })
+      .map((n) => {
+        let data = n.RawData as MaterialModel;
+        let item = new MaterialItemModel();
+        item.Id = data.Id;
+        item.Name = data.Name;
+        item.Number = 0;
+        item.Model = new Promise((x) => {
+          x(data);
+        });
+        return item;
+      });
   }
 
   touchSpinChange(num: any) {
     this.value = num;
   }
-  onremove(item: MaterialItem) {
+  onremove(item: MaterialItemModel) {
     let index = this.materials.findIndex((x) => x.Id === item.Id);
     if (index < 0) return;
     this.materials.splice(index, 1);

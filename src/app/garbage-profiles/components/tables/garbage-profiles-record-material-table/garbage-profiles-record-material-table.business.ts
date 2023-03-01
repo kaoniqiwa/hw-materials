@@ -32,7 +32,9 @@ export class GarbageProfilesRecordMaterialTableBusiness
       args.type,
       args.profileName,
       args.materialName,
-      args.materialIds
+      args.materialIds,
+      args.asc,
+      args.desc
     );
     let model = new PagedList<MaterialRecordModel>();
     model.Page = data.Page;

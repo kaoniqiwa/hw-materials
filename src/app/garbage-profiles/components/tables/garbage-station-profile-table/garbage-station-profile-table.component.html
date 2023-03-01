@@ -10,6 +10,7 @@
           <td>{{ source.language["ProfileName"] | async }}</td>
           <td>{{ source.language["Contact"] | async }}</td>
           <td>{{ source.language["ContactPhoneNo"] | async }}</td>
+          <td>{{ source.language["ProfileState"] | async }}</td>
           <td class="operation center"><div>操作</div></td>
         </tr>
       </thead>
@@ -35,6 +36,7 @@
             <td>
               {{ item.ContactPhoneNo }}
             </td>
+            <td>{{ item.ProfileStateName | async }}</td>
 
             <td class="operation center">
               <div (click)="onupdate($event, item)" class="center">

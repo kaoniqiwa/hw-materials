@@ -21,7 +21,10 @@
         <div class="item-content">
           <div class="list-content">
             <div class="list-item" *ngFor="let item of materials">
-              <div>{{ item.Name }}</div>
+              <div class="list-item-name">{{ item.Name }}</div>
+              <div>
+                {{ ((item.Model | async)?.CategoryInfo | async)?.Name }}
+              </div>
               <div class="operation">
                 <div class="operation-number">
                   <input

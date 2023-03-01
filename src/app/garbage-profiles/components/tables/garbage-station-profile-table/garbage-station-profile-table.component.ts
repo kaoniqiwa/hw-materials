@@ -7,17 +7,16 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { IBusiness } from 'src/app/common/interfaces/bussiness.interface';
+import { IComponent } from 'src/app/common/interfaces/component.interfact';
+import { IModel } from 'src/app/common/interfaces/model.interface';
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
 import { PagedList } from 'src/app/network/entity/page.entity';
 import { PagedTableSelectionAbstractComponent } from '../table-paged-abstract.component';
 import { GarbageStationProfileTableBusiness } from './garbage-station-profile-table.business';
 import { GarbageStationProfileTableConverter } from './garbage-station-profile-table.converter';
-import {
-  GarbageStationProfileTableArgs,
-  IGarbageStationProfileTableBusiness,
-  IGarbageStationProfileTableComponent,
-} from './garbage-station-profile-table.model';
+import { GarbageStationProfileTableArgs } from './garbage-station-profile-table.model';
 
 @Component({
   selector: 'garbage-station-profile-table',
@@ -33,11 +32,13 @@ import {
 })
 export class GarbageStationProfileTableComponent
   extends PagedTableSelectionAbstractComponent<GarbageStationProfileModel>
-  implements IGarbageStationProfileTableComponent, OnInit, OnChanges
+  implements
+    IComponent<IModel, PagedList<GarbageStationProfileModel>>,
+    OnInit,
+    OnChanges
 {
   @Input()
-  business: IGarbageStationProfileTableBusiness;
-
+  business: IBusiness<IModel, PagedList<GarbageStationProfileModel>>;
   @Input()
   args: GarbageStationProfileTableArgs = new GarbageStationProfileTableArgs();
 

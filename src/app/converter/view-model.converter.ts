@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { Medium } from '../common/tools/medium';
 import { MaterialRecordType } from '../enum/material-record-type.enum';
+import { GarbageStationProfilesSourceTools } from '../garbage-profiles/tools/source.tool';
 import { DivisionModel } from '../model/division.model';
 import { GarbageStationProfileModel } from '../model/garbage-station-profile.model';
 import { LabelModel } from '../model/label.model';
+import { MaterialItemModel } from '../model/material-item.model';
 import { MaterialRecordModel } from '../model/material-record.model';
 import { MaterialModel } from '../model/material.model';
 import { ModificationRecordModel } from '../model/modification-record.model';
@@ -12,6 +14,7 @@ import { PropertyModel } from '../model/property.model';
 import { Division } from '../network/entity/division.entity';
 import { GarbageStationProfile } from '../network/entity/garbage-station-profile.entity';
 import { Label } from '../network/entity/label.entity';
+import { MaterialItem } from '../network/entity/material-item.enitty';
 import { MaterialRecord } from '../network/entity/material-record.entity';
 import { Material } from '../network/entity/material.entity';
 import { ModificationRecord } from '../network/entity/modification-record.entity';
@@ -19,7 +22,6 @@ import { Property } from '../network/entity/property.entity';
 import { GarbageProfilesBasicRequestService } from '../network/request/garbage-profiles/basics/garbage-profiles-basics.service';
 import { GarbageStationProfilesRequestService } from '../network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
 import { GarbageProfilesMaterialRequestService } from '../network/request/garbage-profiles/materials/garbage-profiles-materials.service';
-import { GarbageProfilesRecordRequestService } from '../network/request/garbage-profiles/records/garbage-profiles-records.service';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +31,7 @@ export class ViewModelConverter {
     private basicService: GarbageProfilesBasicRequestService,
     private profileService: GarbageStationProfilesRequestService,
     private materialService: GarbageProfilesMaterialRequestService,
-    private recordService: GarbageProfilesRecordRequestService
+    private source: GarbageStationProfilesSourceTools
   ) {}
 
   Division(source: Division): DivisionModel;
@@ -102,6 +104,12 @@ export class ViewModelConverter {
       if (source.PowerImageUrl) {
         model.PowerImage = Medium.img(source.LFImageUrl);
       }
+      model.ProfileStateName = this.profileService.property
+        .name('ProfileState')
+        .then((array) => {
+          return array.find((x) => x.Value === source.ProfileState)!.Name;
+        });
+
       return model;
     } else {
       return source.then((x) => {
@@ -127,6 +135,15 @@ export class ViewModelConverter {
         return this.Material(x);
       });
     }
+  }
+
+  MaterialItem(source: MaterialItem): MaterialItemModel {
+    let plain = instanceToPlain(source);
+    let model = plainToInstance(MaterialItemModel, plain);
+    model.Model = this.materialService.get(source.Id).then((x) => {
+      return this.Material(x);
+    });
+    return model;
   }
 
   MaterialRecord(source: MaterialRecord): MaterialRecordModel;
