@@ -12,8 +12,10 @@ import {
 } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Language } from 'src/app/common/tools/language';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
+import { GarbageStationProfilesLanguageTools } from '../../tools/language.tool';
 import { GarbageStationProfilesSourceTools } from '../../tools/source.tool';
 import { GarbageStationProfileDetailsBusiness } from './garbage-station-profile-details.business';
 
@@ -94,6 +96,7 @@ export class GarbageStationProfileDetailsComponent
   }
   constructor(
     public source: GarbageStationProfilesSourceTools,
+    public language: GarbageStationProfilesLanguageTools,
     private _business: GarbageStationProfileDetailsBusiness,
     private _changeDetector: ChangeDetectorRef,
     private _formBuilder: FormBuilder,
