@@ -27,7 +27,7 @@ export class GarbageStationProfileDetailsComponent
   implements OnInit, AfterViewInit
 {
   @Input()
-  formId = '';
+  formId?: string;
 
   @Input()
   state: FormState = FormState.none;
