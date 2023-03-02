@@ -1,9 +1,20 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import {
   AbstractControl,
   FormArray,
   FormBuilder,
+  FormControl,
   FormGroup,
+  FormsModule,
   Validators,
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -14,7 +25,10 @@ import { GarbageStationProfileDetailsBusiness } from './garbage-station-profile-
 import { GarbageStationProfileDetailsSource } from './garbage-station-profile-details.model';
 import { Guid } from 'src/app/common/tools/guid';
 import { FormState } from 'src/app/enum/form-state.enum';
-import { KeyValue } from '@angular/common';
+import { FormatWidth, KeyValue } from '@angular/common';
+import { MatStepper } from '@angular/material/stepper';
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 @Component({
   selector: 'garbage-station-profile-details',
   templateUrl: './garbage-station-profile-details.component.html',
@@ -24,21 +38,22 @@ import { KeyValue } from '@angular/common';
     GarbageStationProfileDetailsBusiness,
   ],
 })
-export class GarbageStationProfileDetailsComponent implements OnInit {
+export class GarbageStationProfileDetailsComponent
+  implements OnInit, AfterViewInit
+{
   FormState = FormState;
-  Object = Object;
+  checkArr: boolean[] = [];
 
-  @Input()
-  state: FormState = FormState.none;
+  private _model: GarbageStationProfile | null = null;
 
   formGroup = this._formBuilder.group({
     formArray: this._formBuilder.array([
       this._formBuilder.group({
         ProfileName: ['', Validators.required], //建档名称
-        Province: ['', Validators.required], //省
-        City: ['', Validators.required], //市
-        County: ['', Validators.required], //区
-        Street: ['', Validators.required], //街道
+        Province: ['上海市', Validators.required], //省
+        City: ['市辖区', Validators.required], //市
+        County: ['虹口区', Validators.required], //区
+        Street: ['江湾镇街道', Validators.required], //街道
         Committee: ['', Validators.required], //居委会
         Address: ['', Validators.required], //地址
         Contact: ['', Validators.required], //联系人，
@@ -63,50 +78,166 @@ export class GarbageStationProfileDetailsComponent implements OnInit {
         ConstructionContactPhoneNo: ['', Validators.required],
         ConstructionDate: ['', Validators.required],
       }),
+      this._formBuilder.group({
+        GPSPoint: ['', Validators.required],
+        TimeToDump: ['', Validators.required],
+        IMEI: ['', Validators.required],
+        NB: ['', Validators.required],
+      }),
     ]),
   });
-  customCompare = (
-    keyValueA: KeyValue<string, AbstractControl<any, any>>,
-    keyValueB: KeyValue<string, AbstractControl<any, any>>
-  ): number => {
-    return 0;
-  };
   get formArray() {
     return this.formGroup.get('formArray') as FormArray<FormGroup>;
   }
+
+  enableSaveBtn(formIndex: number) {
+    let formGroup = this.formArray.at(formIndex) as FormGroup;
+
+    if (formGroup) {
+      return formGroup.valid;
+    }
+    return false;
+  }
+  enableNextBtn(formIndex: number) {
+    console.log(this.formArray);
+    let formGroup = this.formArray.at(formIndex) as FormGroup;
+
+    console.log(formIndex, formGroup);
+    if (formGroup) {
+      return formGroup.valid;
+    }
+    return false;
+  }
+
   @Input()
-  model: GarbageStationProfileModel = new GarbageStationProfileModel();
+  profileId = '';
+
+  @Input()
+  state: FormState = FormState.none;
+
+  @Output() closeDetails = new EventEmitter();
+
+  @ViewChild('stepper') stepper!: MatStepper;
 
   constructor(
+    private _business: GarbageStationProfileDetailsBusiness,
     private _formBuilder: FormBuilder,
     private _toastrService: ToastrService,
+    private _changeDetector: ChangeDetectorRef,
+
     public sourceBusiness: GarbageStationProfileDetailsSourceBusiness,
-    public source: GarbageStationProfilesSourceTools,
-    public business: GarbageStationProfileDetailsBusiness
+    public source: GarbageStationProfilesSourceTools
   ) {}
-  ngOnInit(): void {
-    console.log(this.model);
-    // this.sourceBusiness.load(this.model).then((source) => {
-    //   this.divisionSource = source;
-    // });
+  async ngOnInit() {
+    if (this.profileId) {
+      this._model = await this._business.getModel(this.profileId);
+      console.log(this._model);
+    }
+    this._updateForm();
+  }
+  ngAfterViewInit(): void {
+    this.checkArr = Array.from(Array(this.stepper.steps.length), () => false);
+    console.log(this.checkArr);
+  }
+
+  async createInfo() {
+    let res = await this._createModel();
+    if (res) {
+      this._model = res;
+      this.closeDetails.emit();
+    }
+  }
+  async saveInfo(formIndex: number) {
+    console.log('save info');
+    let formGroup = this.formArray.at(formIndex) as FormGroup;
+    if (this._model) {
+      // for (let key in formGroup.controls) {
+      //   this._model[key] =
+      // }
+      Object.assign(this._model, formGroup.value);
+      console.log(this._model);
+
+      let res = await this._business.updateModel(this._model);
+      console.log(res);
+      if (res) {
+        this._toastrService.success('保存成功');
+      }
+    }
+  }
+  editInfo(formIndex: number) {
+    let formGroup = this.formArray.at(formIndex) as FormGroup;
+    formGroup.enable();
+  }
+  async nextStep() {
     if (this.state == FormState.add) {
-    } else if (this.state == FormState.edit) {
-      this._updateForm();
+      let res = await this._createModel();
+      if (res) {
+        this._model = res;
+        this.state = FormState.edit;
+        if (this.stepper.selected) {
+          this.stepper.selected.completed = true;
+          this.stepper.next();
+        }
+      }
+    } else {
+      console.log('sdf');
+    }
+  }
+  prevStep() {
+    this.stepper.previous();
+  }
+  selectionChange(e: StepperSelectionEvent) {
+    console.log('selectionChange');
+  }
+  private async _checkForm(formIndex: number) {
+    let formGroup = this.formArray.at(formIndex) as FormGroup;
+
+    if (formGroup) {
+      if (formGroup.invalid) {
+        for (let key in formGroup.controls) {
+          let control = formGroup.controls[key];
+          if (control.invalid) {
+            this._toastrService.warning(
+              '请输入' + (await this.source.language[key])
+            );
+            break;
+          }
+        }
+        return false;
+      }
+      return true;
+    } else {
+      return false;
     }
   }
 
-  divisionSource: GarbageStationProfileDetailsSource =
-    new GarbageStationProfileDetailsSource();
+  private _updateForm() {
+    if (this.state == FormState.add) {
+      this.formGroup.enable();
+    } else if (this.state == FormState.edit) {
+      this.formGroup.disable();
 
-  onchange() {
-    this.sourceBusiness.load(this.model).then((source) => {
-      this.divisionSource = source;
-    });
+      if (this._model) {
+        let profileState = this._model.ProfileState;
+
+        for (let i = 0; i < profileState; i++) {
+          // let step = this.stepper.steps.get(i)!;
+          // step.completed = true;
+          let formGroup = this.formArray.at(0);
+          console.log(formGroup);
+          for (let key in formGroup.controls) {
+            // console.log(key);
+            formGroup.patchValue({ [key]: Reflect.get(this._model, key) });
+          }
+        }
+      }
+    }
   }
-  async createModel() {
-    let formGroup = this.formArray.at(0) as FormGroup;
-    if (await this._checkForm(formGroup)) {
-      console.log('提交');
+
+  private async _createModel() {
+    let formIndex = 0;
+    if (await this._checkForm(formIndex)) {
+      let formGroup = this.formArray.at(formIndex) as FormGroup;
 
       let model = new GarbageStationProfileModel();
       model.Id = Guid.NewGuid().ToString('N');
@@ -120,37 +251,10 @@ export class GarbageStationProfileDetailsComponent implements OnInit {
       model.Contact = formGroup.value.Contact;
       model.ContactPhoneNo = formGroup.value.ContactPhoneNo;
       model.ProfileState = 1;
-      let res = await this.business.setData(model);
-      console.log(res);
-    }
-  }
+      let res = await this._business.createModel(model);
 
-  private async _checkForm(form: FormGroup) {
-    if (form.invalid) {
-      for (let key in form.controls) {
-        let control = form.controls[key];
-        if (control.invalid) {
-          this._toastrService.warning(
-            '请输入' + (await this.source.language[key])
-          );
-          break;
-        }
-      }
-      return false;
+      return res;
     }
-    return true;
+    return null;
   }
-
-  private _updateForm() {
-    let groups = this.formArray.controls;
-    console.log(groups);
-
-    for (let i = 0; i < groups.length; i++) {
-      let formGroup = groups[i];
-      let controls = formGroup.controls;
-      console.log(controls);
-    }
-  }
-  onok() {}
-  oncancel() {}
 }
