@@ -1,20 +1,24 @@
 import { Injectable } from '@angular/core';
 import { IBusiness } from 'src/app/common/interfaces/bussiness.interface';
+import { ViewModelConverter } from 'src/app/converter/view-model.converter';
 import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
+import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { GarbageStationProfilesRequestService } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
+import { GarbageStationProfileTableConverter } from '../tables/garbage-station-profile-table/garbage-station-profile-table.converter';
 
 @Injectable()
-export class GarbageStationProfileDetailsBusiness
-  implements IBusiness<GarbageStationProfileModel>
-{
-  constructor(private service: GarbageStationProfilesRequestService) {}
-  load(...args: any): Promise<GarbageStationProfileModel> {
-    throw new Error('Method not implemented.');
+export class GarbageStationProfileDetailsBusiness {
+  constructor(
+    private _garbageStationProfilesRequest: GarbageStationProfilesRequestService
+  ) {}
+
+  getModel(id: string) {
+    return this._garbageStationProfilesRequest.get(id);
   }
-  getData(...args: any): Promise<GarbageStationProfileModel> {
-    throw new Error('Method not implemented.');
+  createModel(model: GarbageStationProfile) {
+    return this._garbageStationProfilesRequest.create(model);
   }
-  setData(model: GarbageStationProfileModel) {
-    return this.service.create(model);
+  updateModel(model: GarbageStationProfile) {
+    return this._garbageStationProfilesRequest.update(model);
   }
 }
