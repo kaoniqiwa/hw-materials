@@ -6,8 +6,10 @@ import { GarbageStationProfilesRequestService } from 'src/app/network/request/ga
 export class GarbageStationProfilesLanguageTools {
   constructor(service: GarbageStationProfilesRequestService) {
     GarbageStationProfile.getKeys().forEach((key) => {
-      this[key] = service.property.language(key);
+      service.property.language(key).then((x) => {
+        this[key] = x;
+      });
     });
   }
-  [key: string]: Promise<string>;
+  [key: string]: string;
 }

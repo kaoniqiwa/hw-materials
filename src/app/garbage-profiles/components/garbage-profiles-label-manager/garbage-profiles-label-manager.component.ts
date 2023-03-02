@@ -1,12 +1,16 @@
 import { Component, EventEmitter } from '@angular/core';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { ToastrService } from 'ngx-toastr';
+import { FormState } from 'src/app/enum/form-state.enum';
 import { LabelModel } from 'src/app/model/label.model';
 import { PagedList } from 'src/app/network/entity/page.entity';
 
 import { GarbageProfilesLabelTableArgs } from '../tables/garbage-profiles-label-table/garbage-profiles-label-table.model';
 import { GarbageProfilesLabelManagerBusiness } from './garbage-profiles-label-manager.business';
-import { GarbageProfilesLabelDetailsWindow } from './garbage-profiles-label-manager.model';
+import {
+  GarbageProfilesLabelConfirmWindow,
+  GarbageProfilesLabelDetailsWindow,
+} from './garbage-profiles-label-manager.model';
 
 @Component({
   selector: 'garbage-profiles-label-manager',
@@ -26,11 +30,10 @@ export class GarbageProfilesLabelManagerComponent {
   window = {
     creater: new GarbageProfilesLabelDetailsWindow(),
     updater: new GarbageProfilesLabelDetailsWindow(),
+    confirm: new GarbageProfilesLabelConfirmWindow(),
   };
 
   selecteds: LabelModel[] = [];
-
-  selected?: LabelModel;
   count = 0;
 
   onsearch() {
@@ -38,19 +41,25 @@ export class GarbageProfilesLabelManagerComponent {
   }
 
   onwindowclose() {
+    this.window.creater.selected = undefined;
     this.window.creater.show = false;
+    this.window.updater.selected = undefined;
+    this.window.updater.show = false;
+    this.window.confirm.show = false;
   }
 
   oncreate() {
-    this.selected = new LabelModel();
-    this.selected.Id = this.count;
-    this.selected.State = 0;
+    this.window.creater.selected = new LabelModel();
+    this.window.creater.selected.Id = this.count;
+    this.window.creater.selected.State = 0;
+    this.window.creater.state = FormState.add;
     this.window.creater.show = true;
   }
   onupdate(model: LabelModel) {
     let plain = instanceToPlain(model);
-    this.selected = plainToInstance(LabelModel, plain);
-    this.window.creater.show = true;
+    this.window.updater.selected = plainToInstance(LabelModel, plain);
+    this.window.updater.state = FormState.edit;
+    this.window.updater.show = true;
   }
   loaded(paged: PagedList<LabelModel>) {
     this.count = paged.Page.TotalRecordCount;
@@ -60,13 +69,19 @@ export class GarbageProfilesLabelManagerComponent {
       this.load.emit(this.args);
       this.toastr.success(`成功创建1条标签`);
     });
-    this.window.creater.show = false;
+    this.onwindowclose();
+  }
+
+  todelete() {
+    this.window.confirm.show = true;
   }
 
   ondelete() {
     this.business.delete(this.selecteds).then((x) => {
       this.load.emit(this.args);
       this.toastr.success(`成功删除${x.length}条标签`);
+      this.selecteds = [];
     });
+    this.onwindowclose();
   }
 }

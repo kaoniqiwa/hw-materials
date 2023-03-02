@@ -8,7 +8,7 @@
         </button>
         <button
           class="hw-red-btn"
-          (click)="ondelete()"
+          (click)="todelete()"
           *ngIf="selecteds && selecteds.length > 0"
         >
           <i class="howell-icon-delete-bin"></i> 删除
@@ -42,6 +42,7 @@
       [load]="load"
       (loaded)="loaded($event)"
       [(selected)]="selecteds"
+      (modify)="onupdate($event)"
     >
     </garbage-profiles-label-table>
   </div>
@@ -53,21 +54,38 @@
   *ngIf="window.creater.show"
 >
   <garbage-profiles-label-details
-    [model]="selected"
+    [model]="window.creater.selected"
+    [state]="window.creater.state"
     (ok)="oncreateok($event)"
     (cancel)="onwindowclose()"
   >
   </garbage-profiles-label-details>
 </app-window>
 <app-window
-  [Model]="window.creater"
-  [style]="window.creater.style"
-  *ngIf="window.creater.show"
+  [Model]="window.updater"
+  [style]="window.updater.style"
+  *ngIf="window.updater.show"
 >
   <garbage-profiles-label-details
-    [model]="selected"
+    [model]="window.updater.selected"
+    [state]="window.updater.state"
     (ok)="oncreateok($event)"
     (cancel)="onwindowclose()"
   >
   </garbage-profiles-label-details>
+</app-window>
+<app-window
+  [Model]="window.confirm"
+  [style]="window.confirm.style"
+  *ngIf="window.confirm.show"
+>
+  <div class="confirm">
+    <div class="hw-simple-title center">
+      是否确认删除{{ selecteds.length }}条数据
+    </div>
+    <div class="center">
+      <button class="hw-red-btn" (click)="ondelete()">确定</button>
+      <button class="hw-blue-btn" (click)="onwindowclose()">取消</button>
+    </div>
+  </div>
 </app-window>

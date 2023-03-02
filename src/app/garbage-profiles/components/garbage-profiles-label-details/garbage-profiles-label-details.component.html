@@ -5,7 +5,13 @@
       <div class="form-list-item">
         <div class="form-list-item-title">编号</div>
         <div class="form-list-item-value">
-          <input type="number" appTouchSpin [(number)]="model.Id" />
+          <div *ngIf="state !== FormState.add">{{ model.Id }}</div>
+          <input
+            *ngIf="state === FormState.add"
+            type="number"
+            appTouchSpin
+            [(number)]="model.Id"
+          />
         </div>
       </div>
       <div class="form-list-item">

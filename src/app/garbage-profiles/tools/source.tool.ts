@@ -1,15 +1,10 @@
 import { Injectable } from '@angular/core';
-import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { ValueNamePair } from 'src/app/network/entity/value-name-pair.entity';
 import { GarbageStationProfilesRequestService } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
 
 @Injectable({ providedIn: 'root' })
 export class GarbageStationProfilesSourceTools {
   constructor(service: GarbageStationProfilesRequestService) {
-    this.init(service);
-  }
-
-  private init(service: GarbageStationProfilesRequestService) {
     service.property.getEnumByName('StrongCurrentWire').then((x) => {
       this.StrongCurrentWire = x;
     });
@@ -43,14 +38,15 @@ export class GarbageStationProfilesSourceTools {
     service.property.getEnumByName('AIModelType').then((x) => {
       this.AIModelType = x;
     });
-    service.property.getEnumByName('ProfileState').then((x) => {
-      this.ProfileState = x;
-    });
 
-    GarbageStationProfile.getKeys().forEach((key) => {
-      this.language[key] = service.property.language(key);
+    GarbageStationProfilesSourceTools.getKeys().forEach((key) => {
+      service.property.getEnumByName(key).then((x) => {
+        this[key] = x;
+      });
     });
   }
+
+  [key: string]: ValueNamePair[];
 
   StrongCurrentWire: ValueNamePair[] = [];
   StrongCurrentWireMode: ValueNamePair[] = [];
@@ -64,8 +60,6 @@ export class GarbageStationProfilesSourceTools {
   AudioOutputState: ValueNamePair[] = [];
   AIModelType: ValueNamePair[] = [];
   ProfileState: ValueNamePair[] = [];
-
-  language = new Language();
 
   static getKeys() {
     return [
@@ -83,8 +77,4 @@ export class GarbageStationProfilesSourceTools {
       'ProfileState',
     ];
   }
-}
-
-class Language {
-  [key: string]: Promise<string>;
 }

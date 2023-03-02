@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormState } from 'src/app/enum/form-state.enum';
 import { LabelModel } from 'src/app/model/label.model';
 
 @Component({
@@ -13,6 +14,11 @@ export class GarbageProfilesLabelDetailsComponent {
   ok: EventEmitter<LabelModel> = new EventEmitter();
   @Output()
   cancel: EventEmitter<void> = new EventEmitter();
+  @Input()
+  state: FormState = FormState.none;
+
+  FormState = FormState;
+
   onok() {
     if (this.model) {
       this.ok.emit(this.model);

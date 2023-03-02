@@ -10,6 +10,7 @@ import {
 import { Sort } from '@angular/material/sort';
 import { IComponent } from 'src/app/common/interfaces/component.interfact';
 import { IModel } from 'src/app/common/interfaces/model.interface';
+import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/language.tool';
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 
 import { PagedList } from 'src/app/network/entity/page.entity';
@@ -59,7 +60,8 @@ export class GarbageStationProfileTableComponent
 
   constructor(
     business: GarbageStationProfileTableBusiness,
-    public source: GarbageStationProfilesSourceTools
+    public source: GarbageStationProfilesSourceTools,
+    public language: GarbageStationProfilesLanguageTools
   ) {
     super();
     this.business = business;

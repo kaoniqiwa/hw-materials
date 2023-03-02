@@ -228,4 +228,16 @@ export class ViewModelConverter {
     }
     return model;
   }
+
+  // PartialData(source:PartialData):PartialData{
+  //   let keys = GarbageStationProfilesSourceTools.getKeys()
+  //   for (let i = 0; i < keys.length; i++) {
+  //     const key = keys[i];
+  //     if(key in source)
+  //     {
+  //       source[key] = this.source.
+  //     }
+  //     source[key] this.source[key]
+  //   }
+  // }
 }
