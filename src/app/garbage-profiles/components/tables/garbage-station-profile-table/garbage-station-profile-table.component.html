@@ -1,72 +1,57 @@
-<div class="garbage-station-profile-table">
-  <div class="garbage-station-profile-table-main vertical-layout">
-    <table border="0" cellpadding="0" cellspacing="0">
+<div class="garbage-station-profile-table vertical-layout">
+  <div class="garbage-station-profile-table-main vertical-main">
+    <table
+      #header
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      matSort
+      (matSortChange)="sortData($event)"
+    >
       <colgroup>
         <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
       </colgroup>
       <thead>
         <tr>
-          <td>{{ source.language["Id"] | async }}</td>
-          <td>{{ source.language["ProfileName"] | async }}</td>
-          <td>{{ source.language["Contact"] | async }}</td>
-          <td>{{ source.language["ContactPhoneNo"] | async }}</td>
-          <td>{{ source.language["ProfileState"] | async }}</td>
-          <td class="operation center"><div>操作</div></td>
+          <td
+            *ngFor="let name of names"
+            [mat-sort-header]="name"
+            [disableClear]="true"
+            [class]="name"
+          >
+            {{ source.language[name] | async }}
+          </td>
         </tr>
       </thead>
-    </table>
-    <div class="body vertical-main paged">
-      <table *ngIf="datas" border="0" cellpadding="0" cellspacing="0">
-        <colgroup>
-          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
-        </colgroup>
-        <tbody>
-          <tr
-            *ngFor="let item of datas; let i = index"
-            [ngClass]="{
-              selected: this.selected && this.selected.includes(item)
-            }"
-            (click)="onselected(item)"
-          >
-            <td>{{ item.Id }}</td>
-            <td>
-              {{ item.ProfileName }}
-            </td>
-            <td>{{ item.Contact }}</td>
-            <td>
-              {{ item.ContactPhoneNo }}
-            </td>
-            <td>{{ item.ProfileStateName | async }}</td>
-
-            <td class="operation center">
-              <div (click)="onupdate($event, item)" class="center">
-                <i class="howell-icon-modification"></i>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="garbage-station-profile-table-main-footer footer" *ngIf="page">
-      <div class="footer-item">
-        <div class="footer-info">
-          <div class="info-item">当前数量: {{ page && page.RecordCount }}</div>
-          <div class="info-item">
-            总数量: {{ page && page.TotalRecordCount }}
-          </div>
-        </div>
-
-        <app-paginator
-          [length]="page ? page.TotalRecordCount : 0"
-          [pageSize]="page ? page.PageSize : 0"
-          [pagerCount]="5"
-          [pageIndex]="0"
-          [showFirstLastButtons]="true"
-          (page)="pageEvent($event)"
+      <tbody>
+        <tr
+          *ngFor="let item of datas; let i = index"
+          [ngClass]="{
+            selected: this.selected === item
+          }"
+          (click)="onselected(item)"
         >
-        </app-paginator>
+          <td *ngFor="let name of names" [class]="name">{{ item[name] }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="garbage-station-profile-table-main-footer footer" *ngIf="page">
+    <div class="footer-item">
+      <div class="footer-info">
+        <div class="info-item">当前数量: {{ page && page.RecordCount }}</div>
+        <div class="info-item">总数量: {{ page && page.TotalRecordCount }}</div>
       </div>
+
+      <app-paginator
+        [length]="page ? page.TotalRecordCount : 0"
+        [pageSize]="page ? page.PageSize : 0"
+        [pagerCount]="5"
+        [pageIndex]="0"
+        [showFirstLastButtons]="true"
+        (page)="pageEvent($event)"
+      >
+      </app-paginator>
     </div>
   </div>
 

@@ -2,7 +2,7 @@ import { IModel } from 'src/app/common/interfaces/model.interface';
 import { ConditionOperator } from 'src/app/enum/condition-operator.enum';
 
 /**	查询条件	*/
-export class Condition<T> implements IModel {
+export class Condition<T = any> implements IModel {
   /**	String	属性ID或属性路径	M	*/
   PropertyId!: string;
   /**	String	操作符：	M	*/

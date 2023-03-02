@@ -4,13 +4,14 @@
   </div>
   <div class="garbage-station-profile-setting-body">
     <garbage-station-profile-property-tree
+      (loaded)="ontreeloaded()"
       [defaultIds]="selectedIds"
       (selectTreeNode)="onselect($event)"
     >
     </garbage-station-profile-property-tree>
   </div>
   <div class="garbage-station-profile-setting-foot">
-    <button class="hw-green-btn">确定</button>
-    <button class="hw-blue-btn">取消</button>
+    <button class="hw-green-btn" (click)="onok()">确定</button>
+    <button class="hw-blue-btn" (click)="oncancel()">取消</button>
   </div>
 </div>

@@ -27,19 +27,17 @@ export class GarbageStationProfileSettingBusiness
     );
 
     if (!data) {
-      return [];
+      return ['100002', '100003', '100005', '100006', '100007', '100051'];
     }
 
-    let model = JSON.parse(data) as string[];
-
-    return model;
+    return data as string[];
   }
-  getData(userId: string, type: UserConfigType): Promise<string> {
+  getData(userId: string, type: UserConfigType): Promise<any> {
     return this.service.config.get(userId, type);
   }
 
-  set(data: string) {
-    this.service.config.update(
+  async set(data: string) {
+    return this.service.config.update(
       this.local.user.Id,
       UserConfigType.GarbageStationProfileProperty,
       data

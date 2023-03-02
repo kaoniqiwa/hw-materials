@@ -20,7 +20,7 @@
     </div>
   </div>
   <div class="garbage-station-profile-manager-content">
-    <garbage-station-profile-table (check)="onselected($event)">
+    <garbage-station-profile-table [load]="load" (check)="onselected($event)">
     </garbage-station-profile-table>
   </div>
 </div>
@@ -41,5 +41,9 @@
   [style]="window.setting.style"
   *ngIf="window.setting.show"
 >
-  <garbage-station-profile-setting> </garbage-station-profile-setting>
+  <garbage-station-profile-setting
+    (ok)="onsettingok($event)"
+    (cancel)="onwindowclose()"
+  >
+  </garbage-station-profile-setting>
 </app-window>

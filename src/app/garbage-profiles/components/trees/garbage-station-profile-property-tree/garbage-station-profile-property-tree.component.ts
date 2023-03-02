@@ -40,6 +40,9 @@ export class GarbageStationProfilePropertyTreeComponent
 
   @ViewChild(CommonTreeComponent) override tree?: CommonTreeComponent;
 
+  @Output()
+  loaded: EventEmitter<void> = new EventEmitter();
+
   constructor(
     private _business: GarbageStationProfilePropertyTreeBusiness,
     private _toastrService: ToastrService
@@ -56,6 +59,7 @@ export class GarbageStationProfilePropertyTreeComponent
     let res = await this._business.init(this._condition);
     // console.log(res);
     this.dataSubject.next(res);
+    this.loaded.emit();
   }
   async searchEventHandler(condition: string) {
     console.log('搜索字段', condition);

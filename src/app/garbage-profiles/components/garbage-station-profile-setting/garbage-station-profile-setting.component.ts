@@ -17,26 +17,32 @@ export class GarbageStationProfileSettingComponent implements OnInit {
 
   constructor(private business: GarbageStationProfileSettingBusiness) {}
 
-  selectedIds: string[] = [];
-
-  ngOnInit(): void {
-    // this.business.load().then((x) => {
-    //   this.selectedIds = x;
-    // });
+  private _selectedIds: string[] = [];
+  get selectedIds(): string[] {
+    return this._selectedIds;
   }
 
+  selecteds: Property[] = [];
+
+  ngOnInit(): void {}
+  ontreeloaded() {
+    this.business.load().then((x) => {
+      this._selectedIds = x;
+    });
+  }
   onselect(nodes: CommonFlatNode[]) {
-    this.selectedIds = nodes
+    this.selecteds = nodes
       .filter((x) => x.RawData instanceof Property)
       .map((x) => {
-        let property = x.RawData as Property;
-        return property.Id.toString();
+        return x.RawData;
       });
   }
 
-  onok() {
-    let str = JSON.stringify(this.selectedIds);
-    this.business.set(str);
+  async onok() {
+    let ids = this.selecteds.map((x) => x.Id);
+    let str = JSON.stringify(ids);
+    await this.business.set(str);
+    this.ok.emit(ids);
   }
   oncancel() {
     this.cancel.emit();

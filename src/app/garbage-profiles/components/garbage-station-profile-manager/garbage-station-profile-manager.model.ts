@@ -9,10 +9,6 @@ export class GarbageStationProfileDetailsWindow extends WindowViewModel {
   state: FormState = FormState.none;
 }
 export class GarbageStationProfileSettingWindow extends WindowViewModel {
-  constructor() {
-    super();
-    this.show = true;
-  }
   style = {
     width: '600px',
   };

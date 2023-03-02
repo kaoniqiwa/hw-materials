@@ -7,4 +7,6 @@ export class GarbageStationProfileModel extends GarbageStationProfile {
   PowerImage?: Promise<string>;
 
   ProfileStateName!: Promise<string>;
+
+  [key: string]: any;
 }

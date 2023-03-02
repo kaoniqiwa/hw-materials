@@ -40,6 +40,8 @@ export class CommonTreeComponent implements OnInit, OnChanges {
   @Input()
   showButtonIcon = false;
 
+  @Input()
+  isAsync = true;
   @Output()
   loadChildrenEvent = new EventEmitter<CommonFlatNode>();
   @Output()
@@ -254,20 +256,20 @@ export class CommonTreeComponent implements OnInit, OnChanges {
   }
 
   setDefaultNodes() {
-    if (this.selection) {
-      this.selection.clear();
+    if (this.defaultIds.length == 0) {
+      if (this.selection) {
+        this.selection.clear();
+      }
+      return;
     }
-    if (this.defaultIds.length == 0) return;
     if (this.selectStrategy == SelectStrategy.Single) {
       this.defaultIds.length = 1;
     }
 
     let len = this.defaultIds.length;
 
-    let res: string[] = [];
-
     for (let i = 0; i < len; i++) {
-      let id = this.defaultIds.shift(); // 会改变数组长度
+      let id = this.defaultIds[i]; // 会改变数组长度
       if (id) {
         let node = this._flatNodeMap.get(id);
         if (node) {
@@ -277,24 +279,28 @@ export class CommonTreeComponent implements OnInit, OnChanges {
           } else {
             // 上层节点为打开状态,否则没有打开树，就抛选中事件不合逻辑
             let parentNode = this._flatNodeMap.get(node.ParentId);
-            if (parentNode && this.treeControl.isExpanded(parentNode)) {
+            if (
+              parentNode &&
+              (this.isAsync === false ||
+                this.treeControl.isExpanded(parentNode))
+            ) {
               this.selection.select(node);
-            } else {
-              res.push(id);
             }
           }
-        } else {
-          // 还没有拉取到该节点
-          res.push(id);
         }
       }
     }
     // 循环结束后，留下的都是没有匹配到的节点
-    // if (this.defaultIds) {
-    //   this.defaultIds = res;
-    // }
-    // if (len !== this.defaultIds.length)
-    //   this.defaultIdsChange.emit(this.defaultIds);
+
+    for (let i = 0; i < this.selection.selected.length; i++) {
+      const selected = this.selection.selected[i];
+      if (!this.defaultIds.includes(selected.Id)) {
+        this.selection.deselect(selected);
+      }
+    }
+
+    if (len !== this.defaultIds.length)
+      this.defaultIdsChange.emit(this.defaultIds);
   }
 
   /**

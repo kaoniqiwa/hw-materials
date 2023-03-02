@@ -7,13 +7,18 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { IBusiness } from 'src/app/common/interfaces/bussiness.interface';
+import { Sort } from '@angular/material/sort';
 import { IComponent } from 'src/app/common/interfaces/component.interfact';
 import { IModel } from 'src/app/common/interfaces/model.interface';
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
-import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
+
 import { PagedList } from 'src/app/network/entity/page.entity';
-import { PagedTableSelectionAbstractComponent } from '../table-paged-abstract.component';
+import {
+  IPartialData,
+  PartialData,
+} from 'src/app/network/entity/partial-data.interface';
+import { PagedTableAbstractComponent } from '../table-paged-abstract.component';
+import { GarbageStationProfileTableConfigBusiness } from './garbage-station-profile-table-config.business';
 import { GarbageStationProfileTableBusiness } from './garbage-station-profile-table.business';
 import { GarbageStationProfileTableConverter } from './garbage-station-profile-table.converter';
 import { GarbageStationProfileTableArgs } from './garbage-station-profile-table.model';
@@ -22,23 +27,21 @@ import { GarbageStationProfileTableArgs } from './garbage-station-profile-table.
   selector: 'garbage-station-profile-table',
   templateUrl: './garbage-station-profile-table.component.html',
   styleUrls: [
-    '../table.less',
+    '../table-horizontal.less',
     './garbage-station-profile-table.component.less',
   ],
   providers: [
     GarbageStationProfileTableConverter,
+    GarbageStationProfileTableConfigBusiness,
     GarbageStationProfileTableBusiness,
   ],
 })
 export class GarbageStationProfileTableComponent
-  extends PagedTableSelectionAbstractComponent<GarbageStationProfileModel>
-  implements
-    IComponent<IModel, PagedList<GarbageStationProfileModel>>,
-    OnInit,
-    OnChanges
+  extends PagedTableAbstractComponent<PartialData>
+  implements IComponent<IModel, PagedList<PartialData>>, OnInit, OnChanges
 {
   @Input()
-  business: IBusiness<IModel, PagedList<GarbageStationProfileModel>>;
+  business: GarbageStationProfileTableBusiness;
   @Input()
   args: GarbageStationProfileTableArgs = new GarbageStationProfileTableArgs();
 
@@ -46,15 +49,13 @@ export class GarbageStationProfileTableComponent
   load?: EventEmitter<GarbageStationProfileTableArgs>;
 
   @Input()
-  selected?: GarbageStationProfileModel[];
+  selected?: PartialData;
   @Output()
-  selectedChange: EventEmitter<GarbageStationProfileModel[]> =
-    new EventEmitter();
+  selectedChange: EventEmitter<PartialData> = new EventEmitter();
   @Output()
-  loaded: EventEmitter<PagedList<GarbageStationProfileModel>> =
-    new EventEmitter();
+  loaded: EventEmitter<PagedList<IPartialData>> = new EventEmitter();
   @Output()
-  check: EventEmitter<GarbageStationProfileModel> = new EventEmitter();
+  check: EventEmitter<IPartialData> = new EventEmitter();
 
   constructor(
     business: GarbageStationProfileTableBusiness,
@@ -64,8 +65,20 @@ export class GarbageStationProfileTableComponent
     this.business = business;
   }
 
-  widths = [];
+  names: string[] = [
+    'ProfileName',
+    'Province',
+    'County',
+    'Street',
+    'Committee',
+    'ProfileState',
+  ];
 
+  widths: string[] = [];
+
+  ngOnInit(): void {
+    this.loadData(1);
+  }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['load']) {
       if (this.load) {
@@ -76,21 +89,45 @@ export class GarbageStationProfileTableComponent
       }
     }
   }
-  ngOnInit(): void {
+
+  async loadData(index: number, size: number = 10) {
+    // this.loading = true;
+    this.selected = undefined;
+
+    let properties = await this.business.config.get(this.args.tableIds);
+    this.names = properties.map((x) => x.Name);
+    let ids = properties.map((x) => x.Id);
+    let paged = await this.business.load(index, size, ids, this.args);
+    this.page = paged.Page;
+    this.datas = paged.Data;
+    this.source.ProfileState;
+    this.loading = false;
+  }
+
+  sortData(sort: Sort) {
+    const isAsc = sort.direction === 'asc';
+    this.args.desc = undefined;
+    this.args.asc = undefined;
+    if (isAsc) {
+      this.args.asc = sort.active;
+    } else {
+      this.args.desc = sort.active;
+    }
     this.loadData(1);
   }
 
-  loadData(index: number, size: number = 10) {
-    this.selected = undefined;
-    this.business.load(this.args, index, size).then((paged) => {
-      this.page = paged.Page;
-      this.datas = paged.Data;
-      this.loaded.emit(paged);
-    });
-  }
-
-  async onupdate(e: Event, item: GarbageStationProfileModel) {
+  async onupdate(e: Event, item: PartialData) {
     this.check.emit(item);
     e.stopImmediatePropagation();
+  }
+
+  onselected(item: PartialData) {
+    if (this.selected === item) {
+      this.selected = undefined;
+    } else {
+      this.selected = item;
+    }
+
+    this.selectedChange.emit(this.selected);
   }
 }

@@ -35,7 +35,7 @@ export class GetPropertiesParams extends PagedParams {
   Desc?: string;
 }
 
-export class GetPartialDatasParams<T> extends PagedParams {
+export class GetPartialDatasParams<T = any> extends PagedParams {
   /**	String[]	需要的属性ID，与Path二选一	D	*/
   PropertyIds?: string[];
   /**	ElemMatch[]	数组元素过滤条件	O	*/

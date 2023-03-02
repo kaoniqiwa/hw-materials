@@ -1,64 +1,48 @@
 import { Injectable } from '@angular/core';
 import { IBusiness } from 'src/app/common/interfaces/bussiness.interface';
-import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
-import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
-import { Page, PagedList } from 'src/app/network/entity/page.entity';
-import { GetGarbageStationProfilesParams } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
+import { PagedList } from 'src/app/network/entity/page.entity';
+import {
+  IPartialData,
+  PartialData,
+} from 'src/app/network/entity/partial-data.interface';
+import { GetPartialDatasParams } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
 import { GarbageStationProfilesRequestService } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
+import { GarbageStationProfileTableConfigBusiness } from './garbage-station-profile-table-config.business';
 import { GarbageStationProfileTableConverter } from './garbage-station-profile-table.converter';
 import { GarbageStationProfileTableArgs } from './garbage-station-profile-table.model';
 
 @Injectable()
 export class GarbageStationProfileTableBusiness
-  implements
-    IBusiness<
-      PagedList<GarbageStationProfile>,
-      PagedList<GarbageStationProfileModel>
-    >
+  implements IBusiness<PagedList<IPartialData>>
 {
   constructor(
     private service: GarbageStationProfilesRequestService,
-    public Converter: GarbageStationProfileTableConverter
+    private converter: GarbageStationProfileTableConverter,
+    public config: GarbageStationProfileTableConfigBusiness
   ) {}
   async load(
-    args: GarbageStationProfileTableArgs,
     index: number,
-    size: number = 10
-  ): Promise<PagedList<GarbageStationProfileModel>> {
-    let data = await this.getData(index, size, args.Name);
-    let model = this.Converter.Convert(data);
-    return model;
+    size: number = 10,
+    ids: string[],
+    args: GarbageStationProfileTableArgs
+  ): Promise<PagedList<IPartialData>> {
+    let data = await this.getData(index, size, ids, args.asc, args.desc);
+    return data;
   }
   getData(
     index: number,
     size: number = 10,
-    name?: string
-  ): Promise<PagedList<GarbageStationProfile>> {
-    let params = new GetGarbageStationProfilesParams();
+    ids?: string[],
+    asc?: string,
+    desc?: string
+  ): Promise<PagedList<PartialData>> {
+    let params = new GetPartialDatasParams();
     params.PageIndex = index;
     params.PageSize = size;
-    params.ProfileName = name;
-    return this.service.list(params).catch((x) => {
-      let paged = new PagedList<GarbageStationProfile>();
-      paged.Data = [];
-      paged.Page = new Page();
-      paged.Page.PageCount = 1;
-      paged.Page.PageIndex = 1;
-      paged.Page.PageSize = 10;
-      paged.Page.RecordCount = 3;
-      paged.Page.TotalRecordCount = 10;
-      for (let i = 0; i < paged.Page.RecordCount; i++) {
-        let item = new GarbageStationProfile();
-        item.ProfileName = '档案' + (i + 1);
-        paged.Data.push(item);
-      }
-      return paged;
-    });
-  }
+    params.PropertyIds = ids;
+    params.Asc = asc;
+    params.Desc = desc;
 
-  update(instance: GarbageStationProfile): Promise<GarbageStationProfileModel> {
-    return this.service.update(instance).then((x) => {
-      return this.Converter.vmConverter.GarbageStationProfile(x);
-    });
+    return this.service.partialData.list(params);
   }
 }

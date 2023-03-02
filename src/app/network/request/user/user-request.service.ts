@@ -62,13 +62,17 @@ export class UserRequestService {
 class ConfigService {
   constructor(private basic: BaseRequestService) {}
 
-  get(userId: string, type: UserConfigType): Promise<string> {
+  get(userId: string, type: UserConfigType): Promise<any> {
     let url = UserUrl.config(userId).item(type);
-    let observable = this.basic.http.getString(url);
+    let observable = this.basic.http.get(url);
     return firstValueFrom(observable);
   }
 
-  update(userId: string, type: UserConfigType, base64: string): Promise<Fault> {
+  update<T>(
+    userId: string,
+    type: UserConfigType,
+    base64: string
+  ): Promise<Fault> {
     let url = UserUrl.config(userId).item(type);
     let observable = this.basic.http.putBase64String<Fault>(url, base64);
     return firstValueFrom(observable);
