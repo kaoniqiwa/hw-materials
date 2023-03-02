@@ -27,7 +27,8 @@ export class GarbageStationProfileTableBusiness
     args: GarbageStationProfileTableArgs
   ): Promise<PagedList<IPartialData>> {
     let data = await this.getData(index, size, ids, args.asc, args.desc);
-    return data;
+    let model = this.converter.Convert(data);
+    return model;
   }
   getData(
     index: number,

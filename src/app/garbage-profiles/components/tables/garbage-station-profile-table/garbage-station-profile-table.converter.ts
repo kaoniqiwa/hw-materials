@@ -1,30 +1,48 @@
 import { Injectable } from '@angular/core';
-import { IConverter } from 'src/app/common/interfaces/converter.interface';
-import { ViewModelConverter } from 'src/app/converter/view-model.converter';
+import { IPromiseConverter } from 'src/app/common/interfaces/converter.interface';
+import { wait } from 'src/app/common/tools/tool';
+import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 
-import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
-import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { PagedList } from 'src/app/network/entity/page.entity';
+import { PartialData } from 'src/app/network/entity/partial-data.interface';
 
 @Injectable()
 export class GarbageStationProfileTableConverter
-  implements
-    IConverter<
-      PagedList<GarbageStationProfile>,
-      PagedList<GarbageStationProfileModel>
-    >
+  implements IPromiseConverter<PagedList<PartialData>, PagedList<PartialData>>
 {
-  constructor(public vmConverter: ViewModelConverter) {}
+  constructor(private source: GarbageStationProfilesSourceTools) {}
 
-  Convert(
-    source: PagedList<GarbageStationProfile>,
-    ...res: any[]
-  ): PagedList<GarbageStationProfileModel> {
-    let paged = new PagedList<GarbageStationProfileModel>();
-    paged.Page = source.Page;
-    paged.Data = source.Data.map((x) => {
-      return this.vmConverter.GarbageStationProfile(x);
+  async Convert(source: PagedList<PartialData>, ...res: any[]) {
+    return new Promise<PagedList<PartialData>>((resolve) => {
+      wait(
+        () => {
+          return this.source.ProfileState.length > 0;
+        },
+        () => {
+          let paged = new PagedList<PartialData>();
+          paged.Page = source.Page;
+          paged.Data = source.Data.map((x) => {
+            return this.item(x);
+          });
+          resolve(paged);
+        }
+      );
     });
-    return paged;
+  }
+
+  item(source: PartialData): PartialData {
+    let keys = GarbageStationProfilesSourceTools.getKeys();
+
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+
+      if (key in source) {
+        let value = this.source[key].find((x) => x.Value === source[key]);
+        if (value) {
+          source[key] = value.Name;
+        }
+      }
+    }
+    return source;
   }
 }
