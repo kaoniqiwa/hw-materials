@@ -1,313 +1,213 @@
-<div class="garbage-station-profile-details">
-  <div class="hw-simple-title">厢房档案</div>
-  <form [formGroup]="formGroup" class="garbage-station-profile-details-content">
-    <mat-stepper
-      formArrayName="formArray"
-      linear
-      #stepper
-      (selectionChange)="selectionChange($event)"
-    >
-      <mat-step
-        label="初建档案"
-        formGroupName="0"
-        completed="false"
-        class="garbage-station-profile-details-content-list"
-      >
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["ProfileName"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="ProfileName" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["Province"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="Province" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["City"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="City" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["County"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="County" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["Street"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="Street" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["Committee"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="Committee" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["Address"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="Address" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["Contact"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="Contact" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["ContactPhoneNo"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="ContactPhoneNo" />
-          </div>
-        </div>
-        <div>
-          <button
-            class="hw-green-btn"
-            type="button"
-            (click)="createInfo()"
-            *ngIf="state == FormState.add"
-          >
-            创建
-          </button>
-
-          <button
-            class="hw-blue-btn"
-            type="button"
-            (click)="editInfo(0)"
-            *ngIf="state == FormState.edit"
-          >
-            编辑
-          </button>
-          <button
-            class="hw-green-btn"
-            type="button"
-            (click)="saveInfo(0)"
-            *ngIf="state == FormState.edit"
-          >
-            保存
-          </button>
-          <button
-            class="hw-green-btn"
-            type="button"
-            [disabled]="!enableNextBtn(0)"
-            (click)="nextStep()"
-          >
-            下一步
-          </button>
-        </div>
-      </mat-step>
-      <mat-step
-        label="勘察完成"
-        formGroupName="1"
-        completed="false"
-        class="garbage-station-profile-details-content-list"
-      >
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["GarbageStationName"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="GarbageStationName" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["CommunityName"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="CommunityName" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["StrongCurrentWire"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="StrongCurrentWire" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["StrongCurrentWireMode"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="StrongCurrentWireMode" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["StrongCurrentWireLength"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="StrongCurrentWireLength" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["GarbageStationType"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="GarbageStationType" />
-          </div>
-        </div>
-        <!-- <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["LFImageUrl"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="LFImageUrl" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["RFImageUrl"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="RFImageUrl" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["FImageUrl"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="FImageUrl" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["PowerImageUrl"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="PowerImageUrl" />
-          </div>
-        </div> -->
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["Functions"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="Functions" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["Remarks"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="Remarks" />
-          </div>
-        </div>
-
-        <div>
-          <button class="hw-green-btn" type="button" (click)="prevStep()">
-            上一步
-          </button>
-          <button class="hw-green-btn" type="button" (click)="nextStep()">
-            下一步
-          </button>
-        </div>
-      </mat-step>
-      <mat-step
-        label="安装完成"
-        formGroupName="2"
-        class="garbage-station-profile-details-content-list"
-      >
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["ConstructionContact"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="ConstructionContact" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["ConstructionContactPhoneNo"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="ConstructionContactPhoneNo" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["ConstructionDate"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="ConstructionDate" />
-          </div>
-        </div>
-        <div>
-          <button class="hw-green-btn" matStepperNext type="button">
-            下一步
-          </button>
-        </div> </mat-step
-      ><mat-step
-        label="现场调试"
-        formGroupName="3"
-        class="garbage-station-profile-details-content-list"
-      >
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["GPSPoint"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="GPSPoint" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["TimeToDump"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="TimeToDump" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["IMEI"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="IMEI" />
-          </div>
-        </div>
-        <div class="garbage-station-profile-details-content-list-item">
-          <div class="garbage-station-profile-details-content-list-item-title">
-            {{ source.language["NB"] | async }}
-          </div>
-          <div class="garbage-station-profile-details-content-list-item-value">
-            <input type="text" formControlName="NB" />
-          </div>
-        </div>
-        <div>
-          <button class="hw-green-btn" type="button">完成</button>
-        </div>
-      </mat-step>
-    </mat-stepper>
-  </form>
+<div class="profile-details vertical-layout">
+  <div class="profile-details-header vertical-header">
+    <div class="hw-simple-title">厢房档案</div>
+  </div>
+  <div class="profiles-details-body vertical-main">
+    <ng-template [ngTemplateOutlet]="templateExpression"></ng-template>
+  </div>
 </div>
+
+<ng-template #stepperTemp>
+  <mat-stepper linear #stepper (selectionChange)="selectionChange($event)">
+    <ng-container *ngFor="let label of labels; let i = index; let c = count">
+      <mat-step>
+        <ng-template matStepLabel>{{ label }}</ng-template>
+        <ng-template
+          [ngTemplateOutlet]="getStepTemp(i)"
+          [ngTemplateOutletContext]="{ index: i, $implicit: 'hello' }"
+        ></ng-template>
+      </mat-step>
+    </ng-container>
+  </mat-stepper>
+</ng-template>
+
+<ng-template #expansionTemp>
+  <mat-accordion>
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title> This is the expansion title </mat-panel-title>
+        <mat-panel-description>
+          This is a summary of the content
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <p>This is the primary content of the panel.</p>
+    </mat-expansion-panel>
+    <mat-expansion-panel
+      (opened)="panelOpenState = true"
+      (closed)="panelOpenState = false"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title> Self aware panel </mat-panel-title>
+        <mat-panel-description>
+          Currently I am {{ panelOpenState ? "open" : "closed" }}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <p>I'm visible because I am open</p>
+    </mat-expansion-panel>
+  </mat-accordion>
+</ng-template>
+
+<ng-template #step1 #step let-value let-index="index">
+  <form [formGroup]="formArray.at(index)" class="hw-form">
+    <div class="hw-form-item">
+      <div class="hw-form-group">
+        <div class="title">
+          <span class="hw-form-label">
+            {{ source.language["ProfileName"] | async }}
+          </span>
+          <span class="hw-form-icon">*</span>
+        </div>
+        <div class="content">
+          <input type="text" formControlName="ProfileName" />
+        </div>
+      </div>
+      <div class="hw-form-group">
+        <div class="title">
+          <span class="hw-form-label">
+            {{ source.language["Province"] | async }}
+          </span>
+          <span class="hw-form-icon">*</span>
+        </div>
+        <div class="content">
+          <input type="text" formControlName="Province" />
+        </div>
+      </div>
+      <div class="hw-form-group">
+        <div class="title">
+          <span class="hw-form-label">
+            {{ source.language["City"] | async }}
+          </span>
+          <span class="hw-form-icon">*</span>
+        </div>
+        <div class="content">
+          <input type="text" formControlName="City" />
+        </div>
+      </div>
+      <div class="hw-form-group">
+        <div class="title">
+          <span class="hw-form-label">
+            {{ source.language["County"] | async }}
+          </span>
+          <span class="hw-form-icon">*</span>
+        </div>
+        <div class="content">
+          <input type="text" formControlName="County" />
+        </div>
+      </div>
+      <div class="hw-form-group">
+        <div class="title">
+          <span class="hw-form-label">
+            {{ source.language["Street"] | async }}
+          </span>
+          <span class="hw-form-icon">*</span>
+        </div>
+        <div class="content">
+          <input type="text" formControlName="Street" />
+        </div>
+      </div>
+      <div class="hw-form-group">
+        <div class="title">
+          <span class="hw-form-label">
+            {{ source.language["Committee"] | async }}
+          </span>
+          <span class="hw-form-icon">*</span>
+        </div>
+        <div class="content">
+          <input type="text" formControlName="Committee" />
+        </div>
+      </div>
+      <div class="hw-form-group">
+        <div class="title">
+          <span class="hw-form-label">
+            {{ source.language["Address"] | async }}
+          </span>
+          <span class="hw-form-icon">*</span>
+        </div>
+        <div class="content">
+          <input type="text" formControlName="Address" />
+        </div>
+      </div>
+      <div class="hw-form-group">
+        <div class="title">
+          <span class="hw-form-label">
+            {{ source.language["Contact"] | async }}
+          </span>
+        </div>
+        <div class="content">
+          <input type="text" formControlName="Contact" />
+        </div>
+      </div>
+      <div class="hw-form-group">
+        <div class="title">
+          <span class="hw-form-label">
+            {{ source.language["ContactPhoneNo"] | async }}
+          </span>
+        </div>
+        <div class="content">
+          <input type="text" formControlName="ContactPhoneNo" />
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+<ng-template #step2 #step let-index="index">
+  <form [formGroup]="formArray.at(index)" class="hw-form">
+    <div class="hw-form-item">
+      <div class="hw-form-group">
+        <div class="title">
+          <span class="hw-form-label">
+            {{ source.language["GarbageStationName"] | async }}
+          </span>
+          <span class="hw-form-icon">*</span>
+        </div>
+        <div class="content">
+          <input type="text" formControlName="GarbageStationName" />
+        </div>
+      </div>
+      <div class="hw-form-group">
+        <div class="title">
+          <span class="hw-form-label">
+            {{ source.language["CommunityName"] | async }}
+          </span>
+          <span class="hw-form-icon">*</span>
+        </div>
+        <div class="content">
+          <input type="text" formControlName="CommunityName" />
+        </div>
+      </div>
+      <div class="hw-form-group">
+        <div class="title">
+          <span class="hw-form-label">
+            {{ source.language["StrongCurrentWire"] | async }}
+          </span>
+          <span class="hw-form-icon">*</span>
+        </div>
+        <div class="content">
+          <input type="text" formControlName="StrongCurrentWire" />
+        </div>
+      </div>
+      <div class="hw-form-group">
+        <div class="title">
+          <span class="hw-form-label">
+            {{ source.language["StrongCurrentWireMode"] | async }}
+          </span>
+          <span class="hw-form-icon">*</span>
+        </div>
+        <div class="content">
+          <input type="text" formControlName="StrongCurrentWireMode" />
+        </div>
+      </div>
+      <div class="hw-form-group">
+        <div class="title">
+          <span class="hw-form-label">
+            {{ source.language["StrongCurrentWireLength"] | async }}
+          </span>
+          <span class="hw-form-icon">*</span>
+        </div>
+        <div class="content">
+          <input type="text" formControlName="StrongCurrentWireLength" />
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

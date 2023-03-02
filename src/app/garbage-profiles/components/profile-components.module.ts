@@ -29,7 +29,6 @@ import { UnderwaterComponent } from './underwater/underwater.component';
     UnderwaterComponent,
     StationArchiveComponent,
     GarbageStationProfileManagerComponent,
-    GarbageStationProfileDetailsComponent,
     GarbageProfilesMaterialManagerComponent,
     GarbageProfilesMaterialDetailsComponent,
     GarbageProfilesMaterialRecordComponent,
@@ -37,6 +36,7 @@ import { UnderwaterComponent } from './underwater/underwater.component';
     GarbageProfilesLabelManagerComponent,
     GarbageProfilesLabelDetailsComponent,
     GarbageStationProfileSettingComponent,
+    GarbageStationProfileDetailsComponent,
   ],
   imports: [
     MaterialModule,
