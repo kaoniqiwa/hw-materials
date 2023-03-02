@@ -8,6 +8,9 @@
         <button class="hw-green-btn" (click)="oncreate()">
           <i class="howell-icon-plus"></i> 添加
         </button>
+        <button class="hw-blue-btn" *ngIf="!!selectedId" (click)="onmodify()">
+          <i class="howell-icon-modification"></i> 编辑
+        </button>
         <button class="hw-blue-btn" (click)="onsetting()">
           <i class="howell-icon-settingoutline"></i> 设置
         </button>
@@ -20,7 +23,10 @@
     </div>
   </div>
   <div class="garbage-station-profile-manager-content">
-    <garbage-station-profile-table [load]="load" (check)="onselected($event)">
+    <garbage-station-profile-table
+      [load]="load"
+      (selectedChange)="onselected($event)"
+    >
     </garbage-station-profile-table>
   </div>
 </div>
@@ -31,7 +37,7 @@
   *ngIf="window.details.show"
 >
   <garbage-station-profile-details
-    [model]="selected"
+    [profileId]="selectedId!"
     [state]="window.details.state"
   >
   </garbage-station-profile-details>

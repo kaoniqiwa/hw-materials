@@ -1,6 +1,5 @@
 import { Component, EventEmitter } from '@angular/core';
 import { FormState } from 'src/app/enum/form-state.enum';
-import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
 import { IPartialData } from 'src/app/network/entity/partial-data.interface';
 import { GarbageStationProfileTableArgs } from '../tables/garbage-station-profile-table/garbage-station-profile-table.model';
 import {
@@ -16,7 +15,7 @@ import {
 export class GarbageStationProfileManagerComponent {
   args: GarbageStationProfileTableArgs = new GarbageStationProfileTableArgs();
 
-  selected: GarbageStationProfileModel = new GarbageStationProfileModel();
+  selectedId?: string;
 
   window = {
     details: new GarbageStationProfileDetailsWindow(),
@@ -24,10 +23,10 @@ export class GarbageStationProfileManagerComponent {
   };
   load: EventEmitter<GarbageStationProfileTableArgs> = new EventEmitter();
 
-  onselected(id: IPartialData) {
+  onselected(data?: IPartialData) {
     // this.selected = item;
-    this.window.details.state = FormState.edit;
-    this.window.details.show = true;
+
+    this.selectedId = data?.Id;
   }
   onwindowclose() {
     this.window.details.show = false;
@@ -36,6 +35,12 @@ export class GarbageStationProfileManagerComponent {
   oncreate() {
     this.window.details.state = FormState.add;
     this.window.details.show = true;
+  }
+  onmodify() {
+    if (this.selectedId) {
+      this.window.details.state = FormState.edit;
+      this.window.details.show = true;
+    }
   }
   onsetting() {
     this.window.setting.show = true;

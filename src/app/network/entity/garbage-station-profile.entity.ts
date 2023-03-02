@@ -1,15 +1,15 @@
 import { Transform } from 'class-transformer';
-import { IModel } from 'src/app/common/interfaces/model.interface';
 import { GarbageStationFunction } from 'src/app/enum/garbage-station-function.enum';
 import { StrongCurrentWireMode } from 'src/app/enum/strong-current-wire-mode.enum';
 import { YesOrNo } from 'src/app/enum/yes-or-no.enum';
 import { Camera } from './camera.entity';
 import { GPSPoint } from './gps-point.entity';
 import { MaterialItem } from './material-item.enitty';
+import { IPartialData } from './partial-data.interface';
 import { transformDateTime } from './transform.model';
 
 /**	垃圾厢房档案	*/
-export class GarbageStationProfile implements IModel {
+export class GarbageStationProfile implements IPartialData {
   /**	String	档案ID	M	*/
   Id!: string;
   /**	String	建档名称	M	*/
