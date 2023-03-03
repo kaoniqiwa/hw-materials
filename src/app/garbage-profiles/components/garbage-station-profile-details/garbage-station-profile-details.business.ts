@@ -10,7 +10,9 @@ const NULL_KEY = 'null';
 
 @Injectable()
 export class GarbageStationProfileDetailsBusiness {
-  private _divisionMap: Map<string, Division[]> = new Map();
+  private _selectMap: Map<string, Division[]> = new Map();
+
+  private _divisionMap: Map<string, Division> = new Map();
 
   constructor(
     private _garbageStationProfilesRequest: GarbageStationProfilesRequestService,
@@ -30,7 +32,7 @@ export class GarbageStationProfileDetailsBusiness {
    * 本地保存数据
    * @param searchInfo
    */
-  async getDivision(searchInfo: ProfileDetailsDivisionSearchInfo) {
+  async getDivisionList(searchInfo: ProfileDetailsDivisionSearchInfo) {
     let res: Division[] = [];
 
     let key: string = '';
@@ -39,20 +41,30 @@ export class GarbageStationProfileDetailsBusiness {
     } else {
       key = searchInfo.ParentId ?? '';
     }
-    if (this._divisionMap.has(key)) {
-      res = this._divisionMap.get(key)!;
+    if (this._selectMap.has(key)) {
+      res = this._selectMap.get(key)!;
     } else {
-      let { Data } = await this._getDivision(searchInfo);
+      let { Data } = await this._getDivisionList(searchInfo);
 
-      this._divisionMap.set(key, Data);
+      this._selectMap.set(key, Data);
+      Data.forEach((division) => this._divisionMap.set(division.Id, division));
 
       res = Data;
     }
     return res;
   }
 
+  getDivision(name: string) {
+    for (let [key, value] of this._divisionMap.entries()) {
+      console.log(key, value);
+      if (value.Name === name) {
+        return key;
+      }
+    }
+    return null;
+  }
   // 仅负责请求数据
-  private _getDivision(searchInfo: ProfileDetailsDivisionSearchInfo) {
+  private _getDivisionList(searchInfo: ProfileDetailsDivisionSearchInfo) {
     let params = new GetGarbageProfilesBasicDivisionsParams();
     if (searchInfo.ParentId) params.ParentId = searchInfo.ParentId;
     if (searchInfo.Name) params.Name = searchInfo.Name;

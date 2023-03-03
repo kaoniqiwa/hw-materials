@@ -57,10 +57,12 @@ export class GarbageStationProfileDetailsComponent
 
   templateExpression: TemplateRef<any> | null = null;
   panelOpenState = false;
+  stepLength = 4;
+
   labels = ['初建档案', '勘察完成', '安装完成', '现场调试'];
 
   // 也可以不初始化，使用undefined值
-  completedArr: boolean[] = Array.from(Array(this.labels.length), () => false);
+  completedArr: boolean[] = Array.from(Array(this.stepLength), () => false);
 
   divisionSearchInfo: ProfileDetailsDivisionSearchInfo = {};
   divisionModel: ProfileDetailsDivisionModel =
@@ -120,13 +122,19 @@ export class GarbageStationProfileDetailsComponent
   }
 
   private async _init() {
-    if (this.formId) {
-      this._model = await this._business.getModel(this.formId);
-      console.log(this._model);
-    }
+    this._getDivisionList();
+    if (this.state == FormState.add) {
+      // 拉取下拉框信息
+    } else if (this.state == FormState.edit) {
+      if (this.formId) {
+        this._model = await this._business.getModel(this.formId);
+        console.log(this._model);
 
-    // 拉取区划信息
-    this.getDivision();
+        let id = this._business.getDivision('上海市2');
+        console.log(id);
+        // this._updateForm();
+      }
+    }
   }
 
   ngAfterViewInit(): void {
@@ -139,6 +147,29 @@ export class GarbageStationProfileDetailsComponent
 
     this._changeDetector.detectChanges();
   }
+
+  changeDivision(selectEle: HTMLSelectElement, level: DivisionLevel) {
+    let selectedOption = selectEle.options[selectEle.selectedIndex];
+    let id = selectedOption.id;
+
+    console.log(`切换区划--level: ${level}--id: ${id}`);
+    // 每次切换区划时，下级区划表单内容要清空
+    this._patchData(level);
+    this._getDivisionList(level, id);
+  }
+  async createInfo() {
+    let res = await this._createModel();
+    if (res) {
+      this._model = res;
+      this.closeDetails.emit();
+    }
+  }
+  nextStep(index: number) {
+    console.log('next step', index);
+    let formGroup = this.formArray.at(0);
+
+    console.log(formGroup.value);
+  }
   selectionChange(e: StepperSelectionEvent) {
     console.log('selectionChange');
   }
@@ -148,7 +179,7 @@ export class GarbageStationProfileDetailsComponent
    * @param level 当前层级，需要请求下级信息
    * @param id
    */
-  async getDivision(
+  private async _getDivisionList(
     level: DivisionLevel = DivisionLevel.None,
     ParentId?: string
   ) {
@@ -165,7 +196,7 @@ export class GarbageStationProfileDetailsComponent
 
     // level 为 Committee 时，无下级，不需要请求
     if (childLevel) {
-      let res = await this._business.getDivision(this.divisionSearchInfo);
+      let res = await this._business.getDivisionList(this.divisionSearchInfo);
 
       // 类属性名和枚举键值关联
       this.divisionModel[
@@ -176,29 +207,23 @@ export class GarbageStationProfileDetailsComponent
     }
   }
 
-  changeDivision(id: string, level: DivisionLevel) {
-    console.log(`切换区划--level: ${level}--id: ${id}`);
-
-    // 每次切换区划时，下级区划表单内容要清空
-    this._patchDivision(level);
-
-    this.getDivision(level, id);
-  }
-  async createInfo() {
-    let res = await this._createModel();
-    if (res) {
-      this._model = res;
-      this.closeDetails.emit();
-    }
-  }
-  nextStep(index: number) {
-    console.log('next step', index);
+  private _patchData(level: DivisionLevel) {
     let formGroup = this.formArray.at(0);
 
-    formGroup.patchValue({
-      Province: '',
-    });
+    let patchValue: { [key: string]: any } = {};
+
+    let childLevel = getDivisionChildLevel(level);
+
+    while (childLevel) {
+      patchValue[DivisionLevel[childLevel]] = '';
+      this.divisionModel[DivisionLevel[childLevel]] = [];
+      childLevel = getDivisionChildLevel(childLevel);
+    }
+
+    console.log('清空下级字段名: ', Object.keys(patchValue));
+    formGroup.patchValue(patchValue);
   }
+
   private async _createModel() {
     let formIndex = 0;
     if (await this._checkForm(formIndex)) {
@@ -223,25 +248,8 @@ export class GarbageStationProfileDetailsComponent
     return null;
   }
 
-  private _patchDivision(level: DivisionLevel) {
-    let formGroup = this.formArray.at(0);
-
-    let patchValue: { [key: string]: any } = {};
-
-    let childLevel = getDivisionChildLevel(level);
-
-    while (childLevel) {
-      patchValue[DivisionLevel[childLevel]] = '';
-      this.divisionModel[DivisionLevel[childLevel]] = [];
-      childLevel = getDivisionChildLevel(childLevel);
-    }
-
-    console.log('清空下级字段名: ', Object.keys(patchValue));
-    formGroup.patchValue(patchValue);
-  }
   private async _checkForm(formIndex: number) {
     let formGroup = this.formArray.at(formIndex) as FormGroup;
-
     if (formGroup) {
       if (formGroup.invalid) {
         for (let key of Object.keys(formGroup.controls)) {
@@ -258,27 +266,30 @@ export class GarbageStationProfileDetailsComponent
       return false;
     }
   }
+  private _setcompletedArr() {
+    let profileState = this._model ? this._model.ProfileState : 0;
+  }
 
   private _updateForm() {
     if (this.state == FormState.add) {
-      this.formGroup.enable();
     } else if (this.state == FormState.edit) {
-      this.formGroup.disable();
-
       if (this._model) {
-        let profileState = this._model.ProfileState;
+        // for (let i = 0; i < this.stepLength; i++) {
+        //   let formGroup = this.formArray.at(0);
+        //   console.log(formGroup);
+        //   for (let key in formGroup.controls) {
+        //     // console.log(key);
+        //     formGroup.patchValue({ [key]: Reflect.get(this._model, key) });
+        //   }
+        // }
 
-        for (let i = 0; i < profileState; i++) {
-          // let step = this.stepper.steps.get(i)!;
-          // step.completed = true;
-          let formGroup = this.formArray.at(0);
-          console.log(formGroup);
-          for (let key in formGroup.controls) {
-            // console.log(key);
-            formGroup.patchValue({ [key]: Reflect.get(this._model, key) });
-          }
+        let formGroup = this.formArray.at(0);
+        for (let key of Object.keys(formGroup.controls)) {
+          console.log(key, Reflect.get(this._model, key));
+          formGroup.patchValue({ [key]: Reflect.get(this._model, key) });
         }
       }
     }
   }
 }
+// 上海市

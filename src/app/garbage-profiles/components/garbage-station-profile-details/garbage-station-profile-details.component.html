@@ -12,9 +12,12 @@
     <ng-container *ngFor="let label of labels; let i = index; let c = count">
       <mat-step [completed]="!!completedArr[i]">
         <ng-template matStepLabel>{{ label }} </ng-template>
-        <ng-template
-          [ngTemplateOutlet]="getTemplate(i)"
-          [ngTemplateOutletContext]="{ index: i, $implicit: 'hello' }"
+
+        <ng-template matStepContent>
+          <ng-template
+            [ngTemplateOutlet]="getTemplate(i)"
+            [ngTemplateOutletContext]="{ index: i, $implicit: 'hello' }"
+          ></ng-template
         ></ng-template>
       </mat-step>
     </ng-container>
@@ -64,11 +67,12 @@
             #province
             class="hw-form-select"
             formControlName="Province"
-            (change)="changeDivision(province.value, DivisionLevel.Province)"
+            (change)="changeDivision(province, DivisionLevel.Province)"
           >
             <option value="" disabled>请选择</option>
             <option
-              [value]="province.Id"
+              [value]="province.Name"
+              [id]="province.Id"
               *ngFor="let province of divisionModel.Province"
             >
               {{ province.Name }}
@@ -88,10 +92,14 @@
             #city
             class="hw-form-select"
             formControlName="City"
-            (change)="changeDivision(city.value, DivisionLevel.City)"
+            (change)="changeDivision(city, DivisionLevel.City)"
           >
             <option value="" disabled>请选择</option>
-            <option [value]="city.Id" *ngFor="let city of divisionModel.City">
+            <option
+              [value]="city.Name"
+              [id]="city.Id"
+              *ngFor="let city of divisionModel.City"
+            >
               {{ city.Name }}
             </option>
           </select>
@@ -109,11 +117,12 @@
             #county
             class="hw-form-select"
             formControlName="County"
-            (change)="changeDivision(county.value, DivisionLevel.County)"
+            (change)="changeDivision(county, DivisionLevel.County)"
           >
             <option value="" disabled>请选择</option>
             <option
-              [value]="county.Id"
+              [value]="county.Name"
+              [id]="county.Id"
               *ngFor="let county of divisionModel.County"
             >
               {{ county.Name }}
@@ -133,11 +142,12 @@
             #street
             class="hw-form-select"
             formControlName="Street"
-            (change)="changeDivision(street.value, DivisionLevel.Street)"
+            (change)="changeDivision(street, DivisionLevel.Street)"
           >
             <option value="" disabled>请选择</option>
             <option
-              [value]="street.Id"
+              [value]="street.Name"
+              [id]="street.Id"
               *ngFor="let street of divisionModel.Street"
             >
               {{ street.Name }}
@@ -157,11 +167,12 @@
             #committee
             class="hw-form-select"
             formControlName="Committee"
-            (change)="changeDivision(committee.value, DivisionLevel.Committee)"
+            (change)="changeDivision(committee, DivisionLevel.Committee)"
           >
             <option value="" disabled>请选择</option>
             <option
-              [value]="committee.Id"
+              [value]="committee.Name"
+              [id]="committee.Id"
               *ngFor="let committee of divisionModel.Committee"
             >
               {{ committee.Name }}
