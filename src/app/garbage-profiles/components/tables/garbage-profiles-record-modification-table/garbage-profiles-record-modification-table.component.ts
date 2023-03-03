@@ -8,7 +8,6 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { Sort } from '@angular/material/sort';
-import { CommonFlatNode } from 'src/app/common/components/common-tree/common-flat-node.model';
 import { IBusiness } from 'src/app/common/interfaces/bussiness.interface';
 import { IComponent } from 'src/app/common/interfaces/component.interfact';
 import { IModel } from 'src/app/common/interfaces/model.interface';
@@ -56,8 +55,7 @@ export class GarbageProfilesRecordModificationTableComponent
     super();
     this.business = business;
   }
-  widths: string[] = ['', '10%', '30%', '', ''];
-  selectedNodes: { [key: string]: CommonFlatNode[] } = {};
+  widths: string[] = [];
   ngOnInit(): void {
     this.loadData(1);
   }
@@ -73,7 +71,6 @@ export class GarbageProfilesRecordModificationTableComponent
   }
 
   loadData(index: number, size: number = 10): void {
-    this.selectedNodes = {};
     this.business.load(index, size, this.args).then((x) => {
       this.page = x.Page;
       this.datas = x.Data;

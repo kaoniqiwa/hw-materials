@@ -1,5 +1,6 @@
 import { Component, EventEmitter } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { CommonFlatNode } from 'src/app/common/components/common-tree/common-flat-node.model';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
 import { IPartialData } from 'src/app/network/entity/partial-data.interface';
@@ -101,5 +102,12 @@ export class GarbageStationProfileManagerComponent {
       });
     }
     this.onwindowclose();
+  }
+
+  selectedNodes: CommonFlatNode[] = [];
+  defaultIds: string[] = [];
+  onTreeNodeSelected(nodes: CommonFlatNode[]) {
+    this.selectedNodes = nodes;
+    this.args.labels = this.selectedNodes.map((n) => parseInt(n.Id));
   }
 }

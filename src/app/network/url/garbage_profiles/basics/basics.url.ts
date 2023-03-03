@@ -10,10 +10,24 @@ export class GarbageProfilesBasicsUrl {
   static get division() {
     return new BasicDivisionUrl(this.basic);
   }
+
+  static get profile() {
+    return new BasicProfilesUrl(this.basic);
+  }
 }
 
 class BasicDivisionUrl extends AbstractUrl {
   constructor(base: string) {
     super(`${base}/Divisions`);
+  }
+}
+
+class BasicProfilesUrl extends AbstractUrl {
+  constructor(base: string) {
+    super(`${base}/Profiles`);
+  }
+
+  type() {
+    return `${this.basic()}/Types`;
   }
 }

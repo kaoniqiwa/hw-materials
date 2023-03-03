@@ -32,18 +32,24 @@
           />
         </div>
       </div>
+      <div class="filter-item" *ngIf="source">
+        <div class="filter-item-title">档案类型：</div>
+        <div class="filter-item-control">
+          <select [(ngModel)]="args.type">
+            <option [ngValue]="undefined">全部</option>
+            <option [ngValue]="item.Id" *ngFor="let item of source.types">
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
       <div class="filter-item">
         <div class="filter-item-title">档案名称：</div>
         <div class="filter-item-control">
           <input type="text" [(ngModel)]="args.name" />
         </div>
       </div>
-    </div>
-    <div class="garbage-station-profile-record-content-filter">
-      <div class="filter-item expand">
-        <div class="filter-item-title">物料：</div>
-        <div class="filter-item-control"></div>
-      </div>
+
       <div class="search">
         <button class="hw-blue-btn" (click)="onsearch()">
           <i class="howell-icon-search"></i> 搜索

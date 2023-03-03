@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { instanceToPlain } from 'class-transformer';
 import { Cache } from 'src/app/network/cache/cache';
 import { PagedList } from 'src/app/network/entity/page.entity';
+import { ProfileType } from 'src/app/network/entity/profile-type.entity';
 import { GarbageProfilesBasicsUrl } from 'src/app/network/url/garbage_profiles/basics/basics.url';
 import { Division } from '../../../entity/division.entity';
 import {
@@ -28,6 +29,14 @@ export class GarbageProfilesBasicRequestService {
       this._division = new BasicDivisionRequestService(this.basic);
     }
     return this._division;
+  }
+
+  private _profile?: BasicProfileRequestService;
+  public get profile(): BasicProfileRequestService {
+    if (!this._profile) {
+      this._profile = new BasicProfileRequestService(this.basic);
+    }
+    return this._profile;
   }
 }
 @Cache(GarbageProfilesBasicsUrl.division.basic(), Division)
@@ -58,5 +67,13 @@ class BasicDivisionRequestService extends AbstractService<Division> {
   delete(id: string): Promise<Division> {
     let url = GarbageProfilesBasicsUrl.division.item(id);
     return this.type.delete(url);
+  }
+}
+
+class BasicProfileRequestService {
+  constructor(private basic: BaseRequestService) {}
+  type(): Promise<ProfileType[]> {
+    let url = GarbageProfilesBasicsUrl.profile.type();
+    return this.basic.getArray(url, ProfileType);
   }
 }

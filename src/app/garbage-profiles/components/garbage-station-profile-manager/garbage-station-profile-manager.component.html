@@ -24,6 +24,21 @@
       </div>
       <div class="filter">
         <div class="filter-item">
+          <div class="filter-item-title">标签：</div>
+          <div class="filter-item-control">
+            <common-label-select
+              [selectedNodes]="selectedNodes"
+              [autoclose]="true"
+            >
+              <garbage-station-profile-label-tree
+                #tree
+                [defaultIds]="defaultIds"
+                (selectTreeNode)="onTreeNodeSelected($event)"
+              ></garbage-station-profile-label-tree>
+            </common-label-select>
+          </div>
+        </div>
+        <div class="filter-item">
           <div class="filter-item-title">{{ language["ProfileState"] }}：</div>
           <div class="filter-item-control">
             <select [(ngModel)]="args.ProfileState">
@@ -77,10 +92,7 @@
   [style]="window.record.style"
   *ngIf="window.record.show"
 >
-  <div class="picture-window">
-    <garbage-profiles-record-modification-table>
-    </garbage-profiles-record-modification-table>
-  </div>
+  <garbage-station-profile-record> </garbage-station-profile-record>
 </app-window>
 
 <toast-window
