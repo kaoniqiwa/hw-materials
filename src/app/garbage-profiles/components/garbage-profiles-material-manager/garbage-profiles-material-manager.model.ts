@@ -15,6 +15,11 @@ export class GarbageProfilesMaterialRecordDetailsWindow extends WindowViewModel 
 }
 
 export class GarbageProfilesMaterialRecordWindow extends WindowViewModel {
+  constructor() {
+    super();
+    this.show = true;
+  }
+
   style = {};
   details = new GarbageProfilesMaterialRecordDetailsWindow();
 

@@ -1,13 +1,17 @@
 import { Component, EventEmitter } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
 import { IPartialData } from 'src/app/network/entity/partial-data.interface';
 import { GarbageStationProfilesLanguageTools } from '../../tools/language.tool';
 import { GarbageStationProfilesSourceTools } from '../../tools/source.tool';
 import { GarbageStationProfileTableArgs } from '../tables/garbage-station-profile-table/garbage-station-profile-table.model';
+import { GarbageStationProfileManagerBusiness } from './garbage-station-profile-manager.business';
 import {
+  GarbageStationProfileConfirmWindow,
   GarbageStationProfileDetailsWindow,
   GarbageStationProfilePictureWindow,
+  GarbageStationProfileRecordWindow,
   GarbageStationProfileSettingWindow,
 } from './garbage-station-profile-manager.model';
 
@@ -15,11 +19,14 @@ import {
   selector: 'garbage-station-profile-manager',
   templateUrl: './garbage-station-profile-manager.component.html',
   styleUrls: ['./garbage-station-profile-manager.component.less'],
+  providers: [GarbageStationProfileManagerBusiness],
 })
 export class GarbageStationProfileManagerComponent {
   constructor(
     public source: GarbageStationProfilesSourceTools,
-    public language: GarbageStationProfilesLanguageTools
+    public language: GarbageStationProfilesLanguageTools,
+    private business: GarbageStationProfileManagerBusiness,
+    private toastr: ToastrService
   ) {}
 
   args: GarbageStationProfileTableArgs = new GarbageStationProfileTableArgs();
@@ -30,6 +37,8 @@ export class GarbageStationProfileManagerComponent {
     details: new GarbageStationProfileDetailsWindow(),
     setting: new GarbageStationProfileSettingWindow(),
     picture: new GarbageStationProfilePictureWindow(),
+    record: new GarbageStationProfileRecordWindow(),
+    confirm: new GarbageStationProfileConfirmWindow(),
   };
   load: EventEmitter<GarbageStationProfileTableArgs> = new EventEmitter();
 
@@ -41,6 +50,9 @@ export class GarbageStationProfileManagerComponent {
   onwindowclose() {
     this.window.details.show = false;
     this.window.setting.show = false;
+    this.window.picture.show = false;
+    this.window.record.show = false;
+    this.window.confirm.show = false;
   }
   oncreate() {
     this.window.details.state = FormState.add;
@@ -71,5 +83,23 @@ export class GarbageStationProfileManagerComponent {
         this.window.picture.urlId = model.Value as string;
       }
     }
+  }
+
+  onrecord() {
+    this.window.record.show = true;
+  }
+
+  todelete() {
+    this.window.confirm.show = true;
+  }
+  ondelete() {
+    if (this.selectedId) {
+      this.business.delete(this.selectedId).then((x) => {
+        this.load.emit(this.args);
+        this.toastr.success(`成功删除档案文件`);
+        this.selectedId = undefined;
+      });
+    }
+    this.onwindowclose();
   }
 }

@@ -20,3 +20,12 @@ export class GarbageStationProfilePictureWindow extends WindowViewModel {
   };
   urlId?: string;
 }
+export class GarbageStationProfileRecordWindow extends WindowViewModel {
+  style = {};
+}
+export class GarbageStationProfileConfirmWindow extends WindowViewModel {
+  style = {
+    width: '300px',
+    height: '100px',
+  };
+}

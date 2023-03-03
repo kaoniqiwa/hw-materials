@@ -5,11 +5,18 @@
     </div>
     <div class="garbage-station-profile-manager-head-operation">
       <div class="operation">
+        <button class="hw-blue-btn" (click)="onrecord()">
+          <i class="howell-icon-History"></i> 操作记录
+        </button>
         <button class="hw-blue-btn" (click)="onsetting()">
           <i class="howell-icon-settingoutline"></i> 设置
         </button>
         <button class="hw-green-btn" (click)="oncreate()">
           <i class="howell-icon-plus"></i> 添加
+        </button>
+
+        <button class="hw-red-btn" (click)="todelete()" *ngIf="!!selectedId">
+          <i class="howell-icon-delete-bin"></i> 删除
         </button>
         <button class="hw-cyan-btn" *ngIf="!!selectedId" (click)="onmodify()">
           <i class="howell-icon-modification"></i> 编辑
@@ -65,6 +72,17 @@
   </garbage-station-profile-details>
 </app-window> -->
 
+<app-window
+  [Model]="window.record"
+  [style]="window.record.style"
+  *ngIf="window.record.show"
+>
+  <div class="picture-window">
+    <garbage-profiles-record-modification-table>
+    </garbage-profiles-record-modification-table>
+  </div>
+</app-window>
+
 <toast-window
   *ngIf="window.details.show"
   (closeEvent)="window.details.show = false"
@@ -96,5 +114,19 @@
   <div class="picture-window">
     <howell-picture-control [id]="window.picture.urlId">
     </howell-picture-control>
+  </div>
+</app-window>
+
+<app-window
+  [Model]="window.confirm"
+  [style]="window.confirm.style"
+  *ngIf="window.confirm.show"
+>
+  <div class="confirm">
+    <div class="hw-simple-title center">是否确认删除选中档案</div>
+    <div class="center">
+      <button class="hw-red-btn" (click)="ondelete()">确定</button>
+      <button class="hw-blue-btn" (click)="onwindowclose()">取消</button>
+    </div>
   </div>
 </app-window>

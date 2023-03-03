@@ -1,0 +1,62 @@
+<div class="garbage-station-profile-record">
+  <div class="garbage-station-profile-record-head">
+    <app-tab-title [title]="'操作记录'"> </app-tab-title>
+  </div>
+  <div class="garbage-station-profile-record-content">
+    <div class="garbage-station-profile-record-content-filter">
+      <div class="filter-item">
+        <div class="filter-item-title">开始时间：</div>
+        <div class="filter-item-control">
+          <input
+            type="text"
+            DateTimePicker
+            [format]="'yyyy年MM月dd日 HH:mm'"
+            [startView]="DateTimePickerView.day"
+            [minView]="DateTimePickerView.hour"
+            [(date)]="args.duration.begin"
+            class=""
+          />
+        </div>
+      </div>
+      <div class="filter-item">
+        <div class="filter-item-title">结束时间：</div>
+        <div class="filter-item-control">
+          <input
+            type="text"
+            DateTimePicker
+            [format]="'yyyy年MM月dd日 HH:mm'"
+            [startView]="DateTimePickerView.day"
+            [minView]="DateTimePickerView.hour"
+            [(date)]="args.duration.end"
+            class=""
+          />
+        </div>
+      </div>
+      <div class="filter-item">
+        <div class="filter-item-title">档案名称：</div>
+        <div class="filter-item-control">
+          <input type="text" [(ngModel)]="args.name" />
+        </div>
+      </div>
+    </div>
+    <div class="garbage-station-profile-record-content-filter">
+      <div class="filter-item expand">
+        <div class="filter-item-title">物料：</div>
+        <div class="filter-item-control"></div>
+      </div>
+      <div class="search">
+        <button class="hw-blue-btn" (click)="onsearch()">
+          <i class="howell-icon-search"></i> 搜索
+        </button>
+      </div>
+    </div>
+    <div class="garbage-station-profile-record-content-table">
+      <garbage-profiles-record-modification-table
+        [args]="args"
+        [load]="load"
+        (details)="ondetails($event)"
+      >
+      </garbage-profiles-record-modification-table>
+    </div>
+  </div>
+</div>
