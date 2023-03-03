@@ -261,7 +261,6 @@ export class ViewModelConverter {
         source[key + view] = `<a>查看</a>`;
       }
     }
-    debugger;
 
     return source;
   }
