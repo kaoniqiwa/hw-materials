@@ -27,7 +27,15 @@ export class GarbageStationProfileSettingBusiness
     );
 
     if (!data) {
-      return ['100002', '100003', '100005', '100006', '100007', '100051'];
+      return [
+        'ProfileName',
+        'Province',
+        'County',
+        'Street',
+        'Committee',
+        'ProfileState',
+        'UpdateTime',
+      ];
     }
 
     return data as string[];

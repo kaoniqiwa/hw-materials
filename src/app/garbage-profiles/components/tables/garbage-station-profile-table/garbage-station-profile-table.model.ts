@@ -3,4 +3,5 @@ export class GarbageStationProfileTableArgs {
   Name?: string;
   asc?: string;
   desc?: string;
+  ProfileState?: number;
 }

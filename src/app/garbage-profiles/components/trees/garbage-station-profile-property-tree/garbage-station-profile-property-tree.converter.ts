@@ -37,7 +37,7 @@ export class GarbageStationProfilePropertyTreeConverter extends CommonTreeConver
 
   private fromProperty(item: Property): CommonNestNode<Property> {
     const node = new CommonNestNode();
-    node.Id = item.Id.toString();
+    node.Id = item.Name.toString();
     node.Name = item.Description;
     node.HasChildren = false;
     node.ParentId = item.Category.toString();

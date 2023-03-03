@@ -1,6 +1,8 @@
 import { Component, EventEmitter } from '@angular/core';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { IPartialData } from 'src/app/network/entity/partial-data.interface';
+import { GarbageStationProfilesLanguageTools } from '../../tools/language.tool';
+import { GarbageStationProfilesSourceTools } from '../../tools/source.tool';
 import { GarbageStationProfileTableArgs } from '../tables/garbage-station-profile-table/garbage-station-profile-table.model';
 import {
   GarbageStationProfileDetailsWindow,
@@ -13,6 +15,11 @@ import {
   styleUrls: ['./garbage-station-profile-manager.component.less'],
 })
 export class GarbageStationProfileManagerComponent {
+  constructor(
+    public source: GarbageStationProfilesSourceTools,
+    public language: GarbageStationProfilesLanguageTools
+  ) {}
+
   args: GarbageStationProfileTableArgs = new GarbageStationProfileTableArgs();
 
   selectedId?: string;
@@ -48,6 +55,10 @@ export class GarbageStationProfileManagerComponent {
   onsettingok(ids: string[]) {
     this.window.setting.show = false;
     this.args.tableIds = ids;
+    this.load.emit(this.args);
+  }
+
+  onsearch() {
     this.load.emit(this.args);
   }
 }

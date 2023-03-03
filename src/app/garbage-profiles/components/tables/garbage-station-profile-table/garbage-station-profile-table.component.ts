@@ -96,10 +96,9 @@ export class GarbageStationProfileTableComponent
     // this.loading = true;
     this.selected = undefined;
 
-    let properties = await this.business.config.get(this.args.tableIds);
-    this.names = properties.map((x) => x.Name);
-    let ids = properties.map((x) => x.Id);
-    let paged = await this.business.load(index, size, ids, this.args);
+    this.names = await this.business.config.get(this.args.tableIds);
+
+    let paged = await this.business.load(index, size, this.names, this.args);
     this.page = paged.Page;
     this.datas = paged.Data;
     this.source.ProfileState;

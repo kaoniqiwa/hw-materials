@@ -39,10 +39,10 @@ export class GarbageStationProfileSettingComponent implements OnInit {
   }
 
   async onok() {
-    let ids = this.selecteds.map((x) => x.Id);
-    let str = JSON.stringify(ids);
+    let names = this.selecteds.map((x) => x.Name);
+    let str = JSON.stringify(names);
     await this.business.set(str);
-    this.ok.emit(ids);
+    this.ok.emit(names);
   }
   oncancel() {
     this.cancel.emit();

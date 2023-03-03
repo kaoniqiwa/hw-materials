@@ -17,8 +17,29 @@
       </div>
       <div class="filter">
         <div class="filter-item">
-          <howell-simple-search [(value)]="args.Name"></howell-simple-search>
+          <div class="filter-item-title">{{ language["ProfileState"] }}：</div>
+          <div class="filter-item-control">
+            <select [(ngModel)]="args.ProfileState">
+              <option [ngValue]="undefined">全部</option>
+              <option
+                *ngFor="let item of source.ProfileState"
+                [ngValue]="item.Value"
+              >
+                {{ item.Name }}
+              </option>
+            </select>
+          </div>
         </div>
+        <div class="filter-item">
+          <div class="filter-item-title">综合查询：</div>
+          <div class="filter-item-control">
+            <input type="text" [(ngModel)]="args.Name" />
+          </div>
+        </div>
+
+        <button class="hw-blue-btn" (click)="onsearch()">
+          <i class="howell-icon-search"></i> 搜索
+        </button>
       </div>
     </div>
   </div>
