@@ -43,6 +43,9 @@ export class GarbageStationProfileTableConverter
         }
       }
     }
+
+    source;
+
     return source;
   }
 }

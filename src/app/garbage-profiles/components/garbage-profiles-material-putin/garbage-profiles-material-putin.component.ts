@@ -17,7 +17,6 @@ export class GarbageProfilesMaterialPutInComponent {
   @Output()
   cancel: EventEmitter<void> = new EventEmitter();
 
-  value: number = 0;
   description: string = '';
   image?: string;
 
@@ -33,7 +32,7 @@ export class GarbageProfilesMaterialPutInComponent {
         let item = new MaterialItemModel();
         item.Id = data.Id;
         item.Name = data.Name;
-        item.Number = 0;
+        item.Number = 1;
         item.Model = new Promise((x) => {
           x(data);
         });
@@ -41,9 +40,6 @@ export class GarbageProfilesMaterialPutInComponent {
       });
   }
 
-  touchSpinChange(num: any) {
-    this.value = num;
-  }
   onremove(item: MaterialItemModel) {
     let index = this.materials.findIndex((x) => x.Id === item.Id);
     if (index < 0) return;
