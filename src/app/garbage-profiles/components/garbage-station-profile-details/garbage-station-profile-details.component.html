@@ -10,10 +10,10 @@
 <ng-template #stepperTemp>
   <mat-stepper linear #stepper (selectionChange)="selectionChange($event)">
     <ng-container *ngFor="let label of labels; let i = index; let c = count">
-      <mat-step>
-        <ng-template matStepLabel>{{ label }}</ng-template>
+      <mat-step [completed]="!!completedArr[i]">
+        <ng-template matStepLabel>{{ label }} </ng-template>
         <ng-template
-          [ngTemplateOutlet]="getStepTemp(i)"
+          [ngTemplateOutlet]="getTemplate(i)"
           [ngTemplateOutletContext]="{ index: i, $implicit: 'hello' }"
         ></ng-template>
       </mat-step>
@@ -22,29 +22,20 @@
 </ng-template>
 
 <ng-template #expansionTemp>
-  <mat-accordion>
-    <mat-expansion-panel hideToggle>
+  <ng-container *ngFor="let label of labels; let i = index; let c = count">
+    <mat-expansion-panel>
       <mat-expansion-panel-header>
-        <mat-panel-title> This is the expansion title </mat-panel-title>
-        <mat-panel-description>
-          This is a summary of the content
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <p>This is the primary content of the panel.</p>
-    </mat-expansion-panel>
-    <mat-expansion-panel
-      (opened)="panelOpenState = true"
-      (closed)="panelOpenState = false"
-    >
-      <mat-expansion-panel-header>
-        <mat-panel-title> Self aware panel </mat-panel-title>
+        <mat-panel-title> {{ label }} </mat-panel-title>
         <mat-panel-description>
           Currently I am {{ panelOpenState ? "open" : "closed" }}
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <p>I'm visible because I am open</p>
+      <ng-template
+        [ngTemplateOutlet]="getTemplate(i)"
+        [ngTemplateOutletContext]="{ index: i, $implicit: 'hello' }"
+      ></ng-template>
     </mat-expansion-panel>
-  </mat-accordion>
+  </ng-container>
 </ng-template>
 
 <ng-template #step1 #step let-value let-index="index">
@@ -69,7 +60,20 @@
           <span class="hw-form-icon">*</span>
         </div>
         <div class="content">
-          <input type="text" formControlName="Province" />
+          <select
+            #province
+            class="hw-form-select"
+            formControlName="Province"
+            (change)="changeDivision(province.value, DivisionLevel.Province)"
+          >
+            <option value="" disabled>请选择</option>
+            <option
+              [value]="province.Id"
+              *ngFor="let province of divisionModel.Province"
+            >
+              {{ province.Name }}
+            </option>
+          </select>
         </div>
       </div>
       <div class="hw-form-group">
@@ -80,7 +84,17 @@
           <span class="hw-form-icon">*</span>
         </div>
         <div class="content">
-          <input type="text" formControlName="City" />
+          <select
+            #city
+            class="hw-form-select"
+            formControlName="City"
+            (change)="changeDivision(city.value, DivisionLevel.City)"
+          >
+            <option value="" disabled>请选择</option>
+            <option [value]="city.Id" *ngFor="let city of divisionModel.City">
+              {{ city.Name }}
+            </option>
+          </select>
         </div>
       </div>
       <div class="hw-form-group">
@@ -91,7 +105,20 @@
           <span class="hw-form-icon">*</span>
         </div>
         <div class="content">
-          <input type="text" formControlName="County" />
+          <select
+            #county
+            class="hw-form-select"
+            formControlName="County"
+            (change)="changeDivision(county.value, DivisionLevel.County)"
+          >
+            <option value="" disabled>请选择</option>
+            <option
+              [value]="county.Id"
+              *ngFor="let county of divisionModel.County"
+            >
+              {{ county.Name }}
+            </option>
+          </select>
         </div>
       </div>
       <div class="hw-form-group">
@@ -102,7 +129,20 @@
           <span class="hw-form-icon">*</span>
         </div>
         <div class="content">
-          <input type="text" formControlName="Street" />
+          <select
+            #street
+            class="hw-form-select"
+            formControlName="Street"
+            (change)="changeDivision(street.value, DivisionLevel.Street)"
+          >
+            <option value="" disabled>请选择</option>
+            <option
+              [value]="street.Id"
+              *ngFor="let street of divisionModel.Street"
+            >
+              {{ street.Name }}
+            </option>
+          </select>
         </div>
       </div>
       <div class="hw-form-group">
@@ -113,7 +153,20 @@
           <span class="hw-form-icon">*</span>
         </div>
         <div class="content">
-          <input type="text" formControlName="Committee" />
+          <select
+            #committee
+            class="hw-form-select"
+            formControlName="Committee"
+            (change)="changeDivision(committee.value, DivisionLevel.Committee)"
+          >
+            <option value="" disabled>请选择</option>
+            <option
+              [value]="committee.Id"
+              *ngFor="let committee of divisionModel.Committee"
+            >
+              {{ committee.Name }}
+            </option>
+          </select>
         </div>
       </div>
       <div class="hw-form-group">
@@ -147,6 +200,19 @@
           <input type="text" formControlName="ContactPhoneNo" />
         </div>
       </div>
+    </div>
+    <div class="hw-middle-btn-group">
+      <button
+        class="hw-green-btn"
+        type="button"
+        (click)="createInfo()"
+        *ngIf="state == FormState.add"
+      >
+        创建
+      </button>
+      <button class="hw-blue-btn" type="button" (click)="nextStep(index)">
+        下一步
+      </button>
     </div>
   </form>
 </ng-template>
@@ -208,6 +274,111 @@
           <input type="text" formControlName="StrongCurrentWireLength" />
         </div>
       </div>
+    </div>
+    <div class="hw-middle-btn-group">
+      <button class="hw-blue-btn" type="button">上一步</button>
+      <button class="hw-green-btn" type="button">保存</button>
+      <button class="hw-blue-btn" type="button">下一步</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #step3 #step let-index="index">
+  <form [formGroup]="formArray.at(index)" class="hw-form">
+    <div class="hw-form-item">
+      <div class="hw-form-group">
+        <div class="title">
+          <span class="hw-form-label">
+            {{ language["ConstructionContact"] }}
+          </span>
+          <span class="hw-form-icon">*</span>
+        </div>
+        <div class="content">
+          <input type="text" formControlName="ConstructionContact" />
+        </div>
+      </div>
+      <div class="hw-form-group">
+        <div class="title">
+          <span class="hw-form-label">
+            {{ language["ConstructionContactPhoneNo"] }}
+          </span>
+          <span class="hw-form-icon">*</span>
+        </div>
+        <div class="content">
+          <input type="text" formControlName="ConstructionContactPhoneNo" />
+        </div>
+      </div>
+      <div class="hw-form-group">
+        <div class="title">
+          <span class="hw-form-label">
+            {{ language["ConstructionDate"] }}
+          </span>
+          <span class="hw-form-icon">*</span>
+        </div>
+        <div class="content">
+          <input type="text" formControlName="ConstructionDate" />
+        </div>
+      </div>
+    </div>
+    <div class="hw-middle-btn-group">
+      <button class="hw-blue-btn" type="button">上一步</button>
+      <button class="hw-green-btn" type="button">保存</button>
+      <button class="hw-blue-btn" type="button">下一步</button>
+    </div>
+  </form>
+</ng-template>
+<ng-template #step4 #step let-index="index">
+  <form [formGroup]="formArray.at(index)" class="hw-form">
+    <div class="hw-form-item">
+      <div class="hw-form-group">
+        <div class="title">
+          <span class="hw-form-label">
+            {{ language["GPSPoint"] }}
+          </span>
+          <span class="hw-form-icon">*</span>
+        </div>
+        <div class="content">
+          <input type="text" formControlName="GPSPoint" />
+        </div>
+      </div>
+      <div class="hw-form-group">
+        <div class="title">
+          <span class="hw-form-label">
+            {{ language["TimeToDump"] }}
+          </span>
+          <span class="hw-form-icon">*</span>
+        </div>
+        <div class="content">
+          <input type="text" formControlName="TimeToDump" />
+        </div>
+      </div>
+      <div class="hw-form-group">
+        <div class="title">
+          <span class="hw-form-label">
+            {{ language["IMEI"] }}
+          </span>
+          <span class="hw-form-icon">*</span>
+        </div>
+        <div class="content">
+          <input type="text" formControlName="IMEI" />
+        </div>
+      </div>
+      <div class="hw-form-group">
+        <div class="title">
+          <span class="hw-form-label">
+            {{ language["NB"] }}
+          </span>
+          <span class="hw-form-icon">*</span>
+        </div>
+        <div class="content">
+          <input type="text" formControlName="NB" />
+        </div>
+      </div>
+    </div>
+    <div class="hw-middle-btn-group">
+      <button class="hw-blue-btn" type="button">上一步</button>
+      <button class="hw-green-btn" type="button">保存</button>
+      <button class="hw-blue-btn" type="button">完成</button>
     </div>
   </form>
 </ng-template>

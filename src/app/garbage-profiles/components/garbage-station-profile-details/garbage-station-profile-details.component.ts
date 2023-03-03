@@ -3,8 +3,10 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
   QueryList,
   TemplateRef,
   ViewChild,
@@ -12,12 +14,20 @@ import {
 } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { Language } from 'src/app/common/tools/language';
+import path from 'path';
+import { Guid } from 'src/app/common/tools/guid';
 import { FormState } from 'src/app/enum/form-state.enum';
+import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { GarbageStationProfilesLanguageTools } from '../../tools/language.tool';
 import { GarbageStationProfilesSourceTools } from '../../tools/source.tool';
 import { GarbageStationProfileDetailsBusiness } from './garbage-station-profile-details.business';
+import {
+  getDivisionChildLevel,
+  DivisionLevel,
+  ProfileDetailsDivisionModel,
+  ProfileDetailsDivisionSearchInfo,
+} from './garbage-station-profile-details.model';
 
 @Component({
   selector: 'garbage-station-profile-details',
@@ -28,11 +38,16 @@ import { GarbageStationProfileDetailsBusiness } from './garbage-station-profile-
 export class GarbageStationProfileDetailsComponent
   implements OnInit, AfterViewInit
 {
+  FormState = FormState;
+  DivisionLevel = DivisionLevel;
+
   @Input()
   formId?: string;
 
   @Input()
   state: FormState = FormState.none;
+
+  @Output() closeDetails = new EventEmitter();
 
   @ViewChild('stepperTemp') stepperTemp?: TemplateRef<any>;
   @ViewChild('expansionTemp') expansionTemp?: TemplateRef<any>;
@@ -40,18 +55,25 @@ export class GarbageStationProfileDetailsComponent
 
   private _model: GarbageStationProfile | null = null;
 
-  public templateExpression: TemplateRef<any> | null = null;
-  public panelOpenState = false;
-  public labels = ['初建档案', '勘察完成', '安装完成', '现场调试'];
+  templateExpression: TemplateRef<any> | null = null;
+  panelOpenState = false;
+  labels = ['初建档案', '勘察完成', '安装完成', '现场调试'];
 
-  public formGroup = this._formBuilder.group({
+  // 也可以不初始化，使用undefined值
+  completedArr: boolean[] = Array.from(Array(this.labels.length), () => false);
+
+  divisionSearchInfo: ProfileDetailsDivisionSearchInfo = {};
+  divisionModel: ProfileDetailsDivisionModel =
+    new ProfileDetailsDivisionModel();
+
+  formGroup = this._formBuilder.group({
     formArray: this._formBuilder.array([
       this._formBuilder.group({
         ProfileName: ['', Validators.required], //建档名称
-        Province: ['上海市', Validators.required], //省
-        City: ['市辖区', Validators.required], //市
-        County: ['虹口区', Validators.required], //区
-        Street: ['江湾镇街道', Validators.required], //街道
+        Province: ['', Validators.required], //省
+        City: ['', Validators.required], //市
+        County: ['', Validators.required], //区
+        Street: ['', Validators.required], //街道
         Committee: ['', Validators.required], //居委会
         Address: ['', Validators.required], //地址
         Contact: [''], //联系人，
@@ -77,21 +99,12 @@ export class GarbageStationProfileDetailsComponent
       }),
     ]),
   });
-  myForm = this._formBuilder.group({
-    ProfileName: ['', Validators.required], //建档名称
-    Province: ['上海市', Validators.required], //省
-    City: ['市辖区', Validators.required], //市
-    County: ['虹口区', Validators.required], //区
-    Street: ['江湾镇街道', Validators.required], //街道
-    Committee: ['', Validators.required], //居委会
-    Address: ['', Validators.required], //地址
-  });
 
-  public get formArray() {
+  get formArray() {
     return this.formGroup.get('formArray') as FormArray<FormGroup>;
   }
 
-  public getStepTemp(index: number) {
+  getTemplate(index: number) {
     return this.stepList ? this.stepList.get(index) ?? null : null;
   }
   constructor(
@@ -111,6 +124,9 @@ export class GarbageStationProfileDetailsComponent
       this._model = await this._business.getModel(this.formId);
       console.log(this._model);
     }
+
+    // 拉取区划信息
+    this.getDivision();
   }
 
   ngAfterViewInit(): void {
@@ -125,5 +141,144 @@ export class GarbageStationProfileDetailsComponent
   }
   selectionChange(e: StepperSelectionEvent) {
     console.log('selectionChange');
+  }
+
+  /**
+   *
+   * @param level 当前层级，需要请求下级信息
+   * @param id
+   */
+  async getDivision(
+    level: DivisionLevel = DivisionLevel.None,
+    ParentId?: string
+  ) {
+    if (level == DivisionLevel.None) {
+      this.divisionSearchInfo = {
+        ParentIdIsNull: true,
+      };
+    } else {
+      this.divisionSearchInfo = {
+        ParentId,
+      };
+    }
+    let childLevel = getDivisionChildLevel(level);
+
+    // level 为 Committee 时，无下级，不需要请求
+    if (childLevel) {
+      let res = await this._business.getDivision(this.divisionSearchInfo);
+
+      // 类属性名和枚举键值关联
+      this.divisionModel[
+        DivisionLevel[childLevel] as keyof ProfileDetailsDivisionModel
+      ] = res;
+
+      console.log('getDivision: ', this.divisionModel);
+    }
+  }
+
+  changeDivision(id: string, level: DivisionLevel) {
+    console.log(`切换区划--level: ${level}--id: ${id}`);
+
+    // 每次切换区划时，下级区划表单内容要清空
+    this._patchDivision(level);
+
+    this.getDivision(level, id);
+  }
+  async createInfo() {
+    let res = await this._createModel();
+    if (res) {
+      this._model = res;
+      this.closeDetails.emit();
+    }
+  }
+  nextStep(index: number) {
+    console.log('next step', index);
+    let formGroup = this.formArray.at(0);
+
+    formGroup.patchValue({
+      Province: '',
+    });
+  }
+  private async _createModel() {
+    let formIndex = 0;
+    if (await this._checkForm(formIndex)) {
+      let formGroup = this.formArray.at(formIndex) as FormGroup;
+
+      let model = new GarbageStationProfileModel();
+      model.Id = Guid.NewGuid().ToString('N');
+      model.ProfileName = formGroup.value.ProfileName;
+      model.Province = formGroup.value.Province;
+      model.City = formGroup.value.City;
+      model.County = formGroup.value.County;
+      model.Street = formGroup.value.Street;
+      model.Committee = formGroup.value.Committee;
+      model.Address = formGroup.value.Address;
+      model.Contact = formGroup.value.Contact;
+      model.ContactPhoneNo = formGroup.value.ContactPhoneNo;
+      model.ProfileState = 2;
+      let res = await this._business.createModel(model);
+
+      return res;
+    }
+    return null;
+  }
+
+  private _patchDivision(level: DivisionLevel) {
+    let formGroup = this.formArray.at(0);
+
+    let patchValue: { [key: string]: any } = {};
+
+    let childLevel = getDivisionChildLevel(level);
+
+    while (childLevel) {
+      patchValue[DivisionLevel[childLevel]] = '';
+      this.divisionModel[DivisionLevel[childLevel]] = [];
+      childLevel = getDivisionChildLevel(childLevel);
+    }
+
+    console.log('清空下级字段名: ', Object.keys(patchValue));
+    formGroup.patchValue(patchValue);
+  }
+  private async _checkForm(formIndex: number) {
+    let formGroup = this.formArray.at(formIndex) as FormGroup;
+
+    if (formGroup) {
+      if (formGroup.invalid) {
+        for (let key of Object.keys(formGroup.controls)) {
+          let control = formGroup.controls[key];
+          if (control.invalid) {
+            this._toastrService.warning('请输入' + (await this.language[key]));
+            break;
+          }
+        }
+        return false;
+      }
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  private _updateForm() {
+    if (this.state == FormState.add) {
+      this.formGroup.enable();
+    } else if (this.state == FormState.edit) {
+      this.formGroup.disable();
+
+      if (this._model) {
+        let profileState = this._model.ProfileState;
+
+        for (let i = 0; i < profileState; i++) {
+          // let step = this.stepper.steps.get(i)!;
+          // step.completed = true;
+          let formGroup = this.formArray.at(0);
+          console.log(formGroup);
+          for (let key in formGroup.controls) {
+            // console.log(key);
+            formGroup.patchValue({ [key]: Reflect.get(this._model, key) });
+          }
+        }
+      }
+    }
   }
 }
