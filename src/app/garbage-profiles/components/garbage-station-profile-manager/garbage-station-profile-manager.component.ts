@@ -1,11 +1,13 @@
 import { Component, EventEmitter } from '@angular/core';
 import { FormState } from 'src/app/enum/form-state.enum';
+import { PropertyValueModel } from 'src/app/model/property-value.model';
 import { IPartialData } from 'src/app/network/entity/partial-data.interface';
 import { GarbageStationProfilesLanguageTools } from '../../tools/language.tool';
 import { GarbageStationProfilesSourceTools } from '../../tools/source.tool';
 import { GarbageStationProfileTableArgs } from '../tables/garbage-station-profile-table/garbage-station-profile-table.model';
 import {
   GarbageStationProfileDetailsWindow,
+  GarbageStationProfilePictureWindow,
   GarbageStationProfileSettingWindow,
 } from './garbage-station-profile-manager.model';
 
@@ -27,6 +29,7 @@ export class GarbageStationProfileManagerComponent {
   window = {
     details: new GarbageStationProfileDetailsWindow(),
     setting: new GarbageStationProfileSettingWindow(),
+    picture: new GarbageStationProfilePictureWindow(),
   };
   load: EventEmitter<GarbageStationProfileTableArgs> = new EventEmitter();
 
@@ -60,5 +63,13 @@ export class GarbageStationProfileManagerComponent {
 
   onsearch() {
     this.load.emit(this.args);
+  }
+  onitemclick(model: PropertyValueModel) {
+    console.log(model);
+    if (model.PropertyId && model.Value) {
+      if (model.PropertyId.toLowerCase().includes('url')) {
+        this.window.picture.urlId = model.Value as string;
+      }
+    }
   }
 }

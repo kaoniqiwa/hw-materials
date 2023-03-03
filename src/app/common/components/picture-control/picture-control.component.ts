@@ -8,4 +8,6 @@ import { Component, Input } from '@angular/core';
 export class PictureControlComponent {
   @Input()
   url?: string;
+  @Input()
+  contain: boolean = false;
 }

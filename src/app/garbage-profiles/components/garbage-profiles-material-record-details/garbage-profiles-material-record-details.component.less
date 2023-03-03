@@ -1,0 +1,41 @@
+.garbage-profiles-material-record-details {
+  width: 100%;
+  height: 100%;
+  @head-height: 36px;
+
+  &-head {
+    height: @head-height
+  }
+
+  &-body {
+    height: calc(100% - @head-height);
+    display: flex;
+    justify-content: space-between;
+
+    &>* {
+      border: 1px solid #5e6ebf;
+      width: calc(50% - 5px);
+
+    }
+
+
+    .form {
+      &-list {
+        &-item {
+          &-table {
+            width: 100%;
+
+            table {
+              width: 100%;
+              height: 100%;
+              overflow-y: auto;
+            }
+
+          }
+        }
+      }
+    }
+
+    .image {}
+  }
+}

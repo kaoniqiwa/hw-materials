@@ -47,6 +47,7 @@
     <garbage-station-profile-table
       [load]="load"
       (selectedChange)="onselected($event)"
+      (itemclick)="onitemclick($event)"
     >
     </garbage-station-profile-table>
   </div>
@@ -73,4 +74,14 @@
     (cancel)="onwindowclose()"
   >
   </garbage-station-profile-setting>
+</app-window>
+<app-window
+  [Model]="window.picture"
+  [style]="window.picture.style"
+  *ngIf="window.picture.show"
+>
+  <div class="picture-window">
+    <howell-picture-control [id]="window.picture.urlId">
+    </howell-picture-control>
+  </div>
 </app-window>

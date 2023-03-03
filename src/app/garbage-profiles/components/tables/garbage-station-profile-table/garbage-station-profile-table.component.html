@@ -1,7 +1,6 @@
 <div class="garbage-station-profile-table vertical-layout">
   <div class="garbage-station-profile-table-main vertical-main">
     <table
-      #header
       border="0"
       cellpadding="0"
       cellspacing="0"
@@ -31,7 +30,12 @@
           }"
           (click)="onselected(item)"
         >
-          <td *ngFor="let name of names" [class]="name">{{ item[name] }}</td>
+          <td *ngFor="let name of names" [class]="name">
+            <div
+              (click)="onitemclick($event, item, name)"
+              [innerHTML]="item[name + 'View']"
+            ></div>
+          </td>
         </tr>
       </tbody>
     </table>

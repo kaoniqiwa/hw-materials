@@ -1,7 +1,7 @@
 import { Transform } from 'class-transformer';
 import { IModel } from 'src/app/common/interfaces/model.interface';
 import { MaterialRecordType } from 'src/app/enum/material-record-type.enum';
-import { MaterialItem } from './material-item.enitty';
+import { MaterialRecordItem } from './material-item.enitty';
 import { transformDateTime } from './transform.model';
 
 /**	物料库存出入库记录	*/
@@ -18,9 +18,13 @@ export class MaterialRecord implements IModel {
   /**	String	文档名称	O	*/
   ProfileName?: string;
   /**	MaterialItem[]	入库\出库物料列表	M	*/
-  MaterialItems!: MaterialItem[];
+  MaterialItems!: MaterialRecordItem[];
   /**	String	描述信息	O	*/
   Description?: string;
   /**	String[]	存档照片列表	O	*/
   ImageUrls?: string[];
+  /**	String	修改人员名称	O */
+  UserLastName?: string;
+  /**	String	用户ID	M */
+  UserId!: string;
 }

@@ -77,11 +77,10 @@ export class GarbageProfilesMaterialManagerComponent implements OnInit {
     this.window.putout.show = true;
   }
 
-  async onpicture(record: MaterialRecordModel) {
-    if (record.Images) {
-      let array = await record.Images;
-      if (array && array.length > 0) {
-        this.window.picture.url = array[0];
+  onpicture(record: MaterialRecordModel) {
+    if (record.ImageUrls) {
+      if (record.ImageUrls && record.ImageUrls.length > 0) {
+        this.window.picture.urlId = record.ImageUrls[0];
         this.window.picture.show = true;
       }
     }

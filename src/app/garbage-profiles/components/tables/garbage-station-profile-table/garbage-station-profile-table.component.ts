@@ -12,6 +12,7 @@ import { IComponent } from 'src/app/common/interfaces/component.interfact';
 import { IModel } from 'src/app/common/interfaces/model.interface';
 import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/language.tool';
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
+import { PropertyValueModel } from 'src/app/model/property-value.model';
 
 import { PagedList } from 'src/app/network/entity/page.entity';
 import {
@@ -57,6 +58,8 @@ export class GarbageStationProfileTableComponent
   loaded: EventEmitter<PagedList<IPartialData>> = new EventEmitter();
   @Output()
   check: EventEmitter<IPartialData> = new EventEmitter();
+  @Output()
+  itemclick: EventEmitter<PropertyValueModel> = new EventEmitter();
 
   constructor(
     business: GarbageStationProfileTableBusiness,
@@ -130,5 +133,13 @@ export class GarbageStationProfileTableComponent
     }
 
     this.selectedChange.emit(this.selected);
+  }
+
+  async onitemclick(e: Event, item: PartialData, name: string) {
+    let value = await this.business.get(name, item[name]);
+    if (name.includes('Url')) {
+      e.stopImmediatePropagation();
+    }
+    this.itemclick.emit(value);
   }
 }

@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { Medium } from '../common/tools/medium';
@@ -10,6 +11,7 @@ import { MaterialItemModel } from '../model/material-item.model';
 import { MaterialRecordModel } from '../model/material-record.model';
 import { MaterialModel } from '../model/material.model';
 import { ModificationRecordModel } from '../model/modification-record.model';
+import { PropertyValueModel } from '../model/property-value.model';
 import { PropertyModel } from '../model/property.model';
 import { Division } from '../network/entity/division.entity';
 import { GarbageStationProfile } from '../network/entity/garbage-station-profile.entity';
@@ -18,6 +20,8 @@ import { MaterialItem } from '../network/entity/material-item.enitty';
 import { MaterialRecord } from '../network/entity/material-record.entity';
 import { Material } from '../network/entity/material.entity';
 import { ModificationRecord } from '../network/entity/modification-record.entity';
+import { PartialData } from '../network/entity/partial-data.interface';
+import { PropertyValue } from '../network/entity/property-value.entity';
 import { Property } from '../network/entity/property.entity';
 import { GarbageProfilesBasicRequestService } from '../network/request/garbage-profiles/basics/garbage-profiles-basics.service';
 import { GarbageStationProfilesRequestService } from '../network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
@@ -227,5 +231,62 @@ export class ViewModelConverter {
         break;
     }
     return model;
+  }
+
+  async PartialData(source: PartialData): Promise<PartialData> {
+    let view = 'View';
+    for (const key in source) {
+      source[key + view] = source[key];
+      if (key === 'Id') {
+        continue;
+      }
+      let property = await this.profileService.property.get(key);
+      switch (property.DataType) {
+        case 'DateTime':
+          let date = new Date(source[key]);
+          source[key + view] = formatDate(date, 'YYYY-MM-dd HH:mm:ss', 'en');
+          break;
+        default:
+          break;
+      }
+      if (property.EnumeratedValues && property.EnumeratedValues.length > 0) {
+        let keyvalue = property.EnumeratedValues.find(
+          (x) => x.Value === source[key]
+        );
+        if (keyvalue) {
+          source[key + view] = keyvalue.Name;
+        }
+      }
+      if (key.toLowerCase().includes('url')) {
+        source[key + view] = `<a>查看</a>`;
+      }
+    }
+    debugger;
+
+    return source;
+  }
+
+  PropertyValue(source: PropertyValue): PropertyValueModel;
+  PropertyValue(source: Promise<PropertyValue>): Promise<PropertyValueModel>;
+  PropertyValue(
+    source: PropertyValue | Promise<PropertyValue>
+  ): PropertyValueModel | Promise<PropertyValueModel> {
+    if (source instanceof PropertyValue) {
+      let plain = instanceToPlain(source);
+      let model = plainToInstance(PropertyValueModel, plain);
+
+      if (source.PropertyId) {
+        model.Property = this.profileService.property
+          .get(source.PropertyId)
+          .then((x) => {
+            return this.Property(x);
+          });
+      }
+      return model;
+    } else {
+      return source.then((x) => {
+        return this.PropertyValue(x);
+      });
+    }
   }
 }

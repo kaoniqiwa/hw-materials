@@ -52,7 +52,10 @@
   *ngIf="window.record.show"
   [style]="window.record.style"
 >
-  <garbage-profiles-material-record (picture)="onpicture($event)">
+  <garbage-profiles-material-record
+    (details)="window.record.ondetails($event)"
+    (picture)="onpicture($event)"
+  >
   </garbage-profiles-material-record>
 </app-window>
 
@@ -75,6 +78,18 @@
   *ngIf="window.picture.show"
 >
   <div class="picture-window">
-    <picture-control [url]="window.picture.url"> </picture-control>
+    <howell-picture-control [id]="window.picture.urlId">
+    </howell-picture-control>
   </div>
+</app-window>
+
+<app-window
+  [Model]="window.record.details"
+  [style]="window.record.details.style"
+  *ngIf="window.record.details.show"
+>
+  <garbage-profiles-material-record-details
+    [model]="window.record.details.model"
+  >
+  </garbage-profiles-material-record-details>
 </app-window>

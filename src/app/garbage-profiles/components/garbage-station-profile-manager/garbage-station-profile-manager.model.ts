@@ -13,3 +13,10 @@ export class GarbageStationProfileSettingWindow extends WindowViewModel {
     width: '600px',
   };
 }
+export class GarbageStationProfilePictureWindow extends WindowViewModel {
+  style = {
+    width: '50%',
+    height: '50%',
+  };
+  urlId?: string;
+}

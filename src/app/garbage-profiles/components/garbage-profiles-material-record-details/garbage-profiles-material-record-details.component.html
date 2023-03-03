@@ -1,0 +1,67 @@
+<div class="garbage-profiles-material-record-details">
+  <div class="garbage-profiles-material-record-details-head">
+    <div class="hw-simple-title">入库记录</div>
+  </div>
+  <div class="garbage-profiles-material-record-details-body" *ngIf="model">
+    <div class="form">
+      <div class="form-list">
+        <div class="form-list-item">
+          <div class="form-list-item-title">记录时间:</div>
+          <div class="form-list-item-value">
+            <input
+              readonly
+              type="text"
+              [value]="model.CreationTime | date : 'YYYY年MM月dd日 HH:mm:ss'"
+            />
+          </div>
+        </div>
+        <div class="form-list-item">
+          <div class="form-list-item-title">档案名称:</div>
+          <div class="form-list-item-value">
+            <input readonly type="text" [value]="model.ProfileName ?? ''" />
+          </div>
+        </div>
+        <div class="form-list-item">
+          <div class="form-list-item-title">修改人员:</div>
+          <div class="form-list-item-value">
+            <input readonly type="text" [value]="model.UserLastName ?? ''" />
+          </div>
+        </div>
+        <div class="form-list-item">
+          <div class="form-list-item-title">备注:</div>
+          <div class="form-list-item-value">
+            <input readonly type="text" [value]="model.Description ?? ''" />
+          </div>
+        </div>
+
+        <div class="form-list-item-rowtitle">物料:</div>
+        <div class="form-list-item-table">
+          <div *ngFor="let item of model.ImageUrls">
+            <howell-picture-control [contain]="true" [id]="item">
+            </howell-picture-control>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="image">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <td>名称</td>
+            <td>入库数量</td>
+            <td>库存数量</td>
+          </tr>
+        </thead>
+      </table>
+      <table border="0" cellpadding="0" cellspacing="0">
+        <tbody>
+          <tr *ngFor="let item of model.MaterialItems">
+            <td>{{ item.Name }}</td>
+            <td>{{ item.Number }}</td>
+            <td>{{ item.Quantity }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
