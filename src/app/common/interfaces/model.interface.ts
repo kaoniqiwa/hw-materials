@@ -1,5 +1,5 @@
 export interface IModel {}
-export interface IPropertyModel extends IModel {
+export interface IIdModel extends IModel {
   Id: string;
 }
 export interface IObjectModel extends IModel {

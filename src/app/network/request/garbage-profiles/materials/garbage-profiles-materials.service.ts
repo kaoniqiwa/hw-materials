@@ -79,7 +79,7 @@ class BasicMaterialCategoryRequestService {
   private type: BaseTypeRequestService<MaterialCategory>;
 
   private datas: MaterialCategory[] = [];
-  loading = false;
+  private loading = false;
 
   constructor(private basic: BaseRequestService) {
     this.type = this.basic.type(MaterialCategory);

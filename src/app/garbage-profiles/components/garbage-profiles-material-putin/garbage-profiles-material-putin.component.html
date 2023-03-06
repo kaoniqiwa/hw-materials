@@ -1,4 +1,4 @@
-<div class="garbage-profiles-material-putin" *ngIf="model">
+<div class="garbage-profiles-material-putin">
   <div class="hw-simple-title">物料入库</div>
   <div class="garbage-profiles-material-putin-body">
     <div class="garbage-profiles-material-putin-body-tree">
@@ -68,50 +68,3 @@
     <button class="hw-blue-btn" (click)="oncancel()">取消</button>
   </div>
 </div>
-<!-- <div class="form">
-  <div class="form-list">
-    <div class="form-list-item">
-      <div class="form-list-item-title">物料ID</div>
-      <div class="form-list-item-value">
-        <input type="text" readonly [value]="model.Id" />
-      </div>
-    </div>
-    <div class="form-list-item">
-      <div class="form-list-item-title">名称</div>
-      <div class="form-list-item-value">
-        <input type="text" readonly [value]="model.Name" />
-      </div>
-    </div>
-    <div class="form-list-item">
-      <div class="form-list-item-title">类别</div>
-      <div class="form-list-item-value">
-        <input
-          type="text"
-          readonly
-          [value]="(model.CategoryInfo | async)?.Name"
-        />
-      </div>
-    </div>
-    <div class="form-list-item">
-      <div class="form-list-item-title">入库数量</div>
-      <div class="form-list-item-value">
-        <input
-          type="number"
-          (touchSpinChange)="touchSpinChange($event)"
-          appTouchSpin
-          [(ngModel)]="value"
-        />
-      </div>
-    </div>
-    <div class="form-list-item">
-      <div class="form-list-item-title">备注信息</div>
-      <div class="form-list-item-value">
-        <input type="text" [(ngModel)]="description" />
-      </div>
-    </div>
-    <div class="form-list-item-rowtitle">存档照片</div>
-    <div class="form-list-image">
-      <app-image-upload (upload)="onimage($event)"> </app-image-upload>
-    </div>
-  </div>
-</div> -->

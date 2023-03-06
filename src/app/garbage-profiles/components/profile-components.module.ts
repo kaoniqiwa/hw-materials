@@ -9,6 +9,7 @@ import { GarbageProfilesLabelManagerComponent } from './garbage-profiles-label-m
 import { GarbageProfilesMaterialDetailsComponent } from './garbage-profiles-material-details/garbage-profiles-material-details.component';
 import { GarbageProfilesMaterialManagerComponent } from './garbage-profiles-material-manager/garbage-profiles-material-manager.component';
 import { GarbageProfilesMaterialPutInComponent } from './garbage-profiles-material-putin/garbage-profiles-material-putin.component';
+import { GarbageProfilesMaterialPutoutComponent } from './garbage-profiles-material-putout/garbage-profiles-material-putout.component';
 import { GarbageProfilesMaterialRecordDetailsComponent } from './garbage-profiles-material-record-details/garbage-profiles-material-record-details.component';
 import { GarbageProfilesMaterialRecordComponent } from './garbage-profiles-material-record/garbage-profiles-material-record.component';
 import { GarbageStationProfileDetailsComponent } from './garbage-station-profile-details/garbage-station-profile-details.component';
@@ -42,6 +43,7 @@ import { UnderwaterComponent } from './underwater/underwater.component';
     GarbageProfilesMaterialRecordComponent,
     GarbageProfilesMaterialRecordDetailsComponent,
     GarbageProfilesMaterialPutInComponent,
+    GarbageProfilesMaterialPutoutComponent,
 
     GarbageProfilesLabelManagerComponent,
     GarbageProfilesLabelDetailsComponent,

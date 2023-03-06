@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { instanceToPlain } from 'class-transformer';
 import { firstValueFrom } from 'rxjs';
-import { IPropertyModel } from 'src/app/common/interfaces/model.interface';
+import { IIdModel } from 'src/app/common/interfaces/model.interface';
 import { wait } from 'src/app/common/tools/tool';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { Label } from 'src/app/network/entity/label.entity';
@@ -101,8 +101,8 @@ class GarbageStationProfilesPropertiesRequestService extends AbstractService<Pro
     this.type = this.basic.type(Property);
   }
 
-  properties: Property[] = [];
-  loading = false;
+  private properties: Property[] = [];
+  private loading = false;
 
   async get(id: string): Promise<Property> {
     if (this.properties && this.properties.length > 0) {
@@ -195,7 +195,7 @@ class GarbageStationProfilesPropertiesRequestService extends AbstractService<Pro
 class GarbageStationProfilesPartialDatasRequestService {
   constructor(private basic: BaseRequestService) {}
 
-  list<T extends IPropertyModel = any>(
+  list<T extends IIdModel = any>(
     args: GetPartialDatasParams<T> = new GetPartialDatasParams()
   ): Promise<PagedList<IPartialData>> {
     let url = GarbageStationProfilesUrl.partialData.list();

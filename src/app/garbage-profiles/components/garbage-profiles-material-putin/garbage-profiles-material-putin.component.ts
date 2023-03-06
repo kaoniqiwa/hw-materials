@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonFlatNode } from 'src/app/common/components/common-tree/common-flat-node.model';
 import { MaterialItemModel } from 'src/app/model/material-item.model';
 import { MaterialModel } from 'src/app/model/material.model';
@@ -10,8 +10,6 @@ import { PutInMaterialsParams } from 'src/app/network/request/garbage-profiles/m
   styleUrls: ['./garbage-profiles-material-putin.component.less'],
 })
 export class GarbageProfilesMaterialPutInComponent {
-  @Input()
-  model?: MaterialModel;
   @Output()
   ok: EventEmitter<PutInMaterialsParams> = new EventEmitter();
   @Output()

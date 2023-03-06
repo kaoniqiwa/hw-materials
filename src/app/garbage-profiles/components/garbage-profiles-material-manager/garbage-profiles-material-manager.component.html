@@ -9,9 +9,9 @@
         <button class="hw-green-btn" (click)="onputin()">
           <i class="howell-icon-inbox"></i> 入库
         </button>
-        <button class="hw-cyan-btn" (click)="onputout()">
+        <!-- <button class="hw-cyan-btn" (click)="onputout()">
           <i class="howell-icon-inbox"></i> 出库
-        </button>
+        </button> -->
       </div>
       <div class="filter">
         <div class="filter-item">
@@ -65,7 +65,6 @@
   *ngIf="window.putin.show"
 >
   <garbage-profiles-material-putin
-    [model]="selected"
     (ok)="onputinok($event)"
     (cancel)="onwindowcancel()"
   >

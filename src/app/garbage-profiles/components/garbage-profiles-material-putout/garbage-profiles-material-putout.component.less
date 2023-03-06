@@ -1,0 +1,148 @@
+.garbage-profiles-material-putout {
+  height: 100%;
+  width: 100%;
+
+  @title-height: 36px;
+
+
+  &-body {
+    height: calc(100% - 36px - 32px - 10px * 2);
+    display: flex;
+    padding: 10px 0;
+    color: #cfd7ff;
+    justify-content: space-between;
+
+    &-tree {
+      border: solid 1px #7a8de6;
+      width: calc(30% - 5px);
+      height: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+
+
+      &-content {
+        height: calc(100% - @title-height);
+        overflow-y: auto;
+      }
+    }
+
+    &-title {
+      font-size: 18px;
+      height: @title-height;
+
+
+
+    }
+
+    &-content {
+      padding: 10px;
+      width: calc(70% - 5px);
+      border: solid 1px #7a8de6;
+      box-sizing: border-box;
+
+      &-item {
+        border: solid 1px #7a8de6;
+        box-sizing: border-box;
+        padding: 10px;
+        margin-bottom: 10px;
+
+        :last-child {
+          margin-bottom: 0;
+        }
+
+        .item-title {
+          height: 24px;
+        }
+
+        .item-content {
+          height: calc(100% - 24px);
+          box-sizing: border-box;
+        }
+
+
+
+        &.list {
+          height: calc(100% - 36px - 200px - 100px - 10px * 2);
+
+          .item-content {
+            overflow-y: auto;
+          }
+
+          .list-content {
+
+            .list-item {
+              width: 100%;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              height: 34px;
+              margin: 10px 0;
+
+              &-name {
+                width: 30%;
+              }
+
+              &:last-child {
+                margin-bottom: 0;
+              }
+
+              .operation {
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+
+                &-number {
+                  width: 100px;
+                }
+
+                &-close {
+                  padding: 0 10px;
+                  cursor: pointer;
+
+                  &:hover {
+                    color: red;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        &.description {
+          height: 100px;
+
+          textarea {
+            min-height: auto;
+            height: auto;
+          }
+        }
+
+        &.image {
+          height: 200px;
+
+        }
+      }
+
+
+
+
+
+    }
+
+  }
+
+  &-foot {
+
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+  }
+}
+
+.panel {
+  position: absolute;
+  background-color: #0e1027;
+  border: 1px solid #5e6ebf;
+  width: 100%;
+  z-index: 1;
+}

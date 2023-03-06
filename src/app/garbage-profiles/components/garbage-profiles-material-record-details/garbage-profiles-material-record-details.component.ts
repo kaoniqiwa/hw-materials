@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { MaterialRecordType } from 'src/app/enum/material-record-type.enum';
 import { MaterialRecordModel } from 'src/app/model/material-record.model';
 
 @Component({
@@ -14,4 +15,6 @@ export class GarbageProfilesMaterialRecordDetailsComponent {
   model?: MaterialRecordModel;
 
   constructor() {}
+  MaterialRecordType = MaterialRecordType;
+  tableWidth = ['50%', '25%', '25%'];
 }

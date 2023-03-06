@@ -173,10 +173,10 @@ export class ViewModelConverter {
         model.Images = Promise.all(all);
       }
       switch (source.MaterialRecordType) {
-        case MaterialRecordType.in:
+        case MaterialRecordType.putin:
           model.MaterialRecordTypeName = '入库记录';
           break;
-        case MaterialRecordType.out:
+        case MaterialRecordType.putout:
           model.MaterialRecordTypeName = '出库记录';
           break;
         default:
