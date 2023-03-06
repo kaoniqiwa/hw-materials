@@ -12,13 +12,26 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  FormGroupDirective,
+  NgForm,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
+import { MatStepper } from '@angular/material/stepper';
 import { ToastrService } from 'ngx-toastr';
 import path from 'path';
+import { CommonFlatNode } from 'src/app/common/components/common-tree/common-flat-node.model';
 import { Guid } from 'src/app/common/tools/guid';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
+import { ValueNamePair } from 'src/app/network/entity/value-name-pair.entity';
 import { GarbageStationProfilesLanguageTools } from '../../tools/language.tool';
 import { GarbageStationProfilesSourceTools } from '../../tools/source.tool';
 import { GarbageStationProfileDetailsBusiness } from './garbage-station-profile-details.business';
@@ -52,14 +65,33 @@ export class GarbageStationProfileDetailsComponent
   @ViewChild('stepperTemp') stepperTemp?: TemplateRef<any>;
   @ViewChild('expansionTemp') expansionTemp?: TemplateRef<any>;
   @ViewChildren('step') stepList?: QueryList<TemplateRef<any>>;
+  @ViewChild(MatStepper) matStepper?: MatStepper;
 
   private _model: GarbageStationProfile | null = null;
 
   templateExpression: TemplateRef<any> | null = null;
   panelOpenState = false;
   stepLength = 4;
+  profileState = 0;
+  selectedNodes: CommonFlatNode[] = [];
+  defaultIds: string[] = [];
 
   labels = ['初建档案', '勘察完成', '安装完成', '现场调试'];
+
+  defaultProvince = '上海市';
+  defaultCity = '市辖区';
+  defaultCounty = '虹口区';
+  defaultStreet = '江湾镇街道';
+  defaultCommittee = '';
+
+  defaultDivisionSource = new Map([
+    [DivisionLevel.None, ''],
+    [DivisionLevel.Province, this.defaultProvince],
+    [DivisionLevel.City, this.defaultCity],
+    [DivisionLevel.County, this.defaultCounty],
+    [DivisionLevel.Street, this.defaultStreet],
+    [DivisionLevel.Committee, this.defaultCommittee],
+  ]);
 
   // 也可以不初始化，使用undefined值
   completedArr: boolean[] = Array.from(Array(this.stepLength), () => false);
@@ -72,11 +104,11 @@ export class GarbageStationProfileDetailsComponent
     formArray: this._formBuilder.array([
       this._formBuilder.group({
         ProfileName: ['', Validators.required], //建档名称
-        Province: ['', Validators.required], //省
-        City: ['', Validators.required], //市
-        County: ['', Validators.required], //区
-        Street: ['', Validators.required], //街道
-        Committee: ['', Validators.required], //居委会
+        Province: [this.defaultProvince, Validators.required], //省
+        City: [this.defaultCity, Validators.required], //市
+        County: [this.defaultCounty, Validators.required], //区
+        Street: [this.defaultStreet, Validators.required], //街道
+        Committee: [this.defaultCommittee, Validators.required], //居委会
         Address: ['', Validators.required], //地址
         Contact: [''], //联系人，
         ContactPhoneNo: [''], // 联系人电话
@@ -84,9 +116,10 @@ export class GarbageStationProfileDetailsComponent
       this._formBuilder.group({
         GarbageStationName: ['', Validators.required],
         CommunityName: ['', Validators.required],
-        StrongCurrentWire: ['', Validators.required],
-        StrongCurrentWireMode: ['', Validators.required],
-        StrongCurrentWireLength: ['', Validators.required],
+        StrongCurrentWire: [0, Validators.required],
+        StrongCurrentWireMode: [''],
+        StrongCurrentWireLength: [''],
+        LFImageUrl: [''],
       }),
       this._formBuilder.group({
         ConstructionContact: ['', Validators.required],
@@ -122,19 +155,23 @@ export class GarbageStationProfileDetailsComponent
   }
 
   private async _init() {
-    this._getDivisionList();
-    if (this.state == FormState.add) {
-      // 拉取下拉框信息
-    } else if (this.state == FormState.edit) {
+    if (this.state == FormState.edit) {
       if (this.formId) {
         this._model = await this._business.getModel(this.formId);
         console.log(this._model);
-
-        let id = this._business.getDivision('上海市2');
-        console.log(id);
-        // this._updateForm();
       }
     }
+    // 更新表单状态
+    this._updateForm();
+
+    // 拉数据
+    this._updateDivisionModel();
+
+    // 更新 profileState状态
+    this._updateProfileState();
+
+    // 根据 profileState 控制 step的 completed 值
+    this._setcompletedArr();
   }
 
   ngAfterViewInit(): void {
@@ -146,6 +183,7 @@ export class GarbageStationProfileDetailsComponent
     // }
 
     this._changeDetector.detectChanges();
+    // console.log(this.matStepper);
   }
 
   changeDivision(selectEle: HTMLSelectElement, level: DivisionLevel) {
@@ -154,8 +192,26 @@ export class GarbageStationProfileDetailsComponent
 
     console.log(`切换区划--level: ${level}--id: ${id}`);
     // 每次切换区划时，下级区划表单内容要清空
-    this._patchData(level);
-    this._getDivisionList(level, id);
+    this._resetSelect(level);
+
+    this._getChildDivisionListById(level, id);
+  }
+  changeCurrentWire(formGroupDirective: FormGroupDirective) {
+    console.log('sdf', formGroupDirective);
+
+    this._updateValidator(!!formGroupDirective.value.StrongCurrentWire);
+  }
+
+  onTreeNodeSelected(nodes: CommonFlatNode[]) {
+    this.selectedNodes = nodes;
+    let ids = this.selectedNodes.map((n) => parseInt(n.Id));
+    if (this._model) {
+      this._model.Labels = ids;
+    }
+  }
+  changeStep(e: StepperSelectionEvent) {
+    console.log('selectionChange', e);
+    // this.nextStep(e.selectedIndex);
   }
   async createInfo() {
     let res = await this._createModel();
@@ -164,14 +220,23 @@ export class GarbageStationProfileDetailsComponent
       this.closeDetails.emit();
     }
   }
-  nextStep(index: number) {
-    console.log('next step', index);
-    let formGroup = this.formArray.at(0);
-
-    console.log(formGroup.value);
+  async saveInfo(formIndex: number) {
+    let res = await this._updateModel(formIndex);
+    if (res) {
+      this.closeDetails.emit();
+    }
   }
-  selectionChange(e: StepperSelectionEvent) {
-    console.log('selectionChange');
+  async nextStep(index: number) {
+    console.log('next step', index);
+
+    let res = await this._updateModel(index);
+    if (res) {
+      if (this.profileState > index) {
+        this.matStepper?.next();
+      } else {
+        this._toastrService.warning('操作失败');
+      }
+    }
   }
 
   /**
@@ -179,7 +244,7 @@ export class GarbageStationProfileDetailsComponent
    * @param level 当前层级，需要请求下级信息
    * @param id
    */
-  private async _getDivisionList(
+  private async _getChildDivisionListById(
     level: DivisionLevel = DivisionLevel.None,
     ParentId?: string
   ) {
@@ -188,6 +253,7 @@ export class GarbageStationProfileDetailsComponent
         ParentIdIsNull: true,
       };
     } else {
+      if (!ParentId) return;
       this.divisionSearchInfo = {
         ParentId,
       };
@@ -202,15 +268,23 @@ export class GarbageStationProfileDetailsComponent
       this.divisionModel[
         DivisionLevel[childLevel] as keyof ProfileDetailsDivisionModel
       ] = res;
-
-      console.log('getDivision: ', this.divisionModel);
     }
   }
+  private async _getChildDivisionListByName(
+    level: DivisionLevel = DivisionLevel.None,
+    name: string = ''
+  ) {
+    let id = this._business.getDivision(name);
+    // console.log(id);
+    await this._getChildDivisionListById(level, id);
+  }
 
-  private _patchData(level: DivisionLevel) {
+  private _resetSelect(level: DivisionLevel) {
     let formGroup = this.formArray.at(0);
 
-    let patchValue: { [key: string]: any } = {};
+    let patchValue: { [key: string]: any } = {
+      Address: '',
+    };
 
     let childLevel = getDivisionChildLevel(level);
 
@@ -220,7 +294,7 @@ export class GarbageStationProfileDetailsComponent
       childLevel = getDivisionChildLevel(childLevel);
     }
 
-    console.log('清空下级字段名: ', Object.keys(patchValue));
+    // console.log('清空下级字段名: ', Object.keys(patchValue));
     formGroup.patchValue(patchValue);
   }
 
@@ -248,6 +322,81 @@ export class GarbageStationProfileDetailsComponent
     return null;
   }
 
+  private async _updateModel(formIndex: number) {
+    if (await this._checkForm(formIndex)) {
+      let formGroup = this.formArray.at(formIndex) as FormGroup;
+
+      if (this._model) {
+        Object.assign(this._model, formGroup.value);
+
+        this._model.ProfileState = ++formIndex;
+
+        let res = await this._business.updateModel(this._model);
+        console.log('update', res);
+        return res;
+      }
+    }
+    return null;
+  }
+
+  private _updateValidator(value: boolean) {
+    let formIndex = 1;
+    let formGroup = this.formArray.at(formIndex) as FormGroup;
+    let currentWireMode = formGroup.get('StrongCurrentWireMode');
+    let currentWireLength = formGroup.get('StrongCurrentWireLength');
+
+    if (value) {
+      currentWireMode?.setValidators([Validators.required]);
+      currentWireLength?.setValidators([Validators.required]);
+    } else {
+      currentWireMode?.clearValidators();
+      currentWireMode?.updateValueAndValidity({ onlySelf: true });
+      currentWireLength?.clearValidators();
+      currentWireLength?.updateValueAndValidity({ onlySelf: true });
+    }
+  }
+
+  private _setcompletedArr() {
+    this.completedArr = this.completedArr.map((v, i) => {
+      return i < this.profileState;
+    });
+    // console.log(this.completedArr);
+  }
+  private async _updateDivisionModel() {
+    if (this._model) {
+      this.defaultDivisionSource.set(
+        DivisionLevel.Province,
+        this._model.Province
+      );
+      this.defaultDivisionSource.set(DivisionLevel.City, this._model.City);
+      this.defaultDivisionSource.set(DivisionLevel.County, this._model.County);
+      this.defaultDivisionSource.set(DivisionLevel.Street, this._model.Street);
+      this.defaultDivisionSource.set(
+        DivisionLevel.Committee,
+        this._model.Committee
+      );
+    }
+    for (let [key, value] of this.defaultDivisionSource.entries()) {
+      await this._getChildDivisionListByName(key, value);
+      // console.log(key, value, this.divisionModel);
+    }
+  }
+  private _updateProfileState() {
+    this.profileState = this._model ? this._model.ProfileState : 0;
+  }
+
+  private _updateForm() {
+    if (this.state == FormState.edit) {
+      if (this._model) {
+        for (let i = 0; i < this.formArray.length; i++) {
+          let formGroup = this.formArray.at(i);
+          for (let key of Object.keys(formGroup.controls)) {
+            formGroup.patchValue({ [key]: Reflect.get(this._model, key) });
+          }
+        }
+      }
+    }
+  }
   private async _checkForm(formIndex: number) {
     let formGroup = this.formArray.at(formIndex) as FormGroup;
     if (formGroup) {
@@ -255,7 +404,9 @@ export class GarbageStationProfileDetailsComponent
         for (let key of Object.keys(formGroup.controls)) {
           let control = formGroup.controls[key];
           if (control.invalid) {
-            this._toastrService.warning('请输入' + (await this.language[key]));
+            this._toastrService.warning(
+              (await this.language[key]) + ' 为必选项'
+            );
             break;
           }
         }
@@ -266,30 +417,4 @@ export class GarbageStationProfileDetailsComponent
       return false;
     }
   }
-  private _setcompletedArr() {
-    let profileState = this._model ? this._model.ProfileState : 0;
-  }
-
-  private _updateForm() {
-    if (this.state == FormState.add) {
-    } else if (this.state == FormState.edit) {
-      if (this._model) {
-        // for (let i = 0; i < this.stepLength; i++) {
-        //   let formGroup = this.formArray.at(0);
-        //   console.log(formGroup);
-        //   for (let key in formGroup.controls) {
-        //     // console.log(key);
-        //     formGroup.patchValue({ [key]: Reflect.get(this._model, key) });
-        //   }
-        // }
-
-        let formGroup = this.formArray.at(0);
-        for (let key of Object.keys(formGroup.controls)) {
-          console.log(key, Reflect.get(this._model, key));
-          formGroup.patchValue({ [key]: Reflect.get(this._model, key) });
-        }
-      }
-    }
-  }
 }
-// 上海市

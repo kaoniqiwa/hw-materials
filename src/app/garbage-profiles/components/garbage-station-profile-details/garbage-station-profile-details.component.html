@@ -8,7 +8,7 @@
 </div>
 
 <ng-template #stepperTemp>
-  <mat-stepper linear #stepper (selectionChange)="selectionChange($event)">
+  <mat-stepper linear #stepper (selectionChange)="changeStep($event)">
     <ng-container *ngFor="let label of labels; let i = index; let c = count">
       <mat-step [completed]="!!completedArr[i]">
         <ng-template matStepLabel>{{ label }} </ng-template>
@@ -43,172 +43,177 @@
 
 <ng-template #step1 #step let-value let-index="index">
   <form [formGroup]="formArray.at(index)" class="hw-form">
-    <div class="hw-form-item">
-      <div class="hw-form-group">
-        <div class="title">
-          <span class="hw-form-label">
-            {{ language["ProfileName"] }}
-          </span>
-          <span class="hw-form-icon">*</span>
-        </div>
-        <div class="content">
-          <input type="text" formControlName="ProfileName" />
-        </div>
+    <div class="hw-form-group" style="flex-basis: 100%">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["ProfileName"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
       </div>
-      <div class="hw-form-group">
-        <div class="title">
-          <span class="hw-form-label">
-            {{ language["Province"] }}
-          </span>
-          <span class="hw-form-icon">*</span>
-        </div>
-        <div class="content">
-          <select
-            #province
-            class="hw-form-select"
-            formControlName="Province"
-            (change)="changeDivision(province, DivisionLevel.Province)"
+      <div class="content">
+        <input type="text" formControlName="ProfileName" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["Province"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <select
+          #province
+          class="hw-form-select"
+          formControlName="Province"
+          (change)="changeDivision(province, DivisionLevel.Province)"
+        >
+          <option value="" disabled>请选择</option>
+          <option
+            [value]="province.Name"
+            [id]="province.Id"
+            *ngFor="let province of divisionModel.Province"
           >
-            <option value="" disabled>请选择</option>
-            <option
-              [value]="province.Name"
-              [id]="province.Id"
-              *ngFor="let province of divisionModel.Province"
-            >
-              {{ province.Name }}
-            </option>
-          </select>
-        </div>
+            {{ province.Name }}
+          </option>
+        </select>
       </div>
-      <div class="hw-form-group">
-        <div class="title">
-          <span class="hw-form-label">
-            {{ language["City"] }}
-          </span>
-          <span class="hw-form-icon">*</span>
-        </div>
-        <div class="content">
-          <select
-            #city
-            class="hw-form-select"
-            formControlName="City"
-            (change)="changeDivision(city, DivisionLevel.City)"
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["City"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <select
+          #city
+          class="hw-form-select"
+          formControlName="City"
+          (change)="changeDivision(city, DivisionLevel.City)"
+        >
+          <option value="" disabled>请选择</option>
+          <option
+            [value]="city.Name"
+            [id]="city.Id"
+            *ngFor="let city of divisionModel.City"
           >
-            <option value="" disabled>请选择</option>
-            <option
-              [value]="city.Name"
-              [id]="city.Id"
-              *ngFor="let city of divisionModel.City"
-            >
-              {{ city.Name }}
-            </option>
-          </select>
-        </div>
+            {{ city.Name }}
+          </option>
+        </select>
       </div>
-      <div class="hw-form-group">
-        <div class="title">
-          <span class="hw-form-label">
-            {{ language["County"] }}
-          </span>
-          <span class="hw-form-icon">*</span>
-        </div>
-        <div class="content">
-          <select
-            #county
-            class="hw-form-select"
-            formControlName="County"
-            (change)="changeDivision(county, DivisionLevel.County)"
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["County"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <select
+          #county
+          class="hw-form-select"
+          formControlName="County"
+          (change)="changeDivision(county, DivisionLevel.County)"
+        >
+          <option value="" disabled>请选择</option>
+          <option
+            [value]="county.Name"
+            [id]="county.Id"
+            *ngFor="let county of divisionModel.County"
           >
-            <option value="" disabled>请选择</option>
-            <option
-              [value]="county.Name"
-              [id]="county.Id"
-              *ngFor="let county of divisionModel.County"
-            >
-              {{ county.Name }}
-            </option>
-          </select>
-        </div>
+            {{ county.Name }}
+          </option>
+        </select>
       </div>
-      <div class="hw-form-group">
-        <div class="title">
-          <span class="hw-form-label">
-            {{ language["Street"] }}
-          </span>
-          <span class="hw-form-icon">*</span>
-        </div>
-        <div class="content">
-          <select
-            #street
-            class="hw-form-select"
-            formControlName="Street"
-            (change)="changeDivision(street, DivisionLevel.Street)"
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["Street"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <select
+          #street
+          class="hw-form-select"
+          formControlName="Street"
+          (change)="changeDivision(street, DivisionLevel.Street)"
+        >
+          <option value="" disabled>请选择</option>
+          <option
+            [value]="street.Name"
+            [id]="street.Id"
+            *ngFor="let street of divisionModel.Street"
           >
-            <option value="" disabled>请选择</option>
-            <option
-              [value]="street.Name"
-              [id]="street.Id"
-              *ngFor="let street of divisionModel.Street"
-            >
-              {{ street.Name }}
-            </option>
-          </select>
-        </div>
+            {{ street.Name }}
+          </option>
+        </select>
       </div>
-      <div class="hw-form-group">
-        <div class="title">
-          <span class="hw-form-label">
-            {{ language["Committee"] }}
-          </span>
-          <span class="hw-form-icon">*</span>
-        </div>
-        <div class="content">
-          <select
-            #committee
-            class="hw-form-select"
-            formControlName="Committee"
-            (change)="changeDivision(committee, DivisionLevel.Committee)"
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["Committee"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="Committee" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["Address"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="Address" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["Contact"] }}
+        </span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="Contact" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["ContactPhoneNo"] }}
+        </span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="ContactPhoneNo" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["Labels"] }}
+        </span>
+      </div>
+      <div class="content">
+        <div>
+          <common-label-select
+            [selectedNodes]="selectedNodes"
+            [autoclose]="true"
           >
-            <option value="" disabled>请选择</option>
-            <option
-              [value]="committee.Name"
-              [id]="committee.Id"
-              *ngFor="let committee of divisionModel.Committee"
-            >
-              {{ committee.Name }}
-            </option>
-          </select>
-        </div>
-      </div>
-      <div class="hw-form-group">
-        <div class="title">
-          <span class="hw-form-label">
-            {{ language["Address"] }}
-          </span>
-          <span class="hw-form-icon">*</span>
-        </div>
-        <div class="content">
-          <input type="text" formControlName="Address" />
-        </div>
-      </div>
-      <div class="hw-form-group">
-        <div class="title">
-          <span class="hw-form-label">
-            {{ language["Contact"] }}
-          </span>
-        </div>
-        <div class="content">
-          <input type="text" formControlName="Contact" />
-        </div>
-      </div>
-      <div class="hw-form-group">
-        <div class="title">
-          <span class="hw-form-label">
-            {{ language["ContactPhoneNo"] }}
-          </span>
-        </div>
-        <div class="content">
-          <input type="text" formControlName="ContactPhoneNo" />
+            <garbage-station-profile-label-tree
+              #tree
+              [defaultIds]="defaultIds"
+              (selectTreeNode)="onTreeNodeSelected($event)"
+            ></garbage-station-profile-label-tree>
+          </common-label-select>
         </div>
       </div>
     </div>
@@ -221,6 +226,15 @@
       >
         创建
       </button>
+      <button
+        class="hw-green-btn"
+        type="button"
+        (click)="saveInfo(index)"
+        *ngIf="state == FormState.edit"
+      >
+        保存
+      </button>
+
       <button class="hw-blue-btn" type="button" (click)="nextStep(index)">
         下一步
       </button>
@@ -228,68 +242,101 @@
   </form>
 </ng-template>
 <ng-template #step2 #step let-index="index">
-  <form [formGroup]="formArray.at(index)" class="hw-form">
-    <div class="hw-form-item">
-      <div class="hw-form-group">
-        <div class="title">
-          <span class="hw-form-label">
-            {{ language["GarbageStationName"] }}
-          </span>
-          <span class="hw-form-icon">*</span>
-        </div>
-        <div class="content">
-          <input type="text" formControlName="GarbageStationName" />
-        </div>
+  <form [formGroup]="formArray.at(index)" class="hw-form" #ngForm="ngForm">
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["GarbageStationName"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
       </div>
-      <div class="hw-form-group">
-        <div class="title">
-          <span class="hw-form-label">
-            {{ language["CommunityName"] }}
-          </span>
-          <span class="hw-form-icon">*</span>
-        </div>
-        <div class="content">
-          <input type="text" formControlName="CommunityName" />
-        </div>
+      <div class="content">
+        <input type="text" formControlName="GarbageStationName" />
       </div>
-      <div class="hw-form-group">
-        <div class="title">
-          <span class="hw-form-label">
-            {{ language["StrongCurrentWire"] }}
-          </span>
-          <span class="hw-form-icon">*</span>
-        </div>
-        <div class="content">
-          <input type="text" formControlName="StrongCurrentWire" />
-        </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["CommunityName"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
       </div>
-      <div class="hw-form-group">
-        <div class="title">
-          <span class="hw-form-label">
-            {{ language["StrongCurrentWireMode"] }}
-          </span>
-          <span class="hw-form-icon">*</span>
-        </div>
-        <div class="content">
-          <input type="text" formControlName="StrongCurrentWireMode" />
-        </div>
+      <div class="content">
+        <input type="text" formControlName="CommunityName" />
       </div>
-      <div class="hw-form-group">
-        <div class="title">
-          <span class="hw-form-label">
-            {{ language["StrongCurrentWireLength"] }}
-          </span>
-          <span class="hw-form-icon">*</span>
-        </div>
-        <div class="content">
-          <input type="text" formControlName="StrongCurrentWireLength" />
-        </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["StrongCurrentWire"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <select
+          #currentWire
+          class="hw-form-select"
+          formControlName="StrongCurrentWire"
+          (change)="changeCurrentWire(ngForm)"
+        >
+          <option
+            *ngFor="let wire of source.StrongCurrentWire"
+            [ngValue]="wire.Value"
+          >
+            {{ wire.Name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="hw-form-group" *ngIf="ngForm.value.StrongCurrentWire == 1">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["StrongCurrentWireMode"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <select class="hw-form-select" formControlName="StrongCurrentWireMode">
+          <option value="" disabled>请选择</option>
+          <option
+            *ngFor="let wireMode of source.StrongCurrentWireMode"
+            [ngValue]="wireMode.Value"
+          >
+            {{ wireMode.Name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="hw-form-group" *ngIf="ngForm.value.StrongCurrentWire == 1">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["StrongCurrentWireLength"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="StrongCurrentWireLength" />
+      </div>
+    </div>
+    <div class="hw-form-group" *ngIf="ngForm.value.StrongCurrentWire == 1">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["LFImageUrl"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <app-image-upload></app-image-upload>
       </div>
     </div>
     <div class="hw-middle-btn-group">
       <button class="hw-blue-btn" type="button">上一步</button>
-      <button class="hw-green-btn" type="button">保存</button>
-      <button class="hw-blue-btn" type="button">下一步</button>
+      <button class="hw-green-btn" type="button" (click)="saveInfo(index)">
+        保存
+      </button>
+      <button class="hw-blue-btn" type="button" (click)="nextStep(index)">
+        下一步
+      </button>
     </div>
   </form>
 </ng-template>

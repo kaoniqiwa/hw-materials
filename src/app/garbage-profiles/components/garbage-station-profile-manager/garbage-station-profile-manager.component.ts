@@ -78,7 +78,6 @@ export class GarbageStationProfileManagerComponent {
     this.load.emit(this.args);
   }
   onitemclick(model: PropertyValueModel) {
-    console.log(model);
     if (model.PropertyId && model.Value) {
       if (model.PropertyId.toLowerCase().includes('url')) {
         this.window.picture.urlId = model.Value as string;

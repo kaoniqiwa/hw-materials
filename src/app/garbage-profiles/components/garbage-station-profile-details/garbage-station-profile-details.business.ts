@@ -56,12 +56,14 @@ export class GarbageStationProfileDetailsBusiness {
 
   getDivision(name: string) {
     for (let [key, value] of this._divisionMap.entries()) {
-      console.log(key, value);
+      // console.log(key, value);
       if (value.Name === name) {
+        // console.log(name + '的id: ' + key);
+
         return key;
       }
     }
-    return null;
+    return void 0;
   }
   // 仅负责请求数据
   private _getDivisionList(searchInfo: ProfileDetailsDivisionSearchInfo) {
