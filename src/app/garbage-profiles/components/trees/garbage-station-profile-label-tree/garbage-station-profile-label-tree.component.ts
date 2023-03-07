@@ -50,6 +50,8 @@ export class GarbageStationProfileLabelTreeComponent
     super();
   }
 
+  isloaded = false;
+
   ngOnInit(): void {
     this._init();
   }
@@ -59,6 +61,14 @@ export class GarbageStationProfileLabelTreeComponent
     let res = await this._business.init(this._condition);
     // console.log(res);
     this.dataSubject.next(res);
+
+    if (this.isloaded === false) {
+      this.isloaded = true;
+      if (this.tree) {
+        this.tree.setDefaultNodes();
+      }
+    }
+
     this.loaded.emit();
   }
   async searchEventHandler(condition: string) {

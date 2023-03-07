@@ -4,14 +4,16 @@
   box-sizing: border-box;
   padding: 20px;
 
-  @head-height: 100px;
+  @head-title-height: 36px;
+  @head-operation-hegiht: 64px;
+  @head-height: calc(@head-title-height + @head-operation-hegiht);
 
   &-head {
     height: @head-height;
 
 
     &-operation {
-      height: 70px;
+      height: @head-operation-hegiht;
       display: flex;
       justify-content: space-between;
       align-items: center;

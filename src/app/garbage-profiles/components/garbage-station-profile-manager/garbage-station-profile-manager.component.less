@@ -3,13 +3,16 @@
   width: 100%;
   box-sizing: border-box;
   padding: 20px;
-  @head-height: 100px;
+
+  @head-title-height: 36px;
+  @head-operation-hegiht: 64px;
+
 
   &-head {
-    height: @head-height;
+    height: calc(@head-title-height + @head-operation-hegiht);
 
     &-operation {
-      height: 70px;
+      height: @head-operation-hegiht;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -59,7 +62,7 @@
 
   &-content {
     width: 100%;
-    height: calc(100% - @head-height);
+    height: calc(100% - (@head-title-height + @head-operation-hegiht));
   }
 }
 

@@ -19,6 +19,7 @@ import {
   IPartialData,
   PartialData,
 } from 'src/app/network/entity/partial-data.interface';
+import { Property } from 'src/app/network/entity/property.entity';
 import { PagedTableAbstractComponent } from '../table-paged-abstract.component';
 import { GarbageStationProfileTableConfigBusiness } from './garbage-station-profile-table-config.business';
 import { GarbageStationProfileTableBusiness } from './garbage-station-profile-table.business';
@@ -79,6 +80,8 @@ export class GarbageStationProfileTableComponent
     'ProfileState',
   ];
 
+  properties: Property[] = [];
+
   widths: string[] = [];
 
   ngOnInit(): void {
@@ -100,7 +103,6 @@ export class GarbageStationProfileTableComponent
     this.selected = undefined;
 
     this.names = await this.business.config.get(this.args.tableIds);
-
     let paged = await this.business.load(index, size, this.names, this.args);
     this.page = paged.Page;
     this.datas = paged.Data;
@@ -137,7 +139,7 @@ export class GarbageStationProfileTableComponent
 
   async onitemclick(e: Event, item: PartialData, name: string) {
     let value = await this.business.get(name, item[name]);
-    if (name.includes('Url')) {
+    if (name.includes('Url') && value.Value) {
       e.stopImmediatePropagation();
     }
     this.itemclick.emit(value);

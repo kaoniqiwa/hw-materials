@@ -258,7 +258,7 @@ export class ViewModelConverter {
         }
       }
       if (key.toLowerCase().includes('url')) {
-        source[key + view] = `<a>查看</a>`;
+        source[key + view] = source[key] ? `<a>查看</a>` : '无';
       }
     }
 

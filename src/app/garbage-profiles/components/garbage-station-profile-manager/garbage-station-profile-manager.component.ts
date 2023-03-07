@@ -78,11 +78,17 @@ export class GarbageStationProfileManagerComponent {
     this.load.emit(this.args);
   }
   onitemclick(model: PropertyValueModel) {
+    console.log(model);
     if (model.PropertyId && model.Value) {
       if (model.PropertyId.toLowerCase().includes('url')) {
-        this.window.picture.urlId = model.Value as string;
+        this.showPicture(model);
       }
     }
+  }
+
+  showPicture(model: PropertyValueModel) {
+    this.window.picture.urlId = model.Value as string;
+    this.window.picture.show = true;
   }
 
   onrecord() {
@@ -104,7 +110,7 @@ export class GarbageStationProfileManagerComponent {
   }
 
   selectedNodes: CommonFlatNode[] = [];
-  defaultIds: string[] = [];
+  defaultIds: string[] = ['1'];
   onTreeNodeSelected(nodes: CommonFlatNode[]) {
     this.selectedNodes = nodes;
     this.args.labels = this.selectedNodes.map((n) => parseInt(n.Id));
