@@ -3,12 +3,35 @@
     <div class="hw-simple-title">设置</div>
   </div>
   <div class="garbage-station-profile-setting-body">
-    <garbage-station-profile-property-tree
-      (loaded)="ontreeloaded()"
-      [defaultIds]="selectedIds"
-      (selectTreeNode)="onselect($event)"
-    >
-    </garbage-station-profile-property-tree>
+    <div class="tree">
+      <div class="hw-simple-title-1">档案属性</div>
+      <div class="tree-content">
+        <garbage-station-profile-property-tree
+          (loaded)="ontreeloaded()"
+          [defaultIds]="selectedIds"
+          (selectTreeNode)="onselect($event)"
+        >
+        </garbage-station-profile-property-tree>
+      </div>
+    </div>
+    <div class="chip">
+      <div class="hw-simple-title-1">表格预览</div>
+      <div class="chip-content">
+        <mat-chip-set
+          class="mat-chip-set"
+          cdkDropList
+          cdkDropListOrientation="horizontal"
+          (cdkDropListDropped)="ondrop($event)"
+        >
+          <mat-chip
+            class="mat-chip-item"
+            cdkDrag
+            *ngFor="let item of selecteds; let i = index"
+            >{{ i + 1 }}:{{ language[item.Name] }}</mat-chip
+          ></mat-chip-set
+        >
+      </div>
+    </div>
   </div>
   <div class="garbage-station-profile-setting-foot">
     <button class="hw-green-btn" (click)="onok()">确定</button>

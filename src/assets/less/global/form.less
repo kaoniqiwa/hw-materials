@@ -23,7 +23,7 @@
 
       &-title {
         width: @title-width;
-        text-align: justify;
+        text-align: right;
 
         vertical-align: middle;
         padding-right: 10px;
@@ -38,12 +38,21 @@
 
       &-rowtitle {
         margin-top: 16px;
-        width: @title-width;
-        text-align: justify;
+        width: 100%;
+        text-align: left;
 
         vertical-align: middle;
         padding-right: 10px;
         height: 34px;
+
+        &>* {
+          &:first-child {
+            width: @title-width;
+            padding-right: 10px;
+            text-align: right;
+          }
+        }
+
 
         &::after {
           display: inline-block;

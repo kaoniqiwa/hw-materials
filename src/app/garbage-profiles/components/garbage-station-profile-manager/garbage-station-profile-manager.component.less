@@ -36,15 +36,17 @@
             width: calc(100% - @title-width);
           }
 
-          && {
+          &.label {
             width: 300px;
 
-            &-title {
-              width: 72px;
+            .filter-item-title {
+              width: 60px;
             }
 
-            &-control {
-              width: calc(100% - 72px);
+            .filter-item-control {
+              width: 240px;
+              max-width: 240px;
+              min-width: 240px;
             }
           }
         }

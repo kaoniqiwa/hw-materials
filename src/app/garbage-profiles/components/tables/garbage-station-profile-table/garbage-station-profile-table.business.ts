@@ -53,25 +53,43 @@ export class GarbageStationProfileTableBusiness
     params.Asc = args.asc;
     params.Desc = args.desc;
     params.PropertyIds = names;
+
     params.Conditions = [];
     if (args.Name) {
       names.forEach((name) => {
         let condition = new Condition<string>();
         condition.Value = args.Name;
         condition.PropertyId = name;
-        condition.Operator = ConditionOperator.All;
+        condition.Operator = ConditionOperator.Like;
+        condition.OrGroup = 1;
         params.Conditions!.push(condition);
       });
     }
 
+    if (args.labels && args.labels.length > 0) {
+      params.Conditions.push(this.getConditionByLabels(args.labels));
+    }
     if (args.ProfileState !== undefined) {
-      let condition = new Condition<number>();
-      condition.Value = args.ProfileState;
-      condition.PropertyId = 'ProfileState';
-      condition.Operator = ConditionOperator.Eq;
-      params.Conditions.push(condition);
+      params.Conditions.push(
+        this.getConditionByProfileState(args.ProfileState)
+      );
     }
 
     return this.service.partialData.list(params);
+  }
+
+  getConditionByLabels(value: number[]) {
+    let condition = new Condition<number[]>();
+    condition.Value = value;
+    condition.PropertyId = 'Labels';
+    condition.Operator = ConditionOperator.In;
+    return condition;
+  }
+  getConditionByProfileState(value: number) {
+    let condition = new Condition<number>();
+    condition.Value = value;
+    condition.PropertyId = 'ProfileState';
+    condition.Operator = ConditionOperator.Eq;
+    return condition;
   }
 }

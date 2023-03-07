@@ -15,6 +15,7 @@ export class GarbageProfilesMaterialRecordDetailsWindow extends WindowViewModel 
 }
 
 export class GarbageProfilesMaterialRecordWindow extends WindowViewModel {
+  override show: boolean = true;
   style = {};
   details = new GarbageProfilesMaterialRecordDetailsWindow();
 

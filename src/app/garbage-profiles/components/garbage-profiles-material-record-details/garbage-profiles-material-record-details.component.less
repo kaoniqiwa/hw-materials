@@ -22,57 +22,68 @@
     .form {
       &-list {
         &-item {
-          &-image {
-            width: 100%;
-            height: calc(100% - 34px * 5 - 10px * 5);
-            background-color: rgba(117, 134, 224, 0.1);
+          &-table {
+            height: 100%;
 
-            &>* {
-              width: 100%;
-              height: 100%;
+            &.putin {
+              height: calc(100% - 34px * 4 - 10px * 4);
             }
 
 
+            &-content {
+              margin-right: -4px;
+              width: calc(100% + 4px);
+              overflow-y: scroll;
+              height: 100%;
+
+              table {
+                margin-right: -4px;
+
+                thead {
+                  background-color: transparent;
+
+                  tr {
+                    height: 40px;
+
+                    th {
+                      background-color: #4d5191;
+                      position: sticky;
+                      top: 0;
+                      text-align: left;
+                      padding: 5px;
+                      font-size: 18px;
+
+                      &:first-child {
+                        padding-left: 40px;
+                      }
+
+                      &.scroll {
+                        padding: 0;
+                        width: 4px;
+                        margin-right: -4px;
+                      }
+                    }
+                  }
+                }
+              }
+
+              &-body {
+                height: calc(100% - 60px);
+                overflow-y: auto;
+              }
+            }
           }
         }
       }
     }
 
 
-    .table {
+    .image {
       height: 100%;
 
-      &-content {
-        margin-right: -4px;
-        width: calc(100% + 4px);
-        overflow-y: scroll;
+      &>* {
+        width: 100%;
         height: 100%;
-
-        table {
-          margin-right: -4px;
-
-          thead {
-            background-color: transparent;
-
-            tr>th {
-              background-color: #4d5191;
-              position: sticky;
-              top: 0;
-              text-align: left;
-
-              &.scroll {
-                padding: 0;
-                width: 4px;
-                margin-right: -4px;
-              }
-            }
-          }
-        }
-
-        &-body {
-          height: calc(100% - 60px);
-          overflow-y: auto;
-        }
       }
     }
 

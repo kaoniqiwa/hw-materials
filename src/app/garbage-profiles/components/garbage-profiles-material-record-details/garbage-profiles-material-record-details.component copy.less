@@ -1,0 +1,80 @@
+.garbage-profiles-material-record-details {
+  width: 100%;
+  height: 100%;
+  @head-height: 36px;
+
+  &-head {
+    height: @head-height
+  }
+
+  &-body {
+    height: calc(100% - @head-height);
+    display: flex;
+    justify-content: space-between;
+
+    &>* {
+      border: 1px solid #5e6ebf;
+      width: calc(50% - 5px);
+
+    }
+
+
+    .form {
+      &-list {
+        &-item {
+          &-image {
+            width: 100%;
+            height: calc(100% - 34px * 5 - 10px * 5);
+            background-color: rgba(117, 134, 224, 0.1);
+
+            &>* {
+              width: 100%;
+              height: 100%;
+            }
+
+
+          }
+        }
+      }
+    }
+
+
+    .table {
+      height: 100%;
+
+      &-content {
+        margin-right: -4px;
+        width: calc(100% + 4px);
+        overflow-y: scroll;
+        height: 100%;
+
+        table {
+          margin-right: -4px;
+
+          thead {
+            background-color: transparent;
+
+            tr>th {
+              background-color: #4d5191;
+              position: sticky;
+              top: 0;
+              text-align: left;
+
+              &.scroll {
+                padding: 0;
+                width: 4px;
+                margin-right: -4px;
+              }
+            }
+          }
+        }
+
+        &-body {
+          height: calc(100% - 60px);
+          overflow-y: auto;
+        }
+      }
+    }
+
+  }
+}

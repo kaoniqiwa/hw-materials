@@ -106,7 +106,7 @@ class GarbageStationProfilesPropertiesRequestService extends AbstractService<Pro
 
   async get(id: string): Promise<Property> {
     if (this.properties && this.properties.length > 0) {
-      let property = this.properties.find((x) => x.Id === id);
+      let property = this.properties.find((x) => x.Id === id || x.Name === id);
       if (property) {
         return property;
       }

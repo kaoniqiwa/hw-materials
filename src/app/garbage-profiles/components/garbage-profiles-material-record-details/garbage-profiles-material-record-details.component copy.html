@@ -39,53 +39,45 @@
           </div>
         </div>
 
-        <div class="form-list-item-rowtitle">
-          <div>物料清单:</div>
-        </div>
-        <div
-          class="form-list-item-table"
-          [class.putin]="model.MaterialRecordType === MaterialRecordType.putin"
-          [class.putout]="
-            model.MaterialRecordType === MaterialRecordType.putout
-          "
-        >
-          <div class="form-list-item-table-content">
-            <table border="0" cellpadding="0" cellspacing="0">
-              <colgroup>
-                <col
-                  [ngStyle]="{ width: width }"
-                  *ngFor="let width of tableWidth"
-                />
-              </colgroup>
-              <thead>
-                <tr>
-                  <th [ngStyle]="{ width: '50%' }">名称</th>
-                  <th>
-                    {{
-                      model.MaterialRecordType | material_record_type_language
-                    }}数量
-                  </th>
-                  <th>库存数量</th>
-                  <th class="scroll"></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let item of model.MaterialItems">
-                  <td [ngStyle]="{ width: '50%' }">{{ item.Name }}</td>
-                  <td>{{ item.Number }}</td>
-                  <td>{{ item.Quantity }}</td>
-                  <td></td>
-                </tr>
-              </tbody>
-            </table>
+        <div class="form-list-item-rowtitle">照片凭证:</div>
+        <div class="form-list-item-image">
+          <div *ngFor="let item of model.ImageUrls">
+            <howell-picture-control [contain]="true" [id]="item">
+            </howell-picture-control>
           </div>
         </div>
       </div>
     </div>
-    <div class="image">
-      <div *ngFor="let item of model.ImageUrls">
-        <howell-picture-control [contain]="true" [id]="item">
-        </howell-picture-control>
+    <div class="table">
+      <div class="table-content">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <colgroup>
+            <col
+              [ngStyle]="{ width: width }"
+              *ngFor="let width of tableWidth"
+            />
+          </colgroup>
+          <thead>
+            <tr>
+              <th [ngStyle]="{ width: '50%' }">名称</th>
+              <th>
+                {{
+                  model.MaterialRecordType | material_record_type_language
+                }}数量
+              </th>
+              <th>库存数量</th>
+              <th class="scroll"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of model.MaterialItems">
+              <td [ngStyle]="{ width: '50%' }">{{ item.Name }}</td>
+              <td>{{ item.Number }}</td>
+              <td>{{ item.Quantity }}</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

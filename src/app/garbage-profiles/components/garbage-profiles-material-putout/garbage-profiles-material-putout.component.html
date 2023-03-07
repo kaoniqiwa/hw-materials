@@ -57,7 +57,10 @@
       <div class="garbage-profiles-material-putout-body-content-item image">
         <div class="item-title">照片凭证：</div>
         <div class="item-content">
-          <app-image-upload (upload)="onimage($event)"> </app-image-upload>
+          <howell-picture-upload-control
+            (upload)="onimage($event)"
+          ></howell-picture-upload-control>
+          <!-- <app-image-upload (upload)="onimage($event)"> </app-image-upload> -->
         </div>
       </div>
     </div>

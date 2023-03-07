@@ -1,6 +1,8 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonFlatNode } from 'src/app/common/components/common-tree/common-flat-node.model';
 import { Property } from 'src/app/network/entity/property.entity';
+import { GarbageStationProfilesLanguageTools } from '../../tools/language.tool';
 import { GarbageStationProfileSettingBusiness } from './garbage-station-profile-setting.business';
 
 @Component({
@@ -15,7 +17,10 @@ export class GarbageStationProfileSettingComponent implements OnInit {
   @Output()
   cancel: EventEmitter<void> = new EventEmitter();
 
-  constructor(private business: GarbageStationProfileSettingBusiness) {}
+  constructor(
+    private business: GarbageStationProfileSettingBusiness,
+    public language: GarbageStationProfilesLanguageTools
+  ) {}
 
   private _selectedIds: string[] = [];
   get selectedIds(): string[] {
@@ -23,11 +28,13 @@ export class GarbageStationProfileSettingComponent implements OnInit {
   }
 
   selecteds: Property[] = [];
+  names: string[] = [];
 
   ngOnInit(): void {}
   ontreeloaded() {
     this.business.load().then((x) => {
       this._selectedIds = x;
+      this.names = this.selectedIds;
     });
   }
   onselect(nodes: CommonFlatNode[]) {
@@ -39,12 +46,15 @@ export class GarbageStationProfileSettingComponent implements OnInit {
   }
 
   async onok() {
-    let names = this.selecteds.map((x) => x.Name);
-    let str = JSON.stringify(names);
+    this.names = this.selecteds.map((x) => x.Name);
+    let str = JSON.stringify(this.names);
     await this.business.set(str);
-    this.ok.emit(names);
+    this.ok.emit(this.names);
   }
   oncancel() {
     this.cancel.emit();
+  }
+  ondrop(event: CdkDragDrop<Property[]>) {
+    moveItemInArray(this.selecteds, event.previousIndex, event.currentIndex);
   }
 }

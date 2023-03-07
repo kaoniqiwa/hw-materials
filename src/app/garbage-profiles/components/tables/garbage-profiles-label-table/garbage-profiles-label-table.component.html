@@ -9,7 +9,7 @@
           <td>ID</td>
           <td>名称</td>
           <td>状态</td>
-          <td>类别</td>
+          <!-- <td>类别</td> -->
           <td class="operation center"><div>操作</div></td>
         </tr>
       </thead>
@@ -32,9 +32,9 @@
               {{ item.Name }}
             </td>
             <td>{{ item.StateName }}</td>
-            <td>
+            <!-- <td>
               {{ item.CategoryName }}
-            </td>
+            </td> -->
 
             <td class="operation center">
               <div (click)="onupdate($event, item)" class="center">
