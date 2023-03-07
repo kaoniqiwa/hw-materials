@@ -342,9 +342,12 @@
         <span class="hw-form-icon">*</span>
       </div>
       <div class="content">
-        <label><input type="checkbox" />小包垃圾</label>
+        <!-- <label><input type="checkbox" />小包垃圾</label>
         <label><input type="checkbox" />混合投放</label>
-        <label><input type="checkbox" />垃圾满溢</label>
+        <label><input type="checkbox" />垃圾满溢</label> -->
+        <mat-checkbox class="example-margin">小包垃圾</mat-checkbox>
+        <mat-checkbox class="example-margin">混合投放</mat-checkbox>
+        <mat-checkbox class="example-margin">垃圾满溢</mat-checkbox>
       </div>
     </div>
     <div class="hw-form-group">
@@ -404,18 +407,18 @@
         <howell-picture-upload-control></howell-picture-upload-control>
       </div>
     </div>
-    <div class="hw-middle-btn-group">
-      <button class="hw-blue-btn" type="button" (click)="prevStep(index)">
-        上一步
-      </button>
-      <button class="hw-green-btn" type="button" (click)="saveInfo(index)">
-        保存
-      </button>
-      <button class="hw-blue-btn" type="button" (click)="nextStep(index)">
-        下一步
-      </button>
-    </div>
   </form>
+  <div class="hw-middle-btn-group">
+    <button class="hw-blue-btn" type="button" (click)="prevStep(index)">
+      上一步
+    </button>
+    <button class="hw-green-btn" type="button" (click)="saveInfo(index)">
+      保存
+    </button>
+    <button class="hw-blue-btn" type="button" (click)="nextStep(index)">
+      下一步
+    </button>
+  </div>
 </ng-template>
 
 <ng-template #step3 #step let-index="index">

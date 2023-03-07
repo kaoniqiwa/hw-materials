@@ -124,7 +124,7 @@ export class GarbageStationProfileDetailsComponent
         RFImageUrl: [''],
         FImageUrl: [''],
         PowerImageUrl: [''],
-        Functions: [[], Validators.required],
+        Functions: [[]],
         GarbageStationType: ['', Validators.required],
         Remarks: ['', Validators.required],
         // MaterialItems: [''],
@@ -275,8 +275,18 @@ export class GarbageStationProfileDetailsComponent
     let res: GarbageStationProfile | null;
     if (this.state == FormState.add) {
       res = await this._createModel();
+
+      this.state = FormState.edit;
     } else {
       res = await this._updateModel(index);
+    }
+    if (res) {
+      this._updateProfileState();
+      if (this.profileState > index) {
+        this.matStepper?.next();
+      } else {
+        this._toastrService.warning('操作失败');
+      }
     }
     console.log(res);
   }
@@ -350,23 +360,6 @@ export class GarbageStationProfileDetailsComponent
   private _updateValidator(value: boolean) {
     let formIndex = 1;
     let formGroup = this.formArray.at(formIndex) as FormGroup;
-    // let currentWireMode = formGroup.get('StrongCurrentWireMode');
-    // let currentWireLength = formGroup.get('StrongCurrentWireLength');
-
-    // formGroup.addControl(
-    //   's',
-    //   this._formBuilder.control('s', { validators: [Validators.required] })
-    // );
-
-    // if (value) {
-    //   currentWireMode?.setValidators([Validators.required]);
-    //   currentWireLength?.setValidators([Validators.required]);
-    // } else {
-    //   currentWireMode?.clearValidators();
-    //   currentWireMode?.updateValueAndValidity({ onlySelf: true });
-    //   currentWireLength?.clearValidators();
-    //   currentWireLength?.updateValueAndValidity({ onlySelf: true });
-    // }
     if (value) {
       formGroup.addControl(
         'StrongCurrentWireMode',
@@ -456,7 +449,7 @@ export class GarbageStationProfileDetailsComponent
         for (let i = 0; i < this.formArray.length; i++) {
           let formGroup = this.formArray.at(i);
           for (let key of Object.keys(formGroup.controls)) {
-            if (Reflect.get(this._model, key)) {
+            if (Reflect.get(this._model, key) != void 0) {
               formGroup.patchValue({
                 [key]: Reflect.get(this._model, key),
               });
