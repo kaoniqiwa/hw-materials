@@ -110,7 +110,6 @@ export class GarbageStationProfileManagerComponent {
   }
 
   selectedNodes: CommonFlatNode[] = [];
-  defaultIds: string[] = ['1'];
   onTreeNodeSelected(nodes: CommonFlatNode[]) {
     this.selectedNodes = nodes;
     this.args.labels = this.selectedNodes.map((n) => parseInt(n.Id));

@@ -29,8 +29,16 @@ export class GarbageStationProfileLabelTreeComponent
   selectStrategy = SelectStrategy.Multiple;
 
   // 默认选中列表
+
+  private _defaultIds: number[] = [];
+  public get defaultIds(): number[] {
+    return this._defaultIds;
+  }
   @Input()
-  defaultIds: string[] = [];
+  public set defaultIds(v: number[]) {
+    this._defaultIds = v;
+    this.ids = this._defaultIds.map((x) => x.toString());
+  }
 
   @Input() showSearchBar = true;
 
@@ -51,6 +59,8 @@ export class GarbageStationProfileLabelTreeComponent
   }
 
   isloaded = false;
+
+  ids: string[] = [];
 
   ngOnInit(): void {
     this._init();
