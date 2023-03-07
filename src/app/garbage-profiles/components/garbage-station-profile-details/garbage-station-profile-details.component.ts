@@ -112,14 +112,22 @@ export class GarbageStationProfileDetailsComponent
         Address: ['', Validators.required], //地址
         Contact: [''], //联系人，
         ContactPhoneNo: [''], // 联系人电话
+        Labels: [[]],
       }),
       this._formBuilder.group({
         GarbageStationName: ['', Validators.required],
         CommunityName: ['', Validators.required],
-        StrongCurrentWire: [0, Validators.required],
-        StrongCurrentWireMode: [''],
-        StrongCurrentWireLength: [''],
+        StrongCurrentWire: ['', Validators.required],
+        // StrongCurrentWireMode: [''],
+        // StrongCurrentWireLength: [''],
         LFImageUrl: [''],
+        RFImageUrl: [''],
+        FImageUrl: [''],
+        PowerImageUrl: [''],
+        Functions: [[], Validators.required],
+        GarbageStationType: ['', Validators.required],
+        Remarks: ['', Validators.required],
+        // MaterialItems: [''],
       }),
       this._formBuilder.group({
         ConstructionContact: ['', Validators.required],
@@ -151,10 +159,22 @@ export class GarbageStationProfileDetailsComponent
     private _toastrService: ToastrService
   ) {}
   ngOnInit() {
+    this.formArray.controls.forEach((control, index) => {
+      // console.log(control);
+      control.statusChanges.subscribe((status) => {
+        // console.log('status change', status, index);
+        if (status == 'INVALID') {
+          this.completedArr[index] = false;
+        } else if (status == 'VALID') {
+          this.completedArr[index] = true;
+        }
+      });
+    });
     this._init();
   }
 
   private async _init() {
+    // console.log(this.source.ProfileState);
     if (this.state == FormState.edit) {
       if (this.formId) {
         this._model = await this._business.getModel(this.formId);
@@ -197,7 +217,7 @@ export class GarbageStationProfileDetailsComponent
     this._getChildDivisionListById(level, id);
   }
   changeCurrentWire(formGroupDirective: FormGroupDirective) {
-    console.log('sdf', formGroupDirective);
+    // console.log('sdf', formGroupDirective);
 
     this._updateValidator(!!formGroupDirective.value.StrongCurrentWire);
   }
@@ -205,12 +225,13 @@ export class GarbageStationProfileDetailsComponent
   onTreeNodeSelected(nodes: CommonFlatNode[]) {
     this.selectedNodes = nodes;
     let ids = this.selectedNodes.map((n) => parseInt(n.Id));
-    if (this._model) {
-      this._model.Labels = ids;
-    }
+
+    this.formArray.at(0).patchValue({
+      Labels: ids,
+    });
   }
   changeStep(e: StepperSelectionEvent) {
-    console.log('selectionChange', e);
+    // console.log('selectionChange', e);
     // this.nextStep(e.selectedIndex);
   }
   async createInfo() {
@@ -226,17 +247,168 @@ export class GarbageStationProfileDetailsComponent
       this.closeDetails.emit();
     }
   }
-  async nextStep(index: number) {
-    console.log('next step', index);
+
+  async prevStep(index: number) {
+    console.log('previous step', index);
 
     let res = await this._updateModel(index);
     if (res) {
       if (this.profileState > index) {
-        this.matStepper?.next();
+        this.matStepper?.previous();
       } else {
         this._toastrService.warning('操作失败');
       }
     }
+  }
+
+  async nextStep(index: number) {
+    console.log('next step', index);
+
+    // let res = await this._updateModel(index);
+    // if (res) {
+    //   if (this.profileState > index) {
+    //     this.matStepper?.next();
+    //   } else {
+    //     this._toastrService.warning('操作失败');
+    //   }
+    // }
+    let res: GarbageStationProfile | null;
+    if (this.state == FormState.add) {
+      res = await this._createModel();
+    } else {
+      res = await this._updateModel(index);
+    }
+    console.log(res);
+  }
+
+  uploadLF(id: string) {
+    console.log(id);
+    let formGroup = this.formArray.at(1);
+
+    formGroup.patchValue({
+      LFImageUrl: id,
+    });
+  }
+  /***********************private***************************************** */
+
+  private _resetSelect(level: DivisionLevel) {
+    let formGroup = this.formArray.at(0);
+
+    let patchValue: { [key: string]: any } = {
+      Address: '',
+    };
+
+    let childLevel = getDivisionChildLevel(level);
+
+    while (childLevel) {
+      patchValue[DivisionLevel[childLevel]] = '';
+      this.divisionModel[DivisionLevel[childLevel]] = [];
+      childLevel = getDivisionChildLevel(childLevel);
+    }
+
+    // console.log('清空下级字段名: ', Object.keys(patchValue));
+    formGroup.patchValue(patchValue);
+  }
+
+  private async _createModel() {
+    let formIndex = 0;
+    if (await this._checkForm(formIndex)) {
+      let formGroup = this.formArray.at(formIndex) as FormGroup;
+
+      let model = new GarbageStationProfileModel();
+      model.Id = Guid.NewGuid().ToString('N');
+
+      Object.assign(model, formGroup.value);
+      model.ProfileState = 1;
+      let res = await this._business.createModel(model);
+
+      return res;
+    }
+    return null;
+  }
+
+  private async _updateModel(formIndex: number) {
+    let formGroup = this.formArray.at(formIndex) as FormGroup;
+
+    console.log(formGroup.value);
+    if (await this._checkForm(formIndex)) {
+      let formGroup = this.formArray.at(formIndex) as FormGroup;
+
+      if (this._model) {
+        Object.assign(this._model, formGroup.value);
+
+        if (this.profileState <= formIndex) {
+          this._model.ProfileState = ++formIndex;
+        }
+        let res = await this._business.updateModel(this._model);
+        console.log('update', res);
+        return res;
+      }
+    }
+    return null;
+  }
+  private _updateValidator(value: boolean) {
+    let formIndex = 1;
+    let formGroup = this.formArray.at(formIndex) as FormGroup;
+    // let currentWireMode = formGroup.get('StrongCurrentWireMode');
+    // let currentWireLength = formGroup.get('StrongCurrentWireLength');
+
+    // formGroup.addControl(
+    //   's',
+    //   this._formBuilder.control('s', { validators: [Validators.required] })
+    // );
+
+    // if (value) {
+    //   currentWireMode?.setValidators([Validators.required]);
+    //   currentWireLength?.setValidators([Validators.required]);
+    // } else {
+    //   currentWireMode?.clearValidators();
+    //   currentWireMode?.updateValueAndValidity({ onlySelf: true });
+    //   currentWireLength?.clearValidators();
+    //   currentWireLength?.updateValueAndValidity({ onlySelf: true });
+    // }
+    if (value) {
+      formGroup.addControl(
+        'StrongCurrentWireMode',
+        this._formBuilder.control('', { validators: [Validators.required] })
+      );
+      formGroup.addControl(
+        'StrongCurrentWireLength',
+        this._formBuilder.control('', { validators: [Validators.required] })
+      );
+    } else {
+      formGroup.removeControl('StrongCurrentWireMode');
+      formGroup.removeControl('StrongCurrentWireLength');
+    }
+  }
+
+  private _setcompletedArr() {
+    this.completedArr = this.completedArr.map((v, i) => {
+      return i < this.profileState;
+    });
+    // console.log(this.completedArr);
+  }
+  private async _updateDivisionModel() {
+    if (this._model) {
+      this.defaultDivisionSource.set(
+        DivisionLevel.Province,
+        this._model.Province
+      );
+      this.defaultDivisionSource.set(DivisionLevel.City, this._model.City);
+      this.defaultDivisionSource.set(DivisionLevel.County, this._model.County);
+      this.defaultDivisionSource.set(DivisionLevel.Street, this._model.Street);
+      this.defaultDivisionSource.set(
+        DivisionLevel.Committee,
+        this._model.Committee
+      );
+    }
+    for (let [key, value] of this.defaultDivisionSource.entries()) {
+      await this._getChildDivisionListByName(key, value);
+      // console.log(key, value, this.divisionModel);
+    }
+  }
+  private _updateProfileState() {
+    this.profileState = this._model ? this._model.ProfileState : 0;
   }
 
   /**
@@ -278,120 +450,17 @@ export class GarbageStationProfileDetailsComponent
     // console.log(id);
     await this._getChildDivisionListById(level, id);
   }
-
-  private _resetSelect(level: DivisionLevel) {
-    let formGroup = this.formArray.at(0);
-
-    let patchValue: { [key: string]: any } = {
-      Address: '',
-    };
-
-    let childLevel = getDivisionChildLevel(level);
-
-    while (childLevel) {
-      patchValue[DivisionLevel[childLevel]] = '';
-      this.divisionModel[DivisionLevel[childLevel]] = [];
-      childLevel = getDivisionChildLevel(childLevel);
-    }
-
-    // console.log('清空下级字段名: ', Object.keys(patchValue));
-    formGroup.patchValue(patchValue);
-  }
-
-  private async _createModel() {
-    let formIndex = 0;
-    if (await this._checkForm(formIndex)) {
-      let formGroup = this.formArray.at(formIndex) as FormGroup;
-
-      let model = new GarbageStationProfileModel();
-      model.Id = Guid.NewGuid().ToString('N');
-      model.ProfileName = formGroup.value.ProfileName;
-      model.Province = formGroup.value.Province;
-      model.City = formGroup.value.City;
-      model.County = formGroup.value.County;
-      model.Street = formGroup.value.Street;
-      model.Committee = formGroup.value.Committee;
-      model.Address = formGroup.value.Address;
-      model.Contact = formGroup.value.Contact;
-      model.ContactPhoneNo = formGroup.value.ContactPhoneNo;
-      model.ProfileState = 2;
-      let res = await this._business.createModel(model);
-
-      return res;
-    }
-    return null;
-  }
-
-  private async _updateModel(formIndex: number) {
-    if (await this._checkForm(formIndex)) {
-      let formGroup = this.formArray.at(formIndex) as FormGroup;
-
-      if (this._model) {
-        Object.assign(this._model, formGroup.value);
-
-        this._model.ProfileState = ++formIndex;
-
-        let res = await this._business.updateModel(this._model);
-        console.log('update', res);
-        return res;
-      }
-    }
-    return null;
-  }
-
-  private _updateValidator(value: boolean) {
-    let formIndex = 1;
-    let formGroup = this.formArray.at(formIndex) as FormGroup;
-    let currentWireMode = formGroup.get('StrongCurrentWireMode');
-    let currentWireLength = formGroup.get('StrongCurrentWireLength');
-
-    if (value) {
-      currentWireMode?.setValidators([Validators.required]);
-      currentWireLength?.setValidators([Validators.required]);
-    } else {
-      currentWireMode?.clearValidators();
-      currentWireMode?.updateValueAndValidity({ onlySelf: true });
-      currentWireLength?.clearValidators();
-      currentWireLength?.updateValueAndValidity({ onlySelf: true });
-    }
-  }
-
-  private _setcompletedArr() {
-    this.completedArr = this.completedArr.map((v, i) => {
-      return i < this.profileState;
-    });
-    // console.log(this.completedArr);
-  }
-  private async _updateDivisionModel() {
-    if (this._model) {
-      this.defaultDivisionSource.set(
-        DivisionLevel.Province,
-        this._model.Province
-      );
-      this.defaultDivisionSource.set(DivisionLevel.City, this._model.City);
-      this.defaultDivisionSource.set(DivisionLevel.County, this._model.County);
-      this.defaultDivisionSource.set(DivisionLevel.Street, this._model.Street);
-      this.defaultDivisionSource.set(
-        DivisionLevel.Committee,
-        this._model.Committee
-      );
-    }
-    for (let [key, value] of this.defaultDivisionSource.entries()) {
-      await this._getChildDivisionListByName(key, value);
-      // console.log(key, value, this.divisionModel);
-    }
-  }
-  private _updateProfileState() {
-    this.profileState = this._model ? this._model.ProfileState : 0;
-  }
-
   private _updateForm() {
     if (this.state == FormState.edit) {
       if (this._model) {
         for (let i = 0; i < this.formArray.length; i++) {
           let formGroup = this.formArray.at(i);
           for (let key of Object.keys(formGroup.controls)) {
-            formGroup.patchValue({ [key]: Reflect.get(this._model, key) });
+            if (Reflect.get(this._model, key)) {
+              formGroup.patchValue({
+                [key]: Reflect.get(this._model, key),
+              });
+            }
           }
         }
       }

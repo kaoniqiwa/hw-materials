@@ -1,6 +1,6 @@
 <div class="profile-details vertical-layout">
   <div class="profile-details-header vertical-header">
-    <div class="hw-simple-title">厢房档案</div>
+    <div class="hw-simple-title">厢房档案 {{ profileState }}</div>
   </div>
   <div class="profiles-details-body vertical-main">
     <ng-template [ngTemplateOutlet]="templateExpression"></ng-template>
@@ -42,7 +42,7 @@
 </ng-template>
 
 <ng-template #step1 #step let-value let-index="index">
-  <form [formGroup]="formArray.at(index)" class="hw-form">
+  <form [formGroup]="formArray.at(index)" class="hw-form" #ngForm="ngForm">
     <div class="hw-form-group" style="flex-basis: 100%">
       <div class="title">
         <span class="hw-form-label">
@@ -200,46 +200,43 @@
       <div class="title">
         <span class="hw-form-label">
           {{ language["Labels"] }}
+          {{ ngForm.value.Labels }}
+          <!-- [defaultIds]="ngForm.value.Labels" -->
         </span>
       </div>
       <div class="content">
-        <div>
-          <common-label-select
-            [selectedNodes]="selectedNodes"
-            [autoclose]="true"
-          >
-            <garbage-station-profile-label-tree
-              #tree
-              [defaultIds]="defaultIds"
-              (selectTreeNode)="onTreeNodeSelected($event)"
-            ></garbage-station-profile-label-tree>
-          </common-label-select>
-        </div>
+        <common-label-select [selectedNodes]="selectedNodes" [autoclose]="true">
+          <garbage-station-profile-label-tree
+            #tree
+            [defaultIds]="ngForm.value.Labels"
+            (selectTreeNode)="onTreeNodeSelected($event)"
+          ></garbage-station-profile-label-tree>
+        </common-label-select>
       </div>
     </div>
-    <div class="hw-middle-btn-group">
-      <button
-        class="hw-green-btn"
-        type="button"
-        (click)="createInfo()"
-        *ngIf="state == FormState.add"
-      >
-        创建
-      </button>
-      <button
-        class="hw-green-btn"
-        type="button"
-        (click)="saveInfo(index)"
-        *ngIf="state == FormState.edit"
-      >
-        保存
-      </button>
-
-      <button class="hw-blue-btn" type="button" (click)="nextStep(index)">
-        下一步
-      </button>
-    </div>
   </form>
+  <div class="hw-middle-btn-group">
+    <button
+      class="hw-green-btn"
+      type="button"
+      (click)="createInfo()"
+      *ngIf="state == FormState.add"
+    >
+      创建
+    </button>
+    <button
+      class="hw-green-btn"
+      type="button"
+      (click)="saveInfo(index)"
+      *ngIf="state == FormState.edit"
+    >
+      保存
+    </button>
+
+    <button class="hw-blue-btn" type="button" (click)="nextStep(index)">
+      下一步
+    </button>
+  </div>
 </ng-template>
 <ng-template #step2 #step let-index="index">
   <form [formGroup]="formArray.at(index)" class="hw-form" #ngForm="ngForm">
@@ -279,6 +276,8 @@
           formControlName="StrongCurrentWire"
           (change)="changeCurrentWire(ngForm)"
         >
+          <option value="" disabled>请选择</option>
+
           <option
             *ngFor="let wire of source.StrongCurrentWire"
             [ngValue]="wire.Value"
@@ -318,19 +317,99 @@
         <input type="text" formControlName="StrongCurrentWireLength" />
       </div>
     </div>
-    <div class="hw-form-group" *ngIf="ngForm.value.StrongCurrentWire == 1">
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["GarbageStationType"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <select class="hw-form-select" formControlName="GarbageStationType">
+          <option value="">请选择</option>
+          <option
+            *ngFor="let stationType of source.GarbageStationType"
+            [value]="stationType.Value"
+          >
+            {{ stationType.Name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["Functions"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <label><input type="checkbox" />小包垃圾</label>
+        <label><input type="checkbox" />混合投放</label>
+        <label><input type="checkbox" />垃圾满溢</label>
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["Remarks"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="Remarks" />
+      </div>
+    </div>
+    <div class="hw-form-group" style="flex-basis: 100%">
       <div class="title">
         <span class="hw-form-label">
           {{ language["LFImageUrl"] }}
         </span>
         <span class="hw-form-icon">*</span>
       </div>
-      <div class="content">
-        <app-image-upload></app-image-upload>
+      <div class="content" style="height: 160px">
+        <howell-picture-upload-control
+          (upload)="uploadLF($event)"
+        ></howell-picture-upload-control>
+      </div>
+    </div>
+    <div class="hw-form-group" style="flex-basis: 100%">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["RFImageUrl"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content" style="height: 160px">
+        <howell-picture-upload-control></howell-picture-upload-control>
+      </div>
+    </div>
+    <div class="hw-form-group" style="flex-basis: 100%">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["FImageUrl"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content" style="height: 160px">
+        <howell-picture-upload-control></howell-picture-upload-control>
+      </div>
+    </div>
+    <div class="hw-form-group" style="flex-basis: 100%">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["PowerImageUrl"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content" style="height: 160px">
+        <howell-picture-upload-control></howell-picture-upload-control>
       </div>
     </div>
     <div class="hw-middle-btn-group">
-      <button class="hw-blue-btn" type="button">上一步</button>
+      <button class="hw-blue-btn" type="button" (click)="prevStep(index)">
+        上一步
+      </button>
       <button class="hw-green-btn" type="button" (click)="saveInfo(index)">
         保存
       </button>
@@ -343,100 +422,102 @@
 
 <ng-template #step3 #step let-index="index">
   <form [formGroup]="formArray.at(index)" class="hw-form">
-    <div class="hw-form-item">
-      <div class="hw-form-group">
-        <div class="title">
-          <span class="hw-form-label">
-            {{ language["ConstructionContact"] }}
-          </span>
-          <span class="hw-form-icon">*</span>
-        </div>
-        <div class="content">
-          <input type="text" formControlName="ConstructionContact" />
-        </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["ConstructionContact"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
       </div>
-      <div class="hw-form-group">
-        <div class="title">
-          <span class="hw-form-label">
-            {{ language["ConstructionContactPhoneNo"] }}
-          </span>
-          <span class="hw-form-icon">*</span>
-        </div>
-        <div class="content">
-          <input type="text" formControlName="ConstructionContactPhoneNo" />
-        </div>
-      </div>
-      <div class="hw-form-group">
-        <div class="title">
-          <span class="hw-form-label">
-            {{ language["ConstructionDate"] }}
-          </span>
-          <span class="hw-form-icon">*</span>
-        </div>
-        <div class="content">
-          <input type="text" formControlName="ConstructionDate" />
-        </div>
+      <div class="content">
+        <input type="text" formControlName="ConstructionContact" />
       </div>
     </div>
-    <div class="hw-middle-btn-group">
-      <button class="hw-blue-btn" type="button">上一步</button>
-      <button class="hw-green-btn" type="button">保存</button>
-      <button class="hw-blue-btn" type="button">下一步</button>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["ConstructionContactPhoneNo"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="ConstructionContactPhoneNo" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["ConstructionDate"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="ConstructionDate" />
+      </div>
     </div>
   </form>
+  <div class="hw-middle-btn-group">
+    <button class="hw-blue-btn" type="button" (click)="prevStep(index)">
+      上一步
+    </button>
+    <button class="hw-green-btn" type="button" (click)="saveInfo(index)">
+      保存
+    </button>
+    <button class="hw-blue-btn" type="button" (click)="nextStep(index)">
+      下一步
+    </button>
+  </div>
 </ng-template>
 <ng-template #step4 #step let-index="index">
   <form [formGroup]="formArray.at(index)" class="hw-form">
-    <div class="hw-form-item">
-      <div class="hw-form-group">
-        <div class="title">
-          <span class="hw-form-label">
-            {{ language["GPSPoint"] }}
-          </span>
-          <span class="hw-form-icon">*</span>
-        </div>
-        <div class="content">
-          <input type="text" formControlName="GPSPoint" />
-        </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["GPSPoint"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
       </div>
-      <div class="hw-form-group">
-        <div class="title">
-          <span class="hw-form-label">
-            {{ language["TimeToDump"] }}
-          </span>
-          <span class="hw-form-icon">*</span>
-        </div>
-        <div class="content">
-          <input type="text" formControlName="TimeToDump" />
-        </div>
-      </div>
-      <div class="hw-form-group">
-        <div class="title">
-          <span class="hw-form-label">
-            {{ language["IMEI"] }}
-          </span>
-          <span class="hw-form-icon">*</span>
-        </div>
-        <div class="content">
-          <input type="text" formControlName="IMEI" />
-        </div>
-      </div>
-      <div class="hw-form-group">
-        <div class="title">
-          <span class="hw-form-label">
-            {{ language["NB"] }}
-          </span>
-          <span class="hw-form-icon">*</span>
-        </div>
-        <div class="content">
-          <input type="text" formControlName="NB" />
-        </div>
+      <div class="content">
+        <input type="text" formControlName="GPSPoint" />
       </div>
     </div>
-    <div class="hw-middle-btn-group">
-      <button class="hw-blue-btn" type="button">上一步</button>
-      <button class="hw-green-btn" type="button">保存</button>
-      <button class="hw-blue-btn" type="button">完成</button>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["TimeToDump"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="TimeToDump" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["IMEI"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="IMEI" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["NB"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="NB" />
+      </div>
     </div>
   </form>
+  <div class="hw-middle-btn-group">
+    <button class="hw-blue-btn" type="button">上一步</button>
+    <button class="hw-green-btn" type="button">保存</button>
+    <button class="hw-blue-btn" type="button">完成</button>
+  </div>
 </ng-template>
