@@ -35,8 +35,23 @@
           &-control {
             width: calc(100% - @title-width);
           }
+
+          && {
+            width: 300px;
+
+            &-title {
+              width: 72px;
+            }
+
+            &-control {
+              width: calc(100% - 72px);
+            }
+          }
         }
+
+
       }
+
     }
   }
 
