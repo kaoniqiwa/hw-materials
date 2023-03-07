@@ -58,6 +58,9 @@ export class GarbageStationProfileDetailsComponent
   formId?: string;
 
   @Input()
+  jumpState = 0;
+
+  @Input()
   state: FormState = FormState.none;
 
   @Output() closeDetails = new EventEmitter();
