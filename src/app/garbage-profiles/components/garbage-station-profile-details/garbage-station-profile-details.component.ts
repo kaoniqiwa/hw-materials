@@ -162,7 +162,7 @@ export class GarbageStationProfileDetailsComponent
           }
         ),
         GarbageStationType: ['', Validators.required],
-        Remarks: ['', Validators.required],
+        Remarks: [''],
         // MaterialItems: [''],
       }),
       this._formBuilder.group({

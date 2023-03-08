@@ -469,6 +469,7 @@
           [format]="'yyyy年MM月dd日'"
           [startView]="DateTimePickerView.month"
           [minView]="DateTimePickerView.month"
+          [(date)]="ngForm.value.ConstructionDate"
         />
       </div>
     </div>
@@ -495,7 +496,8 @@
         <span class="hw-form-icon">*</span>
       </div>
       <div class="content">
-        <input type="text" formControlName="GPSPoint" />
+        <label>经度: <input type="text" formControlName="GPSPoint" /></label>
+        <label>维度: <input type="text" formControlName="GPSPoint" /></label>
       </div>
     </div>
     <div class="hw-form-group">

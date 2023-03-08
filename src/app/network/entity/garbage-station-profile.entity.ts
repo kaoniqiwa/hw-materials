@@ -6,7 +6,7 @@ import { Camera } from './camera.entity';
 import { GPSPoint } from './gps-point.entity';
 import { MaterialItem } from './material-item.enitty';
 import { IPartialData } from './partial-data.interface';
-import { transformDateTime } from './transform.model';
+import { transformDate, transformDateTime } from './transform.model';
 
 /**	垃圾厢房档案	*/
 export class GarbageStationProfile implements IPartialData {
@@ -63,7 +63,7 @@ export class GarbageStationProfile implements IPartialData {
   /**	String	施工负责人电话	O	*/
   ConstructionContactPhoneNo?: string;
   /**	Date	施工日期	O	*/
-  @Transform(transformDateTime)
+  @Transform(transformDate)
   ConstructionDate?: Date;
   /**	GPSPoint	GPS经纬度坐标	O	*/
   GPSPoint?: GPSPoint;

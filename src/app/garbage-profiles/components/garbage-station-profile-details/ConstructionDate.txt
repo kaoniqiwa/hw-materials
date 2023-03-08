@@ -1,0 +1,15 @@
+ConstructionDate
+: 
+"2023-03-08T13:12:29+08:00"
+
+
+[
+  {
+    
+    "Data": {
+      "Id":"812c275f4c9844c2a60572232a1f3d33",
+      "ConstructionDate":"2023-03-08T13:12:29+08:00",
+      "ProfileName":"ppp"
+    }
+  }
+]
