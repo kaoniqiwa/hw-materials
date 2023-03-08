@@ -22,7 +22,7 @@ export class GarbageProfilesMaterialTablBusiness
     size: number = 10
   ): Promise<PagedList<MaterialModel>> {
     let data = await this.getData(index, size, args.Category, args.Name);
-    let model = this.Converter.Convert(data);
+    let model = this.Converter.convert(data);
     return model;
   }
   getData(

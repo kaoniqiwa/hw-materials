@@ -37,7 +37,7 @@ export class ExportBusiness {
     ...args: any[]
   ) {
     let excel = new HowellExcel();
-    let model = converter.Convert(datas, ...args);
+    let model = converter.convert(datas, ...args);
     model.headers = headers;
     model.title = title;
     excel.setData(model);
@@ -50,7 +50,7 @@ export class ExportBusiness {
     converter: IConverter<T, HowellExportModel>,
     ...args: any[]
   ) {
-    let model = converter.Convert(datas, ...args);
+    let model = converter.convert(datas, ...args);
     model.title = title;
     model.headers = headers;
     HowellCSV.writeFile(title, model);

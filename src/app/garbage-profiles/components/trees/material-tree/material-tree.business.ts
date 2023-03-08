@@ -29,7 +29,7 @@ export class MaterialListBusiness {
     let data = [
       ...category,
       ...tmp.Data.map((x) => {
-        return this.converter.Material(x);
+        return this.converter.material.convert(x);
       }),
     ];
 

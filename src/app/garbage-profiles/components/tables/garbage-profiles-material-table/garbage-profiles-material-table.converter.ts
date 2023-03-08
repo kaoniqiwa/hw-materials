@@ -12,14 +12,14 @@ export class GarbageProfilesMaterialTablConverter
 {
   constructor(public vmConverter: ViewModelConverter) {}
 
-  Convert(
+  convert(
     source: PagedList<Material>,
     ...res: any[]
   ): PagedList<MaterialModel> {
     let paged = new PagedList<MaterialModel>();
     paged.Page = source.Page;
     paged.Data = source.Data.map((x) => {
-      return this.vmConverter.Material(x);
+      return this.vmConverter.material.convert(x);
     });
     return paged;
   }

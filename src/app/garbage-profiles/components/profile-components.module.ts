@@ -14,6 +14,7 @@ import { GarbageProfilesMaterialRecordDetailsComponent } from './garbage-profile
 import { GarbageProfilesMaterialRecordComponent } from './garbage-profiles-material-record/garbage-profiles-material-record.component';
 import { GarbageStationProfileDetailsComponent } from './garbage-station-profile-details/garbage-station-profile-details.component';
 import { GarbageStationProfileManagerComponent } from './garbage-station-profile-manager/garbage-station-profile-manager.component';
+import { GarbageStationProfilePartialDataComponent } from './garbage-station-profile-partial-data/garbage-station-profile-partial-data.component';
 import { GarbageStationProfileRecordComponent } from './garbage-station-profile-record/garbage-station-profile-record.component';
 import { GarbageStationProfileSettingComponent } from './garbage-station-profile-setting/garbage-station-profile-setting.component';
 import { HowellPictureControlComponent } from './howell-picture-control/howell-picture-control.component';
@@ -38,6 +39,7 @@ import { UnderwaterComponent } from './underwater/underwater.component';
     GarbageStationProfileSettingComponent,
     GarbageStationProfileDetailsComponent,
     GarbageStationProfileRecordComponent,
+    GarbageStationProfilePartialDataComponent,
 
     GarbageProfilesMaterialManagerComponent,
     GarbageProfilesMaterialDetailsComponent,

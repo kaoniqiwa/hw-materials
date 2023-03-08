@@ -28,8 +28,7 @@ export class GarbageProfilesLabelManagerComponent {
   args: GarbageProfilesLabelTableArgs = new GarbageProfilesLabelTableArgs();
 
   window = {
-    creater: new GarbageProfilesLabelDetailsWindow(),
-    updater: new GarbageProfilesLabelDetailsWindow(),
+    details: new GarbageProfilesLabelDetailsWindow(),
     confirm: new GarbageProfilesLabelConfirmWindow(),
   };
 
@@ -41,34 +40,40 @@ export class GarbageProfilesLabelManagerComponent {
   }
 
   onwindowclose() {
-    this.window.creater.selected = undefined;
-    this.window.creater.show = false;
-    this.window.updater.selected = undefined;
-    this.window.updater.show = false;
+    this.window.details.selected = undefined;
+    this.window.details.show = false;
     this.window.confirm.show = false;
   }
 
   oncreate() {
-    this.window.creater.selected = new LabelModel();
-    this.window.creater.selected.Id = this.count;
-    this.window.creater.selected.State = 0;
-    this.window.creater.state = FormState.add;
-    this.window.creater.show = true;
+    this.window.details.selected = new LabelModel();
+    this.window.details.selected.Id = this.count;
+    this.window.details.selected.State = 0;
+    this.window.details.state = FormState.add;
+    this.window.details.show = true;
   }
   onupdate(model: LabelModel) {
     let plain = instanceToPlain(model);
-    this.window.updater.selected = plainToInstance(LabelModel, plain);
-    this.window.updater.state = FormState.edit;
-    this.window.updater.show = true;
+    this.window.details.selected = plainToInstance(LabelModel, plain);
+    this.window.details.state = FormState.edit;
+    this.window.details.show = true;
   }
   loaded(paged: PagedList<LabelModel>) {
     this.count = paged.Page.TotalRecordCount;
   }
   oncreateok(model: LabelModel) {
-    this.business.create(model).then((x) => {
-      this.load.emit(this.args);
-      this.toastr.success(`成功创建1条标签`);
-    });
+    this.load.emit(this.args);
+    switch (this.window.details.state) {
+      case FormState.add:
+        this.toastr.success(`成功创建1条标签`);
+        break;
+      case FormState.edit:
+        this.toastr.success(`成功修改1条标签`);
+        break;
+
+      default:
+        break;
+    }
     this.onwindowclose();
   }
 

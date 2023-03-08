@@ -17,7 +17,7 @@ export class GarbageProfilesMaterialRecordSourceBusiness
     let data = await this.getData();
     let model = new GarbageProfilesMaterialRecordSource();
     model.materials = data.map((x) => {
-      return this.converter.Material(x);
+      return this.converter.material.convert(x);
     });
     return model;
   }

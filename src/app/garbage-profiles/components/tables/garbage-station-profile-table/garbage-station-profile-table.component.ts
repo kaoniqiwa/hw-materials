@@ -139,9 +139,17 @@ export class GarbageStationProfileTableComponent
 
   async onitemclick(e: Event, item: PartialData, name: string) {
     let value = await this.business.get(name, item[name]);
+
     if (name.includes('Url') && value.Value) {
       e.stopImmediatePropagation();
     }
+    let property = await value.Property;
+    if (property) {
+      if (property.IsArray) {
+        e.stopImmediatePropagation();
+      }
+    }
+
     this.itemclick.emit(value);
   }
 }

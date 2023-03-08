@@ -49,7 +49,7 @@ export class GarbageProfilesLabelTableBusiness
     let model = new PagedList<LabelModel>();
     model.Page = data.Page;
     model.Data = data.Data.map((x) => {
-      return this.converter.Label(x);
+      return this.converter.label.convert(x);
     });
     return model;
   }

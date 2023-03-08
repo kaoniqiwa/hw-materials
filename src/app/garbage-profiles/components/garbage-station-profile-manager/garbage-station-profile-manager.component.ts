@@ -11,6 +11,7 @@ import { GarbageStationProfileManagerBusiness } from './garbage-station-profile-
 import {
   GarbageStationProfileConfirmWindow,
   GarbageStationProfileDetailsWindow,
+  GarbageStationProfilePartialDataWindow,
   GarbageStationProfilePictureWindow,
   GarbageStationProfileRecordWindow,
   GarbageStationProfileSettingWindow,
@@ -40,6 +41,7 @@ export class GarbageStationProfileManagerComponent {
     picture: new GarbageStationProfilePictureWindow(),
     record: new GarbageStationProfileRecordWindow(),
     confirm: new GarbageStationProfileConfirmWindow(),
+    partial: new GarbageStationProfilePartialDataWindow(),
   };
   load: EventEmitter<GarbageStationProfileTableArgs> = new EventEmitter();
 
@@ -50,10 +52,14 @@ export class GarbageStationProfileManagerComponent {
   }
   onwindowclose() {
     this.window.details.show = false;
+    this.window.details.state = FormState.none;
     this.window.setting.show = false;
     this.window.picture.show = false;
+    this.window.picture.urlId = undefined;
     this.window.record.show = false;
     this.window.confirm.show = false;
+    this.window.partial.show = false;
+    this.window.partial.model = undefined;
   }
   oncreate() {
     this.window.details.state = FormState.add;
@@ -77,18 +83,31 @@ export class GarbageStationProfileManagerComponent {
   onsearch() {
     this.load.emit(this.args);
   }
-  onitemclick(model: PropertyValueModel) {
+  async onitemclick(model: PropertyValueModel) {
     console.log(model);
     if (model.PropertyId && model.Value) {
       if (model.PropertyId.toLowerCase().includes('url')) {
         this.showPicture(model);
       }
     }
+
+    switch (model.PropertyId) {
+      case 'Functions':
+        this.window.partial.model = model;
+        this.window.partial.show = true;
+        break;
+      default:
+        break;
+    }
   }
 
   showPicture(model: PropertyValueModel) {
     this.window.picture.urlId = model.Value as string;
     this.window.picture.show = true;
+  }
+  showPartialData(model: PropertyValueModel) {
+    this.window.partial.model = model;
+    this.window.partial.show = true;
   }
 
   onrecord() {

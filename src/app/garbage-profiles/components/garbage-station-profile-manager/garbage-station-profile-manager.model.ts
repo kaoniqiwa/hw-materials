@@ -1,5 +1,6 @@
 import { WindowViewModel } from 'src/app/common/components/window-control/window.model';
 import { FormState } from 'src/app/enum/form-state.enum';
+import { PropertyValueModel } from 'src/app/model/property-value.model';
 
 export class GarbageStationProfileDetailsWindow extends WindowViewModel {
   style = {
@@ -26,4 +27,11 @@ export class GarbageStationProfileConfirmWindow extends WindowViewModel {
     width: '300px',
     height: '100px',
   };
+}
+export class GarbageStationProfilePartialDataWindow extends WindowViewModel {
+  style = {
+    width: '600px',
+    height: 'auto',
+  };
+  model?: PropertyValueModel;
 }

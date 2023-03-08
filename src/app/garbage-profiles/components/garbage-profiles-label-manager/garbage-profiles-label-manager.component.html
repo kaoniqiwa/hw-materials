@@ -49,26 +49,13 @@
 </div>
 
 <app-window
-  [Model]="window.creater"
-  [style]="window.creater.style"
-  *ngIf="window.creater.show"
+  [Model]="window.details"
+  [style]="window.details.style"
+  *ngIf="window.details.show"
 >
   <garbage-profiles-label-details
-    [model]="window.creater.selected"
-    [state]="window.creater.state"
-    (ok)="oncreateok($event)"
-    (cancel)="onwindowclose()"
-  >
-  </garbage-profiles-label-details>
-</app-window>
-<app-window
-  [Model]="window.updater"
-  [style]="window.updater.style"
-  *ngIf="window.updater.show"
->
-  <garbage-profiles-label-details
-    [model]="window.updater.selected"
-    [state]="window.updater.state"
+    [model]="window.details.selected"
+    [state]="window.details.state"
     (ok)="oncreateok($event)"
     (cancel)="onwindowclose()"
   >

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IBusiness, IGet } from 'src/app/common/interfaces/bussiness.interface';
+import { ViewModelConverter } from 'src/app/converter/view-model.converter';
 import { ConditionOperator } from 'src/app/enum/condition-operator.enum';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
 import { Condition } from 'src/app/network/entity/condition.entity';
@@ -22,13 +23,14 @@ export class GarbageStationProfileTableBusiness
   constructor(
     private service: GarbageStationProfilesRequestService,
     private converter: GarbageStationProfileTableConverter,
+    private vmConverter: ViewModelConverter,
     public config: GarbageStationProfileTableConfigBusiness
   ) {}
   async get(name: string, value: string): Promise<PropertyValueModel> {
     let pv = new PropertyValue();
     pv.PropertyId = name;
     pv.Value = value;
-    return this.converter.converter.PropertyValue(pv);
+    return this.vmConverter.property_value.convert(pv);
   }
   async load(
     index: number,
@@ -37,7 +39,7 @@ export class GarbageStationProfileTableBusiness
     args: GarbageStationProfileTableArgs
   ): Promise<PagedList<IPartialData>> {
     let data = await this.getData(index, size, names, args);
-    let model = this.converter.Convert(data);
+    let model = this.converter.convert(data);
     return model;
   }
   getData(

@@ -39,7 +39,7 @@ export class GarbageProfilesRecordMaterialTableBusiness
     let model = new PagedList<MaterialRecordModel>();
     model.Page = data.Page;
     model.Data = data.Data.map((x) => {
-      return this.converter.MaterialRecord(x);
+      return this.converter.record.material.convert(x);
     });
     return model;
   }

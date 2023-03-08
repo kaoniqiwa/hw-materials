@@ -20,7 +20,7 @@ export class GarbageStationProfileLabelTreeBusiness {
     let data = await this.labels(condition);
 
     let model = data.map((x) => {
-      return this.converter.Label(x);
+      return this.converter.label.convert(x);
     });
 
     let res = this._converter.buildNestTree(model);

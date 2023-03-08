@@ -1,0 +1,15 @@
+<div
+  class="garbage-station-profile-partial-data"
+  *ngIf="!!model && model.PropertyId"
+>
+  <div class="garbage-station-profile-partial-data-head">
+    <div class="hw-simple-title">
+      {{ language[model.PropertyId] }}
+    </div>
+  </div>
+  <div class="garbage-station-profile-partial-data-body"></div>
+  <div class="garbage-station-profile-partial-data-foot">
+    <button class="hw-green-btn" (click)="onok()">确定</button>
+    <button class="hw-blue-btn" (click)="oncancel()">取消</button>
+  </div>
+</div>
