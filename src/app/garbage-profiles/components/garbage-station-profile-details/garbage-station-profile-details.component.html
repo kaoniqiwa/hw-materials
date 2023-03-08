@@ -342,12 +342,11 @@
         <span class="hw-form-icon">*</span>
       </div>
       <div class="content">
-        <!-- <label><input type="checkbox" />小包垃圾</label>
-        <label><input type="checkbox" />混合投放</label>
-        <label><input type="checkbox" />垃圾满溢</label> -->
-        <mat-checkbox class="example-margin">小包垃圾</mat-checkbox>
-        <mat-checkbox class="example-margin">混合投放</mat-checkbox>
-        <mat-checkbox class="example-margin">垃圾满溢</mat-checkbox>
+        <div formGroupName="Functions">
+          <mat-checkbox formControlName="garbagedrop">小包垃圾</mat-checkbox
+          ><mat-checkbox formControlName="mixedinto">混合投放</mat-checkbox>
+          <mat-checkbox formControlName="garbagefull">垃圾满溢</mat-checkbox>
+        </div>
       </div>
     </div>
     <div class="hw-form-group">
@@ -366,11 +365,12 @@
         <span class="hw-form-label">
           {{ language["LFImageUrl"] }}
         </span>
-        <span class="hw-form-icon">*</span>
+        <!-- <span class="hw-form-icon">*</span> -->
       </div>
-      <div class="content" style="height: 160px">
+      <div class="content" style="height: 220px">
         <howell-picture-upload-control
-          (upload)="uploadLF($event)"
+          (upload)="uploadLFImage($event)"
+          [id]="ngForm.value.LFImageUrl"
         ></howell-picture-upload-control>
       </div>
     </div>
@@ -379,10 +379,13 @@
         <span class="hw-form-label">
           {{ language["RFImageUrl"] }}
         </span>
-        <span class="hw-form-icon">*</span>
+        <!-- <span class="hw-form-icon">*</span> -->
       </div>
-      <div class="content" style="height: 160px">
-        <howell-picture-upload-control></howell-picture-upload-control>
+      <div class="content" style="height: 220px">
+        <howell-picture-upload-control
+          (upload)="uploadRFImage($event)"
+          [id]="ngForm.value.RFImageUrl"
+        ></howell-picture-upload-control>
       </div>
     </div>
     <div class="hw-form-group" style="flex-basis: 100%">
@@ -390,10 +393,13 @@
         <span class="hw-form-label">
           {{ language["FImageUrl"] }}
         </span>
-        <span class="hw-form-icon">*</span>
+        <!-- <span class="hw-form-icon">*</span> -->
       </div>
-      <div class="content" style="height: 160px">
-        <howell-picture-upload-control></howell-picture-upload-control>
+      <div class="content" style="height: 220px">
+        <howell-picture-upload-control
+          (upload)="uploadFImage($event)"
+          [id]="ngForm.value.FImageUrl"
+        ></howell-picture-upload-control>
       </div>
     </div>
     <div class="hw-form-group" style="flex-basis: 100%">
@@ -401,10 +407,13 @@
         <span class="hw-form-label">
           {{ language["PowerImageUrl"] }}
         </span>
-        <span class="hw-form-icon">*</span>
+        <!-- <span class="hw-form-icon">*</span> -->
       </div>
-      <div class="content" style="height: 160px">
-        <howell-picture-upload-control></howell-picture-upload-control>
+      <div class="content" style="height: 220px">
+        <howell-picture-upload-control
+          (upload)="uploadPowerImage($event)"
+          [id]="ngForm.value.PowerImageUrl"
+        ></howell-picture-upload-control>
       </div>
     </div>
   </form>
@@ -422,7 +431,7 @@
 </ng-template>
 
 <ng-template #step3 #step let-index="index">
-  <form [formGroup]="formArray.at(index)" class="hw-form">
+  <form [formGroup]="formArray.at(index)" class="hw-form" #ngForm="ngForm">
     <div class="hw-form-group">
       <div class="title">
         <span class="hw-form-label">
@@ -453,7 +462,14 @@
         <span class="hw-form-icon">*</span>
       </div>
       <div class="content">
-        <input type="text" formControlName="ConstructionDate" />
+        <input
+          type="text"
+          readonly
+          DateTimePicker
+          [format]="'yyyy年MM月dd日'"
+          [startView]="DateTimePickerView.month"
+          [minView]="DateTimePickerView.month"
+        />
       </div>
     </div>
   </form>

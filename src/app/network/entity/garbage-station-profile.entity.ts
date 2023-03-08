@@ -63,6 +63,7 @@ export class GarbageStationProfile implements IPartialData {
   /**	String	施工负责人电话	O	*/
   ConstructionContactPhoneNo?: string;
   /**	Date	施工日期	O	*/
+  @Transform(transformDateTime)
   ConstructionDate?: Date;
   /**	GPSPoint	GPS经纬度坐标	O	*/
   GPSPoint?: GPSPoint;

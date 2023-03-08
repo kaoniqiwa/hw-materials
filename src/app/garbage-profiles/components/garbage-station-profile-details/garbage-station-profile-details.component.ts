@@ -16,6 +16,7 @@ import {
   AbstractControl,
   FormArray,
   FormBuilder,
+  FormControl,
   FormGroup,
   FormGroupDirective,
   NgForm,
@@ -42,6 +43,9 @@ import {
   ProfileDetailsDivisionSearchInfo,
 } from './garbage-station-profile-details.model';
 
+import { GarbageStationFunction } from 'src/app/enum/garbage-station-function.enum';
+import { DateTimePickerView } from 'src/app/common/directives/date-time-picker/date-time-picker.directive';
+
 @Component({
   selector: 'garbage-station-profile-details',
   templateUrl: './garbage-station-profile-details.component.html',
@@ -53,6 +57,8 @@ export class GarbageStationProfileDetailsComponent
 {
   FormState = FormState;
   DivisionLevel = DivisionLevel;
+  DateTimePickerView = DateTimePickerView;
+  date: Date = new Date();
 
   @Input()
   formId?: string;
@@ -103,6 +109,24 @@ export class GarbageStationProfileDetailsComponent
   divisionModel: ProfileDetailsDivisionModel =
     new ProfileDetailsDivisionModel();
 
+  /** A hero's name can't match the hero's alter ego */
+  identityRevealedValidator: ValidatorFn = (
+    control: AbstractControl
+  ): ValidationErrors | null => {
+    const garbagedrop = control.get('garbagedrop');
+    const mixedinto = control.get('mixedinto');
+    const garbagefull = control.get('garbagefull');
+
+    // return name && alterEgo && name.value === alterEgo.value
+    //   ? { identityRevealed: true }
+    //   : null;
+    if (garbagedrop && mixedinto && garbagefull) {
+      if (garbagedrop.value || mixedinto.value || garbagefull.value) {
+        return null;
+      }
+    }
+    return { identityRevealed: true };
+  };
   formGroup = this._formBuilder.group({
     formArray: this._formBuilder.array([
       this._formBuilder.group({
@@ -127,7 +151,16 @@ export class GarbageStationProfileDetailsComponent
         RFImageUrl: [''],
         FImageUrl: [''],
         PowerImageUrl: [''],
-        Functions: [[]],
+        Functions: new FormGroup(
+          {
+            garbagedrop: new FormControl(false),
+            mixedinto: new FormControl(false),
+            garbagefull: new FormControl(false),
+          },
+          {
+            validators: this.identityRevealedValidator,
+          }
+        ),
         GarbageStationType: ['', Validators.required],
         Remarks: ['', Validators.required],
         // MaterialItems: [''],
@@ -135,7 +168,7 @@ export class GarbageStationProfileDetailsComponent
       this._formBuilder.group({
         ConstructionContact: ['', Validators.required],
         ConstructionContactPhoneNo: ['', Validators.required],
-        ConstructionDate: ['', Validators.required],
+        ConstructionDate: [new Date(), Validators.required],
       }),
       this._formBuilder.group({
         GPSPoint: ['', Validators.required],
@@ -145,7 +178,7 @@ export class GarbageStationProfileDetailsComponent
       }),
     ]),
   });
-
+  array: number[] = [];
   get formArray() {
     return this.formGroup.get('formArray') as FormArray<FormGroup>;
   }
@@ -187,6 +220,8 @@ export class GarbageStationProfileDetailsComponent
     // 更新表单状态
     this._updateForm();
 
+    console.log(this.formArray);
+
     // 拉数据
     this._updateDivisionModel();
 
@@ -224,7 +259,9 @@ export class GarbageStationProfileDetailsComponent
 
     this._updateValidator(!!formGroupDirective.value.StrongCurrentWire);
   }
-
+  changeCheckBox(data: any) {
+    console.log('checkbox', data);
+  }
   onTreeNodeSelected(nodes: CommonFlatNode[]) {
     this.selectedNodes = nodes;
     let ids = this.selectedNodes.map((n) => parseInt(n.Id));
@@ -233,6 +270,7 @@ export class GarbageStationProfileDetailsComponent
       Labels: ids,
     });
   }
+  changeDate(date: Date) {}
   changeStep(e: StepperSelectionEvent) {
     // console.log('selectionChange', e);
     // this.nextStep(e.selectedIndex);
@@ -245,6 +283,8 @@ export class GarbageStationProfileDetailsComponent
     }
   }
   async saveInfo(formIndex: number) {
+    let form = this.formArray.at(formIndex);
+    console.log(form);
     let res = await this._updateModel(formIndex);
     if (res) {
       this.closeDetails.emit();
@@ -294,12 +334,36 @@ export class GarbageStationProfileDetailsComponent
     console.log(res);
   }
 
-  uploadLF(id: string) {
+  uploadLFImage(id: string) {
     console.log(id);
     let formGroup = this.formArray.at(1);
 
     formGroup.patchValue({
       LFImageUrl: id,
+    });
+  }
+  uploadRFImage(id: string) {
+    console.log(id);
+    let formGroup = this.formArray.at(1);
+
+    formGroup.patchValue({
+      RFImageUrl: id,
+    });
+  }
+  uploadFImage(id: string) {
+    console.log(id);
+    let formGroup = this.formArray.at(1);
+
+    formGroup.patchValue({
+      FImageUrl: id,
+    });
+  }
+  uploadPowerImage(id: string) {
+    console.log(id);
+    let formGroup = this.formArray.at(1);
+
+    formGroup.patchValue({
+      PowerImageUrl: id,
     });
   }
   /***********************private***************************************** */
@@ -349,6 +413,19 @@ export class GarbageStationProfileDetailsComponent
 
       if (this._model) {
         Object.assign(this._model, formGroup.value);
+        if ('Functions' in formGroup.value) {
+          this._model.Functions = [];
+
+          if (formGroup.value.Functions.garbagedrop) {
+            this._model.Functions.push(GarbageStationFunction.garbagedrop);
+          }
+          if (formGroup.value.Functions.mixedinto) {
+            this._model.Functions.push(GarbageStationFunction.mixedinto);
+          }
+          if (formGroup.value.Functions.garbagefull) {
+            this._model.Functions.push(GarbageStationFunction.garbagefull);
+          }
+        }
 
         if (this.profileState <= formIndex) {
           this._model.ProfileState = ++formIndex;
@@ -458,6 +535,32 @@ export class GarbageStationProfileDetailsComponent
               });
             }
           }
+          if ('Functions' in this._model && formGroup.contains('Functions')) {
+            let functionGroup = formGroup.get('Functions')!;
+            // console.log(functionGroup);
+            functionGroup.setValue({
+              garbagedrop: false,
+              mixedinto: false,
+              garbagefull: false,
+            });
+            this._model.Functions?.forEach((v) => {
+              if (v == GarbageStationFunction.garbagedrop) {
+                functionGroup.patchValue({
+                  garbagedrop: true,
+                });
+              }
+              if (v == GarbageStationFunction.mixedinto) {
+                functionGroup.patchValue({
+                  mixedinto: true,
+                });
+              }
+              if (v == GarbageStationFunction.garbagefull) {
+                functionGroup.patchValue({
+                  garbagefull: true,
+                });
+              }
+            });
+          }
         }
       }
     }
@@ -470,7 +573,7 @@ export class GarbageStationProfileDetailsComponent
           let control = formGroup.controls[key];
           if (control.invalid) {
             this._toastrService.warning(
-              (await this.language[key]) + ' 为必选项'
+              (await this.language[key]) + '为必选项'
             );
             break;
           }

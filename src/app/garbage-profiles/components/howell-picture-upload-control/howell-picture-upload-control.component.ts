@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Medium } from 'src/app/common/tools/medium';
 import { HowellPictureUploadControlBusiness } from './howell-picture-upload-control.business';
 
 @Component({
@@ -10,14 +11,22 @@ import { HowellPictureUploadControlBusiness } from './howell-picture-upload-cont
 export class HowellPictureUploadControlComponent {
   @Output()
   upload: EventEmitter<string> = new EventEmitter();
-  @Input()
+
   image?: string;
 
+  @Input() id?: string;
   constructor(private business: HowellPictureUploadControlBusiness) {}
 
   async onimage(image: string) {
     this.image = image;
     let id = await this.business.upload(image);
     this.upload.emit(id);
+  }
+  ngOnInit() {
+    if (this.id) {
+      console.log(Medium.jpg(this.id));
+
+      this.image = Medium.jpg(this.id);
+    }
   }
 }
