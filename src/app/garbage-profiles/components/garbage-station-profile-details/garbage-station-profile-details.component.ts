@@ -46,6 +46,9 @@ import {
 import { GarbageStationFunction } from 'src/app/enum/garbage-station-function.enum';
 import { DateTimePickerView } from 'src/app/common/directives/date-time-picker/date-time-picker.directive';
 import { GPSPoint } from 'src/app/network/entity/gps-point.entity';
+import { ValidPhoneExp } from 'src/app/common/tools/tool';
+import { YesOrNo } from 'src/app/enum/yes-or-no.enum';
+import { StrongCurrentWireMode } from 'src/app/enum/strong-current-wire-mode.enum';
 
 @Component({
   selector: 'garbage-station-profile-details',
@@ -137,15 +140,15 @@ export class GarbageStationProfileDetailsComponent
         County: [this.defaultCounty, Validators.required], //区
         Street: [this.defaultStreet, Validators.required], //街道
         Committee: [this.defaultCommittee, Validators.required], //居委会
-        Address: ['', Validators.required], //地址
+        Address: [''], //地址
         Contact: [''], //联系人，
-        ContactPhoneNo: [''], // 联系人电话
+        ContactPhoneNo: ['', [Validators.pattern(ValidPhoneExp)]], // 联系人电话
         Labels: [[]],
       }),
       this._formBuilder.group({
         GarbageStationName: ['', Validators.required],
         CommunityName: ['', Validators.required],
-        StrongCurrentWire: ['', Validators.required],
+        StrongCurrentWire: [YesOrNo.no, Validators.required],
         // StrongCurrentWireMode: [''],
         // StrongCurrentWireLength: [''],
         LFImageUrl: [''],
@@ -162,13 +165,16 @@ export class GarbageStationProfileDetailsComponent
             validators: this.identityRevealedValidator,
           }
         ),
-        GarbageStationType: ['', Validators.required],
+        GarbageStationType: [1, Validators.required],
         Remarks: [''],
         // MaterialItems: [''],
       }),
       this._formBuilder.group({
         ConstructionContact: ['', Validators.required],
-        ConstructionContactPhoneNo: ['', Validators.required],
+        ConstructionContactPhoneNo: [
+          '',
+          [Validators.required, Validators.pattern(ValidPhoneExp)],
+        ],
         ConstructionDate: [new Date(), Validators.required],
       }),
       this._formBuilder.group({
@@ -200,12 +206,13 @@ export class GarbageStationProfileDetailsComponent
     this.formArray.controls.forEach((control, index) => {
       // console.log(control);
       control.statusChanges.subscribe((status) => {
-        // console.log('status change', status, index);
+        console.log('status change', status, index);
         if (status == 'INVALID') {
           this.completedArr[index] = false;
         } else if (status == 'VALID') {
           this.completedArr[index] = true;
         }
+        console.log(this.completedArr);
       });
     });
     this._init();
@@ -245,7 +252,13 @@ export class GarbageStationProfileDetailsComponent
     this._changeDetector.detectChanges();
     // console.log(this.matStepper);
   }
-
+  down(e: KeyboardEvent) {
+    let key = e.key.toLocaleLowerCase();
+    console.log(key);
+    if (key === 'e') {
+      e.preventDefault();
+    }
+  }
   changeDivision(selectEle: HTMLSelectElement, level: DivisionLevel) {
     let selectedOption = selectEle.options[selectEle.selectedIndex];
     let id = selectedOption.id;
@@ -272,15 +285,21 @@ export class GarbageStationProfileDetailsComponent
       Labels: ids,
     });
   }
-  changeDate(date: Date) {}
-  changeStep(e: StepperSelectionEvent) {
-    // console.log('selectionChange', e);
+  async changeStep(e: StepperSelectionEvent) {
+    console.log('selectionChange', e);
     // this.nextStep(e.selectedIndex);
+
+    // let res = await this._updateModel(e.previouslySelectedIndex);
+    // if (res) {
+    //   this._updateForm();
+    // }
   }
   async createInfo() {
     let res = await this._createModel();
     if (res) {
       this._model = res;
+
+      this._toastrService.success('创建成功');
       this.closeDetails.emit();
     }
   }
@@ -296,36 +315,33 @@ export class GarbageStationProfileDetailsComponent
   async prevStep(index: number) {
     console.log('previous step', index);
 
-    let res = await this._updateModel(index);
-    if (res) {
-      if (this.profileState > index) {
-        this.matStepper?.previous();
-      } else {
-        this._toastrService.warning('操作失败');
-      }
+    // let res = await this._updateModel(index);
+    // if (res) {
+    //   if (this.profileState > index) {
+    //     this.matStepper?.previous();
+    //   } else {
+    //     this._toastrService.warning('操作失败');
+    //   }
+    // }
+    if (this.profileState >= index) {
+      this.matStepper?.previous();
+    } else {
+      this._toastrService.warning('操作失败');
     }
   }
 
   async nextStep(index: number) {
     console.log('next step', index);
 
-    // let res = await this._updateModel(index);
-    // if (res) {
-    //   if (this.profileState > index) {
-    //     this.matStepper?.next();
-    //   } else {
-    //     this._toastrService.warning('操作失败');
-    //   }
-    // }
     let res: GarbageStationProfile | null;
     if (this.state == FormState.add) {
       res = await this._createModel();
-
-      this.state = FormState.edit;
     } else {
       res = await this._updateModel(index);
     }
     if (res) {
+      this.state = FormState.edit;
+      this._model = res;
       this._updateProfileState();
       if (this.profileState > index) {
         this.matStepper?.next();
@@ -597,9 +613,29 @@ export class GarbageStationProfileDetailsComponent
         for (let key of Object.keys(formGroup.controls)) {
           let control = formGroup.controls[key];
           if (control.invalid) {
-            this._toastrService.warning(
-              (await this.language[key]) + '为必选项'
-            );
+            if ('required' in control.errors!) {
+              this._toastrService.warning(
+                (await this.language[key]) + '为必选项'
+              );
+              break;
+            }
+            if ('maxlength' in control.errors!) {
+              this._toastrService.warning(
+                (await this.language[key]) + '长度不对'
+              );
+            }
+            if ('pattern' in control.errors!) {
+              this._toastrService.warning(
+                (await this.language[key]) + '格式不对'
+              );
+            }
+
+            if ('identityRevealed' in control.errors!) {
+              this._toastrService.warning(
+                (await this.language[key]) + '至少选择一项'
+              );
+            }
+
             break;
           }
         }

@@ -186,7 +186,7 @@
         <span class="hw-form-label">
           {{ language["Address"] }}
         </span>
-        <span class="hw-form-icon">*</span>
+        <!-- <span class="hw-form-icon">*</span> -->
       </div>
       <div class="content">
         <input type="text" formControlName="Address" />
@@ -209,7 +209,12 @@
         </span>
       </div>
       <div class="content">
-        <input type="text" formControlName="ContactPhoneNo" />
+        <input
+          type="number"
+          maxlength="11"
+          formControlName="ContactPhoneNo"
+          (keydown)="down($event)"
+        />
       </div>
     </div>
   </form>
@@ -274,7 +279,7 @@
           formControlName="StrongCurrentWire"
           (change)="changeCurrentWire(ngForm)"
         >
-          <option value="" disabled>请选择</option>
+          <!-- <option value="" disabled>请选择</option> -->
 
           <option
             *ngFor="let wire of source.StrongCurrentWire"
@@ -354,7 +359,7 @@
         <span class="hw-form-label">
           {{ language["Remarks"] }}
         </span>
-        <span class="hw-form-icon">*</span>
+        <!-- <span class="hw-form-icon">*</span> -->
       </div>
       <div class="content">
         <input type="text" formControlName="Remarks" />
@@ -451,7 +456,11 @@
         <span class="hw-form-icon">*</span>
       </div>
       <div class="content">
-        <input type="text" formControlName="ConstructionContactPhoneNo" />
+        <input
+          type="number"
+          formControlName="ConstructionContactPhoneNo"
+          (keydown)="down($event)"
+        />
       </div>
     </div>
     <div class="hw-form-group">
