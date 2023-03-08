@@ -45,6 +45,7 @@ import {
 
 import { GarbageStationFunction } from 'src/app/enum/garbage-station-function.enum';
 import { DateTimePickerView } from 'src/app/common/directives/date-time-picker/date-time-picker.directive';
+import { GPSPoint } from 'src/app/network/entity/gps-point.entity';
 
 @Component({
   selector: 'garbage-station-profile-details',
@@ -171,10 +172,11 @@ export class GarbageStationProfileDetailsComponent
         ConstructionDate: [new Date(), Validators.required],
       }),
       this._formBuilder.group({
-        GPSPoint: ['', Validators.required],
-        TimeToDump: ['', Validators.required],
-        IMEI: ['', Validators.required],
-        NB: ['', Validators.required],
+        Longitude: ['121.48941', Validators.required],
+        Latitude: ['31.40527', Validators.required],
+        TimeToDump: [new Date(), Validators.required],
+        IMEI: [''],
+        NB: [''],
       }),
     ]),
   });
@@ -427,6 +429,18 @@ export class GarbageStationProfileDetailsComponent
           }
         }
 
+        if ('Longitude' in formGroup.value) {
+          Reflect.deleteProperty(this._model, 'Longitude');
+          Reflect.deleteProperty(this._model, 'Latitude');
+
+          let longitude = formGroup.value.Longitude;
+          let latitude = formGroup.value.Latitude;
+          let gpsPoint = new GPSPoint();
+          gpsPoint.Longitude = longitude;
+          gpsPoint.Latitude = latitude;
+
+          this._model.GPSPoint = gpsPoint;
+        }
         if (this.profileState <= formIndex) {
           this._model.ProfileState = ++formIndex;
         }
@@ -529,7 +543,11 @@ export class GarbageStationProfileDetailsComponent
         for (let i = 0; i < this.formArray.length; i++) {
           let formGroup = this.formArray.at(i);
           for (let key of Object.keys(formGroup.controls)) {
-            if (Reflect.get(this._model, key) != void 0) {
+            if (
+              Reflect.get(this._model, key) != void 0 &&
+              Reflect.get(this._model, key) !== '' &&
+              Reflect.get(this._model, key) !== null
+            ) {
               formGroup.patchValue({
                 [key]: Reflect.get(this._model, key),
               });
@@ -559,6 +577,13 @@ export class GarbageStationProfileDetailsComponent
                   garbagefull: true,
                 });
               }
+            });
+          }
+
+          if (Object.hasOwn(this._model, 'GPSPoint')) {
+            formGroup.patchValue({
+              Longitude: this._model.GPSPoint?.Longitude,
+              Latitude: this._model.GPSPoint?.Latitude,
             });
           }
         }

@@ -487,17 +487,23 @@
   </div>
 </ng-template>
 <ng-template #step4 #step let-index="index">
-  <form [formGroup]="formArray.at(index)" class="hw-form">
+  <form [formGroup]="formArray.at(index)" class="hw-form" #ngForm="ngForm">
     <div class="hw-form-group">
       <div class="title">
-        <span class="hw-form-label">
-          {{ language["GPSPoint"] }}
-        </span>
+        <span class="hw-form-label"> GPS{{ language["Longitude"] }} </span>
         <span class="hw-form-icon">*</span>
       </div>
       <div class="content">
-        <label>经度: <input type="text" formControlName="GPSPoint" /></label>
-        <label>维度: <input type="text" formControlName="GPSPoint" /></label>
+        <input type="number" formControlName="Longitude" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label"> GPS{{ language["Latitude"] }} </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <input type="number" formControlName="Latitude" />
       </div>
     </div>
     <div class="hw-form-group">
@@ -508,7 +514,16 @@
         <span class="hw-form-icon">*</span>
       </div>
       <div class="content">
-        <input type="text" formControlName="TimeToDump" />
+        <input
+          type="text"
+          readonly
+          DateTimePicker
+          [format]="'yyyy年MM月dd日'"
+          [startView]="DateTimePickerView.month"
+          [minView]="DateTimePickerView.month"
+          [(date)]="ngForm.value.TimeToDump"
+        />
+        <!-- <input type="text" formControlName="TimeToDump" /> -->
       </div>
     </div>
     <div class="hw-form-group">
@@ -516,7 +531,7 @@
         <span class="hw-form-label">
           {{ language["IMEI"] }}
         </span>
-        <span class="hw-form-icon">*</span>
+        <!-- <span class="hw-form-icon">*</span> -->
       </div>
       <div class="content">
         <input type="text" formControlName="IMEI" />
@@ -527,7 +542,7 @@
         <span class="hw-form-label">
           {{ language["NB"] }}
         </span>
-        <span class="hw-form-icon">*</span>
+        <!-- <span class="hw-form-icon">*</span> -->
       </div>
       <div class="content">
         <input type="text" formControlName="NB" />
@@ -535,8 +550,12 @@
     </div>
   </form>
   <div class="hw-middle-btn-group">
-    <button class="hw-blue-btn" type="button">上一步</button>
-    <button class="hw-green-btn" type="button">保存</button>
-    <button class="hw-blue-btn" type="button">完成</button>
+    <button class="hw-blue-btn" type="button" (click)="prevStep(index)">
+      上一步
+    </button>
+    <button class="hw-green-btn" type="button" (click)="saveInfo(index)">
+      保存
+    </button>
+    <!-- <button class="hw-blue-btn" type="button">完成</button> -->
   </div>
 </ng-template>
