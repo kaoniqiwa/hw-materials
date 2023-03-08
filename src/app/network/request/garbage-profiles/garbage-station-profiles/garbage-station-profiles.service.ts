@@ -175,6 +175,22 @@ class GarbageStationProfilesPropertiesRequestService extends AbstractService<Pro
     });
   }
 
+  getEnums(): Promise<Property[]> {
+    return new Promise((resolve) => {
+      wait(
+        () => {
+          return this.load();
+        },
+        () => {
+          let properties = this.properties.filter((x) => {
+            return x.EnumeratedValues && x.EnumeratedValues.length > 0;
+          });
+          resolve(properties);
+        }
+      );
+    });
+  }
+
   async language(name: string): Promise<string> {
     return new Promise((resolve) => {
       wait(

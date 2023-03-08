@@ -71,6 +71,15 @@ export class GarbageStationProfile implements IPartialData {
   TimeToDump?: string;
   /**	String	IMEI(电话号码)(可选)	O	*/
   IMEI?: string;
+  /**
+   * 	Int32	流量卡类型
+   *  1:五角场电信有线网络
+   *  2:五角场电信流量池
+   *  3:移动流量池
+   *  4:宝山电信流量池
+   *  O
+   */
+  IMEICardType?: number;
   /**	String	NB面板编号	O	*/
   NB?: string;
   /**	Camera[]	摄像机列表	O	*/
@@ -87,64 +96,4 @@ export class GarbageStationProfile implements IPartialData {
   UpdateTime?: Date;
   /**	Int32[]	自定义标签数组	O	*/
   Labels?: number[];
-
-  static getKeys() {
-    return [
-      'Id',
-      'ProfileName',
-      'Province',
-      'City',
-      'County',
-      'Street',
-      'Committee',
-      'Address',
-      'Contact',
-      'ContactPhoneNo',
-      'GarbageStationName',
-      'CommunityName',
-      'StrongCurrentWire',
-      'StrongCurrentWireMode',
-      'StrongCurrentWireLength',
-      'LFImageUrl',
-      'RFImageUrl',
-      'FImageUrl',
-      'PowerImageUrl',
-      'CameraNumber',
-      'Functions',
-      'GarbageStationType',
-      'Remarks',
-      'MaterialItems',
-      'Id',
-      'Name',
-      'Number',
-      'ConstructionContact',
-      'ConstructionContactPhoneNo',
-      'ConstructionDate',
-      'GPSPoint',
-      'Longitude',
-      'Latitude',
-      'TimeToDump',
-      'IMEI',
-      'NB',
-      'Cameras',
-      'Name',
-      'Model',
-      'SerialNo',
-      'Placement',
-      'AccessServer',
-      'Resolution',
-      'Bitrate',
-      'StorageTime',
-      'ActionEquipment',
-      'AudioOutputState',
-      'AudioVolume',
-      'AIModelType',
-      'BsCameraId',
-      'ProfileState',
-      'BsStationId',
-      'CreationTime',
-      'UpdateTime',
-      'Labels',
-    ];
-  }
 }
