@@ -206,7 +206,7 @@ export class GarbageStationProfileDetailsComponent
     this.formArray.controls.forEach((control, index) => {
       // console.log(control);
       control.statusChanges.subscribe((status) => {
-        console.log('status change', status, index);
+        // console.log('status change', status, index);
         if (status == 'INVALID') {
           this.completedArr[index] = false;
         } else if (status == 'VALID') {
@@ -285,14 +285,14 @@ export class GarbageStationProfileDetailsComponent
       Labels: ids,
     });
   }
-  async changeStep(e: StepperSelectionEvent) {
+  async selectionChange(e: StepperSelectionEvent) {
     console.log('selectionChange', e);
-    // this.nextStep(e.selectedIndex);
 
-    // let res = await this._updateModel(e.previouslySelectedIndex);
-    // if (res) {
-    //   this._updateForm();
-    // }
+    if (e.selectedIndex > e.previouslySelectedIndex) {
+      let res = await this._updateModel(e.previouslySelectedIndex);
+    }
+    this._updateForm();
+    // this.nextStep(e.selectedIndex);
   }
   async createInfo() {
     let res = await this._createModel();
