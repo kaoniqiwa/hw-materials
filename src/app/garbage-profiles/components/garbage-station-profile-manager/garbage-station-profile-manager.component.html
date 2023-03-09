@@ -113,12 +113,12 @@
   *ngIf="window.details.show"
   (closeEvent)="window.details.show = false"
 >
-  <profile-details
+  <garbage-profile-details-manager
     [formId]="selectedId"
     [state]="window.details.state"
     (closeDetails)="update()"
   >
-  </profile-details>
+  </garbage-profile-details-manager>
 </toast-window>
 
 <app-window

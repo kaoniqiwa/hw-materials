@@ -4,30 +4,24 @@ import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-pr
 import { GetGarbageProfilesBasicDivisionsParams } from 'src/app/network/request/garbage-profiles/basics/garbage-profiles-basics.params';
 import { GarbageProfilesBasicRequestService } from 'src/app/network/request/garbage-profiles/basics/garbage-profiles-basics.service';
 import { GarbageStationProfilesRequestService } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
+import { DetailFormsBusiness } from '../detail-forms.business';
 import { DivisionSearchInfo } from './details-form1.model';
 const NULL_KEY = 'null';
 
 @Injectable()
-export class DetailsForm1Business {
+export class DetailsForm1Business extends DetailFormsBusiness {
+  private _garbageProfilesBasicRequest: GarbageProfilesBasicRequestService;
   private _selectMap: Map<string, Division[]> = new Map();
-
   private _divisionMap: Map<string, Division> = new Map();
 
   constructor(
-    private _garbageStationProfilesRequest: GarbageStationProfilesRequestService,
+    _garbageStationProfilesRequest: GarbageStationProfilesRequestService,
+    _garbageProfilesBasicRequest: GarbageProfilesBasicRequestService
+  ) {
+    super(_garbageStationProfilesRequest);
+    this._garbageProfilesBasicRequest = _garbageProfilesBasicRequest;
+  }
 
-    private _garbageProfilesBasicRequest: GarbageProfilesBasicRequestService
-  ) {}
-
-  getModel(id: string) {
-    return this._garbageStationProfilesRequest.get(id);
-  }
-  createModel(model: GarbageStationProfile) {
-    return this._garbageStationProfilesRequest.create(model);
-  }
-  updateModel(model: GarbageStationProfile) {
-    return this._garbageStationProfilesRequest.update(model);
-  }
   /**
    * 本地保存数据
    * @param searchInfo

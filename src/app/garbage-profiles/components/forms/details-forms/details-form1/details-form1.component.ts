@@ -15,6 +15,7 @@ import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/to
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
+import { DetailsFormsCommon } from '../detail-forms.common';
 import { DetailsForm1Business } from './details-form1.business';
 import {
   DivisionLevel,
@@ -29,7 +30,10 @@ import {
   styleUrls: ['./details-form1.component.less'],
   providers: [DetailsForm1Business],
 })
-export class DetailsForm1Component implements OnInit {
+export class DetailsForm1Component
+  extends DetailsFormsCommon
+  implements OnInit
+{
   FormState = FormState;
   DivisionLevel = DivisionLevel;
 
@@ -38,12 +42,6 @@ export class DetailsForm1Component implements OnInit {
 
   @Input()
   state: FormState = FormState.none;
-
-  @Output() close = new EventEmitter();
-
-  @Output() next = new EventEmitter();
-
-  private _model: GarbageStationProfile | null = null;
 
   selectedNodes: CommonFlatNode[] = [];
   defaultIds: number[] = [];
@@ -78,11 +76,13 @@ export class DetailsForm1Component implements OnInit {
     Labels: new FormControl([] as Array<number>),
   });
   constructor(
-    public source: GarbageStationProfilesSourceTools,
-    public language: GarbageStationProfilesLanguageTools,
-    private _business: DetailsForm1Business,
-    private _toastrService: ToastrService
-  ) {}
+    source: GarbageStationProfilesSourceTools,
+    language: GarbageStationProfilesLanguageTools,
+    _toastrService: ToastrService,
+    override _business: DetailsForm1Business
+  ) {
+    super(_business, _toastrService, source, language);
+  }
   ngOnInit(): void {
     this._init();
   }
@@ -104,22 +104,22 @@ export class DetailsForm1Component implements OnInit {
       Labels: ids,
     });
   }
-  async clickCreate() {
-    let res = await this._createOrUpdateModel();
-    if (res) {
-      this._toastrService.success('创建成功');
-      this.close.emit();
-    }
-  }
+  // async clickCreate() {
+  //   let res = await this._createOrUpdateModel();
+  //   if (res) {
+  //     this._toastrService.success('创建成功');
+  //     this.close.emit();
+  //   }
+  // }
 
-  async clickNext() {
-    let res: GarbageStationProfile | null;
-    res = await this._createOrUpdateModel();
-    if (res) {
-      this._toastrService.success('操作成功');
-      this.next.emit();
-    }
-  }
+  // async clickNext() {
+  //   let res: GarbageStationProfile | null;
+  //   res = await this._createOrUpdateModel();
+  //   if (res) {
+  //     this._toastrService.success('操作成功');
+  //     this.next.emit();
+  //   }
+  // }
   private async _init() {
     if (this.formId) {
       this._model = await this._business.getModel(this.formId);
@@ -167,7 +167,7 @@ export class DetailsForm1Component implements OnInit {
     // console.log('清空下级字段名: ', Object.keys(patchValue));
     this.formGroup.patchValue(patchValue);
   }
-  private async _createOrUpdateModel() {
+  protected async _createOrUpdateModel() {
     if (this._checkForm()) {
       if (!this._model) {
         this._model = new GarbageStationProfileModel();
@@ -231,50 +231,5 @@ export class DetailsForm1Component implements OnInit {
     let id = this._business.getDivision(name);
     // console.log(id);
     await this._getChildDivisionListById(level, id);
-  }
-
-  private _updateForm() {
-    if (this._model) {
-      let controls = this.formGroup.controls;
-      for (let [key, control] of Object.entries(controls)) {
-        if (
-          Reflect.get(this._model, key) != void 0 &&
-          Reflect.get(this._model, key) !== '' &&
-          Reflect.get(this._model, key) !== null
-        ) {
-          this.formGroup.patchValue({
-            [key]: Reflect.get(this._model, key),
-          });
-        }
-      }
-    }
-  }
-
-  private _checkForm() {
-    if (this.formGroup.invalid) {
-      let controls = this.formGroup.controls;
-      for (let [key, control] of Object.entries(controls)) {
-        if (control.invalid) {
-          if ('required' in control.errors!) {
-            this._toastrService.warning(this.language[key] + '为必选项');
-            break;
-          }
-          if ('maxlength' in control.errors!) {
-            this._toastrService.warning(this.language[key] + '长度不对');
-            break;
-          }
-          if ('pattern' in control.errors!) {
-            this._toastrService.warning(this.language[key] + '格式不对');
-            break;
-          }
-          if ('identityRevealed' in control.errors!) {
-            this._toastrService.warning(this.language[key] + '至少选择一项');
-            break;
-          }
-        }
-      }
-      return false;
-    }
-    return true;
   }
 }

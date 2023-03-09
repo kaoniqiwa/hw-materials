@@ -11,16 +11,14 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
-import { ProfileDetailsBusiness } from './profile-details.business';
+import { ProfileDetailsBusiness } from './garbage-profile-details-manager.business';
 
 @Component({
-  selector: 'profile-details',
-  templateUrl: './profile-details.component.html',
-  styleUrls: ['./profile-details.component.less'],
+  selector: 'garbage-profile-details-manager',
+  templateUrl: './garbage-profile-details-manager.component.html',
+  styleUrls: ['./garbage-profile-details-manager.component.less'],
   providers: [
     {
       provide: ProfileDetailsBusiness,
@@ -28,7 +26,7 @@ import { ProfileDetailsBusiness } from './profile-details.business';
     },
   ],
 })
-export class ProfileDetailsComponent implements OnInit, AfterViewInit {
+export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
   @Input()
   formId?: string;
 

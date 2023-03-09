@@ -22,7 +22,7 @@ import { GarbageStationProfileSettingComponent } from './garbage-station-profile
 import { HowellPictureControlComponent } from './howell-picture-control/howell-picture-control.component';
 import { HowellPictureUploadControlComponent } from './howell-picture-upload-control/howell-picture-upload-control.component';
 import { MonitorPlatformComponent } from './monitor-platform/monitor-platform.component';
-import { ProfileDetailsComponent } from './profile-details/profile-details.component';
+import { GarbageProfileDetailsManager } from './garbage-profile-details-manager/garbage-profile-details-manager.component';
 import { StationArchiveComponent } from './station-archive/station-archive.component';
 import { SystemModeComponent } from './system-mode/system-mode.component';
 import { TableComponents } from './tables/tables';
@@ -38,7 +38,7 @@ import { UnderwaterComponent } from './underwater/underwater.component';
     SystemModeComponent,
     UnderwaterComponent,
     StationArchiveComponent,
-    ProfileDetailsComponent,
+    GarbageProfileDetailsManager,
 
     GarbageStationProfileManagerComponent,
     GarbageStationProfileFilterComponent,
