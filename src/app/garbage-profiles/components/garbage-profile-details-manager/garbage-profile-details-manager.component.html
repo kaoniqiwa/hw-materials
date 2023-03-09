@@ -24,19 +24,19 @@
 <ng-template #expansionTemp>expandsion</ng-template>
 
 <ng-template #step1 #step let-value let-index="index">
-  <details-form1
+  <garbage-profile-details-form1
     [formId]="formId"
     [state]="state"
     (next)="nextEvent(index)"
     (close)="closeEvent()"
-  ></details-form1>
+  ></garbage-profile-details-form1>
 </ng-template>
 <ng-template #step2 #step let-value let-index="index">
-  <details-form2></details-form2>
+  <garbage-profile-details-form2></garbage-profile-details-form2>
 </ng-template>
 <ng-template #step3 #step let-value let-index="index"
-  ><details-form3></details-form3>
+  ><garbage-profile-details-form3></garbage-profile-details-form3>
 </ng-template>
 <ng-template #step4 #step let-value let-index="index">
-  <details-form4></details-form4>
+  <garbage-profile-details-form4></garbage-profile-details-form4>
 </ng-template>

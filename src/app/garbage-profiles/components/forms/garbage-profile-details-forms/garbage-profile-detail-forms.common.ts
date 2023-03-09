@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/language.tool';
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
-import { DetailFormsBusiness } from './detail-forms.business';
+import { DetailFormsBusiness } from './garbage-profile-detail-forms.business';
 
 
 @Injectable()

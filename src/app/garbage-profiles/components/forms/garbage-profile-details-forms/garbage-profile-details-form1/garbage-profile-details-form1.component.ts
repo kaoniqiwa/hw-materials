@@ -15,19 +15,19 @@ import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/to
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
-import { DetailsFormsCommon } from '../detail-forms.common';
-import { DetailsForm1Business } from './details-form1.business';
+import { DetailsFormsCommon } from '../garbage-profile-detail-forms.common';
+import { DetailsForm1Business } from './garbage-profile-details-form1.business';
 import {
   DivisionLevel,
   DivisionModel,
   DivisionSearchInfo,
   getDivisionChildLevel,
-} from './details-form1.model';
+} from './garbage-profile-details-form1.model';
 
 @Component({
-  selector: 'details-form1',
-  templateUrl: './details-form1.component.html',
-  styleUrls: ['./details-form1.component.less'],
+  selector: 'garbage-profile-details-form1',
+  templateUrl: './garbage-profile-details-form1.component.html',
+  styleUrls: ['./garbage-profile-details-form1.component.less'],
   providers: [DetailsForm1Business],
 })
 export class DetailsForm1Component

@@ -12,12 +12,12 @@ import { FormState } from 'src/app/enum/form-state.enum';
 import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/language.tool';
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
-import { DetailsForm2Business } from './details-form2.business';
+import { DetailsForm2Business } from './garbage-profile-details-form2.business';
 
 @Component({
-  selector: 'details-form2',
-  templateUrl: './details-form2.component.html',
-  styleUrls: ['./details-form2.component.less'],
+  selector: 'garbage-profile-details-form2',
+  templateUrl: './garbage-profile-details-form2.component.html',
+  styleUrls: ['./garbage-profile-details-form2.component.less'],
   providers: [DetailsForm2Business],
 })
 export class DetailsForm2Component implements OnInit {
