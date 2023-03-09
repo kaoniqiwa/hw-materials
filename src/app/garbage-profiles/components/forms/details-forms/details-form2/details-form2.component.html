@@ -1,0 +1,178 @@
+<div class="details-form2">
+  <form [formGroup]="formGroup" class="hw-form" #ngForm="ngForm">
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["GarbageStationName"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="GarbageStationName" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["CommunityName"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="CommunityName" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["StrongCurrentWire"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <select
+          #currentWire
+          class="hw-form-select"
+          formControlName="StrongCurrentWire"
+        >
+          <option
+            *ngFor="let wire of source.StrongCurrentWire"
+            [ngValue]="wire.Value"
+          >
+            {{ wire.Name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="hw-form-group" *ngIf="ngForm.value.StrongCurrentWire == 1">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["StrongCurrentWireMode"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <select class="hw-form-select" formControlName="StrongCurrentWireMode">
+          <option value="" disabled>请选择</option>
+          <option
+            *ngFor="let wireMode of source.StrongCurrentWireMode"
+            [ngValue]="wireMode.Value"
+          >
+            {{ wireMode.Name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="hw-form-group" *ngIf="ngForm.value.StrongCurrentWire == 1">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["StrongCurrentWireLength"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="StrongCurrentWireLength" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["GarbageStationType"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <select class="hw-form-select" formControlName="GarbageStationType">
+          <option value="">请选择</option>
+          <option
+            *ngFor="let stationType of source.GarbageStationType"
+            [value]="stationType.Value"
+          >
+            {{ stationType.Name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["Functions"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <div formGroupName="Functions">
+          <mat-checkbox formControlName="garbagedrop">小包垃圾</mat-checkbox
+          ><mat-checkbox formControlName="mixedinto">混合投放</mat-checkbox>
+          <mat-checkbox formControlName="garbagefull">垃圾满溢</mat-checkbox>
+        </div>
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["MaterialItems"] }}
+        </span>
+      </div>
+      <div class="content">
+        <button class="hw-blue-btn">物料出库</button>
+      </div>
+    </div>
+    <div class="hw-form-group" style="flex-basis: 100%">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["Remarks"] }}
+        </span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="Remarks" />
+      </div>
+    </div>
+
+    <div class="hw-form-group" style="flex-basis: 100%">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["LFImageUrl"] }}
+        </span>
+      </div>
+      <div class="content" style="height: 220px">
+        <howell-picture-upload-control></howell-picture-upload-control>
+      </div>
+    </div>
+    <div class="hw-form-group" style="flex-basis: 100%">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["RFImageUrl"] }}
+        </span>
+      </div>
+      <div class="content" style="height: 220px">
+        <howell-picture-upload-control></howell-picture-upload-control>
+      </div>
+    </div>
+    <div class="hw-form-group" style="flex-basis: 100%">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["FImageUrl"] }}
+        </span>
+      </div>
+      <div class="content" style="height: 220px">
+        <howell-picture-upload-control></howell-picture-upload-control>
+      </div>
+    </div>
+    <div class="hw-form-group" style="flex-basis: 100%">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["PowerImageUrl"] }}
+        </span>
+      </div>
+      <div class="content" style="height: 220px">
+        <howell-picture-upload-control></howell-picture-upload-control>
+      </div>
+    </div>
+  </form>
+  <div class="hw-middle-btn-group">
+    <button class="hw-blue-btn" type="button">上一步</button>
+    <button class="hw-green-btn" type="button">保存</button>
+    <button class="hw-blue-btn" type="button">下一步</button>
+  </div>
+</div>

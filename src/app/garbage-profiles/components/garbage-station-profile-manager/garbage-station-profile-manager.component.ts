@@ -139,4 +139,9 @@ export class GarbageStationProfileManagerComponent {
   tofilter() {
     this.window.filter.show = true;
   }
+
+  update() {
+    this.load.emit(this.args);
+    this.onwindowclose();
+  }
 }
