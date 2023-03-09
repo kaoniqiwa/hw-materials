@@ -563,6 +563,17 @@
     <div class="hw-form-group">
       <div class="title">
         <span class="hw-form-label">
+          {{ language["NB"] }}
+        </span>
+        <!-- <span class="hw-form-icon">*</span> -->
+      </div>
+      <div class="content">
+        <input type="text" formControlName="NB" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
           {{ language["IMEI"] }}
         </span>
         <!-- <span class="hw-form-icon">*</span> -->
@@ -574,12 +585,23 @@
     <div class="hw-form-group">
       <div class="title">
         <span class="hw-form-label">
-          {{ language["NB"] }}
+          {{ language["IMEICardType"] }}
         </span>
         <!-- <span class="hw-form-icon">*</span> -->
       </div>
       <div class="content">
-        <input type="text" formControlName="NB" />
+        <select
+          #currentWire
+          class="hw-form-select"
+          formControlName="IMEICardType"
+        >
+          <option
+            *ngFor="let cartType of source.IMEICardType"
+            [ngValue]="cartType.Value"
+          >
+            {{ cartType.Name }}
+          </option>
+        </select>
       </div>
     </div>
   </form>

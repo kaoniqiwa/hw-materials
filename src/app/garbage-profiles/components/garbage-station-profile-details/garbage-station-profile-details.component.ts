@@ -183,6 +183,7 @@ export class GarbageStationProfileDetailsComponent
         Latitude: ['31.40527', Validators.required],
         TimeToDump: [new Date(), Validators.required],
         IMEI: [''],
+        IMEICardType: [1],
         NB: [''],
       }),
     ]),
@@ -220,7 +221,7 @@ export class GarbageStationProfileDetailsComponent
   }
 
   private async _init() {
-    // console.log(this.source.ProfileState);
+    // console.log(this.source.IMEICardType);
     if (this.state == FormState.edit) {
       if (this.formId) {
         this._model = await this._business.getModel(this.formId);
