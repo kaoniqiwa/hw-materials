@@ -5,6 +5,8 @@ import { IPartialData } from 'src/app/network/entity/partial-data.interface';
 import { GetGarbageProfilesBasicDivisionsParams } from 'src/app/network/request/garbage-profiles/basics/garbage-profiles-basics.params';
 import { GarbageProfilesBasicRequestService } from 'src/app/network/request/garbage-profiles/basics/garbage-profiles-basics.service';
 import { GarbageStationProfilesRequestService } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
+import { PutOutMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
+import { GarbageProfilesMaterialRequestService } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.service';
 import { ProfileDetailsDivisionSearchInfo } from './garbage-station-profile-details.model';
 
 const NULL_KEY = 'null';
@@ -17,7 +19,8 @@ export class GarbageStationProfileDetailsBusiness {
 
   constructor(
     private _garbageStationProfilesRequest: GarbageStationProfilesRequestService,
-    private _garbageProfilesBasicRequest: GarbageProfilesBasicRequestService
+    private _garbageProfilesBasicRequest: GarbageProfilesBasicRequestService,
+    private _GarbageProfilesMaterialRequest: GarbageProfilesMaterialRequestService
   ) {}
   getModel(id: string) {
     return this._garbageStationProfilesRequest.get(id);
@@ -32,6 +35,9 @@ export class GarbageStationProfileDetailsBusiness {
     return this._garbageStationProfilesRequest.partialData.batch(data);
   }
 
+  putout(params: PutOutMaterialsParams) {
+    return this._GarbageProfilesMaterialRequest.putout(params);
+  }
   /**
    * 本地保存数据
    * @param searchInfo

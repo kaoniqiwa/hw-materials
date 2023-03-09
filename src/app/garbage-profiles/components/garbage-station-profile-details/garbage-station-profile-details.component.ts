@@ -49,6 +49,7 @@ import { GPSPoint } from 'src/app/network/entity/gps-point.entity';
 import { ValidPhoneExp } from 'src/app/common/tools/tool';
 import { YesOrNo } from 'src/app/enum/yes-or-no.enum';
 import { StrongCurrentWireMode } from 'src/app/enum/strong-current-wire-mode.enum';
+import { PutOutMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
 
 @Component({
   selector: 'garbage-station-profile-details',
@@ -84,6 +85,7 @@ export class GarbageStationProfileDetailsComponent
 
   templateExpression: TemplateRef<any> | null = null;
   panelOpenState = false;
+  showPutout = false;
   stepLength = 4;
   profileState = 0;
   selectedNodes: CommonFlatNode[] = [];
@@ -106,7 +108,6 @@ export class GarbageStationProfileDetailsComponent
     [DivisionLevel.Committee, this.defaultCommittee],
   ]);
 
-  // 也可以不初始化，使用undefined值
   completedArr: boolean[] = Array.from(Array(this.stepLength), () => false);
 
   divisionSearchInfo: ProfileDetailsDivisionSearchInfo = {};
@@ -212,7 +213,7 @@ export class GarbageStationProfileDetailsComponent
         } else if (status == 'VALID') {
           this.completedArr[index] = true;
         }
-        console.log(this.completedArr);
+        // console.log(this.completedArr);
       });
     });
     this._init();
@@ -245,9 +246,11 @@ export class GarbageStationProfileDetailsComponent
     if (this.stepperTemp) {
       this.templateExpression = this.stepperTemp;
     }
-    // if (this.expansionTemp) {
-    //   this.templateExpression = this.expansionTemp;
-    // }
+    if (this.profileState == 6) {
+      if (this.expansionTemp) {
+        this.templateExpression = this.expansionTemp;
+      }
+    }
 
     this._changeDetector.detectChanges();
     // console.log(this.matStepper);
@@ -258,6 +261,25 @@ export class GarbageStationProfileDetailsComponent
     if (key === 'e') {
       e.preventDefault();
     }
+  }
+  async okHandler(params: PutOutMaterialsParams) {
+    console.log(params);
+    this.showPutout = false;
+    console.log(this._model);
+
+    if (this._model) {
+      params.ProfileId = this._model.Id;
+      params.ProfileName = this._model.ProfileName;
+
+      let res = await this._business.putout(params);
+      console.log(res);
+
+      this._model.MaterialItems = res.MaterialItems;
+      this._business.updateModel(this._model);
+    }
+  }
+  cancelHandler() {
+    this.showPutout = false;
   }
   changeDivision(selectEle: HTMLSelectElement, level: DivisionLevel) {
     let selectedOption = selectEle.options[selectEle.selectedIndex];

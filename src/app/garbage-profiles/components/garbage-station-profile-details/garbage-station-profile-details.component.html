@@ -40,7 +40,7 @@
       <mat-expansion-panel-header>
         <mat-panel-title> {{ label }} </mat-panel-title>
         <mat-panel-description>
-          Currently I am {{ panelOpenState ? "open" : "closed" }}
+          <!-- Currently I am {{ panelOpenState ? "open" : "closed" }} -->
         </mat-panel-description>
       </mat-expansion-panel-header>
       <ng-template
@@ -376,6 +376,20 @@
         <input type="text" formControlName="Remarks" />
       </div>
     </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["MaterialItems"] }}
+        </span>
+        <!-- <span class="hw-form-icon">*</span> -->
+      </div>
+      <div class="content">
+        <!-- <input type="text" formControlName="Remarks" /> -->
+        <button class="hw-blue-btn" (click)="showPutout = !showPutout">
+          物料出库
+        </button>
+      </div>
+    </div>
     <div class="hw-form-group" style="flex-basis: 100%">
       <div class="title">
         <span class="hw-form-label">
@@ -579,3 +593,12 @@
     <!-- <button class="hw-blue-btn" type="button">完成</button> -->
   </div>
 </ng-template>
+
+<toast-window *ngIf="showPutout" (closeEvent)="showPutout = false">
+  <div style="width: 800px; height: 600px">
+    <garbage-profiles-material-putout
+      (ok)="okHandler($event)"
+      (cancel)="cancelHandler()"
+    ></garbage-profiles-material-putout>
+  </div>
+</toast-window>

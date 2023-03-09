@@ -51,7 +51,7 @@ export class GarbageProfilesMaterialPutoutComponent {
     this.image = image;
   }
   onok() {
-    let params = new PutInMaterialsParams();
+    let params = new PutOutMaterialsParams();
     params.MaterialItems = this.materials;
     params.Description = this.description;
     if (this.image) {

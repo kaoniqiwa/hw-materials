@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { IModel } from 'src/app/common/interfaces/model.interface';
 
 /** 物料项 */
@@ -12,5 +13,6 @@ export class MaterialItem implements IModel {
 
 export class MaterialRecordItem extends MaterialItem {
   /**	Int64	库存数量(本单出入库后的库存数量)，出入库记录上需要，其他协议上不会提供	M */
+  @Exclude()
   Quantity!: number;
 }
