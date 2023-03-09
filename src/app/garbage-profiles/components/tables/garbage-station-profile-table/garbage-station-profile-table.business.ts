@@ -57,6 +57,7 @@ export class GarbageStationProfileTableBusiness
     params.PropertyIds = names;
 
     params.Conditions = [];
+
     if (args.Name) {
       names.forEach((name) => {
         let condition = new Condition<string>();
@@ -73,7 +74,30 @@ export class GarbageStationProfileTableBusiness
     }
     if (args.ProfileState !== undefined) {
       params.Conditions.push(
-        this.getConditionByProfileState(args.ProfileState)
+        this.getConditionByName(args.ProfileState, 'ProfileState')
+      );
+    }
+    if (args.StrongCurrentWire !== undefined) {
+      params.Conditions.push(
+        this.getConditionByName(args.StrongCurrentWire, 'StrongCurrentWire')
+      );
+    }
+    if (args.StrongCurrentWireMode !== undefined) {
+      params.Conditions.push(
+        this.getConditionByName(
+          args.StrongCurrentWireMode,
+          'StrongCurrentWireMode'
+        )
+      );
+    }
+    if (args.GarbageStationType !== undefined) {
+      params.Conditions.push(
+        this.getConditionByName(args.GarbageStationType, 'GarbageStationType')
+      );
+    }
+    if (args.IMEICardType !== undefined) {
+      params.Conditions.push(
+        this.getConditionByName(args.IMEICardType, 'IMEICardType')
       );
     }
 
@@ -87,10 +111,10 @@ export class GarbageStationProfileTableBusiness
     condition.Operator = ConditionOperator.In;
     return condition;
   }
-  getConditionByProfileState(value: number) {
+  getConditionByName(value: number, name: string) {
     let condition = new Condition<number>();
     condition.Value = value;
-    condition.PropertyId = 'ProfileState';
+    condition.PropertyId = name;
     condition.Operator = ConditionOperator.Eq;
     return condition;
   }

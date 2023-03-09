@@ -1,0 +1,67 @@
+.garbage-station-profile-filter {
+  width: 100%;
+  height: 100%;
+
+  @head-height: 70px;
+  @foot-height: 70px;
+  color: #cfd7ff;
+
+
+  &-head {
+    height: @head-height;
+  }
+
+  &-body {
+    height: calc(100% - @head-height - @foot-height);
+    overflow-y: auto;
+
+
+    .filter {
+      display: flex;
+      justify-content: start;
+      flex-wrap: wrap;
+
+      &-item {
+        display: flex;
+        align-items: center;
+        margin-right: 20px;
+        margin: 10px;
+        width: 320px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+
+        &-title {
+          width: 120px;
+          text-align: right;
+        }
+
+        &-control {
+          width: calc(100% - 120px);
+
+          &>* {
+            width: 100%;
+          }
+        }
+
+        &.row {
+          width: 660px;
+
+          & .filter-item {
+            &-title {}
+
+          }
+        }
+      }
+    }
+
+  }
+
+  &-foot {
+    height: @foot-height;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
