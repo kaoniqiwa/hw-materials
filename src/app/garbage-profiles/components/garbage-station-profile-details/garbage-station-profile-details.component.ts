@@ -91,7 +91,7 @@ export class GarbageStationProfileDetailsComponent
   selectedNodes: CommonFlatNode[] = [];
   defaultIds: string[] = [];
 
-  labels = ['初建档案', '勘察完成', '安装完成', '现场调试'];
+  labels = ['初建档案', '勘察完成', '安装完成', '现场调试', '准备上线'];
 
   defaultProvince = '上海市';
   defaultCity = '市辖区';
@@ -113,6 +113,9 @@ export class GarbageStationProfileDetailsComponent
   divisionSearchInfo: ProfileDetailsDivisionSearchInfo = {};
   divisionModel: ProfileDetailsDivisionModel =
     new ProfileDetailsDivisionModel();
+
+  currentIndex = 0;
+  maxLength = 7;
 
   /** A hero's name can't match the hero's alter ego */
   identityRevealedValidator: ValidatorFn = (
@@ -185,6 +188,10 @@ export class GarbageStationProfileDetailsComponent
         IMEI: [''],
         IMEICardType: [1],
         NB: [''],
+        Cameras: this._formBuilder.array<FormGroup>(
+          [],
+          [Validators.required, Validators.maxLength(7)]
+        ),
       }),
     ]),
   });
@@ -193,6 +200,9 @@ export class GarbageStationProfileDetailsComponent
     return this.formGroup.get('formArray') as FormArray<FormGroup>;
   }
 
+  get Address() {
+    return this.formArray.at(3).get('Cameras') as FormArray<FormGroup>;
+  }
   getTemplate(index: number) {
     return this.stepList ? this.stepList.get(index) ?? null : null;
   }
@@ -406,6 +416,30 @@ export class GarbageStationProfileDetailsComponent
     formGroup.patchValue({
       PowerImageUrl: id,
     });
+  }
+
+  newAddress() {
+    return this._formBuilder.group({
+      Name: ['', Validators.required],
+      Model: ['', Validators.required],
+      SerialNo: ['', Validators.required],
+      Placement: ['', Validators.required],
+    });
+  }
+
+  addAddress() {
+    if (this.Address.length < 7) this.Address.push(this.newAddress());
+  }
+  deleteAddress(index: number, e: Event) {
+    e.stopPropagation();
+    if (index == this.Address.length - 1) {
+      this.Address.removeAt(index);
+      if (this.currentIndex == index) {
+        this.currentIndex = index - 1;
+      }
+    } else {
+      this._toastrService.warning('请依次删除');
+    }
   }
   /***********************private***************************************** */
 

@@ -96,20 +96,17 @@
 >
   <garbage-station-profile-record> </garbage-station-profile-record>
 </app-window>
-<!-- 
-<toast-window
-  *ngIf="window.details.show"
-  (closeEvent)="window.details.show = false"
->
+
+<toast-window *ngIf="window.details.show" (closeEvent)="closeAndUpdate()">
   <garbage-station-profile-details
     [formId]="selectedId"
     [state]="window.details.state"
-    (closeDetails)="window.details.show = false"
+    (closeDetails)="closeAndUpdate()"
   >
   </garbage-station-profile-details>
-</toast-window> -->
+</toast-window>
 
-<toast-window *ngIf="window.details.show" (closeEvent)="closeAndUpdate()">
+<!-- <toast-window *ngIf="window.details.show" (closeEvent)="closeAndUpdate()">
   <garbage-profile-details-manager
     [formId]="selectedId"
     [state]="window.details.state"
@@ -117,7 +114,7 @@
     (updateDetails)="update()"
   >
   </garbage-profile-details-manager>
-</toast-window>
+</toast-window> -->
 
 <app-window
   [Model]="window.setting"

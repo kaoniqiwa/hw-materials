@@ -605,6 +605,44 @@
         </select>
       </div>
     </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["Cameras"] }}
+        </span>
+        <!-- <span class="hw-form-icon">*</span> -->
+      </div>
+      <div class="content">
+        <div class="addr-btns">
+          <div
+            class="addr-item"
+            [class.active]="i == currentIndex"
+            *ngFor="let add of Address.controls; let i = index"
+            (click)="currentIndex = i"
+          >
+            <span> 地址 {{ i + 1 }}</span>
+            <div
+              class="close-btn"
+              (click)="deleteAddress(i, $event)"
+              *ngIf="i != 0"
+            >
+              <i class="howell-icon-Close"></i>
+            </div>
+          </div>
+          <div
+            class="plus-btn"
+            (click)="addAddress()"
+            *ngIf="Address.length < maxLength"
+          >
+            <i class="howell-icon-pluscircle"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div formArrayName="Cameras" class="camera-wrapper">
+      {{ Cameras.value }}
+    </div> -->
   </form>
   <div class="hw-middle-btn-group">
     <button class="hw-blue-btn" type="button" (click)="prevStep(index)">

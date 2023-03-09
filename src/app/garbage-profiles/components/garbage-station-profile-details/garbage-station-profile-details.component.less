@@ -1,7 +1,7 @@
 .profile-details {
-  width: 1000px;
+  width: 800px;
   // max-height: 700px;
-  height: 800px;
+  height: 500px;
 }
 
 .hw-middle-btn-group {
@@ -9,4 +9,70 @@
 }
 .mat-checkbox {
   margin: 0 10px;
+}
+.addr-btns {
+  display: flex;
+  border-bottom: 1px solid rgba(120, 130, 140, 0.13);
+  .addr-item {
+    width: 92px;
+    height: 34px;
+    background-color: rgba(50, 131, 229, 0.2);
+    color: #747d8a;
+    margin-right: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+
+    .close-btn {
+      position: absolute;
+      bottom: 6px;
+      right: 8px;
+      font-size: small;
+      display: none;
+    }
+
+    &.active {
+      background-image: url(src/assets/img/blue-tab.png);
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      background-position: center center;
+      background-color: #009efb;
+      color: #fff;
+      &:hover {
+        .close-btn {
+          display: block;
+          :hover {
+            color: #f60431;
+          }
+        }
+      }
+    }
+    &:not(.active) {
+      &:hover {
+        background-color: rgba(50, 131, 229, 0.4);
+        color: #fff;
+        .close-btn {
+          display: block;
+        }
+      }
+    }
+  }
+}
+.plus-btn {
+  margin-left: 15px;
+  color: #7586e0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    color: #fff;
+  }
+}
+.address-wrapper {
+  height: 230px;
+  // overflow: auto;
+  margin-top: 5px;
 }
