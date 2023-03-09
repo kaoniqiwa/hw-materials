@@ -35,3 +35,9 @@ export class GarbageStationProfilePartialDataWindow extends WindowViewModel {
   };
   model?: PropertyValueModel;
 }
+export class GarbageStationProfileFilterWindow extends WindowViewModel {
+  style = {
+    width: '700px',
+    height: 'auto',
+  };
+}

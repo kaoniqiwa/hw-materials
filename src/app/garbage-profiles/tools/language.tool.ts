@@ -9,6 +9,13 @@ export class GarbageStationProfilesLanguageTools {
         this[property.Name] = property.Description;
       });
     });
+    service.property.getEnums().then((properties) => {
+      properties.forEach((property) => {
+        property.EnumeratedValues?.forEach((_enum) => {
+          this[`${property.Name}-${_enum.Value}`] = _enum.Name;
+        });
+      });
+    });
   }
   [key: string]: string;
 }

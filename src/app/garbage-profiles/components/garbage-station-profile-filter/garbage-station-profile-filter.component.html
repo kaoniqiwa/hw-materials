@@ -1,0 +1,149 @@
+<div class="garbage-station-profile-filter">
+  <div class="garbage-station-profile-filter-head">
+    <div class="hw-simple-title">档案筛选</div>
+  </div>
+  <div class="garbage-station-profile-filter-body">
+    <div class="filter-item row">
+      <div class="filter-item-title">物料：</div>
+      <div class="filter-item-control">
+        <common-label-select
+          [selectedNodes]="manager.material.nodes"
+          [autoclose]="true"
+        >
+          <howell-material-tree
+            #tree
+            (selectTreeNode)="manager.material.onselected($event)"
+          ></howell-material-tree>
+        </common-label-select>
+      </div>
+    </div>
+    <div class="filter-item row">
+      <div class="filter-item-title">标签：</div>
+      <div class="filter-item-control">
+        <common-label-select
+          [selectedNodes]="manager.label.nodes"
+          [autoclose]="true"
+        >
+          <garbage-station-profile-label-tree
+            #tree
+            (selectTreeNode)="manager.label.onselected($event)"
+          ></garbage-station-profile-label-tree>
+        </common-label-select>
+      </div>
+    </div>
+    <div class="filter">
+      <div class="filter-item">
+        <div class="filter-item-title">开始时间：</div>
+        <div class="filter-item-control">
+          <input
+            type="text"
+            DateTimePicker
+            [format]="'yyyy年MM月dd日'"
+            [startView]="DateTimePickerView.month"
+            [minView]="DateTimePickerView.month"
+            [(date)]="args.duration.begin"
+            class=""
+          />
+        </div>
+      </div>
+      <div class="filter-item">
+        <div class="filter-item-title">结束时间：</div>
+        <div class="filter-item-control">
+          <input
+            type="text"
+            DateTimePicker
+            [format]="'yyyy年MM月dd日'"
+            [startView]="DateTimePickerView.month"
+            [minView]="DateTimePickerView.month"
+            [(date)]="args.duration.end"
+            class=""
+          />
+        </div>
+      </div>
+      <div class="filter-item">
+        <div class="filter-item-title">{{ language["ProfileState"] }}：</div>
+        <div class="filter-item-control">
+          <select [(ngModel)]="args.ProfileState">
+            <option [ngValue]="undefined">全部</option>
+            <option
+              *ngFor="let item of source.ProfileState"
+              [ngValue]="item.Value"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="filter-item">
+        <div class="filter-item-title">
+          {{ language["StrongCurrentWire"] }}：
+        </div>
+        <div class="filter-item-control">
+          <select
+            [(ngModel)]="args.StrongCurrentWire"
+            (change)="onStrongCurrentWire()"
+          >
+            <option [ngValue]="undefined">全部</option>
+            <option
+              *ngFor="let item of source.StrongCurrentWire"
+              [ngValue]="item.Value"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="filter-item" *ngIf="args.StrongCurrentWire !== 0">
+        <div class="filter-item-title">
+          {{ language["StrongCurrentWireMode"] }}：
+        </div>
+        <div class="filter-item-control">
+          <select [(ngModel)]="args.StrongCurrentWireMode">
+            <option [ngValue]="undefined">全部</option>
+            <option
+              *ngFor="let item of source.StrongCurrentWireMode"
+              [ngValue]="item.Value"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="filter-item">
+        <div class="filter-item-title">
+          {{ language["GarbageStationType"] }}：
+        </div>
+        <div class="filter-item-control">
+          <select [(ngModel)]="args.GarbageStationType">
+            <option [ngValue]="undefined">全部</option>
+            <option
+              *ngFor="let item of source.GarbageStationType"
+              [ngValue]="item.Value"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="filter-item">
+        <div class="filter-item-title">{{ language["IMEICardType"] }}：</div>
+        <div class="filter-item-control">
+          <select [(ngModel)]="args.IMEICardType">
+            <option [ngValue]="undefined">全部</option>
+            <option
+              *ngFor="let item of source.IMEICardType"
+              [ngValue]="item.Value"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="garbage-station-profile-filter-foot">
+    <button class="hw-cyan-btn">清空</button>
+    <button class="hw-green-btn">搜索</button>
+    <button class="hw-blue-btn">取消</button>
+  </div>
+</div>

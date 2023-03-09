@@ -61,6 +61,9 @@
         <button class="hw-blue-btn" (click)="onsearch()">
           <i class="howell-icon-search"></i> 搜索
         </button>
+        <button class="hw-blue-btn" (click)="tofilter()">
+          <i class="mdi mdi-filter-outline"></i>
+        </button>
       </div>
     </div>
   </div>
@@ -147,4 +150,13 @@
   <garbage-station-profile-partial-data
     [model]="window.partial.model"
   ></garbage-station-profile-partial-data>
+</app-window>
+<app-window
+  [Model]="window.filter"
+  [style]="window.filter.style"
+  *ngIf="window.filter.show"
+>
+  <garbage-station-profile-filter
+    [(args)]="args"
+  ></garbage-station-profile-filter>
 </app-window>

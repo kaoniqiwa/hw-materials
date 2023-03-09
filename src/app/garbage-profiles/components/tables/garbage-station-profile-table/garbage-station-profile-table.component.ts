@@ -10,6 +10,7 @@ import {
 import { Sort } from '@angular/material/sort';
 import { IComponent } from 'src/app/common/interfaces/component.interfact';
 import { IModel } from 'src/app/common/interfaces/model.interface';
+import { PropertyDataType } from 'src/app/enum/property-data-type.enum';
 import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/language.tool';
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
@@ -142,14 +143,15 @@ export class GarbageStationProfileTableComponent
 
     if (name.includes('Url') && value.Value) {
       e.stopImmediatePropagation();
+      this.itemclick.emit(value);
+      return;
     }
     let property = await value.Property;
     if (property) {
-      if (property.IsArray) {
+      if (property.DataType === PropertyDataType.Object) {
         e.stopImmediatePropagation();
+        this.itemclick.emit(value);
       }
     }
-
-    this.itemclick.emit(value);
   }
 }

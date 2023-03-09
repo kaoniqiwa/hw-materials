@@ -11,6 +11,7 @@ import { GarbageStationProfileManagerBusiness } from './garbage-station-profile-
 import {
   GarbageStationProfileConfirmWindow,
   GarbageStationProfileDetailsWindow,
+  GarbageStationProfileFilterWindow,
   GarbageStationProfilePartialDataWindow,
   GarbageStationProfilePictureWindow,
   GarbageStationProfileRecordWindow,
@@ -42,6 +43,7 @@ export class GarbageStationProfileManagerComponent {
     record: new GarbageStationProfileRecordWindow(),
     confirm: new GarbageStationProfileConfirmWindow(),
     partial: new GarbageStationProfilePartialDataWindow(),
+    filter: new GarbageStationProfileFilterWindow(),
   };
   load: EventEmitter<GarbageStationProfileTableArgs> = new EventEmitter();
 
@@ -132,5 +134,9 @@ export class GarbageStationProfileManagerComponent {
   onTreeNodeSelected(nodes: CommonFlatNode[]) {
     this.selectedNodes = nodes;
     this.args.labels = this.selectedNodes.map((n) => parseInt(n.Id));
+  }
+
+  tofilter() {
+    this.window.filter.show = true;
   }
 }
