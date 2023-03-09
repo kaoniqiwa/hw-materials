@@ -1,20 +1,37 @@
-import { EventEmitter, Inject, Injectable, Output } from '@angular/core';
+import {
+  Component,
+  Directive,
+  EventEmitter,
+  Inject,
+  Injectable,
+  Input,
+  Output,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { FormState } from 'src/app/enum/form-state.enum';
 import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/language.tool';
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
-import { DetailFormsBusiness } from './garbage-profile-detail-forms.business';
+import { GarbageProfileDetailFormsBusiness } from './garbage-profile-details-forms.business';
 
+@Directive({})
+export abstract class GarbageProfileDetailsFormsCommon {
+  @Input()
+  formId?: string;
 
-@Injectable()
-export abstract class DetailsFormsCommon {
+  @Input()
+  state: FormState = FormState.none;
+
   @Output() close = new EventEmitter();
 
   @Output() next = new EventEmitter();
+  @Output() previous = new EventEmitter();
+
+  FormState = FormState;
 
   protected _model: GarbageStationProfile | null = null;
-  protected _business: DetailFormsBusiness;
+  protected _business: GarbageProfileDetailFormsBusiness;
   protected _toastrService: ToastrService;
   public source: GarbageStationProfilesSourceTools;
   public language: GarbageStationProfilesLanguageTools;
@@ -24,7 +41,7 @@ export abstract class DetailsFormsCommon {
   protected abstract _createOrUpdateModel(): Promise<GarbageStationProfile | null>;
 
   constructor(
-    _business: DetailFormsBusiness,
+    _business: GarbageProfileDetailFormsBusiness,
     _toastrService: ToastrService,
     source: GarbageStationProfilesSourceTools,
     language: GarbageStationProfilesLanguageTools
@@ -33,6 +50,14 @@ export abstract class DetailsFormsCommon {
     this._toastrService = _toastrService;
     this.source = source;
     this.language = language;
+  }
+
+  protected async _init() {
+    if (this.formId) {
+      this._model = await this._business.getModel(this.formId);
+    }
+
+    this._updateForm();
   }
   protected _updateForm() {
     if (this._model) {
@@ -85,13 +110,24 @@ export abstract class DetailsFormsCommon {
       this.close.emit();
     }
   }
+  async clickPrev() {
+    this.previous.emit();
+  }
 
+  async clickSave() {
+    let res: GarbageStationProfile | null;
+    res = await this._createOrUpdateModel();
+    if (res) {
+      this._toastrService.success('操作成功');
+      this.close.emit();
+    }
+  }
   async clickNext() {
     let res: GarbageStationProfile | null;
     res = await this._createOrUpdateModel();
     if (res) {
       this._toastrService.success('操作成功');
-      this.next.emit();
+      this.next.emit(res.Id);
     }
   }
 }

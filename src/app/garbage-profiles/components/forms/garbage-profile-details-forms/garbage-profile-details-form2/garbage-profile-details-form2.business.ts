@@ -1,20 +1,13 @@
 import { Injectable } from '@angular/core';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { GarbageStationProfilesRequestService } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
+import { GarbageProfileDetailFormsBusiness } from '../garbage-profile-details-forms.business';
 
 @Injectable()
-export class DetailsForm2Business {
+export class GarbageProfileDetailsForm2Business extends GarbageProfileDetailFormsBusiness {
   constructor(
-    private _garbageStationProfilesRequest: GarbageStationProfilesRequestService
-  ) {}
-
-  getModel(id: string) {
-    return this._garbageStationProfilesRequest.get(id);
-  }
-  createModel(model: GarbageStationProfile) {
-    return this._garbageStationProfilesRequest.create(model);
-  }
-  updateModel(model: GarbageStationProfile) {
-    return this._garbageStationProfilesRequest.update(model);
+    _garbageStationProfilesRequest: GarbageStationProfilesRequestService
+  ) {
+    super(_garbageStationProfilesRequest);
   }
 }

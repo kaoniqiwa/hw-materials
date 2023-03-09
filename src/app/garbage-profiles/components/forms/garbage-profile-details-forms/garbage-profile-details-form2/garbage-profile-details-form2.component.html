@@ -34,6 +34,7 @@
           #currentWire
           class="hw-form-select"
           formControlName="StrongCurrentWire"
+          (change)="changeCurrentWire()"
         >
           <option
             *ngFor="let wire of source.StrongCurrentWire"
@@ -133,10 +134,13 @@
       <div class="title">
         <span class="hw-form-label">
           {{ language["LFImageUrl"] }}
+          {{ ngForm.value.LFImageUrl }}
         </span>
       </div>
       <div class="content" style="height: 220px">
-        <howell-picture-upload-control></howell-picture-upload-control>
+        <howell-picture-upload-control
+          [id]="ngForm.value.LFImageUrl"
+        ></howell-picture-upload-control>
       </div>
     </div>
     <div class="hw-form-group" style="flex-basis: 100%">
@@ -171,8 +175,14 @@
     </div>
   </form>
   <div class="hw-middle-btn-group">
-    <button class="hw-blue-btn" type="button">上一步</button>
-    <button class="hw-green-btn" type="button">保存</button>
-    <button class="hw-blue-btn" type="button">下一步</button>
+    <button class="hw-blue-btn" type="button" (click)="clickPrev()">
+      上一步
+    </button>
+    <button class="hw-green-btn" type="button" (click)="clickSave()">
+      保存
+    </button>
+    <button class="hw-blue-btn" type="button" (click)="clickNext()">
+      下一步
+    </button>
   </div>
 </div>

@@ -1,7 +1,9 @@
+import { Injectable } from '@angular/core';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { GarbageStationProfilesRequestService } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
 
-export abstract class DetailFormsBusiness {
+@Injectable()
+export class GarbageProfileDetailFormsBusiness {
   constructor(
     private _garbageStationProfilesRequest: GarbageStationProfilesRequestService
   ) {}

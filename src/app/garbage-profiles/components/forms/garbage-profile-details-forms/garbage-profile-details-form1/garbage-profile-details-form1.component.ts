@@ -15,8 +15,8 @@ import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/to
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
-import { DetailsFormsCommon } from '../garbage-profile-detail-forms.common';
-import { DetailsForm1Business } from './garbage-profile-details-form1.business';
+import { GarbageProfileDetailsFormsCommon } from '../garbage-profile-details-forms.common';
+import { GarbageProfileDetailsForm1Business } from './garbage-profile-details-form1.business';
 import {
   DivisionLevel,
   DivisionModel,
@@ -28,20 +28,13 @@ import {
   selector: 'garbage-profile-details-form1',
   templateUrl: './garbage-profile-details-form1.component.html',
   styleUrls: ['./garbage-profile-details-form1.component.less'],
-  providers: [DetailsForm1Business],
+  providers: [GarbageProfileDetailsForm1Business],
 })
-export class DetailsForm1Component
-  extends DetailsFormsCommon
+export class GarbageProfileDetailsForm1Component
+  extends GarbageProfileDetailsFormsCommon
   implements OnInit
 {
-  FormState = FormState;
   DivisionLevel = DivisionLevel;
-
-  @Input()
-  formId?: string;
-
-  @Input()
-  state: FormState = FormState.none;
 
   selectedNodes: CommonFlatNode[] = [];
   defaultIds: number[] = [];
@@ -79,18 +72,20 @@ export class DetailsForm1Component
     source: GarbageStationProfilesSourceTools,
     language: GarbageStationProfilesLanguageTools,
     _toastrService: ToastrService,
-    override _business: DetailsForm1Business
+    override _business: GarbageProfileDetailsForm1Business
   ) {
     super(_business, _toastrService, source, language);
   }
   ngOnInit(): void {
     this._init();
+    if (this._model) this.defaultIds = this._model.Labels ?? [];
+    this._updateDivisionModel();
   }
   changeDivision(selectEle: HTMLSelectElement, level: DivisionLevel) {
     let selectedOption = selectEle.options[selectEle.selectedIndex];
     let id = selectedOption.id;
 
-    console.log(`切换区划--level: ${level}--id: ${id}`);
+    // console.log(`切换区划--level: ${level}--id: ${id}`);
     // 每次切换区划时，下级区划表单内容要清空
     this._resetSelect(level);
 
@@ -103,33 +98,6 @@ export class DetailsForm1Component
     this.formGroup.patchValue({
       Labels: ids,
     });
-  }
-  // async clickCreate() {
-  //   let res = await this._createOrUpdateModel();
-  //   if (res) {
-  //     this._toastrService.success('创建成功');
-  //     this.close.emit();
-  //   }
-  // }
-
-  // async clickNext() {
-  //   let res: GarbageStationProfile | null;
-  //   res = await this._createOrUpdateModel();
-  //   if (res) {
-  //     this._toastrService.success('操作成功');
-  //     this.next.emit();
-  //   }
-  // }
-  private async _init() {
-    if (this.formId) {
-      this._model = await this._business.getModel(this.formId);
-      console.log(this._model);
-      this.defaultIds = this._model.Labels ?? [];
-    }
-
-    this._updateDivisionModel();
-
-    this._updateForm();
   }
 
   private async _updateDivisionModel() {

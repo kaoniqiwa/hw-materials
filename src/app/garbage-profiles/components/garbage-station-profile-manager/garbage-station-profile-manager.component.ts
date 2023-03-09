@@ -64,6 +64,7 @@ export class GarbageStationProfileManagerComponent {
     this.window.partial.model = undefined;
   }
   oncreate() {
+    this.selectedId = '';
     this.window.details.state = FormState.add;
     this.window.details.show = true;
   }
@@ -140,8 +141,11 @@ export class GarbageStationProfileManagerComponent {
     this.window.filter.show = true;
   }
 
-  update() {
+  closeAndUpdate() {
     this.load.emit(this.args);
     this.onwindowclose();
+  }
+  update() {
+    this.load.emit(this.args);
   }
 }

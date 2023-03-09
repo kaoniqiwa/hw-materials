@@ -27,12 +27,18 @@
   <garbage-profile-details-form1
     [formId]="formId"
     [state]="state"
-    (next)="nextEvent(index)"
+    (next)="nextEvent($event, index)"
     (close)="closeEvent()"
   ></garbage-profile-details-form1>
 </ng-template>
 <ng-template #step2 #step let-value let-index="index">
-  <garbage-profile-details-form2></garbage-profile-details-form2>
+  <garbage-profile-details-form2
+    [formId]="formId"
+    [state]="state"
+    (next)="nextEvent($event, index)"
+    (close)="closeEvent()"
+    (previous)="previousEvent()"
+  ></garbage-profile-details-form2>
 </ng-template>
 <ng-template #step3 #step let-value let-index="index"
   ><garbage-profile-details-form3></garbage-profile-details-form3>

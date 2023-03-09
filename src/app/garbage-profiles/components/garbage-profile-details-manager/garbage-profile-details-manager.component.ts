@@ -46,6 +46,7 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
   }
 
   @Output() closeDetails = new EventEmitter();
+  @Output() updateDetails = new EventEmitter();
 
   @ViewChild('stepperTemp') stepperTemp?: TemplateRef<any>;
   @ViewChild('expansionTemp') expansionTemp?: TemplateRef<any>;
@@ -72,7 +73,9 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
   }
 
   private async _init() {
-    this._getModel();
+    await this._updateState();
+
+    this.selectedIndex = this.profileState - 1;
   }
   ngAfterViewInit(): void {
     if (this.stepperTemp) {
@@ -84,26 +87,33 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
   closeEvent() {
     this.closeDetails.emit();
   }
-  nextEvent(index: number) {
+  async nextEvent(id: string, index: number) {
     console.log('下一步', index);
+
+    this.formId = id;
+
+    this.state = FormState.edit;
+    await this._updateState();
+
     let nextIndex = ++index;
     this.selectedIndex = Math.min(nextIndex, this.stepLength - 1);
+    // this.updateDetails.emit();
   }
 
-  private async _getModel() {
+  previousEvent() {
+    this.selectedIndex = Math.max(this._selectedIndex - 1, 0);
+  }
+  private async _updateState() {
     if (this.formId) {
       this._model = await this._business.getModel(this.formId);
+      console.log(this._model);
     }
-    this._updateProfileState();
-    this._setcompletedArr();
-  }
-  private _setcompletedArr() {
+    this.profileState = this._model ? this._model.ProfileState : 0;
     this.completedArr = this.completedArr.map((v, i) => {
       return i < this.profileState;
     });
+    this._changeDetector.detectChanges();
+
     console.log(this.completedArr);
-  }
-  private _updateProfileState() {
-    this.profileState = this._model ? this._model.ProfileState : 0;
   }
 }
