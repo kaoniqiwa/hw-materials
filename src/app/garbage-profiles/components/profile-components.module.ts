@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HowellModule } from 'src/app/common/howell.module';
 import { MaterialModule } from 'src/app/material.module';
+import { FormComponents } from './forms';
 import { GarbageProfilesLabelDetailsComponent } from './garbage-profiles-label-details/garbage-profiles-label-details.component';
 import { GarbageProfilesLabelManagerComponent } from './garbage-profiles-label-manager/garbage-profiles-label-manager.component';
 import { GarbageProfilesMaterialDetailsComponent } from './garbage-profiles-material-details/garbage-profiles-material-details.component';
@@ -21,6 +22,7 @@ import { GarbageStationProfileSettingComponent } from './garbage-station-profile
 import { HowellPictureControlComponent } from './howell-picture-control/howell-picture-control.component';
 import { HowellPictureUploadControlComponent } from './howell-picture-upload-control/howell-picture-upload-control.component';
 import { MonitorPlatformComponent } from './monitor-platform/monitor-platform.component';
+import { ProfileDetailsComponent } from './profile-details/profile-details.component';
 import { StationArchiveComponent } from './station-archive/station-archive.component';
 import { SystemModeComponent } from './system-mode/system-mode.component';
 import { TableComponents } from './tables/tables';
@@ -31,10 +33,12 @@ import { UnderwaterComponent } from './underwater/underwater.component';
   declarations: [
     ...TableComponents,
     ...TreeComponents,
+    ...FormComponents,
     MonitorPlatformComponent,
     SystemModeComponent,
     UnderwaterComponent,
     StationArchiveComponent,
+    ProfileDetailsComponent,
 
     GarbageStationProfileManagerComponent,
     GarbageStationProfileFilterComponent,

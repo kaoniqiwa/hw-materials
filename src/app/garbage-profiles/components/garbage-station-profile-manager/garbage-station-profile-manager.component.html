@@ -109,6 +109,18 @@
   </garbage-station-profile-details>
 </toast-window>
 
+<!-- <toast-window
+  *ngIf="window.details.show"
+  (closeEvent)="window.details.show = false"
+>
+  <profile-details
+    [formId]="selectedId"
+    [state]="window.details.state"
+    (closeDetails)="window.details.show = false"
+  >
+  </profile-details>
+</toast-window> -->
+
 <app-window
   [Model]="window.setting"
   [style]="window.setting.style"
