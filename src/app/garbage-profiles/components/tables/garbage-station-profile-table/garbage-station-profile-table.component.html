@@ -17,6 +17,7 @@
             [mat-sort-header]="name"
             [disableClear]="true"
             [class]="name"
+            [start]="name === 'UpdateTime' ? 'desc' : ''"
           >
             {{ language[name] }}
           </td>

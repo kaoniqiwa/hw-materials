@@ -52,9 +52,16 @@ export class GarbageStationProfileTableBusiness
     params.PageIndex = index;
     params.PageSize = size;
     params.PropertyIds = args.tableIds;
-    params.Asc = args.asc;
-    params.Desc = args.desc;
     params.PropertyIds = names;
+    params.Asc = args.asc;
+
+    params.Desc = args.desc;
+
+    if (!params.Asc && !params.Desc && params.PropertyIds) {
+      if (params.PropertyIds.includes('UpdateTime')) {
+        params.Desc = 'UpdateTime';
+      }
+    }
 
     params.Conditions = [];
 
