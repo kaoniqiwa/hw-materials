@@ -38,12 +38,12 @@ export class CommonLabelSelecComponent
   @Input()
   showCloseIcon = true;
   @Input()
-  heightFixed = true;
+  height = 'auto';
 
   @Output() toggleDropDown = new EventEmitter<boolean>();
   @Output() removeDropItem = new EventEmitter();
 
-  @ContentChild('tree') tree?: CommonTree;
+  @ContentChild(CommonTree) tree?: CommonTree;
 
   constructor(@Inject(DOCUMENT) private document: Document) {}
 

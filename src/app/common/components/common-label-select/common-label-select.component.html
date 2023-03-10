@@ -27,8 +27,8 @@
     class="label-select-body"
     *ngIf="showDropDown"
     [ngStyle]="{
-      height: heightFixed ? '326px' : 'auto',
-      borderWidth: heightFixed ? '1px' : '2px'
+      height: height,
+      borderWidth: height === 'auto' ? '2px' : '1px'
     }"
     (click)="$event.stopPropagation()"
   >

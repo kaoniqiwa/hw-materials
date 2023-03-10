@@ -1,7 +1,8 @@
 import { Condition } from 'src/app/network/entity/condition.entity';
 import { ElemMatch } from 'src/app/network/entity/elem-match.entity';
 import { Label } from 'src/app/network/entity/label.entity';
-import { PagedParams } from '../../IParams.interface';
+import { IPartialData } from 'src/app/network/entity/partial-data.interface';
+import { IParams, PagedParams } from '../../IParams.interface';
 
 export class GetGarbageStationProfilesParams extends PagedParams {
   /**	String[]	垃圾厢房档案ID	O	*/
@@ -60,4 +61,10 @@ export class GetLabelsParams extends PagedParams {
   Asc?: keyof Label;
   /**	String	降序排列字段，数组字段无法排序	O	*/
   Desc?: keyof Label;
+}
+
+export class PartialRequest implements IParams {
+  /**	String	修改原因	O	*/ ModificationReason?: string;
+  /**	String	修改内容	O	*/ ModificationContent?: string;
+  /**	PartialData	成功修改后的数据	O	*/ Data?: IPartialData;
 }

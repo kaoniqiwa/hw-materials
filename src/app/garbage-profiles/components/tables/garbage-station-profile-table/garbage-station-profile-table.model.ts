@@ -13,11 +13,22 @@ export class GarbageStationProfileTableArgs {
   desc?: string;
 
   labels: number[] = [];
+  functions: number[] = [];
+  materials: number[] = [];
   duration: Duration;
 
-  ProfileState?: number;
-  StrongCurrentWire?: number;
-  StrongCurrentWireMode?: number;
-  GarbageStationType?: number;
-  IMEICardType?: number;
+  enums: KeyValue = new KeyValue();
+
+  reset() {
+    for (const key in this.enums) {
+      if (key === 'ProfileState') {
+        continue;
+      }
+      delete this.enums[key];
+    }
+  }
+}
+
+export class KeyValue {
+  [key: string]: number | undefined;
 }

@@ -11,24 +11,22 @@ import { CommonFlatNode } from 'src/app/common/components/common-tree/common-fla
 import { CommonTree } from 'src/app/common/components/common-tree/common-tree';
 import { CommonTreeComponent } from 'src/app/common/components/common-tree/common-tree.component';
 import { SelectStrategy } from 'src/app/enum/select-strategy.enum';
-import { GarbageStationProfileLabelTreeBusiness } from './garbage-station-profile-label-tree.business';
-import { GarbageStationProfileLabelTreeConverter } from './garbage-station-profile-label-tree.converter';
+import { GarbageStationProfileFunctionsTreeBusiness } from './garbage-station-profile-functions-tree.business';
+import { GarbageStationProfileFunctionsTreeConverter } from './garbage-station-profile-functions-tree.converter';
 
 @Component({
-  selector: 'garbage-station-profile-label-tree',
-  templateUrl: './garbage-station-profile-label-tree.component.html',
-  styleUrls: ['./garbage-station-profile-label-tree.component.less'],
+  selector: 'garbage-station-profile-functions-tree',
+  templateUrl: './garbage-station-profile-functions-tree.component.html',
+  styleUrls: ['./garbage-station-profile-functions-tree.component.less'],
   providers: [
-    GarbageStationProfileLabelTreeConverter,
-    GarbageStationProfileLabelTreeBusiness,
+    GarbageStationProfileFunctionsTreeConverter,
+    GarbageStationProfileFunctionsTreeBusiness,
   ],
 })
-export class GarbageStationProfileLabelTreeComponent
+export class GarbageStationProfileFunctionsTreeComponent
   extends CommonTree
   implements OnInit
 {
-  private _condition: string = '';
-
   @Input()
   selectStrategy = SelectStrategy.Multiple;
 
@@ -56,7 +54,7 @@ export class GarbageStationProfileLabelTreeComponent
   loaded: EventEmitter<void> = new EventEmitter();
 
   constructor(
-    private _business: GarbageStationProfileLabelTreeBusiness,
+    private _business: GarbageStationProfileFunctionsTreeBusiness,
     private _toastrService: ToastrService
   ) {
     super();
@@ -72,7 +70,7 @@ export class GarbageStationProfileLabelTreeComponent
   private async _init() {
     this._nestedNodeMap = this._business.nestedNodeMap;
 
-    let res = await this._business.init(this._condition);
+    let res = await this._business.init();
     // console.log(res);
     this.dataSubject.next(res);
 
@@ -84,30 +82,5 @@ export class GarbageStationProfileLabelTreeComponent
     }
 
     this.loaded.emit();
-  }
-  async searchEventHandler(condition: string) {
-    console.log('搜索字段', condition);
-    if (this._condition == condition && this._condition != '') {
-      this._toastrService.warning('重复搜索相同字段');
-      return;
-    }
-
-    this._condition = condition;
-
-    let res = await this._business.searchNode(condition);
-    // console.log(res)
-    if (res && res.length) {
-      this._toastrService.success('操作成功');
-
-      this.dataSubject.next(res);
-      if (condition != '') {
-        this.tree?.expandAll();
-      } else {
-        this.tree?.reset();
-        this.tree?.collapseAll();
-      }
-    } else {
-      this._toastrService.warning('无匹配结果');
-    }
   }
 }

@@ -5,9 +5,7 @@ import { CommonTreeModel } from 'src/app/common/components/common-tree/common-tr
 import { Property } from 'src/app/network/entity/property.entity';
 import { ValueNamePair } from 'src/app/network/entity/value-name-pair.entity';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class GarbageStationProfilePropertyTreeConverter extends CommonTreeConverter {
   Convert(source: CommonTreeModel, ...res: any[]): CommonNestNode {
     if (source instanceof Property) {

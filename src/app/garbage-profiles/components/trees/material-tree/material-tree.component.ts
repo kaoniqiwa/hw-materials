@@ -12,12 +12,13 @@ import { CommonTree } from 'src/app/common/components/common-tree/common-tree';
 import { CommonTreeComponent } from 'src/app/common/components/common-tree/common-tree.component';
 import { SelectStrategy } from 'src/app/enum/select-strategy.enum';
 import { MaterialListBusiness as MaterialTreeBusiness } from './material-tree.business';
+import { MaterialTreeConverter } from './material-tree.converter';
 
 @Component({
   selector: 'howell-material-tree',
   templateUrl: './material-tree.component.html',
   styleUrls: ['./material-tree.component.less'],
-  providers: [MaterialTreeBusiness],
+  providers: [MaterialTreeConverter, MaterialTreeBusiness],
 })
 export class MaterialTreeComponent extends CommonTree implements OnInit {
   private _condition: string = '';

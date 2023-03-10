@@ -22,6 +22,7 @@ import {
   GetLabelsParams,
   GetPartialDatasParams,
   GetPropertiesParams,
+  PartialRequest,
 } from './garbage-station-profiles.params';
 
 @Injectable({
@@ -225,11 +226,20 @@ class GarbageStationProfilesPartialDatasRequestService {
     );
     return response;
   }
-  batch<T extends IPartialData>(datas: T[]): Promise<PartialResult<T>[]> {
+  batch<T extends IPartialData>(
+    datas: PartialRequest[]
+  ): Promise<PartialResult<T>[]> {
     let url = GarbageStationProfilesUrl.partialData.basic();
     let plain = instanceToPlain(datas);
     let response = this.basic.postToArray<T, PartialResult<T>>(url, plain as T);
     return response;
+  }
+  async update<T extends IPartialData>(
+    request: PartialRequest
+  ): Promise<PartialResult<T>> {
+    let array = await this.batch([request]);
+
+    return array[0] as PartialResult<T>;
   }
 }
 

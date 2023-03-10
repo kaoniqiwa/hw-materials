@@ -72,33 +72,19 @@ export class GarbageStationProfileTableBusiness
     if (args.labels && args.labels.length > 0) {
       params.Conditions.push(this.getConditionByLabels(args.labels));
     }
-    if (args.ProfileState !== undefined) {
-      params.Conditions.push(
-        this.getConditionByName(args.ProfileState, 'ProfileState')
-      );
+    if (args.functions && args.functions.length > 0) {
+      params.Conditions.push(this.getConditionByFunctions(args.functions));
     }
-    if (args.StrongCurrentWire !== undefined) {
-      params.Conditions.push(
-        this.getConditionByName(args.StrongCurrentWire, 'StrongCurrentWire')
-      );
-    }
-    if (args.StrongCurrentWireMode !== undefined) {
-      params.Conditions.push(
-        this.getConditionByName(
-          args.StrongCurrentWireMode,
-          'StrongCurrentWireMode'
-        )
-      );
-    }
-    if (args.GarbageStationType !== undefined) {
-      params.Conditions.push(
-        this.getConditionByName(args.GarbageStationType, 'GarbageStationType')
-      );
-    }
-    if (args.IMEICardType !== undefined) {
-      params.Conditions.push(
-        this.getConditionByName(args.IMEICardType, 'IMEICardType')
-      );
+    // if (args.materials && args.materials.length > 0) {
+    //   let match = new ElemMatch();
+    //   match.PropertyId = "M"
+    // }
+
+    for (const key in args.enums) {
+      let value = args.enums[key];
+      if (value !== undefined) {
+        params.Conditions.push(this.getConditionByName(value, key));
+      }
     }
 
     return this.service.partialData.list(params);
@@ -111,11 +97,20 @@ export class GarbageStationProfileTableBusiness
     condition.Operator = ConditionOperator.In;
     return condition;
   }
+  getConditionByFunctions(value: number[]) {
+    let condition = new Condition<number[]>();
+    condition.Value = value;
+    condition.PropertyId = 'Functions';
+    condition.Operator = ConditionOperator.In;
+    condition.OrGroup = 1;
+    return condition;
+  }
   getConditionByName(value: number, name: string) {
     let condition = new Condition<number>();
     condition.Value = value;
     condition.PropertyId = name;
     condition.Operator = ConditionOperator.Eq;
+    condition.OrGroup = 1;
     return condition;
   }
 }

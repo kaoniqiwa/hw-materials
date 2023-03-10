@@ -23,24 +23,10 @@
         </button>
       </div>
       <div class="filter">
-        <div class="filter-item label">
-          <div class="filter-item-title">标签：</div>
-          <div class="filter-item-control">
-            <common-label-select
-              [selectedNodes]="selectedNodes"
-              [autoclose]="true"
-            >
-              <garbage-station-profile-label-tree
-                #tree
-                (selectTreeNode)="onTreeNodeSelected($event)"
-              ></garbage-station-profile-label-tree>
-            </common-label-select>
-          </div>
-        </div>
         <div class="filter-item">
           <div class="filter-item-title">{{ language["ProfileState"] }}：</div>
           <div class="filter-item-control">
-            <select [(ngModel)]="args.ProfileState">
+            <select [(ngModel)]="args.enums['ProfileState']">
               <option [ngValue]="undefined">全部</option>
               <option
                 *ngFor="let item of source.ProfileState"

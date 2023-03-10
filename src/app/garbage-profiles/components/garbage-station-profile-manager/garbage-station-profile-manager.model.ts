@@ -37,7 +37,8 @@ export class GarbageStationProfilePartialDataWindow extends WindowViewModel {
 }
 export class GarbageStationProfileFilterWindow extends WindowViewModel {
   style = {
-    width: '700px',
+    width: '800px',
     height: 'auto',
   };
+  override show: boolean = true;
 }

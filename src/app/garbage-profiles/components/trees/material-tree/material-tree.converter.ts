@@ -8,9 +8,7 @@ import { MaterialCategory } from 'src/app/network/entity/material-category.entit
 
 export type MaterialTreeSource = MaterialModel;
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class MaterialTreeConverter extends CommonTreeConverter {
   Convert(source: CommonTreeModel, ...res: any[]): CommonNestNode {
     if (source instanceof MaterialModel) {

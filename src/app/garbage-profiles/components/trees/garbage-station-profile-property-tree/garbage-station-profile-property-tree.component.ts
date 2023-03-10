@@ -12,12 +12,16 @@ import { CommonTree } from 'src/app/common/components/common-tree/common-tree';
 import { CommonTreeComponent } from 'src/app/common/components/common-tree/common-tree.component';
 import { SelectStrategy } from 'src/app/enum/select-strategy.enum';
 import { GarbageStationProfilePropertyTreeBusiness } from './garbage-station-profile-property-tree.business';
+import { GarbageStationProfilePropertyTreeConverter } from './garbage-station-profile-property-tree.converter';
 
 @Component({
   selector: 'garbage-station-profile-property-tree',
   templateUrl: './garbage-station-profile-property-tree.component.html',
   styleUrls: ['./garbage-station-profile-property-tree.component.less'],
-  providers: [GarbageStationProfilePropertyTreeBusiness],
+  providers: [
+    GarbageStationProfilePropertyTreeConverter,
+    GarbageStationProfilePropertyTreeBusiness,
+  ],
 })
 export class GarbageStationProfilePropertyTreeComponent
   extends CommonTree
