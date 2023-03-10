@@ -14,9 +14,12 @@ import { FormState } from 'src/app/enum/form-state.enum';
 import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/language.tool';
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
+import { PartialResult } from 'src/app/network/entity/partial-result.entity';
 import { GarbageProfileDetailFormsBusiness } from './garbage-profile-details-forms.business';
 
-@Directive({})
+@Directive({
+  selector: 'hello',
+})
 export abstract class GarbageProfileDetailsFormsCommon
   implements CommonFormInterface
 {
@@ -37,7 +40,9 @@ export abstract class GarbageProfileDetailsFormsCommon
 
   protected abstract formGroup: FormGroup;
 
-  protected abstract createOrUpdateModel(): Promise<GarbageStationProfile | null>;
+  protected abstract createOrUpdateModel(): Promise<
+    GarbageStationProfile | null | PartialResult<any>
+  >;
 
   constructor(
     protected _business: GarbageProfileDetailFormsBusiness,
@@ -109,7 +114,7 @@ export abstract class GarbageProfileDetailsFormsCommon
   }
 
   async clickSave() {
-    let res: GarbageStationProfile | null;
+    let res: GarbageStationProfile | null | PartialResult<any>;
     res = await this.createOrUpdateModel();
     if (res) {
       this._toastrService.success('操作成功');
@@ -117,7 +122,7 @@ export abstract class GarbageProfileDetailsFormsCommon
     }
   }
   async clickNext() {
-    let res: GarbageStationProfile | null;
+    let res: GarbageStationProfile | null | PartialResult<any>;
     res = await this.createOrUpdateModel();
     if (res) {
       this._toastrService.success('操作成功');

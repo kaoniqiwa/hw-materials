@@ -31,9 +31,6 @@ export class GarbageStationProfileDetailsBusiness {
   updateModel(model: GarbageStationProfile) {
     return this._garbageStationProfilesRequest.update(model);
   }
-  bacthPartialData(data: IPartialData[]) {
-    return this._garbageStationProfilesRequest.partialData.batch(data);
-  }
 
   putout(params: PutOutMaterialsParams) {
     return this._GarbageProfilesMaterialRequest.putout(params);

@@ -15,6 +15,8 @@ import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/to
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
+import { PartialData } from 'src/app/network/entity/partial-data.interface';
+import { PartialRequest } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
 import { GarbageProfileDetailsFormsCommon } from '../garbage-profile-details-forms.common';
 import { GarbageProfileDetailsForm1Business } from './garbage-profile-details-form1.business';
 import {
@@ -147,21 +149,33 @@ export class GarbageProfileDetailsForm1
         this.model.Id = Guid.NewGuid().ToString('N');
         this.model.ProfileState = 1;
       }
-      this.model.ProfileName = this.formGroup.value.ProfileName ?? '';
-      this.model.Province = this.formGroup.value.Province ?? '';
-      this.model.City = this.formGroup.value.City ?? '';
-      this.model.County = this.formGroup.value.County ?? '';
-      this.model.Street = this.formGroup.value.Street ?? '';
-      this.model.Committee = this.formGroup.value.Committee ?? '';
-      this.model.Address = this.formGroup.value.Address ?? '';
-      this.model.Contact = this.formGroup.value.Committee ?? '';
-      this.model.ContactPhoneNo = this.formGroup.value.ContactPhoneNo ?? '';
-      this.model.Labels = this.formGroup.value.Labels ?? [];
+      // this.model.ProfileName = this.formGroup.value.ProfileName ?? '';
+      // this.model.Province = this.formGroup.value.Province ?? '';
+      // this.model.City = this.formGroup.value.City ?? '';
+      // this.model.County = this.formGroup.value.County ?? '';
+      // this.model.Street = this.formGroup.value.Street ?? '';
+      // this.model.Committee = this.formGroup.value.Committee ?? '';
+      // this.model.Address = this.formGroup.value.Address ?? '';
+      // this.model.Contact = this.formGroup.value.Committee ?? '';
+      // this.model.ContactPhoneNo = this.formGroup.value.ContactPhoneNo ?? '';
+      // this.model.Labels = this.formGroup.value.Labels ?? [];
+
+      Object.assign(this.model, this.formGroup.value);
+
+      let partialRequest = new PartialRequest();
+
+      let partialData = new PartialData();
+      partialData.Id = this.model.Id;
+      Object.assign(partialData, this.formGroup.value);
+
+      partialRequest.Data = partialData;
 
       if (this.state == FormState.add) {
         return this._business.createModel(this.model!);
       } else if (this.state == FormState.edit) {
-        return this._business.updateModel(this.model);
+        // return this._business.updateModel(this.model);
+
+        return this._business.updatePartial(partialRequest);
       }
     }
     return null;
