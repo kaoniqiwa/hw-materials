@@ -26,6 +26,7 @@
 <ng-template #step1 #step let-value let-index="index">
   <garbage-profile-details-form1
     [formId]="formId"
+    [stepIndex]="index"
     [state]="state"
     (next)="nextEvent($event, index)"
     (close)="closeEvent()"
@@ -34,6 +35,7 @@
 <ng-template #step2 #step let-value let-index="index">
   <garbage-profile-details-form2
     [formId]="formId"
+    [stepIndex]="index"
     [state]="state"
     (next)="nextEvent($event, index)"
     (close)="closeEvent()"
@@ -46,6 +48,7 @@
 <ng-template #step4 #step let-value let-index="index">
   <garbage-profile-details-form4
     [formId]="formId"
+    [stepIndex]="index"
     [state]="state"
     (next)="nextEvent($event, index)"
     (close)="closeEvent()"

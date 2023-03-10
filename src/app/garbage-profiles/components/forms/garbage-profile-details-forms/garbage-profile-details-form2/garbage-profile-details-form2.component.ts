@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -11,11 +18,13 @@ import { ToastrService } from 'ngx-toastr';
 import { Guid } from 'src/app/common/tools/guid';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { GarbageStationFunction } from 'src/app/enum/garbage-station-function.enum';
+import { StrongCurrentWireMode } from 'src/app/enum/strong-current-wire-mode.enum';
 import { YesOrNo } from 'src/app/enum/yes-or-no.enum';
 import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/language.tool';
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
+import { PutOutMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
 import { GarbageProfileDetailsFormsCommon } from '../garbage-profile-details-forms.common';
 import { GarbageProfileDetailsForm2Business } from './garbage-profile-details-form2.business';
 
@@ -25,10 +34,12 @@ import { GarbageProfileDetailsForm2Business } from './garbage-profile-details-fo
   styleUrls: ['./garbage-profile-details-form2.component.less'],
   providers: [GarbageProfileDetailsForm2Business],
 })
-export class GarbageProfileDetailsForm2Component
+export class GarbageProfileDetailsForm2
   extends GarbageProfileDetailsFormsCommon
   implements OnInit
 {
+  showPutout = false;
+
   identityRevealedValidator: ValidatorFn = (
     control: AbstractControl
   ): ValidationErrors | null => {
@@ -69,7 +80,8 @@ export class GarbageProfileDetailsForm2Component
     source: GarbageStationProfilesSourceTools,
     language: GarbageStationProfilesLanguageTools,
     _business: GarbageProfileDetailsForm2Business,
-    _toastrService: ToastrService
+    _toastrService: ToastrService,
+    private changeDetector: ChangeDetectorRef
   ) {
     super(_business, _toastrService, source, language);
   }
@@ -79,7 +91,18 @@ export class GarbageProfileDetailsForm2Component
 
     console.log(this.formGroup.value);
     this._updateCustomForm();
+
+    this.changeDetector.detectChanges();
   }
+
+  uploadLFImage(id: string) {
+    console.log(id);
+
+    this.formGroup.patchValue({
+      LFImageUrl: id,
+    });
+  }
+
   changeCurrentWire() {
     this._updateValidator(!!this.formGroup.value['StrongCurrentWire']);
   }
@@ -91,37 +114,73 @@ export class GarbageProfileDetailsForm2Component
         this.model = new GarbageStationProfile();
         this.model.Id = Guid.NewGuid().ToString('N');
         this.model.ProfileState = 1;
-      } else {
-        this.model.ProfileState = this.model.ProfileState + 1;
       }
-      this.model.GarbageStationName =
-        this.formGroup.value['GarbageStationName'] ?? '';
-      this.model.CommunityName = this.formGroup.value['CommunityName'] ?? '';
-      this.model.StrongCurrentWire =
-        this.formGroup.value['StrongCurrentWire'] ?? '';
-      this.model.LFImageUrl = this.formGroup.value['LFImageUrl'] ?? '';
-      this.model.RFImageUrl = this.formGroup.value['RFImageUrl'] ?? '';
-      this.model.FImageUrl = this.formGroup.value['FImageUrl'] ?? '';
-      this.model.PowerImageUrl = this.formGroup.value['PowerImageUrl'] ?? '';
-      this.model.GarbageStationType =
-        this.formGroup.value['GarbageStationType'] ?? '';
-      this.model.Remarks = this.formGroup.value['Remarks'] ?? '';
+      if (this.model.ProfileState <= this.stepIndex) {
+        ++this.model.ProfileState;
+      }
+      // this.model.GarbageStationName =
+      //   this.formGroup.value['GarbageStationName'] ?? '';
+      // this.model.CommunityName = this.formGroup.value['CommunityName'] ?? '';
+      // this.model.StrongCurrentWire =
+      //   this.formGroup.value['StrongCurrentWire'] ?? '';
+      // this.model.StrongCurrentWireMode =
+      //   this.formGroup.value['StrongCurrentWireMode'];
+      // this.model.StrongCurrentWireLength =
+      //   this.formGroup.value['StrongCurrentWireLength'];
+
+      // this.model.LFImageUrl = this.formGroup.value['LFImageUrl'] ?? '';
+      // this.model.RFImageUrl = this.formGroup.value['RFImageUrl'] ?? '';
+      // this.model.FImageUrl = this.formGroup.value['FImageUrl'] ?? '';
+      // this.model.PowerImageUrl = this.formGroup.value['PowerImageUrl'] ?? '';
+      // this.model.GarbageStationType =
+      //   this.formGroup.value['GarbageStationType'] ?? '';
+      // this.model.Remarks = this.formGroup.value['Remarks'] ?? '';
+
+      Object.assign(this.model, this.formGroup.value);
       this.model.Functions = [];
 
-      // if (this.state == FormState.add) {
-      //   return this._business.createModel(this._model!);
-      // } else if (this.state == FormState.edit) {
-      //   return this._business.updateModel(this._model);
-      // }
+      if (this.formGroup.value['Functions'].garbagedrop) {
+        this.model.Functions.push(GarbageStationFunction.garbagedrop);
+      }
+      if (this.formGroup.value['Functions'].mixedinto) {
+        this.model.Functions.push(GarbageStationFunction.mixedinto);
+      }
+      if (this.formGroup.value['Functions'].garbagefull) {
+        this.model.Functions.push(GarbageStationFunction.garbagefull);
+      }
+
+      if (this.state == FormState.add) {
+        return this._business.createModel(this.model);
+      } else if (this.state == FormState.edit) {
+        return this._business.updateModel(this.model);
+      }
     }
 
     return null;
   }
+
+  async okHandler(params: PutOutMaterialsParams) {
+    // console.log(params);
+    // this.showPutout = false;
+    // console.log(this._model);
+    // if (this._model) {
+    //   params.ProfileId = this._model.Id;
+    //   params.ProfileName = this._model.ProfileName;
+    //   let res = await this._business.putout(params);
+    //   console.log(res);
+    //   this._model.MaterialItems = res.MaterialItems;
+    //   this._business.updateModel(this._model);
+    // }
+  }
+  cancelHandler() {
+    this.showPutout = false;
+  }
+
   private _updateValidator(value: boolean) {
     if (value) {
       this.formGroup.addControl(
         'StrongCurrentWireMode',
-        new FormControl('', Validators.required)
+        new FormControl(StrongCurrentWireMode.overheadline, Validators.required)
       );
       this.formGroup.addControl(
         'StrongCurrentWireLength',
@@ -158,6 +217,15 @@ export class GarbageProfileDetailsForm2Component
           });
         }
       });
+
+      if (this.model.StrongCurrentWire == YesOrNo.yes) {
+        this.changeCurrentWire();
+
+        this.formGroup.patchValue({
+          StrongCurrentWireMode: this.model.StrongCurrentWireMode,
+          StrongCurrentWireLength: this.model.StrongCurrentWireLength,
+        });
+      }
     }
   }
 }

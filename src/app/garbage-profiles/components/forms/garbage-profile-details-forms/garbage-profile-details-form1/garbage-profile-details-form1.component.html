@@ -21,7 +21,7 @@
         <common-label-select [selectedNodes]="selectedNodes" [autoclose]="true">
           <garbage-station-profile-label-tree
             #tree
-            [defaultIds]="defaultIds"
+            [defaultIds]="[0]"
             (selectTreeNode)="onTreeNodeSelected($event)"
           ></garbage-station-profile-label-tree>
         </common-label-select>

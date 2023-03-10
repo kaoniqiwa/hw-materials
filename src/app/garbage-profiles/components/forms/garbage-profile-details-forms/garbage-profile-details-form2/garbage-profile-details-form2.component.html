@@ -116,7 +116,9 @@
         </span>
       </div>
       <div class="content">
-        <button class="hw-blue-btn">物料出库</button>
+        <button class="hw-blue-btn" (click)="showPutout = !showPutout">
+          物料出库
+        </button>
       </div>
     </div>
     <div class="hw-form-group" style="flex-basis: 100%">
@@ -135,11 +137,13 @@
         <span class="hw-form-label">
           {{ language["LFImageUrl"] }}
           {{ ngForm.value.LFImageUrl }}
+          {{ model?.LFImageUrl }}
         </span>
       </div>
       <div class="content" style="height: 220px">
         <howell-picture-upload-control
           [id]="ngForm.value.LFImageUrl"
+          (upload)="uploadLFImage($event)"
         ></howell-picture-upload-control>
       </div>
     </div>
@@ -186,3 +190,12 @@
     </button>
   </div>
 </div>
+
+<toast-window *ngIf="showPutout" (closeEvent)="showPutout = false">
+  <div style="width: 800px; height: 600px">
+    <garbage-profiles-material-putout
+      (ok)="okHandler($event)"
+      (cancel)="cancelHandler()"
+    ></garbage-profiles-material-putout>
+  </div>
+</toast-window>

@@ -29,6 +29,9 @@ export abstract class GarbageProfileDetailsFormsCommon
   @Input()
   state: FormState = FormState.none;
 
+  @Input()
+  stepIndex = 0;
+
   @Output() close = new EventEmitter();
 
   @Output() next = new EventEmitter();

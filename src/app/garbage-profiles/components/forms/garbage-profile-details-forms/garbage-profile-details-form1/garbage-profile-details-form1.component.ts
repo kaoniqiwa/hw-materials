@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -74,7 +81,8 @@ export class GarbageProfileDetailsForm1
     source: GarbageStationProfilesSourceTools,
     language: GarbageStationProfilesLanguageTools,
     _toastrService: ToastrService,
-    override _business: GarbageProfileDetailsForm1Business
+    override _business: GarbageProfileDetailsForm1Business,
+    private _changeDetector: ChangeDetectorRef
   ) {
     super(_business, _toastrService, source, language);
   }
@@ -87,6 +95,8 @@ export class GarbageProfileDetailsForm1
     super.init();
     if (this.model) this.defaultIds = this.model.Labels ?? [];
     this._updateDivisionModel();
+
+    this._changeDetector.detectChanges();
   }
   changeDivision(selectEle: HTMLSelectElement, level: DivisionLevel) {
     let selectedOption = selectEle.options[selectEle.selectedIndex];
@@ -102,9 +112,9 @@ export class GarbageProfileDetailsForm1
     this.selectedNodes = nodes;
     let ids = this.selectedNodes.map((n) => parseInt(n.Id));
 
-    this.formGroup.patchValue({
-      Labels: ids,
-    });
+    // this.formGroup.patchValue({
+    //   Labels: ids,
+    // });
   }
 
   private async _updateDivisionModel() {
@@ -149,6 +159,9 @@ export class GarbageProfileDetailsForm1
         this.model.Id = Guid.NewGuid().ToString('N');
         this.model.ProfileState = 1;
       }
+      if (this.model.ProfileState <= this.stepIndex) {
+        ++this.model.ProfileState;
+      }
       // this.model.ProfileName = this.formGroup.value.ProfileName ?? '';
       // this.model.Province = this.formGroup.value.Province ?? '';
       // this.model.City = this.formGroup.value.City ?? '';
@@ -163,7 +176,6 @@ export class GarbageProfileDetailsForm1
       Object.assign(this.model, this.formGroup.value);
 
       let partialRequest = new PartialRequest();
-
       let partialData = new PartialData();
       partialData.Id = this.model.Id;
       Object.assign(partialData, this.formGroup.value);
