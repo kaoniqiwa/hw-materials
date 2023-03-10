@@ -40,5 +40,4 @@ export class GarbageStationProfileFilterWindow extends WindowViewModel {
     width: '800px',
     height: 'auto',
   };
-  override show: boolean = true;
 }
