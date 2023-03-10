@@ -1,0 +1,77 @@
+<div class="dynamic-form">
+  <form [formGroup]="formGroup">
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label"> </span>
+      </div>
+      <div class="content">
+        <div class="btn-bar">
+          <div
+            class="btn-item"
+            [class.active]="i == currentIndex"
+            (click)="currentIndex = i"
+            *ngFor="let camera of Cameras.controls; let i = index"
+          >
+            <span> 摄像机 {{ i + 1 }}</span>
+            <div
+              class="close-btn"
+              (click)="deleteCamera(i, $event)"
+              *ngIf="i != 0"
+            >
+              <i class="howell-icon-Close"></i>
+            </div>
+          </div>
+          <div class="plus-btn" (click)="addCamera()">
+            <i class="howell-icon-pluscircle"></i>
+          </div>
+        </div>
+        <div formArrayName="Cameras" class="group-wrapper">
+          <div *ngFor="let camera of Cameras.controls; let i = index">
+            <form class="hw-form" [formGroupName]="i" *ngIf="i == currentIndex">
+              <div class="hw-form-group">
+                <div class="title">
+                  <span class="hw-form-label"> {{ language["Name"] }} </span>
+                  <span class="hw-form-icon">*</span>
+                </div>
+                <div class="content">
+                  <input type="text" formControlName="Name" />
+                </div>
+              </div>
+              <div class="hw-form-group">
+                <div class="title">
+                  <span class="hw-form-label"> {{ language["Model"] }} </span>
+                  <span class="hw-form-icon">*</span>
+                </div>
+                <div class="content">
+                  <input type="text" formControlName="Model" />
+                </div>
+              </div>
+              <div class="hw-form-group">
+                <div class="title">
+                  <span class="hw-form-label">
+                    {{ language["SerialNo"] }}
+                  </span>
+                  <span class="hw-form-icon">*</span>
+                </div>
+                <div class="content">
+                  <input type="text" formControlName="SerialNo" />
+                </div>
+              </div>
+              <div class="hw-form-group">
+                <div class="title">
+                  <span class="hw-form-label">
+                    {{ language["Placement"] }}
+                  </span>
+                  <span class="hw-form-icon">*</span>
+                </div>
+                <div class="content">
+                  <input type="text" formControlName="Placement" />
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

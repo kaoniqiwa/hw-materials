@@ -30,7 +30,7 @@ import {
   styleUrls: ['./garbage-profile-details-form1.component.less'],
   providers: [GarbageProfileDetailsForm1Business],
 })
-export class GarbageProfileDetailsForm1Component
+export class GarbageProfileDetailsForm1
   extends GarbageProfileDetailsFormsCommon
   implements OnInit
 {
@@ -142,16 +142,16 @@ export class GarbageProfileDetailsForm1Component
         this._model.Id = Guid.NewGuid().ToString('N');
         this._model.ProfileState = 1;
       }
-      this._model!.ProfileName = this.formGroup.value.ProfileName ?? '';
-      this._model!.Province = this.formGroup.value.Province ?? '';
-      this._model!.City = this.formGroup.value.City ?? '';
-      this._model!.County = this.formGroup.value.County ?? '';
-      this._model!.Street = this.formGroup.value.Street ?? '';
-      this._model!.Committee = this.formGroup.value.Committee ?? '';
-      this._model!.Address = this.formGroup.value.Address ?? '';
-      this._model!.Contact = this.formGroup.value.Committee ?? '';
-      this._model!.ContactPhoneNo = this.formGroup.value.ContactPhoneNo ?? '';
-      this._model!.Labels = this.formGroup.value.Labels ?? [];
+      this._model.ProfileName = this.formGroup.value.ProfileName ?? '';
+      this._model.Province = this.formGroup.value.Province ?? '';
+      this._model.City = this.formGroup.value.City ?? '';
+      this._model.County = this.formGroup.value.County ?? '';
+      this._model.Street = this.formGroup.value.Street ?? '';
+      this._model.Committee = this.formGroup.value.Committee ?? '';
+      this._model.Address = this.formGroup.value.Address ?? '';
+      this._model.Contact = this.formGroup.value.Committee ?? '';
+      this._model.ContactPhoneNo = this.formGroup.value.ContactPhoneNo ?? '';
+      this._model.Labels = this.formGroup.value.Labels ?? [];
 
       if (this.state == FormState.add) {
         return this._business.createModel(this._model!);

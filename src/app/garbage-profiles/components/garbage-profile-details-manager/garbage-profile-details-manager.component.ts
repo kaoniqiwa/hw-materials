@@ -56,7 +56,7 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
 
   templateExpression: TemplateRef<any> | null = null;
   profileState = 0;
-  labels = ['初建档案', '勘察完成', '安装完成', '现场调试'];
+  labels = ['初建档案', '勘察完成', '安装完成', '现场调试', '准备上线'];
   stepLength = this.labels.length;
   completedArr: boolean[] = Array.from(Array(this.stepLength), () => false);
 
@@ -70,12 +70,11 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this._init();
+    this.selectedIndex = Math.max(this.stepLength, this.profileState - 1);
   }
 
   private async _init() {
     await this._updateState();
-
-    this.selectedIndex = this.profileState - 1;
   }
   ngAfterViewInit(): void {
     if (this.stepperTemp) {

@@ -44,5 +44,11 @@
   ><garbage-profile-details-form3></garbage-profile-details-form3>
 </ng-template>
 <ng-template #step4 #step let-value let-index="index">
-  <garbage-profile-details-form4></garbage-profile-details-form4>
+  <garbage-profile-details-form4
+    [formId]="formId"
+    [state]="state"
+    (next)="nextEvent($event, index)"
+    (close)="closeEvent()"
+    (previous)="previousEvent()"
+  ></garbage-profile-details-form4>
 </ng-template>

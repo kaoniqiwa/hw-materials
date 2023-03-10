@@ -1,1 +1,106 @@
-<p>details-form4 works!</p>
+<div class="details-form4">
+  <form [formGroup]="formGroup" class="hw-form" #ngForm="ngForm">
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label"> GPS{{ language["Longitude"] }} </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <input type="number" formControlName="Longitude" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label"> GPS{{ language["Latitude"] }} </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <input type="number" formControlName="Latitude" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["TimeToDump"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <input
+          type="text"
+          readonly
+          DateTimePicker
+          [format]="'yyyy年MM月dd日'"
+          [startView]="DateTimePickerView.month"
+          [minView]="DateTimePickerView.month"
+        />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["NB"] }}
+        </span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="NB" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["IMEI"] }}
+        </span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="IMEI" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["IMEICardType"] }}
+        </span>
+      </div>
+      <div class="content">
+        <select
+          #currentWire
+          class="hw-form-select"
+          formControlName="IMEICardType"
+        >
+          <option
+            *ngFor="let cartType of source.IMEICardType"
+            [ngValue]="cartType.Value"
+          >
+            {{ cartType.Name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="hw-form-group" style="flex-basis: 100%">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["Cameras"] }}
+        </span>
+      </div>
+      <div class="content">
+        <garbage-profile-details-dynamic
+          [formId]="formId"
+        ></garbage-profile-details-dynamic>
+      </div>
+    </div>
+  </form>
+  <div class="hw-middle-btn-group">
+    <button class="hw-blue-btn" type="button">上一步</button>
+    <button
+      class="hw-green-btn"
+      type="button"
+      *ngIf="state == FormState.edit"
+      (click)="clickSave()"
+    >
+      保存</button
+    ><button class="hw-blue-btn" type="button" (click)="clickNext()">
+      下一步
+    </button>
+  </div>
+</div>

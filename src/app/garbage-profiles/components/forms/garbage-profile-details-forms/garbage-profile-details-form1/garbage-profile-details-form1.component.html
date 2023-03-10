@@ -179,7 +179,12 @@
     >
       创建
     </button>
-    <button class="hw-green-btn" type="button" *ngIf="state == FormState.edit">
+    <button
+      class="hw-green-btn"
+      type="button"
+      *ngIf="state == FormState.edit"
+      (click)="clickSave()"
+    >
       保存
     </button>
 
