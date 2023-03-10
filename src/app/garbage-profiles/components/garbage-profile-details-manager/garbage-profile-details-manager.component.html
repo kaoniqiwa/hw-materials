@@ -1,6 +1,6 @@
 <div class="profile-details vertical-layout">
   <div class="profile-details-header vertical-header">
-    <div class="hw-simple-title">厢房档案 {{ profileState }}</div>
+    <div class="hw-simple-title">厢房档案--state {{ profileState }}</div>
   </div>
   <div class="profiles-details-body vertical-main">
     <ng-template [ngTemplateOutlet]="templateExpression"></ng-template>
@@ -51,4 +51,13 @@
     (close)="closeEvent()"
     (previous)="previousEvent()"
   ></garbage-profile-details-form4>
+</ng-template>
+<ng-template #step5 #step let-value let-index="index">
+  <garbage-profile-details-form5
+    [formId]="formId"
+    [state]="state"
+    (next)="nextEvent($event, index)"
+    (close)="closeEvent()"
+    (previous)="previousEvent()"
+  ></garbage-profile-details-form5>
 </ng-template>

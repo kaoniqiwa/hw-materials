@@ -8,6 +8,7 @@ import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/to
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
 import { Camera } from 'src/app/network/entity/camera.entity';
+import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { GPSPoint } from 'src/app/network/entity/gps-point.entity';
 import { GarbageProfileDetailsFormsCommon } from '../garbage-profile-details-forms.common';
 import { GarbageProfileDetailsForm4Business } from './garbage-profile-details-form4.business';
@@ -43,16 +44,16 @@ export class GarbageProfileDetailsForm4
   }
   async ngOnInit() {
     console.log(this.state);
-    await this._init();
+    await this.init();
   }
-  protected async _createOrUpdateModel() {
-    if (this._checkForm()) {
-      if (!this._model) {
-        this._model = new GarbageStationProfileModel();
-        this._model.Id = Guid.NewGuid().ToString('N');
-        this._model.ProfileState = 1;
+  protected async createOrUpdateModel() {
+    if (this.checkForm()) {
+      if (!this.model) {
+        this.model = new GarbageStationProfile();
+        this.model.Id = Guid.NewGuid().ToString('N');
+        this.model.ProfileState = 1;
       } else {
-        this._model.ProfileState = this._model.ProfileState + 1;
+        this.model.ProfileState = this.model.ProfileState + 1;
       }
 
       let longitude = this.formGroup.value.Longitude!;
@@ -61,9 +62,9 @@ export class GarbageProfileDetailsForm4
       gpsPoint.Longitude = +longitude;
       gpsPoint.Latitude = +latitude;
 
-      this._model.GPSPoint = gpsPoint;
+      this.model.GPSPoint = gpsPoint;
 
-      this._model.TimeToDump = this.formGroup.value.TimeToDump?.toString();
+      this.model.TimeToDump = this.formGroup.value.TimeToDump?.toString();
 
       let camera = new Camera();
       camera.Name = 'camera1';
@@ -71,12 +72,12 @@ export class GarbageProfileDetailsForm4
       camera.SerialNo = 'K83764140	M';
       camera.Placement = 1;
 
-      this._model.Cameras = [camera];
+      this.model.Cameras = [camera];
 
       if (this.state == FormState.add) {
-        return this._business.createModel(this._model!);
+        return this._business.createModel(this.model!);
       } else if (this.state == FormState.edit) {
-        return this._business.updateModel(this._model);
+        return this._business.updateModel(this.model);
       }
     }
     return null;

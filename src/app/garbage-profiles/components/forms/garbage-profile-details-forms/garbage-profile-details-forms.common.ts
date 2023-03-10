@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { CommonFormInterface } from 'src/app/common/interfaces/common-form.interface';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/language.tool';
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
@@ -16,7 +17,9 @@ import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-pr
 import { GarbageProfileDetailFormsBusiness } from './garbage-profile-details-forms.business';
 
 @Directive({})
-export abstract class GarbageProfileDetailsFormsCommon {
+export abstract class GarbageProfileDetailsFormsCommon
+  implements CommonFormInterface
+{
   @Input()
   formId?: string;
 
@@ -30,53 +33,44 @@ export abstract class GarbageProfileDetailsFormsCommon {
 
   FormState = FormState;
 
-  protected _model: GarbageStationProfile | null = null;
-  protected _business: GarbageProfileDetailFormsBusiness;
-  protected _toastrService: ToastrService;
-  public source: GarbageStationProfilesSourceTools;
-  public language: GarbageStationProfilesLanguageTools;
+  protected model: GarbageStationProfile | null = null;
 
   protected abstract formGroup: FormGroup;
 
-  protected abstract _createOrUpdateModel(): Promise<GarbageStationProfile | null>;
+  protected abstract createOrUpdateModel(): Promise<GarbageStationProfile | null>;
 
   constructor(
-    _business: GarbageProfileDetailFormsBusiness,
-    _toastrService: ToastrService,
-    source: GarbageStationProfilesSourceTools,
-    language: GarbageStationProfilesLanguageTools
-  ) {
-    this._business = _business;
-    this._toastrService = _toastrService;
-    this.source = source;
-    this.language = language;
-  }
+    protected _business: GarbageProfileDetailFormsBusiness,
+    protected _toastrService: ToastrService,
+    protected source: GarbageStationProfilesSourceTools,
+    protected language: GarbageStationProfilesLanguageTools
+  ) {}
 
-  protected async _init() {
+  protected async init() {
     if (this.formId) {
-      this._model = await this._business.getModel(this.formId);
+      this.model = await this._business.getModel(this.formId);
     }
 
-    this._updateForm();
+    this.updateForm();
   }
-  protected _updateForm() {
-    if (this._model) {
+  updateForm() {
+    if (this.model) {
       let controls = this.formGroup.controls;
       for (let [key, control] of Object.entries(controls)) {
         if (
-          Reflect.get(this._model, key) != void 0 &&
-          Reflect.get(this._model, key) !== '' &&
-          Reflect.get(this._model, key) !== null
+          Reflect.get(this.model, key) != void 0 &&
+          Reflect.get(this.model, key) !== '' &&
+          Reflect.get(this.model, key) !== null
         ) {
           this.formGroup.patchValue({
-            [key]: Reflect.get(this._model, key),
+            [key]: Reflect.get(this.model, key),
           });
         }
       }
     }
   }
 
-  protected _checkForm() {
+  checkForm() {
     if (this.formGroup.invalid) {
       let controls = this.formGroup.controls;
       for (let [key, control] of Object.entries(controls)) {
@@ -104,7 +98,7 @@ export abstract class GarbageProfileDetailsFormsCommon {
     return true;
   }
   async clickCreate() {
-    let res = await this._createOrUpdateModel();
+    let res = await this.createOrUpdateModel();
     if (res) {
       this._toastrService.success('创建成功');
       this.close.emit();
@@ -116,7 +110,7 @@ export abstract class GarbageProfileDetailsFormsCommon {
 
   async clickSave() {
     let res: GarbageStationProfile | null;
-    res = await this._createOrUpdateModel();
+    res = await this.createOrUpdateModel();
     if (res) {
       this._toastrService.success('操作成功');
       this.close.emit();
@@ -124,7 +118,7 @@ export abstract class GarbageProfileDetailsFormsCommon {
   }
   async clickNext() {
     let res: GarbageStationProfile | null;
-    res = await this._createOrUpdateModel();
+    res = await this.createOrUpdateModel();
     if (res) {
       this._toastrService.success('操作成功');
       this.next.emit(res.Id);

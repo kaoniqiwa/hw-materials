@@ -70,7 +70,7 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this._init();
-    this.selectedIndex = Math.max(this.stepLength, this.profileState - 1);
+    // this.selectedIndex = Math.max(this.stepLength, this.profileState - 1);
   }
 
   private async _init() {

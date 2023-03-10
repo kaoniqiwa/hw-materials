@@ -75,7 +75,7 @@ export class GarbageProfileDetailsForm2Component
   }
 
   async ngOnInit() {
-    await this._init();
+    await this.init();
 
     console.log(this.formGroup.value);
     this._updateCustomForm();
@@ -83,30 +83,30 @@ export class GarbageProfileDetailsForm2Component
   changeCurrentWire() {
     this._updateValidator(!!this.formGroup.value['StrongCurrentWire']);
   }
-  protected async _createOrUpdateModel() {
+  protected async createOrUpdateModel() {
     console.log(this.formGroup.value);
 
-    if (this._checkForm()) {
-      if (!this._model) {
-        this._model = new GarbageStationProfileModel();
-        this._model.Id = Guid.NewGuid().ToString('N');
-        this._model.ProfileState = 1;
+    if (this.checkForm()) {
+      if (!this.model) {
+        this.model = new GarbageStationProfile();
+        this.model.Id = Guid.NewGuid().ToString('N');
+        this.model.ProfileState = 1;
       } else {
-        this._model.ProfileState = this._model.ProfileState + 1;
+        this.model.ProfileState = this.model.ProfileState + 1;
       }
-      this._model.GarbageStationName =
+      this.model.GarbageStationName =
         this.formGroup.value['GarbageStationName'] ?? '';
-      this._model.CommunityName = this.formGroup.value['CommunityName'] ?? '';
-      this._model.StrongCurrentWire =
+      this.model.CommunityName = this.formGroup.value['CommunityName'] ?? '';
+      this.model.StrongCurrentWire =
         this.formGroup.value['StrongCurrentWire'] ?? '';
-      this._model.LFImageUrl = this.formGroup.value['LFImageUrl'] ?? '';
-      this._model.RFImageUrl = this.formGroup.value['RFImageUrl'] ?? '';
-      this._model.FImageUrl = this.formGroup.value['FImageUrl'] ?? '';
-      this._model.PowerImageUrl = this.formGroup.value['PowerImageUrl'] ?? '';
-      this._model.GarbageStationType =
+      this.model.LFImageUrl = this.formGroup.value['LFImageUrl'] ?? '';
+      this.model.RFImageUrl = this.formGroup.value['RFImageUrl'] ?? '';
+      this.model.FImageUrl = this.formGroup.value['FImageUrl'] ?? '';
+      this.model.PowerImageUrl = this.formGroup.value['PowerImageUrl'] ?? '';
+      this.model.GarbageStationType =
         this.formGroup.value['GarbageStationType'] ?? '';
-      this._model.Remarks = this.formGroup.value['Remarks'] ?? '';
-      this._model.Functions = [];
+      this.model.Remarks = this.formGroup.value['Remarks'] ?? '';
+      this.model.Functions = [];
 
       // if (this.state == FormState.add) {
       //   return this._business.createModel(this._model!);
@@ -134,14 +134,14 @@ export class GarbageProfileDetailsForm2Component
   }
 
   private _updateCustomForm() {
-    if (this._model) {
+    if (this.model) {
       let functionGroup = this.formGroup.get('Functions')!;
       functionGroup.setValue({
         garbagedrop: false,
         mixedinto: false,
         garbagefull: false,
       });
-      this._model.Functions?.forEach((v) => {
+      this.model.Functions?.forEach((v) => {
         if (v == GarbageStationFunction.garbagedrop) {
           functionGroup.patchValue({
             garbagedrop: true,

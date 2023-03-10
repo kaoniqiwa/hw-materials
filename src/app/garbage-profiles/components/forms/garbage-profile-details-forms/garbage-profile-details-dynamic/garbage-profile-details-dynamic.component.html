@@ -1,6 +1,6 @@
 <div class="dynamic-form">
-  <form [formGroup]="formGroup">
-    <div class="hw-form-group">
+  <form [formGroup]="formGroup" class="hw-form">
+    <div class="hw-form-group" style="flex-basis: 100%">
       <div class="title">
         <span class="hw-form-label"> </span>
       </div>
@@ -66,6 +66,105 @@
                 </div>
                 <div class="content">
                   <input type="text" formControlName="Placement" />
+                </div>
+              </div>
+              <div class="hw-form-group">
+                <div class="title">
+                  <span class="hw-form-label">
+                    {{ language["AccessServer"] }}
+                  </span>
+                  <span class="hw-form-icon">*</span>
+                </div>
+                <div class="content">
+                  <input type="text" formControlName="AccessServer" />
+                </div>
+              </div>
+              <div class="hw-form-group">
+                <div class="title">
+                  <span class="hw-form-label">
+                    {{ language["Resolution"] }}
+                  </span>
+                  <span class="hw-form-icon">*</span>
+                </div>
+                <div class="content">
+                  <input type="text" formControlName="Resolution" />
+                </div>
+              </div>
+              <div class="hw-form-group">
+                <div class="title">
+                  <span class="hw-form-label">
+                    {{ language["Bitrate"] }}
+                  </span>
+                  <span class="hw-form-icon">*</span>
+                </div>
+                <div class="content">
+                  <input type="text" formControlName="Bitrate" />
+                </div>
+              </div>
+              <div class="hw-form-group">
+                <div class="title">
+                  <span class="hw-form-label">
+                    {{ language["StorageTime"] }}
+                  </span>
+                  <span class="hw-form-icon">*</span>
+                </div>
+                <div class="content">
+                  <input type="text" formControlName="StorageTime" />
+                </div>
+              </div>
+              <div class="hw-form-group">
+                <div class="title">
+                  <span class="hw-form-label">
+                    {{ language["ActionEquipment"] }}
+                  </span>
+                  <span class="hw-form-icon">*</span>
+                </div>
+                <div class="content">
+                  <input type="text" formControlName="ActionEquipment" />
+                </div>
+              </div>
+              <div class="hw-form-group">
+                <div class="title">
+                  <span class="hw-form-label">
+                    {{ language["AudioOutputState"] }}
+                  </span>
+                  <span class="hw-form-icon">*</span>
+                </div>
+                <div class="content">
+                  <input type="text" formControlName="AudioOutputState" />
+                </div>
+              </div>
+              <div class="hw-form-group">
+                <div class="title">
+                  <span class="hw-form-label">
+                    {{ language["AudioVolume"] }}
+                  </span>
+                  <span class="hw-form-icon">*</span>
+                </div>
+                <div class="content">
+                  <input type="text" formControlName="AudioVolume" />
+                </div>
+              </div>
+              <div class="hw-form-group">
+                <div class="title">
+                  <span class="hw-form-label">
+                    {{ language["AIModelType"] }}
+                  </span>
+                  <span class="hw-form-icon">*</span>
+                </div>
+                <div class="content">
+                  <input type="text" formControlName="AIModelType" />
+                </div>
+              </div>
+              <div class="hw-form-group">
+                <div class="title">
+                  <span class="hw-form-label">
+                    {{ language["BsCameraId"] }}
+                  </span>
+                  <span class="hw-form-icon">*</span>
+                </div>
+                <div class="content">
+                  <input type="text" formControlName="BsCameraId" />
                 </div>
               </div>
             </form>

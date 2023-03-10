@@ -76,9 +76,14 @@ export class GarbageProfileDetailsForm1
   ) {
     super(_business, _toastrService, source, language);
   }
+
   ngOnInit(): void {
     this._init();
-    if (this._model) this.defaultIds = this._model.Labels ?? [];
+  }
+
+  private _init() {
+    super.init();
+    if (this.model) this.defaultIds = this.model.Labels ?? [];
     this._updateDivisionModel();
   }
   changeDivision(selectEle: HTMLSelectElement, level: DivisionLevel) {
@@ -101,17 +106,17 @@ export class GarbageProfileDetailsForm1
   }
 
   private async _updateDivisionModel() {
-    if (this._model) {
+    if (this.model) {
       this.defaultDivisionSource.set(
         DivisionLevel.Province,
-        this._model.Province
+        this.model.Province
       );
-      this.defaultDivisionSource.set(DivisionLevel.City, this._model.City);
-      this.defaultDivisionSource.set(DivisionLevel.County, this._model.County);
-      this.defaultDivisionSource.set(DivisionLevel.Street, this._model.Street);
+      this.defaultDivisionSource.set(DivisionLevel.City, this.model.City);
+      this.defaultDivisionSource.set(DivisionLevel.County, this.model.County);
+      this.defaultDivisionSource.set(DivisionLevel.Street, this.model.Street);
       this.defaultDivisionSource.set(
         DivisionLevel.Committee,
-        this._model.Committee
+        this.model.Committee
       );
     }
     for (let [key, value] of this.defaultDivisionSource.entries()) {
@@ -135,28 +140,28 @@ export class GarbageProfileDetailsForm1
     // console.log('清空下级字段名: ', Object.keys(patchValue));
     this.formGroup.patchValue(patchValue);
   }
-  protected async _createOrUpdateModel() {
-    if (this._checkForm()) {
-      if (!this._model) {
-        this._model = new GarbageStationProfileModel();
-        this._model.Id = Guid.NewGuid().ToString('N');
-        this._model.ProfileState = 1;
+  protected async createOrUpdateModel() {
+    if (this.checkForm()) {
+      if (!this.model) {
+        this.model = new GarbageStationProfile();
+        this.model.Id = Guid.NewGuid().ToString('N');
+        this.model.ProfileState = 1;
       }
-      this._model.ProfileName = this.formGroup.value.ProfileName ?? '';
-      this._model.Province = this.formGroup.value.Province ?? '';
-      this._model.City = this.formGroup.value.City ?? '';
-      this._model.County = this.formGroup.value.County ?? '';
-      this._model.Street = this.formGroup.value.Street ?? '';
-      this._model.Committee = this.formGroup.value.Committee ?? '';
-      this._model.Address = this.formGroup.value.Address ?? '';
-      this._model.Contact = this.formGroup.value.Committee ?? '';
-      this._model.ContactPhoneNo = this.formGroup.value.ContactPhoneNo ?? '';
-      this._model.Labels = this.formGroup.value.Labels ?? [];
+      this.model.ProfileName = this.formGroup.value.ProfileName ?? '';
+      this.model.Province = this.formGroup.value.Province ?? '';
+      this.model.City = this.formGroup.value.City ?? '';
+      this.model.County = this.formGroup.value.County ?? '';
+      this.model.Street = this.formGroup.value.Street ?? '';
+      this.model.Committee = this.formGroup.value.Committee ?? '';
+      this.model.Address = this.formGroup.value.Address ?? '';
+      this.model.Contact = this.formGroup.value.Committee ?? '';
+      this.model.ContactPhoneNo = this.formGroup.value.ContactPhoneNo ?? '';
+      this.model.Labels = this.formGroup.value.Labels ?? [];
 
       if (this.state == FormState.add) {
-        return this._business.createModel(this._model!);
+        return this._business.createModel(this.model!);
       } else if (this.state == FormState.edit) {
-        return this._business.updateModel(this._model);
+        return this._business.updateModel(this.model);
       }
     }
     return null;

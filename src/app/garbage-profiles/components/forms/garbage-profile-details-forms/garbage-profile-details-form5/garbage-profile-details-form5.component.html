@@ -1,1 +1,21 @@
-<p>garbage-profile-details-form5 works!</p>
+<div class="details-form5">
+  <div class="inner-form">
+    <garbage-profile-details-dynamic
+      [formId]="formId"
+      [state]="state"
+    ></garbage-profile-details-dynamic>
+  </div>
+  <div class="hw-middle-btn-group">
+    <button class="hw-blue-btn" type="button">上一步</button>
+    <button
+      class="hw-green-btn"
+      type="button"
+      *ngIf="state == FormState.edit"
+      (click)="clickSave()"
+    >
+      保存</button
+    ><button class="hw-blue-btn" type="button" (click)="clickNext()">
+      下一步
+    </button>
+  </div>
+</div>
