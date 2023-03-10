@@ -19,8 +19,13 @@ export class GarbageStationProfilePictureWindow extends WindowViewModel {
   };
   urlId?: string;
 }
-export class GarbageStationProfileRecordWindow extends WindowViewModel {
+export class GarbageStationProfileRecordModificationWindow extends WindowViewModel {
   style = {};
+}
+export class GarbageStationProfileRecordMaterialWindow extends WindowViewModel {}
+export class GarbageStationProfileRecordWindow {
+  material = new GarbageStationProfileRecordMaterialWindow();
+  modification = new GarbageStationProfileRecordModificationWindow();
 }
 export class GarbageStationProfileConfirmWindow extends WindowViewModel {
   style = {
@@ -40,4 +45,5 @@ export class GarbageStationProfileFilterWindow extends WindowViewModel {
     width: '800px',
     height: 'auto',
   };
+  override show: boolean = true;
 }

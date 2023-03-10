@@ -57,10 +57,11 @@ export class GarbageStationProfileManagerComponent {
     this.window.setting.show = false;
     this.window.picture.show = false;
     this.window.picture.urlId = undefined;
-    this.window.record.show = false;
+    this.window.record.modification.show = false;
     this.window.confirm.show = false;
     this.window.partial.show = false;
     this.window.partial.model = undefined;
+    this.window.record.material.show = false;
   }
   oncreate() {
     this.selectedId = '';
@@ -113,7 +114,7 @@ export class GarbageStationProfileManagerComponent {
   }
 
   onrecord() {
-    this.window.record.show = true;
+    this.window.record.modification.show = true;
   }
 
   todelete() {

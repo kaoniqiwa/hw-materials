@@ -13,10 +13,10 @@
       <div class="filter-item-title">物料：</div>
       <div class="filter-item-control">
         <common-label-select
+          class="common-label-select"
           [selectedNodes]="manager.material.nodes"
           (toggleDropDown)="manager.material.ontoggle($event)"
           [autoclose]="true"
-          [height]="'185px'"
         >
           <howell-material-tree
             #tree
@@ -30,9 +30,9 @@
       <div class="filter-item-title">标签：</div>
       <div class="filter-item-control">
         <common-label-select
+          class="common-label-select"
           [selectedNodes]="manager.label.nodes"
           [autoclose]="true"
-          [height]="'185px'"
         >
           <garbage-station-profile-label-tree
             #tree

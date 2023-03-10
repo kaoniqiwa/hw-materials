@@ -25,29 +25,6 @@
           "hideSelf": true
         }
       ]
-    },
-    {
-      "title": "垃圾分类",
-      "id": "garbage-classify",
-      "path": "/garbage-profiles/underwater/monitor-platform/garbage-classify",
-      "icon": "howell-icon-garbagebags",
-      "children": [
-        {
-          "title": "区划管理",
-          "id": "division-manage",
-          "path": "/garbage-profiles/underwater/monitor-platform/garbage-classify/division-manage"
-        },
-        {
-          "title": "地图布控",
-          "id": "deploy-map",
-          "path": "/garbage-profiles/underwater/monitor-platform/garbage-classify/deploy-map"
-        },
-        {
-          "title": "垃圾厢房管理",
-          "id": "garbage-station-manage",
-          "path": "/garbage-profiles/underwater/monitor-platform/garbage-classify/garbage-station-manage"
-        }
-      ]
     }
   ]
 }

@@ -73,9 +73,9 @@
 </app-window> -->
 
 <app-window
-  [Model]="window.record"
-  [style]="window.record.style"
-  *ngIf="window.record.show"
+  [Model]="window.record.modification"
+  [style]="window.record.modification.style"
+  *ngIf="window.record.modification.show"
 >
   <garbage-station-profile-record> </garbage-station-profile-record>
 </app-window>
@@ -149,4 +149,7 @@
   <garbage-station-profile-filter
     [(args)]="args"
   ></garbage-station-profile-filter>
+</app-window>
+<app-window>
+  <garbage-profiles-material-record-details></garbage-profiles-material-record-details>
 </app-window>
