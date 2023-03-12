@@ -16,6 +16,7 @@ import {
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Guid } from 'src/app/common/tools/guid';
+import { Medium } from 'src/app/common/tools/medium';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { GarbageStationFunction } from 'src/app/enum/garbage-station-function.enum';
 import { StrongCurrentWireMode } from 'src/app/enum/strong-current-wire-mode.enum';
@@ -31,7 +32,10 @@ import { GarbageProfileDetailsForm2Business } from './garbage-profile-details-fo
 @Component({
   selector: 'garbage-profile-details-form2',
   templateUrl: './garbage-profile-details-form2.component.html',
-  styleUrls: ['./garbage-profile-details-form2.component.less'],
+  styleUrls: [
+    './garbage-profile-details-form2.component.less',
+    '../garbage-profile-details.less',
+  ],
   providers: [GarbageProfileDetailsForm2Business],
 })
 export class GarbageProfileDetailsForm2
@@ -39,6 +43,10 @@ export class GarbageProfileDetailsForm2
   implements OnInit
 {
   showPutout = false;
+  LFImageUrl = '';
+  RFImageUrl = '';
+  FImageUrl = '';
+  PowerImageUrl = '';
 
   identityRevealedValidator: ValidatorFn = (
     control: AbstractControl
@@ -54,7 +62,7 @@ export class GarbageProfileDetailsForm2
     }
     return { identityRevealed: true };
   };
-  formGroup = new FormGroup<{ [key: string]: AbstractControl }>({
+  override formGroup = new FormGroup<{ [key: string]: AbstractControl }>({
     GarbageStationName: new FormControl('', Validators.required),
     CommunityName: new FormControl('', Validators.required),
     StrongCurrentWire: new FormControl(YesOrNo.no, Validators.required),
@@ -79,7 +87,7 @@ export class GarbageProfileDetailsForm2
   constructor(
     source: GarbageStationProfilesSourceTools,
     language: GarbageStationProfilesLanguageTools,
-    _business: GarbageProfileDetailsForm2Business,
+    override _business: GarbageProfileDetailsForm2Business,
     _toastrService: ToastrService,
     private changeDetector: ChangeDetectorRef
   ) {
@@ -87,54 +95,50 @@ export class GarbageProfileDetailsForm2
   }
 
   async ngOnInit() {
+    this._init();
+  }
+
+  private async _init() {
     await this.init();
 
-    console.log(this.formGroup.value);
     this._updateCustomForm();
 
     this.changeDetector.detectChanges();
   }
 
   uploadLFImage(id: string) {
-    console.log(id);
-
     this.formGroup.patchValue({
       LFImageUrl: id,
+    });
+  }
+  uploadRFImage(id: string) {
+    this.formGroup.patchValue({
+      RFImageUrl: id,
+    });
+  }
+  uploadFImage(id: string) {
+    this.formGroup.patchValue({
+      FImageUrl: id,
+    });
+  }
+  uploadPowerImage(id: string) {
+    this.formGroup.patchValue({
+      PowerImageUrl: id,
     });
   }
 
   changeCurrentWire() {
     this._updateValidator(!!this.formGroup.value['StrongCurrentWire']);
   }
-  protected async createOrUpdateModel() {
-    console.log(this.formGroup.value);
-
+  protected override async createOrUpdateModel() {
     if (this.checkForm()) {
       if (!this.model) {
         this.model = new GarbageStationProfile();
-        this.model.Id = Guid.NewGuid().ToString('N');
         this.model.ProfileState = 1;
       }
       if (this.model.ProfileState <= this.stepIndex) {
         ++this.model.ProfileState;
       }
-      // this.model.GarbageStationName =
-      //   this.formGroup.value['GarbageStationName'] ?? '';
-      // this.model.CommunityName = this.formGroup.value['CommunityName'] ?? '';
-      // this.model.StrongCurrentWire =
-      //   this.formGroup.value['StrongCurrentWire'] ?? '';
-      // this.model.StrongCurrentWireMode =
-      //   this.formGroup.value['StrongCurrentWireMode'];
-      // this.model.StrongCurrentWireLength =
-      //   this.formGroup.value['StrongCurrentWireLength'];
-
-      // this.model.LFImageUrl = this.formGroup.value['LFImageUrl'] ?? '';
-      // this.model.RFImageUrl = this.formGroup.value['RFImageUrl'] ?? '';
-      // this.model.FImageUrl = this.formGroup.value['FImageUrl'] ?? '';
-      // this.model.PowerImageUrl = this.formGroup.value['PowerImageUrl'] ?? '';
-      // this.model.GarbageStationType =
-      //   this.formGroup.value['GarbageStationType'] ?? '';
-      // this.model.Remarks = this.formGroup.value['Remarks'] ?? '';
 
       Object.assign(this.model, this.formGroup.value);
       this.model.Functions = [];
@@ -150,9 +154,11 @@ export class GarbageProfileDetailsForm2
       }
 
       if (this.state == FormState.add) {
-        return this._business.createModel(this.model);
+        this.model = await this._business.createModel(this.model!);
+        return this.model;
       } else if (this.state == FormState.edit) {
-        return this._business.updateModel(this.model);
+        this.model = await this._business.updateModel(this.model);
+        return this.model;
       }
     }
 
@@ -161,16 +167,16 @@ export class GarbageProfileDetailsForm2
 
   async okHandler(params: PutOutMaterialsParams) {
     // console.log(params);
-    // this.showPutout = false;
-    // console.log(this._model);
-    // if (this._model) {
-    //   params.ProfileId = this._model.Id;
-    //   params.ProfileName = this._model.ProfileName;
-    //   let res = await this._business.putout(params);
-    //   console.log(res);
-    //   this._model.MaterialItems = res.MaterialItems;
-    //   this._business.updateModel(this._model);
-    // }
+    this.showPutout = false;
+    if (this.model) {
+      params.ProfileId = this.model.Id;
+      params.ProfileName = this.model.ProfileName;
+      let res = await this._business.putout(params);
+      console.log(res);
+      this.model.MaterialItems = res.MaterialItems;
+      let res2 = await this._business.updateModel(this.model);
+      console.log(res2);
+    }
   }
   cancelHandler() {
     this.showPutout = false;
@@ -225,6 +231,21 @@ export class GarbageProfileDetailsForm2
           StrongCurrentWireMode: this.model.StrongCurrentWireMode,
           StrongCurrentWireLength: this.model.StrongCurrentWireLength,
         });
+      }
+      if (this.model.LFImageUrl) {
+        this.LFImageUrl = Medium.jpg(this.model.LFImageUrl);
+      }
+
+      if (this.model.RFImageUrl) {
+        this.RFImageUrl = Medium.jpg(this.model.RFImageUrl);
+      }
+
+      if (this.model.FImageUrl) {
+        this.FImageUrl = Medium.jpg(this.model.FImageUrl);
+      }
+
+      if (this.model.PowerImageUrl) {
+        this.PowerImageUrl = Medium.jpg(this.model.PowerImageUrl);
       }
     }
   }

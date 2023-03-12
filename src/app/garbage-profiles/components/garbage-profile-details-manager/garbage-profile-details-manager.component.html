@@ -8,7 +8,7 @@
 </div>
 
 <ng-template #stepperTemp>
-  <mat-stepper #stepper linear [selectedIndex]="selectedIndex">
+  <mat-stepper #stepper linear>
     <ng-container *ngFor="let label of labels; let i = index; let c = count">
       <mat-step [completed]="!!completedArr[i]">
         <ng-template matStepLabel>{{ label }} </ng-template>
@@ -43,7 +43,14 @@
   ></garbage-profile-details-form2>
 </ng-template>
 <ng-template #step3 #step let-value let-index="index"
-  ><garbage-profile-details-form3></garbage-profile-details-form3>
+  ><garbage-profile-details-form3
+    [formId]="formId"
+    [stepIndex]="index"
+    [state]="state"
+    (next)="nextEvent($event, index)"
+    (close)="closeEvent()"
+    (previous)="previousEvent()"
+  ></garbage-profile-details-form3>
 </ng-template>
 <ng-template #step4 #step let-value let-index="index">
   <garbage-profile-details-form4
@@ -59,6 +66,7 @@
   <garbage-profile-details-form5
     [formId]="formId"
     [state]="state"
+    [stepIndex]="index"
     (next)="nextEvent($event, index)"
     (close)="closeEvent()"
     (previous)="previousEvent()"

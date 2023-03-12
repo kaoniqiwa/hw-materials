@@ -11,15 +11,16 @@ import { GarbageProfileDetailsForm5Business } from './garbage-profile-details-fo
 @Component({
   selector: 'garbage-profile-details-form5',
   templateUrl: './garbage-profile-details-form5.component.html',
-  styleUrls: ['./garbage-profile-details-form5.component.less'],
+  styleUrls: [
+    './garbage-profile-details-form5.component.less',
+    '../garbage-profile-details.less',
+  ],
   providers: [GarbageProfileDetailsForm5Business],
 })
 export class GarbageProfileDetailsForm5
   extends GarbageProfileDetailsFormsCommon
   implements OnInit, AfterViewInit
 {
-  formGroup = new FormGroup({});
-
   @ViewChild(GarbageProfileDetailsDynamicForm)
   dynamicForm?: GarbageProfileDetailsDynamicForm;
 
@@ -40,7 +41,7 @@ export class GarbageProfileDetailsForm5
   ngAfterViewInit(): void {
     console.log(this.dynamicForm);
   }
-  async createOrUpdateModel(): Promise<GarbageStationProfile | null> {
+  override async createOrUpdateModel(): Promise<GarbageStationProfile | null> {
     console.log(this.dynamicForm?.getCameras());
 
     if (this.model) {

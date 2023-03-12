@@ -11,6 +11,7 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
+import { MatStepper } from '@angular/material/stepper';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { ProfileDetailsBusiness } from './garbage-profile-details-manager.business';
@@ -51,6 +52,7 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
   @ViewChild('stepperTemp') stepperTemp?: TemplateRef<any>;
   @ViewChild('expansionTemp') expansionTemp?: TemplateRef<any>;
   @ViewChildren('step') stepList?: QueryList<TemplateRef<any>>;
+  @ViewChild(MatStepper) matStepper?: MatStepper;
 
   private _model: GarbageStationProfile | null = null;
 
@@ -95,17 +97,18 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
     await this._updateState();
 
     let nextIndex = ++index;
-    this.selectedIndex = Math.min(nextIndex, this.stepLength - 1);
+    // this.selectedIndex = Math.min(nextIndex, this.stepLength - 1);
+    this.matStepper?.next();
     // this.updateDetails.emit();
   }
 
   previousEvent() {
-    this.selectedIndex = Math.max(this._selectedIndex - 1, 0);
+    // this.selectedIndex = Math.max(this._selectedIndex - 1, 0);
+    this.matStepper?.previous();
   }
   private async _updateState() {
     if (this.formId) {
       this._model = await this._business.getModel(this.formId);
-      console.log(this._model);
     }
     this.profileState = this._model ? this._model.ProfileState : 0;
     this.completedArr = this.completedArr.map((v, i) => {

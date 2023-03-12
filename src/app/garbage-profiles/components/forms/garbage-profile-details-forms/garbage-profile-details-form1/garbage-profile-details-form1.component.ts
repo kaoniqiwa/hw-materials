@@ -36,7 +36,10 @@ import {
 @Component({
   selector: 'garbage-profile-details-form1',
   templateUrl: './garbage-profile-details-form1.component.html',
-  styleUrls: ['./garbage-profile-details-form1.component.less'],
+  styleUrls: [
+    './garbage-profile-details-form1.component.less',
+    '../garbage-profile-details.less',
+  ],
   providers: [GarbageProfileDetailsForm1Business],
 })
 export class GarbageProfileDetailsForm1
@@ -65,7 +68,7 @@ export class GarbageProfileDetailsForm1
   divisionSearchInfo: DivisionSearchInfo = {};
   divisionModel: DivisionModel = new DivisionModel();
 
-  formGroup = new FormGroup({
+  override formGroup = new FormGroup({
     ProfileName: new FormControl('', Validators.required),
     Province: new FormControl(this.defaultProvince, Validators.required),
     City: new FormControl(this.defaultCity, Validators.required),
@@ -87,17 +90,18 @@ export class GarbageProfileDetailsForm1
     super(_business, _toastrService, source, language);
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this._init();
   }
 
-  private _init() {
-    super.init();
+  private async _init() {
+    await this.init();
     if (this.model) this.defaultIds = this.model.Labels ?? [];
     this._updateDivisionModel();
 
     this._changeDetector.detectChanges();
   }
+
   changeDivision(selectEle: HTMLSelectElement, level: DivisionLevel) {
     let selectedOption = selectEle.options[selectEle.selectedIndex];
     let id = selectedOption.id;
@@ -112,9 +116,9 @@ export class GarbageProfileDetailsForm1
     this.selectedNodes = nodes;
     let ids = this.selectedNodes.map((n) => parseInt(n.Id));
 
-    // this.formGroup.patchValue({
-    //   Labels: ids,
-    // });
+    this.formGroup.patchValue({
+      Labels: ids,
+    });
   }
 
   private async _updateDivisionModel() {
@@ -152,47 +156,6 @@ export class GarbageProfileDetailsForm1
     // console.log('清空下级字段名: ', Object.keys(patchValue));
     this.formGroup.patchValue(patchValue);
   }
-  protected async createOrUpdateModel() {
-    if (this.checkForm()) {
-      if (!this.model) {
-        this.model = new GarbageStationProfile();
-        this.model.Id = Guid.NewGuid().ToString('N');
-        this.model.ProfileState = 1;
-      }
-      if (this.model.ProfileState <= this.stepIndex) {
-        ++this.model.ProfileState;
-      }
-      // this.model.ProfileName = this.formGroup.value.ProfileName ?? '';
-      // this.model.Province = this.formGroup.value.Province ?? '';
-      // this.model.City = this.formGroup.value.City ?? '';
-      // this.model.County = this.formGroup.value.County ?? '';
-      // this.model.Street = this.formGroup.value.Street ?? '';
-      // this.model.Committee = this.formGroup.value.Committee ?? '';
-      // this.model.Address = this.formGroup.value.Address ?? '';
-      // this.model.Contact = this.formGroup.value.Committee ?? '';
-      // this.model.ContactPhoneNo = this.formGroup.value.ContactPhoneNo ?? '';
-      // this.model.Labels = this.formGroup.value.Labels ?? [];
-
-      Object.assign(this.model, this.formGroup.value);
-
-      let partialRequest = new PartialRequest();
-      let partialData = new PartialData();
-      partialData.Id = this.model.Id;
-      Object.assign(partialData, this.formGroup.value);
-
-      partialRequest.Data = partialData;
-
-      if (this.state == FormState.add) {
-        return this._business.createModel(this.model!);
-      } else if (this.state == FormState.edit) {
-        // return this._business.updateModel(this.model);
-
-        return this._business.updatePartial(partialRequest);
-      }
-    }
-    return null;
-  }
-
   /**
    *
    * @param level 当前层级，需要请求下级信息

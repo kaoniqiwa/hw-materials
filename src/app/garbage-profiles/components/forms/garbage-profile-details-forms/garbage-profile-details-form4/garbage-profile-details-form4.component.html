@@ -1,4 +1,4 @@
-<div class="details-form4">
+<div class="details-form">
   <form [formGroup]="formGroup" class="hw-form" #ngForm="ngForm">
     <div class="hw-form-group">
       <div class="title">
@@ -33,6 +33,7 @@
           [format]="'yyyy年MM月dd日'"
           [startView]="DateTimePickerView.month"
           [minView]="DateTimePickerView.month"
+          [(date)]="ngForm.value.TimeToDump"
         />
       </div>
     </div>
@@ -87,6 +88,7 @@
         <garbage-profile-details-dynamic
           [formId]="formId"
           [state]="state"
+          [stepIndex]="stepIndex"
         ></garbage-profile-details-dynamic>
       </div>
     </div>

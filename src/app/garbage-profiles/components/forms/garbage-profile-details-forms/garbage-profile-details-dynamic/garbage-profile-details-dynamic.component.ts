@@ -1,6 +1,12 @@
 import { FormatWidth } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ToastRef, ToastrService } from 'ngx-toastr';
 import { CommonFormInterface } from 'src/app/common/interfaces/common-form.interface';
 import { FormState } from 'src/app/enum/form-state.enum';
@@ -25,12 +31,16 @@ export class GarbageProfileDetailsDynamicForm
   @Input()
   state: FormState = FormState.none;
 
-  private _model: GarbageStationProfile | null = null;
+  @Input() stepIndex = 0;
+
+  private model: GarbageStationProfile | null = null;
 
   currentIndex = 0;
   maxLength = 7;
-  formGroup = new FormGroup({
-    Cameras: new FormArray([]),
+  formGroup = new FormGroup<{ [key: string]: AbstractControl }>({
+    Cameras: new FormArray([], {
+      validators: [Validators.required, Validators.maxLength(7)],
+    }),
   });
 
   get Cameras() {
@@ -46,27 +56,22 @@ export class GarbageProfileDetailsDynamicForm
   updateForm(): void {
     throw new Error('Method not implemented.');
   }
-  checkForm(): boolean {
-    throw new Error('Method not implemented.');
-  }
 
   ngOnInit(): void {
+    console.log(this.stepIndex);
     this._init();
-    this.addCamera();
-
-    this.getCameras();
   }
 
   private async _init() {
     if (this.formId) {
-      this._model = await this._business.getModel(this.formId);
+      this.model = await this._business.getModel(this.formId);
     }
-    console.log(this._model);
+    console.log(this.model);
 
     this._updateForm();
   }
   newCamera() {
-    return new FormGroup({
+    return new FormGroup<{ [key: string]: AbstractControl }>({
       Name: new FormControl('', Validators.required),
       Model: new FormControl(1, Validators.required),
       SerialNo: new FormControl('', Validators.required),
@@ -98,6 +103,31 @@ export class GarbageProfileDetailsDynamicForm
     }
   }
 
+  checkForm() {
+    // console.log(this.Cameras.errors);
+    if (this.Cameras.invalid) {
+      if (this.Cameras.errors) {
+        if ('required' in this.Cameras.errors!) {
+          this._toastrService.warning('至少一个摄像机');
+
+          return false;
+        }
+        if ('maxlength' in this.Cameras.errors!) {
+          this._toastrService.warning(`最大${this.maxLength}个摄像机`);
+          return false;
+        }
+      }
+
+      for (let i = 0; i < this.Cameras.length; i++) {
+        let control = this.Cameras.at(i);
+        if (control.invalid) {
+          this._toastrService.warning(`摄像机${i + 1}信息无效`);
+          return false;
+        }
+      }
+    }
+    return true;
+  }
   getCameras() {
     let cameras: Camera[] = [];
 
@@ -108,14 +138,14 @@ export class GarbageProfileDetailsDynamicForm
       camera.Model = control.value.Model;
       camera.SerialNo = control.value.SerialNo;
       camera.Placement = control.value.Placement;
-      // camera.AccessServer = control.value.AccessServer;
-      // camera.Resolution = control.value.Resolution;
-      // camera.Bitrate = control.value.Bitrate;
-      // camera.StorageTime = control.value.StorageTime;
-      // camera.ActionEquipment = control.value.ActionEquipment;
-      // camera.AudioOutputState = control.value.AudioOutputState;
-      // camera.AudioVolume = control.value.AudioVolume;
-      // camera.AIModelType = control.value.AIModelType;
+      camera.AccessServer = control.value.AccessServer;
+      camera.Resolution = control.value.Resolution;
+      camera.Bitrate = control.value.Bitrate;
+      camera.StorageTime = control.value.StorageTime;
+      camera.ActionEquipment = control.value.ActionEquipment;
+      camera.AudioOutputState = control.value.AudioOutputState;
+      camera.AudioVolume = control.value.AudioVolume;
+      camera.AIModelType = control.value.AIModelType;
       // camera.BsCameraId = control.value.BsCameraId;
       cameras.push(camera);
     }
@@ -123,20 +153,32 @@ export class GarbageProfileDetailsDynamicForm
   }
   private _updateForm() {
     if (this.state == FormState.edit) {
-      if (this._model) {
-        this.Cameras.clear();
-        this._model.Cameras?.forEach((v) => {
-          let camera = this.newCamera();
-          camera.patchValue({
-            Name: v.Name,
-            Model: v.Model,
-            SerialNo: v.SerialNo,
-            Placement: v.Placement,
+      if (this.model) {
+        if (this.model.Cameras && this.model.Cameras.length > 0) {
+          this.Cameras.clear();
+          this.model.Cameras?.forEach((v) => {
+            let camera = this.newCamera();
+
+            let controls = camera.controls;
+            for (let [key, control] of Object.entries(controls)) {
+              if (
+                Reflect.get(v, key) != void 0 &&
+                Reflect.get(v, key) !== '' &&
+                Reflect.get(v, key) !== null
+              ) {
+                camera.patchValue({
+                  [key]: Reflect.get(v, key),
+                });
+              }
+            }
+
+            this.Cameras.push(camera);
           });
 
-          this.Cameras.push(camera);
-        });
+          return;
+        }
       }
+      this.addCamera();
     }
   }
 }

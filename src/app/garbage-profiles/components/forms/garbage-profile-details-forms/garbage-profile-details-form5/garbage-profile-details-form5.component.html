@@ -1,8 +1,9 @@
-<div class="details-form5">
+<div class="details-form">
   <div class="inner-form">
     <garbage-profile-details-dynamic
       [formId]="formId"
       [state]="state"
+      [stepIndex]="stepIndex"
     ></garbage-profile-details-dynamic>
   </div>
   <div class="hw-middle-btn-group">
@@ -13,9 +14,10 @@
       *ngIf="state == FormState.edit"
       (click)="clickSave()"
     >
-      保存</button
-    ><button class="hw-blue-btn" type="button" (click)="clickNext()">
-      下一步
+      保存
     </button>
+    <!-- <button class="hw-blue-btn" type="button" (click)="clickNext()">
+      下一步
+    </button> -->
   </div>
 </div>

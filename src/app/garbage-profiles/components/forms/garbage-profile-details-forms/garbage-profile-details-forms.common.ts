@@ -20,9 +20,7 @@ import { GarbageProfileDetailFormsBusiness } from './garbage-profile-details-for
 @Directive({
   selector: 'hello',
 })
-export abstract class GarbageProfileDetailsFormsCommon
-  implements CommonFormInterface
-{
+export class GarbageProfileDetailsFormsCommon implements CommonFormInterface {
   @Input()
   formId?: string;
 
@@ -41,11 +39,7 @@ export abstract class GarbageProfileDetailsFormsCommon
 
   protected model: GarbageStationProfile | null = null;
 
-  protected abstract formGroup: FormGroup;
-
-  protected abstract createOrUpdateModel(): Promise<
-    GarbageStationProfile | null | PartialResult<any>
-  >;
+  protected formGroup: FormGroup = new FormGroup({});
 
   constructor(
     protected _business: GarbageProfileDetailFormsBusiness,
@@ -61,6 +55,32 @@ export abstract class GarbageProfileDetailsFormsCommon
 
     this.updateForm();
   }
+
+  protected async createOrUpdateModel() {
+    if (this.checkForm()) {
+      if (!this.model) {
+        this.model = new GarbageStationProfile();
+        this.model.ProfileState = 1;
+      }
+      if (this.model.ProfileState <= this.stepIndex) {
+        ++this.model.ProfileState;
+      }
+
+      let data = JSON.parse(JSON.stringify(this.formGroup.value));
+      Object.assign(this.model, data);
+
+      if (this.state == FormState.add) {
+        this.model = await this._business.createModel(this.model!);
+        return this.model;
+      } else if (this.state == FormState.edit) {
+        this.model = await this._business.updateModel(this.model);
+        return this.model;
+      }
+      console.log('result', this.model);
+    }
+    return null;
+  }
+
   updateForm() {
     if (this.model) {
       let controls = this.formGroup.controls;

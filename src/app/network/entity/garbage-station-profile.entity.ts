@@ -68,6 +68,7 @@ export class GarbageStationProfile implements IPartialData {
   /**	GPSPoint	GPS经纬度坐标	O	*/
   GPSPoint?: GPSPoint;
   /**	String	投放时间：如20:00-23:00	O	*/
+  @Transform(transformDate)
   TimeToDump?: string;
   /**	String	IMEI(电话号码)(可选)	O	*/
   IMEI?: string;
