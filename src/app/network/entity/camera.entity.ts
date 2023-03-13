@@ -1,6 +1,6 @@
 /**	摄像机	*/
 
-import { IModel } from "src/app/common/interfaces/model.interface";
+import { IModel } from 'src/app/common/interfaces/model.interface';
 
 export class Camera implements IModel {
   /**	String	摄像机名称	M	*/
@@ -28,4 +28,6 @@ export class Camera implements IModel {
   AudioVolume?: number;
   /**	Int32	AI模型类型	O	*/
   AIModelType?: number;
+
+  BsCameraId?: string;
 }

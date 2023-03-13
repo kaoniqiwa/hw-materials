@@ -38,17 +38,14 @@ export class GarbageProfileDetailsForm5
   private _init() {
     super.init();
   }
-  ngAfterViewInit(): void {
-    console.log(this.dynamicForm);
-  }
+  ngAfterViewInit(): void {}
   override async createOrUpdateModel(): Promise<GarbageStationProfile | null> {
-    console.log(this.dynamicForm?.getCameras());
-
     if (this.model) {
-      this.model.Cameras = this.dynamicForm?.getCameras() ?? [];
-      let res = await this._business.updateModel(this.model);
-
-      return res;
+      if (this.dynamicForm?.checkForm()) {
+        this.model.Cameras = this.dynamicForm?.getCameras() ?? [];
+        let res = await this._business.updateModel(this.model);
+        return res;
+      }
     }
     return null;
   }

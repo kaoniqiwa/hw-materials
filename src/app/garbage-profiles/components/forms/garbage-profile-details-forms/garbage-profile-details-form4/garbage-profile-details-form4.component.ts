@@ -1,3 +1,4 @@
+import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
@@ -97,8 +98,19 @@ export class GarbageProfileDetailsForm4
         this.model = await this._business.createModel(this.model!);
         return this.model;
       } else if (this.state == FormState.edit) {
-        this.model = await this._business.updateModel(this.model);
-        return this.model;
+        try {
+          this.model = await this._business.updateModel(this.model);
+          return this.model;
+        } catch (e: unknown) {
+          // console.log('e', e);
+          // error: 'Cameras.SerialNo:1 duplicated.';
+          let error: HttpErrorResponse = e as HttpErrorResponse;
+          if (error.status == 409) {
+            let res = error.error.match(/Cameras\.(\w+):(\w+)/);
+            // console.log(res);
+            this._toastrService.warning(this.language[res[1]] + '冲突');
+          }
+        }
       }
     }
     return null;

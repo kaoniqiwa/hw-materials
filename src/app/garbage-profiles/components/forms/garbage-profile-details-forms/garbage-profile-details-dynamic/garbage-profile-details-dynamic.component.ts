@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ToastRef, ToastrService } from 'ngx-toastr';
+import { HowellTouchSpinOptions } from 'src/app/common/directives/touch-spin/touch-spin.class';
 import { CommonFormInterface } from 'src/app/common/interfaces/common-form.interface';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/language.tool';
@@ -34,6 +35,8 @@ export class GarbageProfileDetailsDynamicForm
   @Input() stepIndex = 0;
 
   private model: GarbageStationProfile | null = null;
+  placementOptions: HowellTouchSpinOptions = new HowellTouchSpinOptions();
+  volumeOptions: HowellTouchSpinOptions = new HowellTouchSpinOptions();
 
   currentIndex = 0;
   maxLength = 7;
@@ -52,13 +55,14 @@ export class GarbageProfileDetailsDynamicForm
     public language: GarbageStationProfilesLanguageTools,
     private _business: GarbageProfileDetailsDynamicBusiness,
     private _toastrService: ToastrService
-  ) {}
-  updateForm(): void {
-    throw new Error('Method not implemented.');
+  ) {
+    this.placementOptions.min = 1;
+    this.placementOptions.max = 20;
+    this.volumeOptions.min = 0;
+    this.volumeOptions.max = 100;
   }
 
   ngOnInit(): void {
-    console.log(this.stepIndex);
     this._init();
   }
 
@@ -66,9 +70,7 @@ export class GarbageProfileDetailsDynamicForm
     if (this.formId) {
       this.model = await this._business.getModel(this.formId);
     }
-    console.log(this.model);
-
-    this._updateForm();
+    this.updateForm();
   }
   newCamera() {
     return new FormGroup<{ [key: string]: AbstractControl }>({
@@ -76,14 +78,14 @@ export class GarbageProfileDetailsDynamicForm
       Model: new FormControl(1, Validators.required),
       SerialNo: new FormControl('', Validators.required),
       Placement: new FormControl(1, Validators.required),
-      AccessServer: new FormControl(''),
-      Resolution: new FormControl(''),
-      Bitrate: new FormControl(''),
-      StorageTime: new FormControl(''),
-      ActionEquipment: new FormControl(''),
-      AudioOutputState: new FormControl(''),
-      AudioVolume: new FormControl(''),
-      AIModelType: new FormControl(''),
+      AccessServer: new FormControl(1),
+      Resolution: new FormControl(1),
+      Bitrate: new FormControl(1),
+      StorageTime: new FormControl(1),
+      ActionEquipment: new FormControl(0),
+      AudioOutputState: new FormControl(0),
+      AudioVolume: new FormControl(50),
+      AIModelType: new FormControl(0),
       BsCameraId: new FormControl(''),
     });
   }
@@ -132,26 +134,25 @@ export class GarbageProfileDetailsDynamicForm
     let cameras: Camera[] = [];
 
     for (let control of this.Cameras.controls) {
-      console.log(control);
       let camera = new Camera();
       camera.Name = control.value.Name;
-      camera.Model = control.value.Model;
+      camera.Model = +control.value.Model;
       camera.SerialNo = control.value.SerialNo;
-      camera.Placement = control.value.Placement;
-      camera.AccessServer = control.value.AccessServer;
-      camera.Resolution = control.value.Resolution;
-      camera.Bitrate = control.value.Bitrate;
-      camera.StorageTime = control.value.StorageTime;
-      camera.ActionEquipment = control.value.ActionEquipment;
-      camera.AudioOutputState = control.value.AudioOutputState;
-      camera.AudioVolume = control.value.AudioVolume;
-      camera.AIModelType = control.value.AIModelType;
+      camera.Placement = +control.value.Placement;
+      camera.AccessServer = +control.value.AccessServer;
+      camera.Resolution = +control.value.Resolution;
+      camera.Bitrate = +control.value.Bitrate;
+      camera.StorageTime = +control.value.StorageTime;
+      camera.ActionEquipment = +control.value.ActionEquipment;
+      camera.AudioOutputState = +control.value.AudioOutputState;
+      camera.AudioVolume = +control.value.AudioVolume;
+      camera.AIModelType = +control.value.AIModelType;
       // camera.BsCameraId = control.value.BsCameraId;
       cameras.push(camera);
     }
     return cameras;
   }
-  private _updateForm() {
+  updateForm() {
     if (this.state == FormState.edit) {
       if (this.model) {
         if (this.model.Cameras && this.model.Cameras.length > 0) {
