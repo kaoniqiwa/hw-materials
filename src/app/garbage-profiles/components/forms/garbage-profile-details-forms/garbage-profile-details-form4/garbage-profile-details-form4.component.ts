@@ -1,3 +1,4 @@
+import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
@@ -39,7 +40,7 @@ export class GarbageProfileDetailsForm4
   override formGroup = new FormGroup<{ [key: string]: AbstractControl }>({
     Longitude: new FormControl('121.48941', Validators.required),
     Latitude: new FormControl('31.40527', Validators.required),
-    TimeToDump: new FormControl(new Date('2022-10-26'), Validators.required),
+    TimeToDump: new FormControl(new Date(), Validators.required),
     IMEI: new FormControl(''),
     IMEICardType: new FormControl(1),
     NB: new FormControl(''),
@@ -70,16 +71,15 @@ export class GarbageProfileDetailsForm4
       if (this.model.ProfileState <= this.stepIndex) {
         ++this.model.ProfileState;
       }
-      let data = JSON.parse(
-        JSON.stringify(this.formGroup.value, function (k, v) {
-          if (v) {
-            return v;
-          } else {
-            return undefined;
-          }
-        })
-      );
-      Object.assign(this.model, data);
+      // Object.assign(this.model, this.formGroup.value);
+
+      let objData = this.formGroup.value;
+      for (let [key, value] of Object.entries(objData)) {
+        if (value != void 0 && value !== '' && value !== null) {
+          Reflect.set(this.model, key, value);
+        }
+      }
+      console.log(this.model);
 
       Reflect.deleteProperty(this.model, 'Longitude');
       Reflect.deleteProperty(this.model, 'Latitude');
@@ -90,15 +90,24 @@ export class GarbageProfileDetailsForm4
       gpsPoint.Latitude = +latitude;
       this.model.GPSPoint = gpsPoint;
 
-      let cameras = this.dynamicForm?.getCameras() ?? [];
-      console.log(cameras);
       this.model.Cameras = this.dynamicForm?.getCameras() ?? [];
       if (this.state == FormState.add) {
         this.model = await this._business.createModel(this.model!);
         return this.model;
       } else if (this.state == FormState.edit) {
-        this.model = await this._business.updateModel(this.model);
-        return this.model;
+        try {
+          this.model = await this._business.updateModel(this.model);
+          return this.model;
+        } catch (e: unknown) {
+          // console.log('e', e);
+          // error: 'Cameras.SerialNo:1 duplicated.';
+          let error: HttpErrorResponse = e as HttpErrorResponse;
+          if (error.status == 409) {
+            let res = error.error.match(/Cameras\.(\w+):(\w+)/);
+            // console.log(res);
+            this._toastrService.warning(this.language[res[1]] + '冲突');
+          }
+        }
       }
     }
     return null;

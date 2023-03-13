@@ -109,6 +109,7 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
   private async _updateState() {
     if (this.formId) {
       this._model = await this._business.getModel(this.formId);
+      console.log(this._model);
     }
     this.profileState = this._model ? this._model.ProfileState : 0;
     this.completedArr = this.completedArr.map((v, i) => {

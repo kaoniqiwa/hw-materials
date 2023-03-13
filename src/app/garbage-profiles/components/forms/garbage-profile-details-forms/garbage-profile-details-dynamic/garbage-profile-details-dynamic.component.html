@@ -27,7 +27,12 @@
         </div>
         <div formArrayName="Cameras" class="group-wrapper">
           <div *ngFor="let camera of Cameras.controls; let i = index">
-            <form class="hw-form" [formGroupName]="i" *ngIf="i == currentIndex">
+            <form
+              class="hw-form"
+              [formGroupName]="i"
+              *ngIf="i == currentIndex"
+              #ngForm="ngForm"
+            >
               <div class="hw-form-group">
                 <div class="title">
                   <span class="hw-form-label"> {{ language["Name"] }} </span>
@@ -43,7 +48,14 @@
                   <span class="hw-form-icon">*</span>
                 </div>
                 <div class="content">
-                  <input type="text" formControlName="Model" />
+                  <select class="hw-form-select" formControlName="Model">
+                    <option
+                      *ngFor="let model of source.Model"
+                      [value]="model.Value"
+                    >
+                      {{ model.Name }}
+                    </option>
+                  </select>
                 </div>
               </div>
               <div class="hw-form-group">
@@ -65,7 +77,12 @@
                   <span class="hw-form-icon">*</span>
                 </div>
                 <div class="content">
-                  <input type="text" formControlName="Placement" />
+                  <input
+                    type="text"
+                    appTouchSpin
+                    [options]="placementOptions"
+                    [(number)]="camera.value.Placement"
+                  />
                 </div>
               </div>
               <div class="hw-form" *ngIf="stepIndex == 4">
@@ -76,7 +93,17 @@
                     </span>
                   </div>
                   <div class="content">
-                    <input type="text" formControlName="AccessServer" />
+                    <select
+                      class="hw-form-select"
+                      formControlName="AccessServer"
+                    >
+                      <option
+                        *ngFor="let server of source.AccessServer"
+                        [value]="server.Value"
+                      >
+                        {{ server.Name }}
+                      </option>
+                    </select>
                   </div>
                 </div>
                 <div class="hw-form-group">
@@ -86,7 +113,14 @@
                     </span>
                   </div>
                   <div class="content">
-                    <input type="text" formControlName="Resolution" />
+                    <select class="hw-form-select" formControlName="Resolution">
+                      <option
+                        *ngFor="let resolution of source.Resolution"
+                        [value]="resolution.Value"
+                      >
+                        {{ resolution.Name }}
+                      </option>
+                    </select>
                   </div>
                 </div>
                 <div class="hw-form-group">
@@ -96,7 +130,12 @@
                     </span>
                   </div>
                   <div class="content">
-                    <input type="text" formControlName="Bitrate" />
+                    <input
+                      type="text"
+                      formControlName="Bitrate"
+                      appTouchSpin
+                      [(number)]="camera.value.Bitrate"
+                    />
                   </div>
                 </div>
                 <div class="hw-form-group">
@@ -106,7 +145,17 @@
                     </span>
                   </div>
                   <div class="content">
-                    <input type="text" formControlName="StorageTime" />
+                    <select
+                      class="hw-form-select"
+                      formControlName="StorageTime"
+                    >
+                      <option
+                        *ngFor="let storageTime of source.StorageTime"
+                        [value]="storageTime.Value"
+                      >
+                        {{ storageTime.Name }}
+                      </option>
+                    </select>
                   </div>
                 </div>
                 <div class="hw-form-group">
@@ -116,7 +165,17 @@
                     </span>
                   </div>
                   <div class="content">
-                    <input type="text" formControlName="ActionEquipment" />
+                    <select
+                      class="hw-form-select"
+                      formControlName="ActionEquipment"
+                    >
+                      <option
+                        *ngFor="let equipment of source.ActionEquipment"
+                        [value]="equipment.Value"
+                      >
+                        {{ equipment.Name }}
+                      </option>
+                    </select>
                   </div>
                 </div>
                 <div class="hw-form-group">
@@ -126,7 +185,17 @@
                     </span>
                   </div>
                   <div class="content">
-                    <input type="text" formControlName="AudioOutputState" />
+                    <select
+                      class="hw-form-select"
+                      formControlName="AudioOutputState"
+                    >
+                      <option
+                        *ngFor="let audioState of source.AudioOutputState"
+                        [value]="audioState.Value"
+                      >
+                        {{ audioState.Name }}
+                      </option>
+                    </select>
                   </div>
                 </div>
                 <div class="hw-form-group">
@@ -136,7 +205,12 @@
                     </span>
                   </div>
                   <div class="content">
-                    <input type="text" formControlName="AudioVolume" />
+                    <input
+                      type="text"
+                      appTouchSpin
+                      [options]="volumeOptions"
+                      [(number)]="camera.value.AudioVolume"
+                    />
                   </div>
                 </div>
                 <div class="hw-form-group">
@@ -146,10 +220,20 @@
                     </span>
                   </div>
                   <div class="content">
-                    <input type="text" formControlName="AIModelType" />
+                    <select
+                      class="hw-form-select"
+                      formControlName="AIModelType"
+                    >
+                      <option
+                        *ngFor="let modelType of source.AIModelType"
+                        [value]="modelType.Value"
+                      >
+                        {{ modelType.Name }}
+                      </option>
+                    </select>
                   </div>
                 </div>
-                <div class="hw-form-group">
+                <!-- <div class="hw-form-group">
                   <div class="title">
                     <span class="hw-form-label">
                       {{ language["BsCameraId"] }}
@@ -158,7 +242,7 @@
                   <div class="content">
                     <input type="text" formControlName="BsCameraId" />
                   </div>
-                </div>
+                </div> -->
               </div>
             </form>
           </div>
