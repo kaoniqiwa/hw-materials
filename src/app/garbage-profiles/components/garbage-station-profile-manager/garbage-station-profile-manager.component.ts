@@ -153,7 +153,10 @@ export class GarbageStationProfileManagerComponent {
     this.load.emit(this.args);
     this.onwindowclose();
   }
-  update() {
+  ondetailsclose() {
+    this.onwindowclose();
+  }
+  ondetailsupdate() {
     this.load.emit(this.args);
   }
 

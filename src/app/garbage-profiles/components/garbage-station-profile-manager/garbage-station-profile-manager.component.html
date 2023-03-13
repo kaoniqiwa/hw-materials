@@ -97,12 +97,12 @@
   </garbage-station-profile-details>
 </toast-window> -->
 
-<toast-window *ngIf="window.details.show" (closeEvent)="closeAndUpdate()">
+<toast-window *ngIf="window.details.show" (closeEvent)="ondetailsclose()">
   <garbage-profile-details-manager
     [formId]="window.details.selected"
     [state]="window.details.state"
     (closeDetails)="closeAndUpdate()"
-    (updateDetails)="update()"
+    (updateDetails)="ondetailsupdate()"
   >
   </garbage-profile-details-manager>
 </toast-window>
