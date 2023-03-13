@@ -7,6 +7,13 @@ import { HowellCSV } from './exports/hw-export-csv';
 import { HowellExcel } from './exports/hw-export-excel';
 import { HowellExportModel } from './exports/hw-export.model';
 
+export interface IExport<T> {
+  data: T;
+  tool: ExportTool;
+  export(title: string, row: number): number;
+  completed: boolean;
+}
+
 @Injectable({
   providedIn: 'root',
 })

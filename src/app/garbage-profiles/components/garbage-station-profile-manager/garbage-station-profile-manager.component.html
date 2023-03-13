@@ -1,12 +1,15 @@
 <div class="garbage-station-profile-manager">
   <div class="garbage-station-profile-manager-head">
     <div>
-      <div class="hw-simple-title">厢房档案管理</div>
+      <div class="hw-simple-title">{{ title }}</div>
     </div>
     <div class="garbage-station-profile-manager-head-operation">
       <div class="operation">
         <button class="hw-blue-btn" (click)="onrecord()">
           <i class="howell-icon-History"></i> 操作记录
+        </button>
+        <button class="hw-blue-btn" (click)="onexport()">
+          <i class="howell-icon-export"></i> 导出
         </button>
         <button class="hw-blue-btn" (click)="onsetting()">
           <i class="howell-icon-settingoutline"></i> 设置
@@ -14,10 +17,11 @@
         <button class="hw-green-btn" (click)="oncreate()">
           <i class="howell-icon-plus"></i> 添加
         </button>
-        <button class="hw-red-btn" (click)="todelete()" *ngIf="!!selectedId">
+
+        <!-- <button class="hw-red-btn" (click)="todelete()" *ngIf="!!selectedId">
           <i class="howell-icon-delete-bin"></i> 删除
-        </button>
-        <button class="hw-cyan-btn" *ngIf="!!selectedId" (click)="onmodify()">
+        </button> -->
+        <button class="hw-cyan-btn" *ngIf="!!selected" (click)="onmodify()">
           <i class="howell-icon-modification"></i> 编辑
         </button>
       </div>
@@ -55,6 +59,8 @@
   <div class="garbage-station-profile-manager-content">
     <garbage-station-profile-table
       [load]="load"
+      [toexcel]="toexcel"
+      (onexcel)="onexcel($event)"
       (selectedChange)="onselected($event)"
       (itemclick)="onitemclick($event)"
     >
@@ -93,7 +99,7 @@
 
 <toast-window *ngIf="window.details.show" (closeEvent)="closeAndUpdate()">
   <garbage-profile-details-manager
-    [formId]="selectedId"
+    [formId]="window.details.selected"
     [state]="window.details.state"
     (closeDetails)="closeAndUpdate()"
     (updateDetails)="update()"

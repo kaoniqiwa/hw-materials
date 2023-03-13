@@ -55,6 +55,7 @@ export class GarbageProfilesRecordMaterialTableComponent
   constructor(business: GarbageProfilesRecordMaterialTableBusiness) {
     super();
     this.business = business;
+    this.pageSize = 8;
   }
   widths: string[] = ['', '10%', '30%', '', ''];
   selectedNodes: { [key: string]: CommonFlatNode[] } = {};
@@ -72,8 +73,9 @@ export class GarbageProfilesRecordMaterialTableComponent
     }
   }
 
-  loadData(index: number, size: number = 10): void {
+  loadData(index: number, size: number = 8): void {
     this.selectedNodes = {};
+    this.loading = true;
     this.business.load(index, size, this.args).then((x) => {
       this.page = x.Page;
       this.datas = x.Data;
@@ -86,6 +88,7 @@ export class GarbageProfilesRecordMaterialTableComponent
         });
       });
       this.loaded.emit(x);
+      this.loading = false;
     });
   }
 

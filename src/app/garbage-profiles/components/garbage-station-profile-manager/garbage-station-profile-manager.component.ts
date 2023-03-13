@@ -31,9 +31,11 @@ export class GarbageStationProfileManagerComponent {
     private toastr: ToastrService
   ) {}
 
+  title = '厢房档案管理';
+
   args: GarbageStationProfileTableArgs = new GarbageStationProfileTableArgs();
 
-  selectedId?: string;
+  selected?: IPartialData;
 
   window = {
     details: new GarbageStationProfileDetailsWindow(),
@@ -45,15 +47,15 @@ export class GarbageStationProfileManagerComponent {
     filter: new GarbageStationProfileFilterWindow(),
   };
   load: EventEmitter<GarbageStationProfileTableArgs> = new EventEmitter();
+  toexcel: EventEmitter<GarbageStationProfileTableArgs> = new EventEmitter();
 
-  onselected(data?: IPartialData) {
-    // this.selected = item;
-
-    this.selectedId = data?.Id;
+  onselected(item?: IPartialData) {
+    this.selected = item;
   }
   onwindowclose() {
     this.window.details.show = false;
     this.window.details.state = FormState.none;
+    this.window.details.selected = undefined;
     this.window.setting.show = false;
     this.window.picture.show = false;
     this.window.picture.urlId = undefined;
@@ -64,13 +66,14 @@ export class GarbageStationProfileManagerComponent {
     this.window.record.material.show = false;
   }
   oncreate() {
-    this.selectedId = '';
     this.window.details.state = FormState.add;
+    this.window.details.selected = this.selected?.Id;
     this.window.details.show = true;
   }
   onmodify() {
-    if (this.selectedId) {
+    if (this.selected) {
       this.window.details.state = FormState.edit;
+      this.window.details.selected = this.selected.Id;
       this.window.details.show = true;
     }
   }
@@ -95,10 +98,16 @@ export class GarbageStationProfileManagerComponent {
     }
 
     switch (model.PropertyId) {
-      case 'Functions':
-        this.window.partial.model = model;
-        this.window.partial.show = true;
+      case 'Cameras':
+      case 'MaterialItems':
+        if ((model.Value as any[]).length > 0) {
+          this.window.partial.model = model;
+
+          this.window.partial.show = true;
+        }
+
         break;
+
       default:
         break;
     }
@@ -121,11 +130,11 @@ export class GarbageStationProfileManagerComponent {
     this.window.confirm.show = true;
   }
   ondelete() {
-    if (this.selectedId) {
-      this.business.delete(this.selectedId).then((x) => {
+    if (this.selected) {
+      this.business.delete(this.selected.Id).then((x) => {
         this.load.emit(this.args);
         this.toastr.success(`成功删除档案文件`);
-        this.selectedId = undefined;
+        this.selected = undefined;
       });
     }
     this.onwindowclose();
@@ -146,5 +155,17 @@ export class GarbageStationProfileManagerComponent {
   }
   update() {
     this.load.emit(this.args);
+  }
+
+  onexport() {
+    this.toexcel.emit(this.args);
+  }
+  onexcel(url: string) {
+    let a = document.createElement('a');
+    a.href = url;
+    a.setAttribute('download', this.title);
+    a.click();
+
+    document.removeChild(a);
   }
 }

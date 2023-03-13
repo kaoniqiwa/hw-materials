@@ -7,6 +7,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { Sort } from '@angular/material/sort';
 import { IBusiness } from 'src/app/common/interfaces/bussiness.interface';
 import { IComponent } from 'src/app/common/interfaces/component.interfact';
 import { IModel } from 'src/app/common/interfaces/model.interface';
@@ -83,5 +84,17 @@ export class GarbageProfilesMaterialTableComponent
   onputout(e: Event, item: MaterialModel) {
     e.stopImmediatePropagation();
     this.putout.emit(item);
+  }
+
+  sortData(sort: Sort) {
+    const isAsc = sort.direction === 'asc';
+    this.args.desc = undefined;
+    this.args.asc = undefined;
+    if (isAsc) {
+      this.args.asc = sort.active;
+    } else {
+      this.args.desc = sort.active;
+    }
+    this.loadData(1);
   }
 }

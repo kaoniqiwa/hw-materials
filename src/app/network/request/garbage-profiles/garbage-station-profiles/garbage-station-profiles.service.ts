@@ -3,11 +3,13 @@ import { instanceToPlain } from 'class-transformer';
 import { firstValueFrom } from 'rxjs';
 import { IIdModel } from 'src/app/common/interfaces/model.interface';
 import { wait } from 'src/app/common/tools/tool';
+import { ExcelUrl } from 'src/app/network/entity/excel-url.entity';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { Label } from 'src/app/network/entity/label.entity';
 import { PagedList } from 'src/app/network/entity/page.entity';
 import { IPartialData } from 'src/app/network/entity/partial-data.interface';
 import { PartialResult } from 'src/app/network/entity/partial-result.entity';
+import { ProfileStateStatisticResult } from 'src/app/network/entity/profile-state-statistic-result.entity';
 import { Property } from 'src/app/network/entity/property.entity';
 import { ValueNamePair } from 'src/app/network/entity/value-name-pair.entity';
 import { GarbageStationProfilesUrl } from 'src/app/network/url/garbage_profiles/garbage-station-profiles/garbage-station-profiles.url';
@@ -20,7 +22,9 @@ import { AbstractService } from '../../service.interface';
 import {
   GetGarbageStationProfilesParams,
   GetLabelsParams,
+  GetPartialDatasExcelParams,
   GetPartialDatasParams,
+  GetProfileStateStatisticsParams,
   GetPropertiesParams,
   PartialRequest,
 } from './garbage-station-profiles.params';
@@ -91,6 +95,16 @@ export class GarbageStationProfilesRequestService extends AbstractService<Garbag
       this._label = new GarbageStationProfilesLabelsRequestService(this.basic);
     }
     return this._label;
+  }
+
+  private _statistic?: GarbageStationProfilesStatisticsRequestService;
+  public get statistic(): GarbageStationProfilesStatisticsRequestService {
+    if (!this._statistic) {
+      this._statistic = new GarbageStationProfilesStatisticsRequestService(
+        this.basic
+      );
+    }
+    return this._statistic;
   }
 }
 
@@ -241,6 +255,12 @@ class GarbageStationProfilesPartialDatasRequestService {
 
     return array[0] as PartialResult<T>;
   }
+
+  excels(instance: GetPartialDatasExcelParams) {
+    let url = GarbageStationProfilesUrl.partialData.excel();
+    let plain = instanceToPlain(instance);
+    return this.basic.post(url, ExcelUrl, plain);
+  }
 }
 
 class GarbageStationProfilesLabelsRequestService extends AbstractService<Label> {
@@ -275,5 +295,19 @@ class GarbageStationProfilesLabelsRequestService extends AbstractService<Label> 
     let url = GarbageStationProfilesUrl.label.list();
     let plain = instanceToPlain(args);
     return this.type.paged(url, plain);
+  }
+}
+
+class GarbageStationProfilesStatisticsRequestService {
+  constructor(private basic: BaseRequestService) {}
+
+  ProfileState(instance: GetProfileStateStatisticsParams) {
+    let url = GarbageStationProfilesUrl.statistic.profileState();
+    let plain = instanceToPlain(instance);
+    return this.basic.post(
+      url,
+      ProfileStateStatisticResult,
+      plain as GetProfileStateStatisticsParams
+    );
   }
 }

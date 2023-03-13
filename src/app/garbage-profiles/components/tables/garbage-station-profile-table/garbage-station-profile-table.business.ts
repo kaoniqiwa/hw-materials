@@ -10,7 +10,10 @@ import {
   PartialData,
 } from 'src/app/network/entity/partial-data.interface';
 import { PropertyValue } from 'src/app/network/entity/property-value.entity';
-import { GetPartialDatasParams } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
+import {
+  GetPartialDatasExcelParams,
+  GetPartialDatasParams,
+} from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
 import { GarbageStationProfilesRequestService } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
 import { GarbageStationProfileTableConfigBusiness } from './garbage-station-profile-table-config.business';
 import { GarbageStationProfileTableConverter } from './garbage-station-profile-table.converter';
@@ -42,6 +45,17 @@ export class GarbageStationProfileTableBusiness
     let model = this.converter.convert(data);
     return model;
   }
+
+  async excel(args: GarbageStationProfileTableArgs, names: string[]) {
+    let params = new GetPartialDatasExcelParams();
+    params.Asc = args.asc;
+    params.Desc = args.desc;
+    params.Conditions = this.getConditions(args, names);
+    params.PropertyIds = names;
+    let url = await this.service.partialData.excels(params);
+    return url.Url;
+  }
+
   getData(
     index: number,
     size: number = 10,
@@ -63,7 +77,13 @@ export class GarbageStationProfileTableBusiness
       }
     }
 
-    params.Conditions = [];
+    params.Conditions = this.getConditions(args, names);
+
+    return this.service.partialData.list(params);
+  }
+
+  private getConditions(args: GarbageStationProfileTableArgs, names: string[]) {
+    let conditions: Condition[] = [];
 
     if (args.Name) {
       names.forEach((name) => {
@@ -72,15 +92,15 @@ export class GarbageStationProfileTableBusiness
         condition.PropertyId = name;
         condition.Operator = ConditionOperator.Like;
         condition.OrGroup = 1;
-        params.Conditions!.push(condition);
+        conditions.push(condition);
       });
     }
 
     if (args.labels && args.labels.length > 0) {
-      params.Conditions.push(this.getConditionByLabels(args.labels));
+      conditions.push(this.getConditionByLabels(args.labels));
     }
     if (args.functions && args.functions.length > 0) {
-      params.Conditions.push(this.getConditionByFunctions(args.functions));
+      conditions.push(this.getConditionByFunctions(args.functions));
     }
     // if (args.materials && args.materials.length > 0) {
     //   let match = new ElemMatch();
@@ -90,21 +110,21 @@ export class GarbageStationProfileTableBusiness
     for (const key in args.enums) {
       let value = args.enums[key];
       if (value !== undefined) {
-        params.Conditions.push(this.getConditionByName(value, key));
+        conditions.push(this.getConditionByName(value, key));
       }
     }
 
-    return this.service.partialData.list(params);
+    return conditions;
   }
 
-  getConditionByLabels(value: number[]) {
+  private getConditionByLabels(value: number[]) {
     let condition = new Condition<number[]>();
     condition.Value = value;
     condition.PropertyId = 'Labels';
     condition.Operator = ConditionOperator.In;
     return condition;
   }
-  getConditionByFunctions(value: number[]) {
+  private getConditionByFunctions(value: number[]) {
     let condition = new Condition<number[]>();
     condition.Value = value;
     condition.PropertyId = 'Functions';
@@ -112,7 +132,7 @@ export class GarbageStationProfileTableBusiness
     condition.OrGroup = 1;
     return condition;
   }
-  getConditionByName(value: number, name: string) {
+  private getConditionByName(value: number, name: string) {
     let condition = new Condition<number>();
     condition.Value = value;
     condition.PropertyId = name;

@@ -57,8 +57,9 @@ export class BaseRequestService {
     if (params) {
       data = instanceToPlain(params) as IParams;
     }
-    let response = await this.http.post<IParams, string>(url, data).toPromise();
-    return ServiceHelper.ResponseProcess(response, true);
+    let observable = await this.http.post<IParams, string>(url, data);
+    let response = firstValueFrom(observable);
+    return response;
   }
 
   postBinaryData<R>(url: string, data: BinaryData): Promise<R> {

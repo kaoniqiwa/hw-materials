@@ -8,6 +8,7 @@ export class GarbageStationProfileDetailsWindow extends WindowViewModel {
     height: 'auto',
   };
   state: FormState = FormState.none;
+  selected?: string;
 }
 export class GarbageStationProfileSettingWindow extends WindowViewModel {
   style = { width: '60%' };

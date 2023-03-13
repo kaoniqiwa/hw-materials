@@ -63,6 +63,11 @@ export class GarbageStationProfileTableComponent
   @Output()
   itemclick: EventEmitter<PropertyValueModel> = new EventEmitter();
 
+  @Input()
+  toexcel?: EventEmitter<GarbageStationProfileTableArgs>;
+  @Output()
+  onexcel: EventEmitter<string> = new EventEmitter();
+
   constructor(
     business: GarbageStationProfileTableBusiness,
     public source: GarbageStationProfilesSourceTools,
@@ -87,6 +92,13 @@ export class GarbageStationProfileTableComponent
 
   ngOnInit(): void {
     this.loadData(1);
+    if (this.toexcel) {
+      this.toexcel.subscribe((args) => {
+        this.business.excel(args, this.names).then((x) => {
+          this.onexcel.emit(x);
+        });
+      });
+    }
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['load']) {

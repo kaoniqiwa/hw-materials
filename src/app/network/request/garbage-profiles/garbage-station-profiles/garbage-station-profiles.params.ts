@@ -1,8 +1,7 @@
 import { Condition } from 'src/app/network/entity/condition.entity';
 import { ElemMatch } from 'src/app/network/entity/elem-match.entity';
-import { Label } from 'src/app/network/entity/label.entity';
 import { IPartialData } from 'src/app/network/entity/partial-data.interface';
-import { IParams, PagedParams } from '../../IParams.interface';
+import { DurationParams, IParams, PagedParams } from '../../IParams.interface';
 
 export class GetGarbageStationProfilesParams extends PagedParams {
   /**	String[]	垃圾厢房档案ID	O	*/
@@ -58,13 +57,32 @@ export class GetLabelsParams extends PagedParams {
   /**	Int32	类别，用于区分不同类别的标签	O	*/
   Category?: number;
   /**	String	升序排列字段，数组字段无法排序	O	*/
-  Asc?: keyof Label;
+  Asc?: string;
   /**	String	降序排列字段，数组字段无法排序	O	*/
-  Desc?: keyof Label;
+  Desc?: string;
 }
 
 export class PartialRequest implements IParams {
   /**	String	修改原因	O	*/ ModificationReason?: string;
   /**	String	修改内容	O	*/ ModificationContent?: string;
   /**	PartialData	成功修改后的数据	O	*/ Data?: IPartialData;
+}
+
+export class GetProfileStateStatisticsParams extends DurationParams {
+  /**	Int32[]	档案状态	O */
+  ProfileStates?: number[];
+}
+export class GetPartialDatasExcelParams<T = any> implements IParams {
+  /**	String[]	需要的属性ID，与Path二选一	D */
+  PropertyIds?: string[];
+  /**	ElemMatch[]	数组元素过滤条件	O */
+  ElemMatches?: ElemMatch<T>[];
+  /**	Condition[]	查询条件列表，多条件之间是AND关系。	O */
+  Conditions?: Condition<T>[];
+  /**	String[]	子表格冗余字段	O */
+  SubTablePropertyIds?: string[];
+  /**	String	升序路径	O */
+  Asc?: string;
+  /**	String	降序路径	O */
+  Desc?: string;
 }

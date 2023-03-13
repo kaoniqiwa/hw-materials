@@ -21,21 +21,20 @@ export class GarbageProfilesMaterialTablBusiness
     index: number,
     size: number = 10
   ): Promise<PagedList<MaterialModel>> {
-    let data = await this.getData(index, size, args.Category, args.Name);
+    let data = await this.getData(index, size, args);
     let model = this.Converter.convert(data);
     return model;
   }
   getData(
     index: number,
     size: number = 10,
-    category?: number,
-    name?: string
+    args: GarbageProfilesMaterialTableArgs
   ): Promise<PagedList<Material>> {
     let params = new GetGarbageProfilesMaterialsParams();
     params.PageIndex = index;
     params.PageSize = size;
-    params.Category = category;
-    params.Name = name;
+    params.Category = args.Category;
+    params.Name = args.Name;
 
     return this.service.list(params);
   }

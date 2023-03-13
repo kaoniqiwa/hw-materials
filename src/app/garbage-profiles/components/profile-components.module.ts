@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { HowellModule } from 'src/app/common/howell.module';
 import { MaterialModule } from 'src/app/material.module';
 import { FormComponents } from './forms';
+import { GarbageProfileDetailsManager } from './garbage-profile-details-manager/garbage-profile-details-manager.component';
 import { GarbageProfilesLabelDetailsComponent } from './garbage-profiles-label-details/garbage-profiles-label-details.component';
 import { GarbageProfilesLabelManagerComponent } from './garbage-profiles-label-manager/garbage-profiles-label-manager.component';
 import { GarbageProfilesMaterialDetailsComponent } from './garbage-profiles-material-details/garbage-profiles-material-details.component';
@@ -12,6 +13,7 @@ import { GarbageProfilesMaterialManagerComponent } from './garbage-profiles-mate
 import { GarbageProfilesMaterialPutInComponent } from './garbage-profiles-material-putin/garbage-profiles-material-putin.component';
 import { GarbageProfilesMaterialPutoutComponent } from './garbage-profiles-material-putout/garbage-profiles-material-putout.component';
 import { GarbageProfilesMaterialRecordDetailsComponent } from './garbage-profiles-material-record-details/garbage-profiles-material-record-details.component';
+import { GarbageProfilesMaterialRecordTimelineComponent } from './garbage-profiles-material-record-timeline/garbage-profiles-material-record-timeline.component';
 import { GarbageProfilesMaterialRecordComponent } from './garbage-profiles-material-record/garbage-profiles-material-record.component';
 import { GarbageStationProfileDetailsComponent } from './garbage-station-profile-details/garbage-station-profile-details.component';
 import { GarbageStationProfileFilterComponent } from './garbage-station-profile-filter/garbage-station-profile-filter.component';
@@ -22,7 +24,6 @@ import { GarbageStationProfileSettingComponent } from './garbage-station-profile
 import { HowellPictureControlComponent } from './howell-picture-control/howell-picture-control.component';
 import { HowellPictureUploadControlComponent } from './howell-picture-upload-control/howell-picture-upload-control.component';
 import { MonitorPlatformComponent } from './monitor-platform/monitor-platform.component';
-import { GarbageProfileDetailsManager } from './garbage-profile-details-manager/garbage-profile-details-manager.component';
 import { StationArchiveComponent } from './station-archive/station-archive.component';
 import { SystemModeComponent } from './system-mode/system-mode.component';
 import { TableComponents } from './tables/tables';
@@ -53,6 +54,7 @@ import { UnderwaterComponent } from './underwater/underwater.component';
     GarbageProfilesMaterialRecordDetailsComponent,
     GarbageProfilesMaterialPutInComponent,
     GarbageProfilesMaterialPutoutComponent,
+    GarbageProfilesMaterialRecordTimelineComponent,
 
     GarbageProfilesLabelManagerComponent,
     GarbageProfilesLabelDetailsComponent,

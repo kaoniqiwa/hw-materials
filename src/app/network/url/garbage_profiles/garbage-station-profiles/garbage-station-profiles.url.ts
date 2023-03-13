@@ -24,6 +24,9 @@ export class GarbageStationProfilesUrl {
   static get label() {
     return new GarbageStationProfilesLabelsUrl(this.basic);
   }
+  static get statistic() {
+    return new GarbageStationProfilesStatisticsUrl(this.basic);
+  }
 }
 
 class GarbageStationProfilesPropertiesUrl extends AbstractUrl {
@@ -36,10 +39,24 @@ class GarbageStationProfilesPartialDatasUrl extends AbstractUrl {
   constructor(base: string) {
     super(`${base}/PartialDatas`);
   }
+
+  excel() {
+    return `${this.basic()}/Excels`;
+  }
 }
 
 class GarbageStationProfilesLabelsUrl extends AbstractUrl {
   constructor(base: string) {
     super(`${base}/Labels`);
+  }
+}
+
+class GarbageStationProfilesStatisticsUrl extends AbstractUrl {
+  constructor(base: string) {
+    super(`${base}/Statistics`);
+  }
+
+  profileState() {
+    return ` ${this.basic}/ProfileState`;
   }
 }
