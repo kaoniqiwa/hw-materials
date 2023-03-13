@@ -67,7 +67,6 @@ export class GarbageStationProfileManagerComponent {
   }
   oncreate() {
     this.window.details.state = FormState.add;
-    this.window.details.selected = this.selected?.Id;
     this.window.details.show = true;
   }
   onmodify() {
