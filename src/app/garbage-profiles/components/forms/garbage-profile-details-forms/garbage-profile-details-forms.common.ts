@@ -7,7 +7,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControlStatus, FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CommonFormInterface } from 'src/app/common/interfaces/common-form.interface';
 import { FormState } from 'src/app/enum/form-state.enum';
@@ -34,6 +34,7 @@ export class GarbageProfileDetailsFormsCommon implements CommonFormInterface {
 
   @Output() next = new EventEmitter();
   @Output() previous = new EventEmitter();
+  @Output() formStatus = new EventEmitter<FormControlStatus>();
 
   FormState = FormState;
 
@@ -52,7 +53,9 @@ export class GarbageProfileDetailsFormsCommon implements CommonFormInterface {
     if (this.formId) {
       this.model = await this._business.getModel(this.formId);
     }
-
+    this.formGroup.statusChanges.subscribe((status) => {
+      this.formStatus.emit(status);
+    });
     this.updateForm();
   }
 

@@ -30,6 +30,7 @@
     [state]="state"
     (next)="nextEvent($event, index)"
     (close)="closeEvent()"
+    (formStatus)="formStatus($event, index)"
   ></garbage-profile-details-form1>
 </ng-template>
 <ng-template #step2 #step let-value let-index="index">
@@ -40,6 +41,7 @@
     (next)="nextEvent($event, index)"
     (close)="closeEvent()"
     (previous)="previousEvent()"
+    (formStatus)="formStatus($event, index)"
   ></garbage-profile-details-form2>
 </ng-template>
 <ng-template #step3 #step let-value let-index="index"
@@ -50,6 +52,7 @@
     (next)="nextEvent($event, index)"
     (close)="closeEvent()"
     (previous)="previousEvent()"
+    (formStatus)="formStatus($event, index)"
   ></garbage-profile-details-form3>
 </ng-template>
 <ng-template #step4 #step let-value let-index="index">
@@ -60,6 +63,7 @@
     (next)="nextEvent($event, index)"
     (close)="closeEvent()"
     (previous)="previousEvent()"
+    (formStatus)="formStatus($event, index)"
   ></garbage-profile-details-form4>
 </ng-template>
 <ng-template #step5 #step let-value let-index="index">
@@ -70,5 +74,6 @@
     (next)="nextEvent($event, index)"
     (close)="closeEvent()"
     (previous)="previousEvent()"
+    (formStatus)="formStatus($event, index)"
   ></garbage-profile-details-form5>
 </ng-template>

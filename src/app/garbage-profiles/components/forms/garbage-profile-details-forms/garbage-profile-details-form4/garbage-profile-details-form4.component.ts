@@ -79,7 +79,6 @@ export class GarbageProfileDetailsForm4
           Reflect.set(this.model, key, value);
         }
       }
-      console.log(this.model);
 
       Reflect.deleteProperty(this.model, 'Longitude');
       Reflect.deleteProperty(this.model, 'Latitude');

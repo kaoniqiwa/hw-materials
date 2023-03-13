@@ -11,6 +11,7 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
+import { FormControlStatus } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
@@ -60,6 +61,7 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
   profileState = 0;
   labels = ['初建档案', '勘察完成', '安装完成', '现场调试', '准备上线'];
   stepLength = this.labels.length;
+
   completedArr: boolean[] = Array.from(Array(this.stepLength), () => false);
 
   getTemplate(index: number) {
@@ -96,15 +98,15 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
     this.state = FormState.edit;
     await this._updateState();
 
-    let nextIndex = ++index;
-    // this.selectedIndex = Math.min(nextIndex, this.stepLength - 1);
     this.matStepper?.next();
-    // this.updateDetails.emit();
   }
 
   previousEvent() {
-    // this.selectedIndex = Math.max(this._selectedIndex - 1, 0);
     this.matStepper?.previous();
+  }
+
+  formStatus(status: FormControlStatus, index: number) {
+    console.log('formstatus', status);
   }
   private async _updateState() {
     if (this.formId) {
@@ -116,7 +118,5 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
       return i < this.profileState;
     });
     this._changeDetector.detectChanges();
-
-    console.log(this.completedArr);
   }
 }

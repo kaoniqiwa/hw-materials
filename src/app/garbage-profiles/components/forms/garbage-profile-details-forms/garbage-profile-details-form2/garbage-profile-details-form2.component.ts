@@ -140,7 +140,12 @@ export class GarbageProfileDetailsForm2
         ++this.model.ProfileState;
       }
 
-      Object.assign(this.model, this.formGroup.value);
+      let objData = this.formGroup.value;
+      for (let [key, value] of Object.entries(objData)) {
+        if (value != void 0 && value !== '' && value !== null) {
+          Reflect.set(this.model, key, value);
+        }
+      }
       this.model.Functions = [];
 
       if (this.formGroup.value['Functions'].garbagedrop) {
