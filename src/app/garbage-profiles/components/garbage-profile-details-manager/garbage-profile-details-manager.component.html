@@ -12,10 +12,12 @@
     <ng-container *ngFor="let label of labels; let i = index; let c = count">
       <mat-step [completed]="!!completedArr[i]">
         <ng-template matStepLabel>{{ label }} </ng-template>
-        <ng-template
-          [ngTemplateOutlet]="getTemplate(i)"
-          [ngTemplateOutletContext]="{ index: i, $implicit: 'hello' }"
-        ></ng-template>
+        <ng-template matStepContent>
+          <ng-template
+            [ngTemplateOutlet]="getTemplate(i)"
+            [ngTemplateOutletContext]="{ index: i, $implicit: 'hello' }"
+          ></ng-template>
+        </ng-template>
       </mat-step>
     </ng-container> </mat-stepper></ng-template
 ><ng-template #tabTemp> tab </ng-template>

@@ -66,7 +66,13 @@ export class GarbageProfileDetailsFormsCommon implements CommonFormInterface {
         ++this.model.ProfileState;
       }
 
-      Object.assign(this.model, this.formGroup.value);
+      // Object.assign(this.model, this.formGroup.value);
+      let objData = this.formGroup.value;
+      for (let [key, value] of Object.entries(objData)) {
+        if (value != void 0 && value !== '' && value !== null) {
+          Reflect.set(this.model, key, value);
+        }
+      }
 
       if (this.state == FormState.add) {
         this.model = await this._business.createModel(this.model!);
