@@ -43,6 +43,7 @@ export class GarbageProfileDetailsForm2
   implements OnInit
 {
   showPutout = false;
+  showRecord = false;
   LFImageUrl = '';
   RFImageUrl = '';
   FImageUrl = '';

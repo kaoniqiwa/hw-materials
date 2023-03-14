@@ -80,6 +80,24 @@ export class GarbageProfileDetailsForm1
     ContactPhoneNo: new FormControl('', Validators.pattern(ValidPhoneExp)),
     Labels: new FormControl([] as Array<number>),
   });
+
+  testGroup = new FormGroup({
+    count: new FormControl(1),
+  });
+  fruits = [
+    {
+      name: 'Apple',
+      value: 0,
+    },
+    {
+      name: 'Pear',
+      value: 1,
+    },
+    {
+      name: 'Coconut',
+      value: 2,
+    },
+  ];
   constructor(
     source: GarbageStationProfilesSourceTools,
     language: GarbageStationProfilesLanguageTools,
