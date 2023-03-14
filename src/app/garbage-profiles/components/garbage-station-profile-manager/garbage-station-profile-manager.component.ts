@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
@@ -31,8 +32,21 @@ export class GarbageStationProfileManagerComponent implements OnInit {
     public source: GarbageStationProfilesSourceTools,
     public language: GarbageStationProfilesLanguageTools,
     private business: GarbageStationProfileManagerBusiness,
-    private toastr: ToastrService
-  ) {}
+    private toastr: ToastrService,
+    private activeRoute: ActivatedRoute
+  ) {
+
+    this.activeRoute.queryParams
+      .subscribe(params => {
+        console.log(params); // { order: "popular" }
+
+        // this.order = params.order;
+
+        // console.log(this.order); // popular
+        console.log(params)
+      }
+      );
+  }
 
   title = '厢房档案管理';
 
