@@ -6,12 +6,12 @@
       "id": "station-archive",
       "icon": "howell-icon-garbagebags",
       "path": "/garbage-profiles/underwater/monitor-platform/station-archive",
-      "CanNavigate": true,
+      "CanNavigate": false,
       "children": [
         {
           "title": "厢房档案",
-          "id": "profile-manager",
-          "path": "/garbage-profiles/underwater/monitor-platform/station-archive/profile-manager"
+          "id": "profile-index",
+          "path": "/garbage-profiles/underwater/monitor-platform/station-archive/profile-index"
         },
         {
           "title": "物料档案",

@@ -301,7 +301,9 @@ class GarbageStationProfilesLabelsRequestService extends AbstractService<Label> 
 class GarbageStationProfilesStatisticsRequestService {
   constructor(private basic: BaseRequestService) {}
 
-  ProfileState(instance: GetProfileStateStatisticsParams) {
+  profileState(
+    instance: GetProfileStateStatisticsParams = new GetProfileStateStatisticsParams()
+  ) {
     let url = GarbageStationProfilesUrl.statistic.profileState();
     let plain = instanceToPlain(instance);
     return this.basic.post(

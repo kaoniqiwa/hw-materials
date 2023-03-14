@@ -1,4 +1,4 @@
-import { Component, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
@@ -23,7 +23,10 @@ import {
   styleUrls: ['./garbage-station-profile-manager.component.less'],
   providers: [GarbageStationProfileManagerBusiness],
 })
-export class GarbageStationProfileManagerComponent {
+export class GarbageStationProfileManagerComponent implements OnInit {
+  @Input()
+  state?: number;
+
   constructor(
     public source: GarbageStationProfilesSourceTools,
     public language: GarbageStationProfilesLanguageTools,
@@ -48,6 +51,10 @@ export class GarbageStationProfileManagerComponent {
   };
   load: EventEmitter<GarbageStationProfileTableArgs> = new EventEmitter();
   toexcel: EventEmitter<GarbageStationProfileTableArgs> = new EventEmitter();
+
+  ngOnInit(): void {
+    this.args.enums['ProfileState'] = this.state;
+  }
 
   onselected(item?: IPartialData) {
     this.selected = item;

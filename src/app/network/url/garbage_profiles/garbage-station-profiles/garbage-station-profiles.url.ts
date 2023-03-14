@@ -57,6 +57,6 @@ class GarbageStationProfilesStatisticsUrl extends AbstractUrl {
   }
 
   profileState() {
-    return ` ${this.basic}/ProfileState`;
+    return `${this.basic()}/ProfileState`;
   }
 }

@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { GarbageProfilesLabelManagerComponent } from './components/garbage-profiles-label-manager/garbage-profiles-label-manager.component';
 import { GarbageProfilesMaterialManagerComponent } from './components/garbage-profiles-material-manager/garbage-profiles-material-manager.component';
+import { GarbageStationProfileIndexComponent } from './components/garbage-station-profile-index/garbage-station-profile-index.component';
 import { GarbageStationProfileManagerComponent } from './components/garbage-station-profile-manager/garbage-station-profile-manager.component';
-import { UnderwaterComponent } from './components/underwater/underwater.component';
-import { StationArchiveComponent } from './components/station-archive/station-archive.component';
-import { SystemModeComponent } from './components/system-mode/system-mode.component';
 import { MonitorPlatformComponent } from './components/monitor-platform/monitor-platform.component';
+import { SystemModeComponent } from './components/system-mode/system-mode.component';
+import { UnderwaterComponent } from './components/underwater/underwater.component';
 
 const routes: Routes = [
   {
@@ -38,11 +38,29 @@ const routes: Routes = [
           },
           {
             path: 'station-archive',
-            component: StationArchiveComponent,
+            // component: StationArchiveComponent,
+
             children: [
               {
-                path: 'profile-manager',
-                component: GarbageStationProfileManagerComponent,
+                path: '',
+                redirectTo: 'profile-index',
+                pathMatch: 'full',
+              },
+              {
+                path: 'profile-index',
+                component: GarbageStationProfileIndexComponent,
+                children: [
+                  {
+                    path: 'profile-manager',
+                    component: GarbageStationProfileManagerComponent,
+                    data: undefined,
+                  },
+
+                  {
+                    path: 'label-manager',
+                    component: GarbageProfilesLabelManagerComponent,
+                  },
+                ],
               },
               {
                 path: 'material-manager',
@@ -50,28 +68,6 @@ const routes: Routes = [
               },
               {
                 path: 'label-manager',
-                component: GarbageProfilesLabelManagerComponent,
-              },
-            ],
-          },
-          {
-            path: 'garbage-classify',
-            children: [
-              {
-                path: '',
-                redirectTo: 'division-manage',
-                pathMatch: 'full',
-              },
-              {
-                path: 'division-manage',
-                component: GarbageStationProfileManagerComponent,
-              },
-              {
-                path: 'deploy-map',
-                component: GarbageProfilesMaterialManagerComponent,
-              },
-              {
-                path: 'garbage-station-manage',
                 component: GarbageProfilesLabelManagerComponent,
               },
             ],

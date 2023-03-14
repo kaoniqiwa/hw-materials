@@ -1,0 +1,37 @@
+<div class="garbage-station-profile-index" *ngIf="!!model && show">
+  <div class="garbage-station-profiles">
+    <div
+      *ngFor="let item of model.profiles"
+      class="card"
+      [class]="'state-' + item.ProfileState"
+      [routerLink]="'profile-manager'"
+      (click)="onprofileclick(item.ProfileState)"
+    >
+      <div class="hw-simple-title-1">
+        {{ language["ProfileState-" + item.ProfileState] }}
+      </div>
+      <div class="hw-simple-title" [class]="'state-' + item.ProfileState">
+        {{ item.Number }}
+      </div>
+      <!-- <card>
+        <div class="item">
+          <div class="hw-simple-title-1">
+            {{ language["ProfileState-" + item.ProfileState] }}
+          </div>
+          <div [class]="'number'">
+            {{ item.Number }}
+          </div>
+        </div>
+      </card> -->
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="card" [routerLink]="'label-manager'" (click)="onlabelclick()">
+    <div class="hw-simple-title-1">标签</div>
+    <div class="hw-simple-title">
+      {{ model.labels }}
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

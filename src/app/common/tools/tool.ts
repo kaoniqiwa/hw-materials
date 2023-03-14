@@ -222,4 +222,7 @@ export const ValidLatitudeExp =
 
 // 后行断言+捕获+量词+非捕获
 export const ValidPathExp =
+  /(?<=\/[\w-]+?\/[\w-]+?\/)(?<first>[\w-]*)(?:\/(?<second>[\w-]*)(?:\/(?<third>[\w-]*))?)?\/?$/;
+
+export const ProfileIndexPathExp =
   /(?<=\/[\w-]+\/[\w-]+\/)(?<first>[\w-]*)(?:\/(?<second>[\w-]*)(?:\/(?<third>[\w-]*))?)?\/?$/;
