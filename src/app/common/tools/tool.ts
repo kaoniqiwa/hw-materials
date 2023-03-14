@@ -79,8 +79,8 @@ export function pageCount(totalnum: number, limit: number) {
     ? totalnum < limit
       ? 1
       : totalnum % limit
-      ? totalnum / limit + 1
-      : totalnum / limit
+        ? totalnum / limit + 1
+        : totalnum / limit
     : 0;
 }
 
@@ -222,7 +222,5 @@ export const ValidLatitudeExp =
 
 // 后行断言+捕获+量词+非捕获
 export const ValidPathExp =
-  /(?<=\/[\w-]+?\/[\w-]+?\/)(?<first>[\w-]*)(?:\/(?<second>[\w-]*)(?:\/(?<third>[\w-]*))?)?\/?$/;
+  /(?<=\/[\w-]+?\/[\w-]+?\/)(?<first>[\w-]*)(?:\/(?<second>[\w-]*))?(?:\/(?<third>[\w-]*))?(?:\/(?<forth>[\w-]*))?\/?/
 
-export const ProfileIndexPathExp =
-  /(?<=\/[\w-]+\/[\w-]+\/)(?<first>[\w-]*)(?:\/(?<second>[\w-]*)(?:\/(?<third>[\w-]*))?)?\/?$/;

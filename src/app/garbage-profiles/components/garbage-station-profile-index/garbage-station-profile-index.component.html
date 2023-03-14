@@ -4,7 +4,7 @@
       *ngFor="let item of model.profiles"
       class="card"
       [class]="'state-' + item.ProfileState"
-      [routerLink]="'profile-manager'"
+      [routerLink]="['profile-manager']"
       (click)="onprofileclick(item.ProfileState)"
     >
       <div class="hw-simple-title-1">

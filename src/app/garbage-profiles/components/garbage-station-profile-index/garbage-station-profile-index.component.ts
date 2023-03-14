@@ -27,7 +27,8 @@ export class GarbageStationProfileIndexComponent implements OnInit {
       if (e instanceof Scroll) {
         let mode = e.routerEvent.urlAfterRedirects.match(ValidPathExp);
         // console.log(mode);
-        if (mode && mode.groups && mode.groups['third'] == 'profile-index') {
+        if (mode && mode.groups && mode.groups['third'] == 'profile-index' &&
+          !mode.groups['forth']) {
           // console.log('show');
           this.show = true;
         } else {

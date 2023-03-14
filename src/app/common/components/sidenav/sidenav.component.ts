@@ -72,8 +72,8 @@ export class SidenavComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
 
-  ngOnInit(): void {}
-  ngOnChanges(changes: SimpleChanges): void {}
+  ngOnInit(): void { }
+  ngOnChanges(changes: SimpleChanges): void { }
   ngOnDestroy(): void {
     this._subscription.unsubscribe();
   }
@@ -85,7 +85,7 @@ export class SidenavComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
   clickBtn(model: ISideNavConfig) {
-    console.log(model);
+    // console.log(model);
     if (!model.CanNavigate) {
       let mode = model.path.match(ValidPathExp);
       if (mode?.groups?.['second'] == this.groups.second) {

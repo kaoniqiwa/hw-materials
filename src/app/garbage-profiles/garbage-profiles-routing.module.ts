@@ -5,6 +5,7 @@ import { GarbageProfilesMaterialManagerComponent } from './components/garbage-pr
 import { GarbageStationProfileIndexComponent } from './components/garbage-station-profile-index/garbage-station-profile-index.component';
 import { GarbageStationProfileManagerComponent } from './components/garbage-station-profile-manager/garbage-station-profile-manager.component';
 import { MonitorPlatformComponent } from './components/monitor-platform/monitor-platform.component';
+import { StationArchiveComponent } from './components/station-archive/station-archive.component';
 import { SystemModeComponent } from './components/system-mode/system-mode.component';
 import { UnderwaterComponent } from './components/underwater/underwater.component';
 
@@ -38,7 +39,7 @@ const routes: Routes = [
           },
           {
             path: 'station-archive',
-            // component: StationArchiveComponent,
+            component: StationArchiveComponent,
 
             children: [
               {
@@ -49,19 +50,20 @@ const routes: Routes = [
               {
                 path: 'profile-index',
                 component: GarbageStationProfileIndexComponent,
+
                 children: [
                   {
                     path: 'profile-manager',
                     component: GarbageStationProfileManagerComponent,
-                    data: undefined,
                   },
 
                   {
                     path: 'label-manager',
                     component: GarbageProfilesLabelManagerComponent,
                   },
-                ],
+                ]
               },
+
               {
                 path: 'material-manager',
                 component: GarbageProfilesMaterialManagerComponent,
@@ -82,4 +84,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class GarbageProfilesRoutingModule {}
+export class GarbageProfilesRoutingModule { }
