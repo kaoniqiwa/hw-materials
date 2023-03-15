@@ -1,0 +1,25 @@
+.cdk-overlay-container {
+  z-index: 10000;
+
+  .mat-autocomplete-panel {
+    .mat-option {
+      width: 100%;
+      height: 32px;
+      padding: 0 10px;
+      color: #cfd7ff;
+      font-size: 16px;
+      background-color: #1d233b;
+      box-sizing: border-box;
+      outline: none;
+      min-width: 120px;
+
+      &:hover {
+        background-color: rgb(30, 144, 255);
+      }
+    }
+    .mat-option.mat-selected:not(.mat-active):not(:hover) {
+      color: #cfd7ff;
+      background-color: rgb(30, 144, 255);
+    }
+  }
+}
