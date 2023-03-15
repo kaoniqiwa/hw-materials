@@ -127,7 +127,11 @@ export class GarbageProfileDetailsForm2
       PowerImageUrl: id,
     });
   }
-
+  clickRecord() {
+    if (this.model?.MaterialItems?.length) {
+      this.showRecord = true;
+    }
+  }
   changeCurrentWire() {
     this._updateValidator(!!this.formGroup.value['StrongCurrentWire']);
   }

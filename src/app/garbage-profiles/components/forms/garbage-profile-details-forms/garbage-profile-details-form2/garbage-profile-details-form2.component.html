@@ -119,9 +119,7 @@
         <button class="hw-blue-btn" (click)="showPutout = !showPutout">
           物料出库
         </button>
-        <button class="hw-blue-btn" (click)="showRecord = !showRecord">
-          出库记录
-        </button>
+        <button class="hw-blue-btn" (click)="clickRecord()">出库记录</button>
       </div>
     </div>
     <div class="hw-form-group" style="flex-basis: 100%">
@@ -131,11 +129,11 @@
         </span>
       </div>
       <div class="content">
-        <input type="text" formControlName="Remarks" />
+        <textarea formControlName="Remarks"> </textarea>
       </div>
     </div>
 
-    <div class="hw-form-group" style="flex-basis: 100%">
+    <div class="hw-form-group">
       <div class="title">
         <span class="hw-form-label">
           {{ language["LFImageUrl"] }}
@@ -148,7 +146,7 @@
         ></howell-picture-upload-control>
       </div>
     </div>
-    <div class="hw-form-group" style="flex-basis: 100%">
+    <div class="hw-form-group">
       <div class="title">
         <span class="hw-form-label">
           {{ language["RFImageUrl"] }}
@@ -161,7 +159,7 @@
         ></howell-picture-upload-control>
       </div>
     </div>
-    <div class="hw-form-group" style="flex-basis: 100%">
+    <div class="hw-form-group">
       <div class="title">
         <span class="hw-form-label">
           {{ language["FImageUrl"] }}
@@ -174,7 +172,7 @@
         ></howell-picture-upload-control>
       </div>
     </div>
-    <div class="hw-form-group" style="flex-basis: 100%">
+    <div class="hw-form-group">
       <div class="title">
         <span class="hw-form-label">
           {{ language["PowerImageUrl"] }}

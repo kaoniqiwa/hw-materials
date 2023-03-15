@@ -35,17 +35,7 @@ export class GarbageStationProfileManagerComponent implements OnInit {
     private toastr: ToastrService,
     private activeRoute: ActivatedRoute
   ) {
-
-    this.activeRoute.queryParams
-      .subscribe(params => {
-        console.log(params); // { order: "popular" }
-
-        // this.order = params.order;
-
-        // console.log(this.order); // popular
-        console.log(params)
-      }
-      );
+    this.activeRoute.queryParams.subscribe((params) => {});
   }
 
   title = '厢房档案管理';

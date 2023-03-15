@@ -99,7 +99,7 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
     this._changeDetector.detectChanges();
   }
   selectionChange(e: StepperSelectionEvent) {
-    console.log('selection change', e);
+    // console.log('selection change', e);
 
     this.selectedIndex = e.selectedIndex;
   }

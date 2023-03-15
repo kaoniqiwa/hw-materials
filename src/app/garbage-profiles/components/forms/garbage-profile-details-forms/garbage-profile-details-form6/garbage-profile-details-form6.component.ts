@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { GarbageProfileDetailFormsBusiness } from '../garbage-profile-details-forms.business';
 import { _GarbageProfileDetailsFormsBase } from '../garbage-profile-details-forms.common';
 
@@ -12,8 +12,15 @@ import { _GarbageProfileDetailsFormsBase } from '../garbage-profile-details-form
   ],
   providers: [GarbageProfileDetailFormsBusiness],
 })
-export class GarbageProfileDetailsForm6 extends _GarbageProfileDetailsFormsBase {
+export class GarbageProfileDetailsForm6
+  extends _GarbageProfileDetailsFormsBase
+  implements OnInit
+{
   override formGroup: FormGroup<any> = new FormGroup({
-    BsCameraId: new FormControl(''),
+    BsCameraId: new FormControl('', Validators.required),
   });
+
+  ngOnInit(): void {
+    this.init();
+  }
 }

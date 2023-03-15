@@ -52,6 +52,9 @@ export abstract class _GarbageProfileDetailsFormsBase
   protected async init() {
     if (this.formId) {
       this.model = await this._business.getModel(this.formId);
+
+      // let res = await this._business.getModelByState(this.formId, 2);
+      // console.log('ppp', res);
     }
     this.formGroup.statusChanges.subscribe((status) => {
       this.formStatus.emit(status);
