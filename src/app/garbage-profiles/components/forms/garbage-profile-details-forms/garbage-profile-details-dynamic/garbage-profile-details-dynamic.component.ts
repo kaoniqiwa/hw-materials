@@ -86,7 +86,6 @@ export class GarbageProfileDetailsDynamicForm
       AudioOutputState: new FormControl(0),
       AudioVolume: new FormControl(50),
       AIModelType: new FormControl(0),
-      BsCameraId: new FormControl(''),
     });
   }
   addCamera() {

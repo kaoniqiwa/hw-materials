@@ -1,0 +1,26 @@
+<div class="details-form">
+  <form [formGroup]="formGroup" class="hw-form" #ngForm="ngForm">
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["BsCameraId"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="BsCameraId" />
+      </div>
+    </div>
+  </form>
+  <div class="hw-middle-btn-group">
+    <button class="hw-blue-btn" type="button" (click)="clickPrev()">
+      上一步
+    </button>
+    <button class="hw-green-btn" type="button" (click)="clickSave()">
+      保存
+    </button>
+    <!-- <button class="hw-blue-btn" type="button" (click)="clickNext()">
+      下一步
+    </button> -->
+  </div>
+</div>

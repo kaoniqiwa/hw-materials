@@ -8,7 +8,7 @@
 </div>
 
 <ng-template #stepperTemp>
-  <mat-stepper #stepper linear>
+  <mat-stepper #stepper linear (selectionChange)="selectionChange($event)">
     <ng-container *ngFor="let label of labels; let i = index; let c = count">
       <mat-step [completed]="!!completedArr[i]">
         <ng-template matStepLabel>{{ label }} </ng-template>
@@ -19,12 +19,30 @@
           ></ng-template>
         </ng-template>
       </mat-step>
-    </ng-container> </mat-stepper></ng-template
-><ng-template #tabTemp> tab </ng-template>
+    </ng-container> </mat-stepper
+></ng-template>
+
+<ng-template #tabTemp>
+  <mat-tab-group>
+    <mat-tab>
+      <ng-template mat-tab-label> First </ng-template>
+      <ng-template matTabContent> Content 1 </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label> First </ng-template>
+      <ng-template matTabContent> Content 1 </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label> First </ng-template>
+      <ng-template matTabContent> Content 1 </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</ng-template>
 <ng-template #expansionTemp>expandsion</ng-template>
 
 <ng-template #step1 #step let-value let-index="index">
   <garbage-profile-details-form1
+    *ngIf="index == selectedIndex"
     [formId]="formId"
     [stepIndex]="index"
     [state]="state"
@@ -35,6 +53,7 @@
 </ng-template>
 <ng-template #step2 #step let-value let-index="index">
   <garbage-profile-details-form2
+    *ngIf="index == selectedIndex"
     [formId]="formId"
     [stepIndex]="index"
     [state]="state"
@@ -46,6 +65,7 @@
 </ng-template>
 <ng-template #step3 #step let-value let-index="index"
   ><garbage-profile-details-form3
+    *ngIf="index == selectedIndex"
     [formId]="formId"
     [stepIndex]="index"
     [state]="state"
@@ -57,6 +77,7 @@
 </ng-template>
 <ng-template #step4 #step let-value let-index="index">
   <garbage-profile-details-form4
+    *ngIf="index == selectedIndex"
     [formId]="formId"
     [stepIndex]="index"
     [state]="state"
@@ -68,6 +89,7 @@
 </ng-template>
 <ng-template #step5 #step let-value let-index="index">
   <garbage-profile-details-form5
+    *ngIf="index == selectedIndex"
     [formId]="formId"
     [state]="state"
     [stepIndex]="index"
@@ -76,4 +98,16 @@
     (previous)="previousEvent()"
     (formStatus)="formStatus($event, index)"
   ></garbage-profile-details-form5>
+</ng-template>
+<ng-template #step6 #step let-value let-index="index">
+  <garbage-profile-details-form6
+    *ngIf="index == selectedIndex"
+    [formId]="formId"
+    [state]="state"
+    [stepIndex]="index"
+    (next)="nextEvent($event, index)"
+    (close)="closeEvent()"
+    (previous)="previousEvent()"
+    (formStatus)="formStatus($event, index)"
+  ></garbage-profile-details-form6>
 </ng-template>

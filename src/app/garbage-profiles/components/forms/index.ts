@@ -4,6 +4,7 @@ import { GarbageProfileDetailsForm2 } from './garbage-profile-details-forms/garb
 import { GarbageProfileDetailsForm3 } from './garbage-profile-details-forms/garbage-profile-details-form3/garbage-profile-details-form3.component';
 import { GarbageProfileDetailsForm4 } from './garbage-profile-details-forms/garbage-profile-details-form4/garbage-profile-details-form4.component';
 import { GarbageProfileDetailsForm5 } from './garbage-profile-details-forms/garbage-profile-details-form5/garbage-profile-details-form5.component';
+import { GarbageProfileDetailsForm6 } from './garbage-profile-details-forms/garbage-profile-details-form6/garbage-profile-details-form6.component';
 
 export const FormComponents = [
   GarbageProfileDetailsForm1,
@@ -11,5 +12,6 @@ export const FormComponents = [
   GarbageProfileDetailsForm3,
   GarbageProfileDetailsForm4,
   GarbageProfileDetailsForm5,
+  GarbageProfileDetailsForm6,
   GarbageProfileDetailsDynamicForm,
 ];

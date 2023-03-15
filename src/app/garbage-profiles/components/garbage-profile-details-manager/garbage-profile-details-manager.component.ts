@@ -1,3 +1,4 @@
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -51,6 +52,7 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
   @Output() updateDetails = new EventEmitter();
 
   @ViewChild('stepperTemp') stepperTemp?: TemplateRef<any>;
+  @ViewChild('tabTemp') tabTemp?: TemplateRef<any>;
   @ViewChild('expansionTemp') expansionTemp?: TemplateRef<any>;
   @ViewChildren('step') stepList?: QueryList<TemplateRef<any>>;
   @ViewChild(MatStepper) matStepper?: MatStepper;
@@ -59,7 +61,14 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
 
   templateExpression: TemplateRef<any> | null = null;
   profileState = 0;
-  labels = ['初建档案', '勘察完成', '安装完成', '现场调试', '准备上线'];
+  labels = [
+    '初建档案',
+    '勘察完成',
+    '安装完成',
+    '现场调试',
+    '准备上线',
+    '运营上线',
+  ];
   stepLength = this.labels.length;
 
   completedArr: boolean[] = Array.from(Array(this.stepLength), () => false);
@@ -74,7 +83,6 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this._init();
-    // this.selectedIndex = Math.max(this.stepLength, this.profileState - 1);
   }
 
   private async _init() {
@@ -84,8 +92,16 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
     if (this.stepperTemp) {
       this.templateExpression = this.stepperTemp;
     }
+    // if (this.tabTemp) {
+    //   this.templateExpression = this.tabTemp;
+    // }
 
     this._changeDetector.detectChanges();
+  }
+  selectionChange(e: StepperSelectionEvent) {
+    console.log('selection change', e);
+
+    this.selectedIndex = e.selectedIndex;
   }
   closeEvent() {
     this.closeDetails.emit();
@@ -106,7 +122,7 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
   }
 
   formStatus(status: FormControlStatus, index: number) {
-    console.log('formstatus', status);
+    // console.log('formstatus', status);
   }
   private async _updateState() {
     if (this.formId) {

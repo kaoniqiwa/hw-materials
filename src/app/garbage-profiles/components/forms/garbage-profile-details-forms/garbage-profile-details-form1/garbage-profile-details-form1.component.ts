@@ -108,19 +108,17 @@ export class GarbageProfileDetailsForm1
   ngOnInit() {
     this._init();
   }
-  clickShow() {
-    console.log(this.formGroup.value);
-  }
 
   private async _init() {
     await this.init();
-    if (this.model) this.defaultIds = this.model.Labels ?? [];
+    if (this.model) {
+      this.defaultIds = this.model.Labels ?? [];
+      this._changeDetector.detectChanges();
+    }
     await this._updateDivisionModel();
 
     // 数据加载完成后再触发一次filter
     this.Committee.setValue('');
-
-    this._changeDetector.detectChanges();
   }
 
   changeDivision(selectEle: HTMLSelectElement, level: DivisionLevel) {
