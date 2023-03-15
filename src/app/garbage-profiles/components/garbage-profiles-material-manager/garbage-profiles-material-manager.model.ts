@@ -1,5 +1,6 @@
 import { WindowViewModel } from 'src/app/common/components/window-control/window.model';
 import { MaterialRecordModel } from 'src/app/model/material-record.model';
+import { MaterialModel } from 'src/app/model/material.model';
 import { MaterialCategory } from 'src/app/network/entity/material-category.entity';
 
 export class GarbageProfilesMaterialManagerSource {
@@ -40,4 +41,8 @@ export class GarbageProfilesMaterialPictureWindow extends WindowViewModel {
     height: '50%',
   };
   urlId?: string;
+}
+export class GarbageProfilesMaterialTimelineWindow extends WindowViewModel {
+  style = {};
+  model?: MaterialModel;
 }

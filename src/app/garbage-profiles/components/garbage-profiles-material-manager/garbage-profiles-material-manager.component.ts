@@ -11,6 +11,7 @@ import {
   GarbageProfilesMaterialPictureWindow,
   GarbageProfilesMaterialPutInWindow,
   GarbageProfilesMaterialRecordWindow,
+  GarbageProfilesMaterialTimelineWindow,
 } from './garbage-profiles-material-manager.model';
 
 @Component({
@@ -42,6 +43,7 @@ export class GarbageProfilesMaterialManagerComponent implements OnInit {
     putin: new GarbageProfilesMaterialPutInWindow(),
     putout: new GarbageProfilesMaterialRecordWindow(),
     picture: new GarbageProfilesMaterialPictureWindow(),
+    timeline: new GarbageProfilesMaterialTimelineWindow(),
   };
 
   selected: MaterialModel = new MaterialModel();
@@ -64,6 +66,8 @@ export class GarbageProfilesMaterialManagerComponent implements OnInit {
     this.window.putin.show = false;
     this.window.details.show = false;
     this.window.record.show = false;
+    this.window.timeline.model = undefined;
+    this.window.timeline.show = false;
   }
 
   onputin() {
@@ -84,5 +88,9 @@ export class GarbageProfilesMaterialManagerComponent implements OnInit {
         this.window.picture.show = true;
       }
     }
+  }
+  ontimeline(item: MaterialModel) {
+    this.window.timeline.model = item;
+    this.window.timeline.show = true;
   }
 }

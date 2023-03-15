@@ -11,6 +11,7 @@
           <td>类别</td>
           <td>库存</td>
           <td>备注</td>
+          <td class="center">操作</td>
         </tr>
       </thead>
     </table>
@@ -39,6 +40,11 @@
             </td>
             <td>
               {{ item.Description }}
+            </td>
+            <td class="operation center">
+              <div (click)="ontimeline($event, item)" class="center">
+                <i class="howell-icon-History"></i>
+              </div>
             </td>
           </tr>
         </tbody>

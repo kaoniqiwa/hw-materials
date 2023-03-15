@@ -51,6 +51,9 @@ export class GarbageProfilesMaterialTableComponent
   putin: EventEmitter<MaterialModel> = new EventEmitter();
   @Output()
   putout: EventEmitter<MaterialModel> = new EventEmitter();
+  @Output()
+  timeline: EventEmitter<MaterialModel> = new EventEmitter();
+
   constructor(business: GarbageProfilesMaterialTableBusiness) {
     super();
     this.business = business;
@@ -96,5 +99,10 @@ export class GarbageProfilesMaterialTableComponent
       this.args.desc = sort.active;
     }
     this.loadData(1);
+  }
+
+  ontimeline(e: Event, item: MaterialModel) {
+    e.stopImmediatePropagation();
+    this.timeline.emit(item);
   }
 }

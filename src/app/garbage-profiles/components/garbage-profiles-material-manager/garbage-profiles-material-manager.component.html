@@ -37,7 +37,10 @@
     </div>
   </div>
   <div class="garbage-profiles-material-manager-content">
-    <garbage-profiles-material-table [load]="load">
+    <garbage-profiles-material-table
+      [load]="load"
+      (timeline)="ontimeline($event)"
+    >
     </garbage-profiles-material-table>
   </div>
 </div>
@@ -91,4 +94,12 @@
     [model]="window.record.details.model"
   >
   </garbage-profiles-material-record-details>
+</app-window>
+
+<app-window
+  [Model]="window.timeline"
+  [style]="window.timeline.style"
+  *ngIf="window.timeline.show"
+>
+  <garbage-profiles-material-record-timeline></garbage-profiles-material-record-timeline>
 </app-window>

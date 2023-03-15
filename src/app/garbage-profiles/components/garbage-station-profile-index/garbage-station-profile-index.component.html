@@ -5,7 +5,7 @@
       class="card"
       [class]="'state-' + item.ProfileState"
       [routerLink]="['profile-manager']"
-      [queryParams]="{ order: 'popular' }"
+      [queryParams]="{ state: item.ProfileState }"
       (click)="onprofileclick(item.ProfileState)"
     >
       <div class="hw-simple-title-1">
