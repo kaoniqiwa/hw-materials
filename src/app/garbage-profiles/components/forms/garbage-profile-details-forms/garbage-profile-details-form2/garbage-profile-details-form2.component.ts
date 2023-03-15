@@ -26,7 +26,7 @@ import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tool
 import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { PutOutMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
-import { GarbageProfileDetailsFormsCommon } from '../garbage-profile-details-forms.common';
+import { _GarbageProfileDetailsFormsBase } from '../garbage-profile-details-forms.common';
 import { GarbageProfileDetailsForm2Business } from './garbage-profile-details-form2.business';
 
 @Component({
@@ -39,7 +39,7 @@ import { GarbageProfileDetailsForm2Business } from './garbage-profile-details-fo
   providers: [GarbageProfileDetailsForm2Business],
 })
 export class GarbageProfileDetailsForm2
-  extends GarbageProfileDetailsFormsCommon
+  extends _GarbageProfileDetailsFormsBase
   implements OnInit
 {
   showPutout = false;

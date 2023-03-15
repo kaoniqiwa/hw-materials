@@ -9,7 +9,7 @@ import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/to
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { PartialResult } from 'src/app/network/entity/partial-result.entity';
-import { GarbageProfileDetailsFormsCommon } from '../garbage-profile-details-forms.common';
+import { _GarbageProfileDetailsFormsBase } from '../garbage-profile-details-forms.common';
 import { GarbageProfileDetailsForm3Business } from './garbage-profile-details-form3.business';
 
 @Component({
@@ -22,7 +22,7 @@ import { GarbageProfileDetailsForm3Business } from './garbage-profile-details-fo
   providers: [GarbageProfileDetailsForm3Business],
 })
 export class GarbageProfileDetailsForm3
-  extends GarbageProfileDetailsFormsCommon
+  extends _GarbageProfileDetailsFormsBase
   implements OnInit
 {
   DateTimePickerView = DateTimePickerView;

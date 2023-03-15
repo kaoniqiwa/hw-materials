@@ -1,13 +1,4 @@
 <div class="details-form">
-  <form [formGroup]="testGroup">
-    <select formControlName="count">
-      <ng-container *ngFor="let fruit of fruits">
-        <option [ngValue]="fruit.value">
-          {{ fruit.name }}
-        </option>
-      </ng-container>
-    </select>
-  </form>
   <form [formGroup]="formGroup" class="hw-form" #ngForm="ngForm">
     <div class="hw-form-group" style="flex-basis: 100%">
       <div class="title">
@@ -31,7 +22,7 @@
           <garbage-station-profile-label-tree
             #tree
             [defaultIds]="defaultIds"
-            (selectTreeNode)="onTreeNodeSelected($event)"
+            (selectTreeNode)="selectTreeNode($event)"
           ></garbage-station-profile-label-tree>
         </common-label-select>
       </div>
@@ -144,7 +135,25 @@
         <span class="hw-form-icon">*</span>
       </div>
       <div class="content">
-        <input type="text" formControlName="Committee" />
+        <input
+          type="text"
+          formControlName="Committee"
+          [matAutocomplete]="auto"
+        />
+
+        <mat-autocomplete
+          role="combobox"
+          #auto="matAutocomplete"
+          (optionSelected)="optionSelected($event)"
+        >
+          <mat-option
+            *ngFor="let item of filteredOption | async"
+            [id]="item.Id"
+            [value]="item.Name"
+          >
+            <span>{{ item.Name }}</span>
+          </mat-option>
+        </mat-autocomplete>
       </div>
     </div>
     <div class="hw-form-group">
@@ -152,7 +161,6 @@
         <span class="hw-form-label">
           {{ language["Address"] }}
         </span>
-        <!-- <span class="hw-form-icon">*</span> -->
       </div>
       <div class="content">
         <input type="text" formControlName="Address" />
@@ -199,6 +207,9 @@
 
     <button class="hw-blue-btn" type="button" (click)="clickNext()">
       下一步
+    </button>
+    <button class="hw-blue-btn" type="button" (click)="clickShow()">
+      hello
     </button>
   </div>
 </div>

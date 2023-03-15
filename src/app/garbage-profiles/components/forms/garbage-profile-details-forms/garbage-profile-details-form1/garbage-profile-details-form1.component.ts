@@ -12,7 +12,9 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ToastrService } from 'ngx-toastr';
+import { map, Observable, startWith } from 'rxjs';
 import { CommonFlatNode } from 'src/app/common/components/common-tree/common-flat-node.model';
 import { DateTimePickerView } from 'src/app/common/directives/date-time-picker/date-time-picker.directive';
 import { Guid } from 'src/app/common/tools/guid';
@@ -21,10 +23,11 @@ import { FormState } from 'src/app/enum/form-state.enum';
 import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/language.tool';
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
+import { Division } from 'src/app/network/entity/division.entity';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { PartialData } from 'src/app/network/entity/partial-data.interface';
 import { PartialRequest } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
-import { GarbageProfileDetailsFormsCommon } from '../garbage-profile-details-forms.common';
+import { _GarbageProfileDetailsFormsBase } from '../garbage-profile-details-forms.common';
 import { GarbageProfileDetailsForm1Business } from './garbage-profile-details-form1.business';
 import {
   DivisionLevel,
@@ -43,7 +46,7 @@ import {
   providers: [GarbageProfileDetailsForm1Business],
 })
 export class GarbageProfileDetailsForm1
-  extends GarbageProfileDetailsFormsCommon
+  extends _GarbageProfileDetailsFormsBase
   implements OnInit
 {
   DivisionLevel = DivisionLevel;
@@ -81,23 +84,10 @@ export class GarbageProfileDetailsForm1
     Labels: new FormControl([] as Array<number>),
   });
 
-  testGroup = new FormGroup({
-    count: new FormControl(1),
-  });
-  fruits = [
-    {
-      name: 'Apple',
-      value: 0,
-    },
-    {
-      name: 'Pear',
-      value: 1,
-    },
-    {
-      name: 'Coconut',
-      value: 2,
-    },
-  ];
+  get Committee() {
+    return this.formGroup.get('Committee') as FormControl;
+  }
+  filteredOption: Observable<Division[]>;
   constructor(
     source: GarbageStationProfilesSourceTools,
     language: GarbageStationProfilesLanguageTools,
@@ -106,16 +96,29 @@ export class GarbageProfileDetailsForm1
     private _changeDetector: ChangeDetectorRef
   ) {
     super(_business, _toastrService, source, language);
+
+    this.filteredOption = this.Committee.valueChanges.pipe(
+      startWith(''),
+      map((value) => {
+        return this._filterValue(value);
+      })
+    );
   }
 
   ngOnInit() {
     this._init();
   }
+  clickShow() {
+    console.log(this.formGroup.value);
+  }
 
   private async _init() {
     await this.init();
     if (this.model) this.defaultIds = this.model.Labels ?? [];
-    this._updateDivisionModel();
+    await this._updateDivisionModel();
+
+    // 数据加载完成后再触发一次filter
+    this.Committee.setValue('');
 
     this._changeDetector.detectChanges();
   }
@@ -130,7 +133,10 @@ export class GarbageProfileDetailsForm1
 
     this._getChildDivisionListById(level, id);
   }
-  onTreeNodeSelected(nodes: CommonFlatNode[]) {
+  optionSelected(e: MatAutocompleteSelectedEvent) {
+    // console.log('option selected', e);
+  }
+  selectTreeNode(nodes: CommonFlatNode[]) {
     this.selectedNodes = nodes;
     let ids = this.selectedNodes.map((n) => parseInt(n.Id));
 
@@ -138,7 +144,16 @@ export class GarbageProfileDetailsForm1
       Labels: ids,
     });
   }
-
+  private _filterValue(value: string) {
+    if (value) {
+      let filterValue = value.toLocaleLowerCase();
+      return this.divisionModel.Committee.filter((committee) =>
+        committee.Name.toLocaleLowerCase().includes(filterValue)
+      );
+    } else {
+      return this.divisionModel.Committee.slice();
+    }
+  }
   private async _updateDivisionModel() {
     if (this.model) {
       this.defaultDivisionSource.set(

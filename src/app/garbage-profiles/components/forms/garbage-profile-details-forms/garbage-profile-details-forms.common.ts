@@ -17,10 +17,10 @@ import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-pr
 import { PartialResult } from 'src/app/network/entity/partial-result.entity';
 import { GarbageProfileDetailFormsBusiness } from './garbage-profile-details-forms.business';
 
-@Directive({
-  selector: 'hello',
-})
-export class GarbageProfileDetailsFormsCommon implements CommonFormInterface {
+@Directive({})
+export abstract class _GarbageProfileDetailsFormsBase
+  implements CommonFormInterface
+{
   @Input()
   formId?: string;
 

@@ -5,7 +5,7 @@ import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/to
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { GarbageProfileDetailsDynamicForm } from '../garbage-profile-details-dynamic/garbage-profile-details-dynamic.component';
-import { GarbageProfileDetailsFormsCommon } from '../garbage-profile-details-forms.common';
+import { _GarbageProfileDetailsFormsBase } from '../garbage-profile-details-forms.common';
 import { GarbageProfileDetailsForm5Business } from './garbage-profile-details-form5.business';
 
 @Component({
@@ -18,7 +18,7 @@ import { GarbageProfileDetailsForm5Business } from './garbage-profile-details-fo
   providers: [GarbageProfileDetailsForm5Business],
 })
 export class GarbageProfileDetailsForm5
-  extends GarbageProfileDetailsFormsCommon
+  extends _GarbageProfileDetailsFormsBase
   implements OnInit, AfterViewInit
 {
   @ViewChild(GarbageProfileDetailsDynamicForm)
