@@ -245,7 +245,11 @@ class GarbageStationProfilesPartialDatasRequestService {
   ): Promise<PartialResult<T>[]> {
     let url = GarbageStationProfilesUrl.partialData.basic();
     let plain = instanceToPlain(datas);
-    let response = this.basic.postToArray<T, PartialResult<T>>(url, plain as T);
+    let response = this.basic.postToArray<T, PartialResult<T>>(
+      url,
+      PartialResult<T>,
+      plain as T
+    );
     return response;
   }
   async update<T extends IPartialData>(

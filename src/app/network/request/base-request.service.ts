@@ -47,9 +47,14 @@ export class BaseRequestService {
     let response = firstValueFrom(this.http.post<IParams, Array<T>>(url, data));
     return ServiceHelper.ResponseProcess(await response, type);
   }
-  async postToArray<T, R = T>(url: string, data?: T): Promise<Array<R>> {
+  async postToArray<T, R = T>(
+    url: string,
+    type: ClassConstructor<R>,
+    data?: T
+  ): Promise<Array<R>> {
     let response = this.http.post(url, data);
-    return firstValueFrom(response);
+    let promise = firstValueFrom(response);
+    return ServiceHelper.ResponseProcess(await promise, type);
   }
 
   async postReturnString(url: string, params?: IParams) {
