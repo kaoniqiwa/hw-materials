@@ -16,6 +16,10 @@ export class GarbageStationProfileIndexBusiness
     let data = await this.getData();
     let model = new GarbageStationProfileIndexModel();
     model.profiles = data.Items;
+
+    data.Items.forEach((x) => {
+      model.profileCount += x.Number;
+    });
     let labels = await this.getLabels();
     model.labels = labels.Page.TotalRecordCount;
     return model;

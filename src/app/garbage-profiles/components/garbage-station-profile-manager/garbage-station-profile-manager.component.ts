@@ -6,7 +6,10 @@ import { PropertyValueModel } from 'src/app/model/property-value.model';
 import { IPartialData } from 'src/app/network/entity/partial-data.interface';
 import { GarbageStationProfilesLanguageTools } from '../../tools/language.tool';
 import { GarbageStationProfilesSourceTools } from '../../tools/source.tool';
-import { GarbageStationProfileTableArgs } from '../tables/garbage-station-profile-table/garbage-station-profile-table.model';
+import {
+  GarbageStationProfileTableArgs,
+  ProfilePropertyValueModel,
+} from '../tables/garbage-station-profile-table/garbage-station-profile-table.model';
 import { GarbageStationProfileManagerBusiness } from './garbage-station-profile-manager.business';
 import {
   GarbageStationProfileConfirmWindow,
@@ -77,6 +80,7 @@ export class GarbageStationProfileManagerComponent implements OnInit {
     this.window.confirm.show = false;
     this.window.partial.show = false;
     this.window.partial.model = undefined;
+    this.window.partial.id = undefined;
     this.window.record.material.show = false;
   }
   oncreate() {
@@ -102,20 +106,20 @@ export class GarbageStationProfileManagerComponent implements OnInit {
   onsearch() {
     this.load.emit(this.args);
   }
-  async onitemclick(model: PropertyValueModel) {
+  async onitemclick(model: ProfilePropertyValueModel) {
     console.log(model);
-    if (model.PropertyId && model.Value) {
-      if (model.PropertyId.toLowerCase().includes('url')) {
-        this.showPicture(model);
+    if (model.model.PropertyId && model.model.Value) {
+      if (model.model.PropertyId.toLowerCase().includes('url')) {
+        this.showPicture(model.model);
       }
     }
 
-    switch (model.PropertyId) {
+    switch (model.model.PropertyId) {
       case 'Cameras':
       case 'MaterialItems':
-        if ((model.Value as any[]).length > 0) {
-          this.window.partial.model = model;
-
+        if ((model.model.Value as any[]).length > 0) {
+          this.window.partial.model = model.model;
+          this.window.partial.id = model.profileId;
           this.window.partial.show = true;
         }
 
@@ -130,8 +134,8 @@ export class GarbageStationProfileManagerComponent implements OnInit {
     this.window.picture.urlId = model.Value as string;
     this.window.picture.show = true;
   }
-  showPartialData(model: PropertyValueModel) {
-    this.window.partial.model = model;
+  showPartialData(model: ProfilePropertyValueModel) {
+    this.window.partial.model = model.model;
     this.window.partial.show = true;
   }
 

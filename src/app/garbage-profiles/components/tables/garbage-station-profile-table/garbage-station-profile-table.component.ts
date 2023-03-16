@@ -13,7 +13,6 @@ import { IModel } from 'src/app/common/interfaces/model.interface';
 import { PropertyDataType } from 'src/app/enum/property-data-type.enum';
 import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/language.tool';
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
-import { PropertyValueModel } from 'src/app/model/property-value.model';
 
 import { PagedList } from 'src/app/network/entity/page.entity';
 import {
@@ -25,7 +24,10 @@ import { PagedTableAbstractComponent } from '../table-paged-abstract.component';
 import { GarbageStationProfileTableConfigBusiness } from './garbage-station-profile-table-config.business';
 import { GarbageStationProfileTableBusiness } from './garbage-station-profile-table.business';
 import { GarbageStationProfileTableConverter } from './garbage-station-profile-table.converter';
-import { GarbageStationProfileTableArgs } from './garbage-station-profile-table.model';
+import {
+  GarbageStationProfileTableArgs,
+  ProfilePropertyValueModel,
+} from './garbage-station-profile-table.model';
 
 @Component({
   selector: 'garbage-station-profile-table',
@@ -61,7 +63,7 @@ export class GarbageStationProfileTableComponent
   @Output()
   check: EventEmitter<IPartialData> = new EventEmitter();
   @Output()
-  itemclick: EventEmitter<PropertyValueModel> = new EventEmitter();
+  itemclick: EventEmitter<ProfilePropertyValueModel> = new EventEmitter();
 
   @Input()
   toexcel?: EventEmitter<GarbageStationProfileTableArgs>;
@@ -112,15 +114,18 @@ export class GarbageStationProfileTableComponent
   }
 
   async loadData(index: number, size: number = 10) {
-    // this.loading = true;
+    this.loading = true;
     this.selected = undefined;
 
-    this.names = await this.business.config.get(this.args.tableIds);
-    let paged = await this.business.load(index, size, this.names, this.args);
-    this.page = paged.Page;
-    this.datas = paged.Data;
-    this.source.ProfileState;
-    this.loading = false;
+    this.business.config.get(this.args.tableIds).then((names) => {
+      this.names = names;
+      this.business.load(index, size, this.names, this.args).then((paged) => {
+        this.page = paged.Page;
+        this.datas = paged.Data;
+        this.source.ProfileState;
+        this.loading = false;
+      });
+    });
   }
 
   sortData(sort: Sort) {
@@ -152,17 +157,21 @@ export class GarbageStationProfileTableComponent
 
   async onitemclick(e: Event, item: PartialData, name: string) {
     let value = await this.business.get(name, item[name]);
-
+    let model = {
+      profileId: item.Id,
+      model: value,
+    };
     if (name.includes('Url') && value.Value) {
       e.stopImmediatePropagation();
-      this.itemclick.emit(value);
+
+      this.itemclick.emit(model);
       return;
     }
     let property = await value.Property;
     if (property) {
       if (property.DataType === PropertyDataType.Object) {
         e.stopImmediatePropagation();
-        this.itemclick.emit(value);
+        this.itemclick.emit(model);
       }
     }
   }

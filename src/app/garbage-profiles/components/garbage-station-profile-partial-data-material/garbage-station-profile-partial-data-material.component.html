@@ -1,0 +1,15 @@
+<div class="garbage-station-profile-partial-data-material">
+  <mat-tab-group *ngIf="!!models">
+    <mat-tab
+      [label]="(item.CreationTime | date : 'YYYY年MM月dd日') ?? ''"
+      *ngFor="let item of models; let i = index"
+    >
+      <div class="garbage-station-profile-partial-data-material-item">
+        <garbage-profiles-material-record-details
+          [model]="item"
+          [nohead]="true"
+        ></garbage-profiles-material-record-details>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

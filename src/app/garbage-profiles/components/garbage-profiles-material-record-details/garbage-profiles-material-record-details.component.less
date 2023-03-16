@@ -9,17 +9,25 @@
 
   &-body {
     height: calc(100% - @head-height);
+
+    &.nohead {
+      height: 100%;
+    }
+
     display: flex;
     justify-content: space-between;
 
     &>* {
       border: 1px solid #5e6ebf;
       width: calc(50% - 5px);
-
+      height: 100%;
+      box-sizing: border-box;
     }
 
 
     .form {
+
+
       &-list {
         &-item {
           &-table {

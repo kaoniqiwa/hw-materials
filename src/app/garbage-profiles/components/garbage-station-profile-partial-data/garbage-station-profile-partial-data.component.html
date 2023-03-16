@@ -8,8 +8,10 @@
     </div>
   </div>
   <div class="garbage-station-profile-partial-data-body">
-    <div *ngIf="!!MaterialItems">
-      <material-item-table [model]="MaterialItems"> </material-item-table>
+    <div *ngIf="!!MaterialItems" class="material">
+      <garbage-station-profile-partial-data-material [profileId]="profileId">
+      </garbage-station-profile-partial-data-material>
+      <!-- <material-item-table [model]="MaterialItems"> </material-item-table> -->
     </div>
   </div>
   <!-- <div class="garbage-station-profile-partial-data-foot">

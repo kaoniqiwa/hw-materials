@@ -36,10 +36,11 @@ export class GarbageStationProfileConfirmWindow extends WindowViewModel {
 }
 export class GarbageStationProfilePartialDataWindow extends WindowViewModel {
   style = {
-    width: '600px',
-    height: 'auto',
+    width: 'auto',
+    height: '600px',
   };
   model?: PropertyValueModel;
+  id?: string;
 }
 export class GarbageStationProfileFilterWindow extends WindowViewModel {
   style = {

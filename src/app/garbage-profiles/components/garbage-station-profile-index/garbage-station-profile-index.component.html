@@ -6,7 +6,6 @@
       [class]="'state-' + item.ProfileState"
       [routerLink]="['profile-manager']"
       [queryParams]="{ state: item.ProfileState }"
-      (click)="onprofileclick(item.ProfileState)"
     >
       <div class="hw-simple-title-1">
         {{ language["ProfileState-" + item.ProfileState] }}
@@ -24,6 +23,10 @@
           </div>
         </div>
       </card> -->
+    </div>
+    <div class="card" [routerLink]="['profile-manager']">
+      <div class="hw-simple-title-1">全部档案</div>
+      <div class="hw-simple-title">{{ model.profileCount }}</div>
     </div>
   </div>
   <mat-divider></mat-divider>

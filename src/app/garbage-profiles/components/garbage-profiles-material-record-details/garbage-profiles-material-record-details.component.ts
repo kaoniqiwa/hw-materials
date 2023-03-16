@@ -17,6 +17,8 @@ export class GarbageProfilesMaterialRecordDetailsComponent implements OnInit {
   profileId?: string;
   @Input()
   model?: MaterialRecordModel;
+  @Input()
+  nohead = false;
 
   constructor(private business: GarbageProfilesMaterialRecordDetailsBusiness) {}
 

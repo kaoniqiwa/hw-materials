@@ -1,10 +1,15 @@
 <div class="garbage-profiles-material-record-details" *ngIf="model">
-  <div class="garbage-profiles-material-record-details-head">
+  <div class="garbage-profiles-material-record-details-head" *ngIf="!nohead">
     <div class="hw-simple-title">
       {{ model.MaterialRecordType | material_record_type_language }}记录
     </div>
   </div>
-  <div class="garbage-profiles-material-record-details-body">
+  <div
+    class="garbage-profiles-material-record-details-body"
+    [ngClass]="{
+      nohead: nohead
+    }"
+  >
     <div class="form">
       <div class="form-list">
         <div class="form-list-item">

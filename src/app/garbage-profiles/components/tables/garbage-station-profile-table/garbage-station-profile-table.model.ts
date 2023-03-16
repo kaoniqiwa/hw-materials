@@ -1,4 +1,5 @@
 import { Duration } from 'src/app/model/duration.model';
+import { PropertyValueModel } from 'src/app/model/property-value.model';
 
 export class GarbageStationProfileTableArgs {
   constructor() {
@@ -31,4 +32,9 @@ export class GarbageStationProfileTableArgs {
 
 export class KeyValue {
   [key: string]: number | undefined;
+}
+
+export interface ProfilePropertyValueModel {
+  profileId: string;
+  model: PropertyValueModel;
 }

@@ -11,6 +11,8 @@ import { GarbageStationProfilesLanguageTools } from '../../tools/language.tool';
 export class GarbageStationProfilePartialDataComponent implements OnInit {
   @Input()
   model?: PropertyValueModel;
+  @Input()
+  profileId?: string;
   constructor(public language: GarbageStationProfilesLanguageTools) {}
   ngOnInit(): void {
     if (this.model) {

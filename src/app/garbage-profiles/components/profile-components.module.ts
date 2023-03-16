@@ -19,6 +19,7 @@ import { GarbageStationProfileDetailsComponent } from './garbage-station-profile
 import { GarbageStationProfileFilterComponent } from './garbage-station-profile-filter/garbage-station-profile-filter.component';
 import { GarbageStationProfileIndexComponent } from './garbage-station-profile-index/garbage-station-profile-index.component';
 import { GarbageStationProfileManagerComponent } from './garbage-station-profile-manager/garbage-station-profile-manager.component';
+import { GarbageStationProfilePartialDataMaterialComponent } from './garbage-station-profile-partial-data-material/garbage-station-profile-partial-data-material.component';
 import { GarbageStationProfilePartialDataComponent } from './garbage-station-profile-partial-data/garbage-station-profile-partial-data.component';
 import { GarbageStationProfileRecordComponent } from './garbage-station-profile-record/garbage-station-profile-record.component';
 import { GarbageStationProfileSettingComponent } from './garbage-station-profile-setting/garbage-station-profile-setting.component';
@@ -49,6 +50,7 @@ import { UnderwaterComponent } from './underwater/underwater.component';
     GarbageStationProfileDetailsComponent,
     GarbageStationProfileRecordComponent,
     GarbageStationProfilePartialDataComponent,
+    GarbageStationProfilePartialDataMaterialComponent,
 
     GarbageProfilesMaterialManagerComponent,
     GarbageProfilesMaterialDetailsComponent,
