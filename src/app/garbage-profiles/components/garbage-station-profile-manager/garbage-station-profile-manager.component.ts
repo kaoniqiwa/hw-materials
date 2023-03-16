@@ -34,9 +34,7 @@ export class GarbageStationProfileManagerComponent implements OnInit {
     private business: GarbageStationProfileManagerBusiness,
     private toastr: ToastrService,
     private activeRoute: ActivatedRoute
-  ) {
-    this.activeRoute.queryParams.subscribe((params) => {});
-  }
+  ) {}
 
   title = '厢房档案管理';
 
@@ -58,6 +56,11 @@ export class GarbageStationProfileManagerComponent implements OnInit {
 
   ngOnInit(): void {
     this.args.enums['ProfileState'] = this.state;
+    this.activeRoute.queryParams.subscribe((params) => {
+      if ('state' in params) {
+        this.args.enums['ProfileState'] = parseInt(params['state']);
+      }
+    });
   }
 
   onselected(item?: IPartialData) {

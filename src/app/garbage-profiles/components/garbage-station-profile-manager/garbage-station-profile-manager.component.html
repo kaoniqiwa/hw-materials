@@ -59,6 +59,7 @@
   <div class="garbage-station-profile-manager-content">
     <garbage-station-profile-table
       [load]="load"
+      [args]="args"
       [toexcel]="toexcel"
       (onexcel)="onexcel($event)"
       (selectedChange)="onselected($event)"
