@@ -101,5 +101,7 @@
   [style]="window.timeline.style"
   *ngIf="window.timeline.show"
 >
-  <garbage-profiles-material-record-timeline></garbage-profiles-material-record-timeline>
+  <garbage-profiles-material-record-timeline
+    [material]="window.timeline.model"
+  ></garbage-profiles-material-record-timeline>
 </app-window>

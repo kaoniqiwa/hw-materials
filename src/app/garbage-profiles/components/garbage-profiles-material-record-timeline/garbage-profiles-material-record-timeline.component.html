@@ -1,4 +1,99 @@
-<div class="garbage-profiles-material-record-timeline">
-  <div class="garbage-profiles-material-record-timeline-head"></div>
-  <div class="garbage-profiles-material-record-timeline-body"></div>
+<div class="garbage-profiles-material-record-timeline" *ngIf="!!material">
+  <div class="garbage-profiles-material-record-timeline-head">
+    <div class="hw-simple-title">出入库清单-{{ material.Name }}</div>
+    <div class="garbage-profiles-material-record-timeline-head-filter">
+      <div class="filter">
+        <div class="filter-item">
+          <div class="filter-item-title">开始时间：</div>
+          <div class="filter-item-control">
+            <input
+              type="text"
+              DateTimePicker
+              [format]="'yyyy年MM月dd日 HH:mm'"
+              [startView]="DateTimePickerView.month"
+              [minView]="DateTimePickerView.month"
+              [(date)]="args.duration.begin"
+              class=""
+            />
+          </div>
+        </div>
+        <div class="filter-item">
+          <div class="filter-item-title">结束时间：</div>
+          <div class="filter-item-control">
+            <input
+              type="text"
+              DateTimePicker
+              [format]="'yyyy年MM月dd日 HH:mm'"
+              [startView]="DateTimePickerView.month"
+              [minView]="DateTimePickerView.month"
+              [(date)]="args.duration.end"
+              class=""
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="garbage-profiles-material-record-timeline-body">
+    <mat-accordion>
+      <div *ngFor="let item of models" class="record">
+        <div
+          class="putin"
+          [ngStyle]="{
+            visibility:
+              item.MaterialRecordType === MaterialRecordType.putin
+                ? ''
+                : 'hidden'
+          }"
+        >
+          <!-- <card>
+            {{ item.UserLastName }}
+          </card> -->
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title> 入库</mat-panel-title>
+              <mat-panel-description>
+                <div>
+                  {{ item.UserLastName }}
+                </div>
+                <div>{{ item.Item.Number }}>{{ item.Item.Quantity }}</div>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <p>This is the primary content of the panel.</p>
+          </mat-expansion-panel>
+        </div>
+
+        <div class="time">
+          <div>
+            {{ item.CreationTime | date : "YYYY年MM月dd日 HH:mm:ss" }}
+          </div>
+          <div>|</div>
+          <div>{{ item.Item.Quantity }}</div>
+        </div>
+
+        <div
+          class="putout"
+          [ngStyle]="{
+            visibility:
+              item.MaterialRecordType === MaterialRecordType.putout
+                ? ''
+                : 'hidden'
+          }"
+        >
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title> {{ item.ProfileName }} </mat-panel-title>
+              <mat-panel-description>
+                <div>
+                  {{ item.UserLastName }}
+                </div>
+                <div>{{ item.Item.Number }}>{{ item.Item.Quantity }}</div>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <p>This is the primary content of the panel.</p>
+          </mat-expansion-panel>
+        </div>
+      </div>
+    </mat-accordion>
+  </div>
 </div>

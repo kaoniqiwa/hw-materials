@@ -1,0 +1,99 @@
+.garbage-profiles-material-record-timeline {
+  color: #cfd7ff;
+  height: 100%;
+  width: 100%;
+
+  @head-head: 100px;
+
+  &-head {
+    height: @head-head;
+
+    &-filter {
+      height: 50px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #cfd7ff;
+      padding-bottom: 10px;
+
+      .filter {
+        display: flex;
+        justify-content: start;
+
+        &-item {
+          display: flex;
+          justify-content: start;
+          align-items: center;
+          margin-right: 10px;
+          width: 300px;
+
+          &:last-child {
+            margin-right: 0;
+          }
+
+
+          @filter-title-width: 80px;
+
+          &-title {
+            width: @filter-title-width;
+          }
+
+          &-control {
+            width: calc(100% - @filter-title-width);
+
+
+          }
+
+          &.expand {
+            width: calc(100% - 80px);
+          }
+        }
+      }
+
+      .search {
+        width: 80px;
+
+        button {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  &-body {
+    height: calc(100% - @head-head);
+    overflow-y: auto;
+
+    .record {
+      margin: 10px;
+      display: flex;
+      justify-content: space-around;
+
+
+      @time-width: 200px;
+
+      .putin {
+        width: calc((100% - @time-width) / 2)
+      }
+
+      .putout {
+        width: calc((100% - @time-width) / 2);
+      }
+
+      .time {
+        width: @time-width;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100px;
+      }
+
+      .mat-expansion-panel-header-description {
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+  }
+}
