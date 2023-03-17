@@ -59,6 +59,8 @@ export class GarbageProfilesMaterialTableComponent
     this.business = business;
   }
   widths: string[] = [];
+  min = 10;
+  max = 100;
 
   ngOnInit(): void {
     this.loadData(1);

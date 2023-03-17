@@ -1,16 +1,13 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { MaterialModel } from 'src/app/model/material.model';
 import { PutInMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
 import { GarbageProfilesMaterialTableArgs } from '../tables/garbage-profiles-material-table/garbage-profiles-material-table.model';
 import { GarbageProfilesMaterialManagerSourceBusiness } from './garbage-profiles-material-manager-source.business';
 import { GarbageProfilesMaterialManagerBusiness } from './garbage-profiles-material-manager.business';
 import {
-  GarbageProfilesMaterialDetailsWindow,
   GarbageProfilesMaterialManagerSource,
-  GarbageProfilesMaterialPictureWindow,
-  GarbageProfilesMaterialPutInWindow,
-  GarbageProfilesMaterialRecordWindow,
-  GarbageProfilesMaterialTimelineWindow,
+  GarbageProfilesMaterialWindow,
 } from './garbage-profiles-material-manager.model';
 
 @Component({
@@ -25,7 +22,8 @@ import {
 export class GarbageProfilesMaterialManagerComponent implements OnInit {
   constructor(
     public sourceBusiness: GarbageProfilesMaterialManagerSourceBusiness,
-    private business: GarbageProfilesMaterialManagerBusiness
+    private business: GarbageProfilesMaterialManagerBusiness,
+    private toastr: ToastrService
   ) {}
 
   args: GarbageProfilesMaterialTableArgs =
@@ -36,14 +34,7 @@ export class GarbageProfilesMaterialManagerComponent implements OnInit {
   source: GarbageProfilesMaterialManagerSource =
     new GarbageProfilesMaterialManagerSource();
 
-  window = {
-    details: new GarbageProfilesMaterialDetailsWindow(),
-    record: new GarbageProfilesMaterialRecordWindow(),
-    putin: new GarbageProfilesMaterialPutInWindow(),
-    putout: new GarbageProfilesMaterialRecordWindow(),
-    picture: new GarbageProfilesMaterialPictureWindow(),
-    timeline: new GarbageProfilesMaterialTimelineWindow(),
-  };
+  window = new GarbageProfilesMaterialWindow();
 
   selected: MaterialModel = new MaterialModel();
 
@@ -62,19 +53,27 @@ export class GarbageProfilesMaterialManagerComponent implements OnInit {
   }
 
   onwindowcancel() {
-    this.window.putin.show = false;
-    this.window.details.show = false;
-    this.window.record.show = false;
-    this.window.timeline.model = undefined;
-    this.window.timeline.show = false;
+    this.window.clear();
+    this.window.close();
   }
 
   onputin() {
     this.window.putin.show = true;
   }
   onputinok(item: PutInMaterialsParams) {
-    this.business.putin(item);
-    this.window.putin.show = false;
+    this.business
+      .putin(item)
+      .then((x) => {
+        this.toastr.success('入库成功');
+        this.load.emit(this.args);
+      })
+      .catch((x) => {
+        this.toastr.warning('入库失败');
+        console.error(x);
+      })
+      .finally(() => {
+        this.window.putin.show = false;
+      });
   }
   onputout() {
     this.window.putout.show = true;

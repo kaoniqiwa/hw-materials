@@ -126,7 +126,7 @@ export class PartialDataConverter
     return this.fromObjectArray(value);
   }
   fromObjectArray<T>(value: T[]) {
-    return `<a>【${value.length}】</a>`;
+    return `<b>【 ${value.length} 】</b>`;
   }
   fromInt32Array<T = number>(value: T[]) {}
   fromEnumArray(array: number[], enums: ValueNamePair[]) {

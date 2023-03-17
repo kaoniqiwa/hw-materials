@@ -35,7 +35,12 @@
               {{ item.Name }}
             </td>
             <td>{{ (item.CategoryInfo | async)?.Name }}</td>
-            <td>
+            <td
+              [ngClass]="{
+                min: item.Quantity <= min,
+                max: item.Quantity >= max
+              }"
+            >
               {{ item.Quantity }}
             </td>
             <td>

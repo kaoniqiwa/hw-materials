@@ -2,11 +2,27 @@
   height: 100%;
   overflow-x: auto;
 
-  &-main {}
 
   table {
-    td>div {
-      width: min-content;
+    td {
+      div {
+        width: min-content;
+
+        b {
+          color: #7586e0;
+        }
+
+      }
+    }
+
+    tr.selected {
+      b {
+
+
+        &:hover {
+          color: white;
+        }
+      }
     }
   }
 }

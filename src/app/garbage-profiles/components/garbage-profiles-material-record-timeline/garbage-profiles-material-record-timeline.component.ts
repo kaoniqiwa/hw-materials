@@ -39,7 +39,7 @@ export class GarbageProfilesMaterialRecordTimelineComponent
   models: SingleMaterialRecordModel[] = [];
   MaterialRecordType = MaterialRecordType;
   DateTimePickerView = DateTimePickerView;
-  asc: boolean = false;
+  loading: boolean = false;
 
   ngOnInit(): void {
     this.loadData();
@@ -47,9 +47,10 @@ export class GarbageProfilesMaterialRecordTimelineComponent
 
   loadData() {
     if (this.material) {
+      this.loading = true;
       this.business.load(this.material.Id, this.args).then((x) => {
         this.models = x;
-        this.asc = this.args.asc;
+        this.loading = false;
       });
     }
   }
@@ -59,5 +60,8 @@ export class GarbageProfilesMaterialRecordTimelineComponent
   }
   onpicture(item: SingleMaterialRecordModel) {
     this.picture.emit(item.ImageUrls);
+  }
+  onsortchange() {
+    this.loadData();
   }
 }
