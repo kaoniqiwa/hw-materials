@@ -42,7 +42,7 @@
                   <input type="text" formControlName="Name" />
                 </div>
               </div>
-              <div class="hw-form-group">
+              <div class="hw-form-group" *ngIf="stepIndex != 5">
                 <div class="title">
                   <span class="hw-form-label"> {{ language["Model"] }} </span>
                   <span class="hw-form-icon">*</span>
@@ -58,7 +58,7 @@
                   </select>
                 </div>
               </div>
-              <div class="hw-form-group">
+              <div class="hw-form-group" *ngIf="stepIndex != 5">
                 <div class="title">
                   <span class="hw-form-label">
                     {{ language["SerialNo"] }}
@@ -69,7 +69,7 @@
                   <input type="text" formControlName="SerialNo" />
                 </div>
               </div>
-              <div class="hw-form-group">
+              <div class="hw-form-group" *ngIf="stepIndex != 5">
                 <div class="title">
                   <span class="hw-form-label">
                     {{ language["Placement"] }}
@@ -85,164 +85,153 @@
                   />
                 </div>
               </div>
-              <div class="hw-form" *ngIf="stepIndex == 4">
-                <div class="hw-form-group">
-                  <div class="title">
-                    <span class="hw-form-label">
-                      {{ language["AccessServer"] }}
-                    </span>
-                  </div>
-                  <div class="content">
-                    <select
-                      class="hw-form-select"
-                      formControlName="AccessServer"
+              <div class="hw-form-group" *ngIf="stepIndex == 4">
+                <div class="title">
+                  <span class="hw-form-label">
+                    {{ language["AccessServer"] }}
+                  </span>
+                </div>
+                <div class="content">
+                  <select class="hw-form-select" formControlName="AccessServer">
+                    <option
+                      *ngFor="let server of source.AccessServer"
+                      [value]="server.Value"
                     >
-                      <option
-                        *ngFor="let server of source.AccessServer"
-                        [value]="server.Value"
-                      >
-                        {{ server.Name }}
-                      </option>
-                    </select>
-                  </div>
+                      {{ server.Name }}
+                    </option>
+                  </select>
                 </div>
-                <div class="hw-form-group">
-                  <div class="title">
-                    <span class="hw-form-label">
-                      {{ language["Resolution"] }}
-                    </span>
-                  </div>
-                  <div class="content">
-                    <select class="hw-form-select" formControlName="Resolution">
-                      <option
-                        *ngFor="let resolution of source.Resolution"
-                        [value]="resolution.Value"
-                      >
-                        {{ resolution.Name }}
-                      </option>
-                    </select>
-                  </div>
+              </div>
+              <div class="hw-form-group" *ngIf="stepIndex == 4">
+                <div class="title">
+                  <span class="hw-form-label">
+                    {{ language["Resolution"] }}
+                  </span>
                 </div>
-                <div class="hw-form-group">
-                  <div class="title">
-                    <span class="hw-form-label">
-                      {{ language["Bitrate"] }}
-                    </span>
-                  </div>
-                  <div class="content">
-                    <input
-                      type="text"
-                      formControlName="Bitrate"
-                      appTouchSpin
-                      [(number)]="camera.value.Bitrate"
-                    />
-                  </div>
-                </div>
-                <div class="hw-form-group">
-                  <div class="title">
-                    <span class="hw-form-label">
-                      {{ language["StorageTime"] }}
-                    </span>
-                  </div>
-                  <div class="content">
-                    <select
-                      class="hw-form-select"
-                      formControlName="StorageTime"
+                <div class="content">
+                  <select class="hw-form-select" formControlName="Resolution">
+                    <option
+                      *ngFor="let resolution of source.Resolution"
+                      [value]="resolution.Value"
                     >
-                      <option
-                        *ngFor="let storageTime of source.StorageTime"
-                        [value]="storageTime.Value"
-                      >
-                        {{ storageTime.Name }}
-                      </option>
-                    </select>
-                  </div>
+                      {{ resolution.Name }}
+                    </option>
+                  </select>
                 </div>
-                <div class="hw-form-group">
-                  <div class="title">
-                    <span class="hw-form-label">
-                      {{ language["ActionEquipment"] }}
-                    </span>
-                  </div>
-                  <div class="content">
-                    <select
-                      class="hw-form-select"
-                      formControlName="ActionEquipment"
+              </div>
+              <div class="hw-form-group" *ngIf="stepIndex == 4">
+                <div class="title">
+                  <span class="hw-form-label">
+                    {{ language["Bitrate"] }}
+                  </span>
+                </div>
+                <div class="content">
+                  <input
+                    type="text"
+                    formControlName="Bitrate"
+                    appTouchSpin
+                    [(number)]="camera.value.Bitrate"
+                  />
+                </div>
+              </div>
+              <div class="hw-form-group" *ngIf="stepIndex == 4">
+                <div class="title">
+                  <span class="hw-form-label">
+                    {{ language["StorageTime"] }}
+                  </span>
+                </div>
+                <div class="content">
+                  <select class="hw-form-select" formControlName="StorageTime">
+                    <option
+                      *ngFor="let storageTime of source.StorageTime"
+                      [value]="storageTime.Value"
                     >
-                      <option
-                        *ngFor="let equipment of source.ActionEquipment"
-                        [value]="equipment.Value"
-                      >
-                        {{ equipment.Name }}
-                      </option>
-                    </select>
-                  </div>
+                      {{ storageTime.Name }}
+                    </option>
+                  </select>
                 </div>
-                <div class="hw-form-group">
-                  <div class="title">
-                    <span class="hw-form-label">
-                      {{ language["AudioOutputState"] }}
-                    </span>
-                  </div>
-                  <div class="content">
-                    <select
-                      class="hw-form-select"
-                      formControlName="AudioOutputState"
+              </div>
+              <div class="hw-form-group" *ngIf="stepIndex == 4">
+                <div class="title">
+                  <span class="hw-form-label">
+                    {{ language["ActionEquipment"] }}
+                  </span>
+                </div>
+                <div class="content">
+                  <select
+                    class="hw-form-select"
+                    formControlName="ActionEquipment"
+                  >
+                    <option
+                      *ngFor="let equipment of source.ActionEquipment"
+                      [value]="equipment.Value"
                     >
-                      <option
-                        *ngFor="let audioState of source.AudioOutputState"
-                        [value]="audioState.Value"
-                      >
-                        {{ audioState.Name }}
-                      </option>
-                    </select>
-                  </div>
+                      {{ equipment.Name }}
+                    </option>
+                  </select>
                 </div>
-                <div class="hw-form-group">
-                  <div class="title">
-                    <span class="hw-form-label">
-                      {{ language["AudioVolume"] }}
-                    </span>
-                  </div>
-                  <div class="content">
-                    <input
-                      type="text"
-                      appTouchSpin
-                      [options]="volumeOptions"
-                      [(number)]="camera.value.AudioVolume"
-                    />
-                  </div>
+              </div>
+              <div class="hw-form-group" *ngIf="stepIndex == 4">
+                <div class="title">
+                  <span class="hw-form-label">
+                    {{ language["AudioOutputState"] }}
+                  </span>
                 </div>
-                <div class="hw-form-group">
-                  <div class="title">
-                    <span class="hw-form-label">
-                      {{ language["AIModelType"] }}
-                    </span>
-                  </div>
-                  <div class="content">
-                    <select
-                      class="hw-form-select"
-                      formControlName="AIModelType"
+                <div class="content">
+                  <select
+                    class="hw-form-select"
+                    formControlName="AudioOutputState"
+                  >
+                    <option
+                      *ngFor="let audioState of source.AudioOutputState"
+                      [value]="audioState.Value"
                     >
-                      <option
-                        *ngFor="let modelType of source.AIModelType"
-                        [value]="modelType.Value"
-                      >
-                        {{ modelType.Name }}
-                      </option>
-                    </select>
-                  </div>
+                      {{ audioState.Name }}
+                    </option>
+                  </select>
                 </div>
-                <!-- <div class="hw-form-group">
-                  <div class="title">
-                    <span class="hw-form-label">
-                      {{ language["BsCameraId"] }}
-                    </span>
-                  </div>
-                  <div class="content">
-                    <input type="text" formControlName="BsCameraId" />
-                  </div>
-                </div> -->
+              </div>
+              <div class="hw-form-group" *ngIf="stepIndex == 4">
+                <div class="title">
+                  <span class="hw-form-label">
+                    {{ language["AudioVolume"] }}
+                  </span>
+                </div>
+                <div class="content">
+                  <input
+                    type="text"
+                    appTouchSpin
+                    [options]="volumeOptions"
+                    [(number)]="camera.value.AudioVolume"
+                  />
+                </div>
+              </div>
+              <div class="hw-form-group" *ngIf="stepIndex == 4">
+                <div class="title">
+                  <span class="hw-form-label">
+                    {{ language["AIModelType"] }}
+                  </span>
+                </div>
+                <div class="content">
+                  <select class="hw-form-select" formControlName="AIModelType">
+                    <option
+                      *ngFor="let modelType of source.AIModelType"
+                      [value]="modelType.Value"
+                    >
+                      {{ modelType.Name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="hw-form-group" *ngIf="stepIndex == 5">
+                <div class="title">
+                  <span class="hw-form-label">
+                    {{ language["BsCameraId"] }}
+                  </span>
+                </div>
+                <div class="content">
+                  <input type="text" formControlName="BsCameraId" />
+                </div>
               </div>
             </form>
           </div>

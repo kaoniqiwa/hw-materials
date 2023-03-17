@@ -4,6 +4,7 @@ import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-pr
 import { GetGarbageProfilesBasicDivisionsParams } from 'src/app/network/request/garbage-profiles/basics/garbage-profiles-basics.params';
 import { GarbageProfilesBasicRequestService } from 'src/app/network/request/garbage-profiles/basics/garbage-profiles-basics.service';
 import { GarbageStationProfilesRequestService } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
+import { GetPropertiesParams } from 'src/app/network/request/maintenance-profiles/maintenance-profiles.param';
 import { GarbageProfileDetailFormsBusiness } from '../garbage-profile-details-forms.business';
 import { DivisionSearchInfo } from './garbage-profile-details-form1.model';
 const NULL_KEY = 'null';
@@ -20,6 +21,12 @@ export class GarbageProfileDetailsForm1Business extends GarbageProfileDetailForm
   ) {
     super(_garbageStationProfilesRequest);
     this._garbageProfilesBasicRequest = _garbageProfilesBasicRequest;
+  }
+  async getLabelProperty() {
+    let res = await this.listProperty({
+      Name: 'Labels',
+    });
+    return res;
   }
 
   /**

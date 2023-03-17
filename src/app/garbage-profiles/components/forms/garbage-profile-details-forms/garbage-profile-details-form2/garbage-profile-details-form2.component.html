@@ -122,16 +122,6 @@
         <button class="hw-blue-btn" (click)="clickRecord()">出库记录</button>
       </div>
     </div>
-    <div class="hw-form-group" style="flex-basis: 100%">
-      <div class="title">
-        <span class="hw-form-label">
-          {{ language["Remarks"] }}
-        </span>
-      </div>
-      <div class="content">
-        <textarea formControlName="Remarks"> </textarea>
-      </div>
-    </div>
 
     <div class="hw-form-group">
       <div class="title">
@@ -185,6 +175,16 @@
         ></howell-picture-upload-control>
       </div>
     </div>
+    <div class="hw-form-group" style="flex-basis: 100%">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["Remarks"] }}
+        </span>
+      </div>
+      <div class="content">
+        <textarea formControlName="Remarks"> </textarea>
+      </div>
+    </div>
   </form>
   <div class="hw-middle-btn-group">
     <button class="hw-blue-btn" type="button" (click)="clickPrev()">
@@ -200,7 +200,7 @@
 </div>
 
 <toast-window *ngIf="showPutout" (closeEvent)="showPutout = false">
-  <div style="width: 800px; height: 600px">
+  <div style="width: 1200px; height: 700px">
     <garbage-profiles-material-putout
       (ok)="okHandler($event)"
       (cancel)="cancelHandler()"
@@ -209,7 +209,7 @@
 </toast-window>
 
 <toast-window *ngIf="showRecord" (closeEvent)="showRecord = false">
-  <div style="width: 800px; height: 600px">
+  <div style="width: 1200px; height: 700px">
     <garbage-profiles-material-record-details
       [profileId]="model ? model.Id : ''"
     ></garbage-profiles-material-record-details>

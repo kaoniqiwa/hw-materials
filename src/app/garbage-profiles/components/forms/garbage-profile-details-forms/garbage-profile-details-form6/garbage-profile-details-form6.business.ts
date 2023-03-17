@@ -9,7 +9,7 @@ import { GarbageProfileDetailFormsBusiness } from '../garbage-profile-details-fo
 const NULL_KEY = 'null';
 
 @Injectable()
-export class GarbageProfileDetailsForm5Business extends GarbageProfileDetailFormsBusiness {
+export class GarbageProfileDetailsForm6Business extends GarbageProfileDetailFormsBusiness {
   constructor(
     _garbageStationProfilesRequest: GarbageStationProfilesRequestService,
     _garbageProfilesBasicRequest: GarbageProfilesBasicRequestService

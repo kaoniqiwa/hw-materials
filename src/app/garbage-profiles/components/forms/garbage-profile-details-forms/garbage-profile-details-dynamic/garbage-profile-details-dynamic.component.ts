@@ -1,5 +1,11 @@
 import { FormatWidth } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -15,6 +21,7 @@ import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/to
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 import { Camera } from 'src/app/network/entity/camera.entity';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
+import { FormMode } from '../garbage-profile-details-forms.common';
 import { GarbageProfileDetailsDynamicBusiness } from './garbage-profile-details-dynamic.business';
 
 @Component({
@@ -24,7 +31,7 @@ import { GarbageProfileDetailsDynamicBusiness } from './garbage-profile-details-
   providers: [GarbageProfileDetailsDynamicBusiness],
 })
 export class GarbageProfileDetailsDynamicForm
-  implements CommonFormInterface, OnInit
+  implements CommonFormInterface, OnInit, OnChanges
 {
   @Input()
   formId?: string;
@@ -33,6 +40,10 @@ export class GarbageProfileDetailsDynamicForm
   state: FormState = FormState.none;
 
   @Input() stepIndex = 0;
+
+  @Input() cameras: Camera[] = [];
+
+  formMode = FormMode.ByPartial;
 
   private model: GarbageStationProfile | null = null;
   placementOptions: HowellTouchSpinOptions = new HowellTouchSpinOptions();
@@ -49,7 +60,6 @@ export class GarbageProfileDetailsDynamicForm
   get Cameras() {
     return this.formGroup.get('Cameras') as FormArray;
   }
-
   constructor(
     public source: GarbageStationProfilesSourceTools,
     public language: GarbageStationProfilesLanguageTools,
@@ -65,12 +75,21 @@ export class GarbageProfileDetailsDynamicForm
   ngOnInit(): void {
     this._init();
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    if ('cameras' in changes) {
+      this._init();
+    }
+  }
 
   private async _init() {
-    if (this.formId) {
-      this.model = await this._business.getModel(this.formId);
+    if (this.formMode == FormMode.ByModel) {
+      if (this.formId) {
+        this.model = await this._business.getModel(this.formId);
+      }
+      this.updateFormByModel();
+    } else {
+      this.updateFormByPartial();
     }
-    this.updateForm();
   }
   newCamera() {
     return new FormGroup<{ [key: string]: AbstractControl }>({
@@ -86,6 +105,7 @@ export class GarbageProfileDetailsDynamicForm
       AudioOutputState: new FormControl(0),
       AudioVolume: new FormControl(50),
       AIModelType: new FormControl(0),
+      BsCameraId: new FormControl(null),
     });
   }
   addCamera() {
@@ -146,12 +166,12 @@ export class GarbageProfileDetailsDynamicForm
       camera.AudioOutputState = +control.value.AudioOutputState;
       camera.AudioVolume = +control.value.AudioVolume;
       camera.AIModelType = +control.value.AIModelType;
-      // camera.BsCameraId = control.value.BsCameraId;
+      camera.BsCameraId = control.value.BsCameraId;
       cameras.push(camera);
     }
     return cameras;
   }
-  updateForm() {
+  updateFormByModel() {
     if (this.state == FormState.edit) {
       if (this.model) {
         if (this.model.Cameras && this.model.Cameras.length > 0) {
@@ -179,6 +199,30 @@ export class GarbageProfileDetailsDynamicForm
         }
       }
       this.addCamera();
+    }
+  }
+
+  updateFormByPartial() {
+    if (this.cameras.length) {
+      this.Cameras.clear();
+      this.cameras.forEach((v) => {
+        let camera = this.newCamera();
+
+        let controls = camera.controls;
+        for (let [key, control] of Object.entries(controls)) {
+          if (
+            Reflect.get(v, key) != void 0 &&
+            Reflect.get(v, key) !== '' &&
+            Reflect.get(v, key) !== null
+          ) {
+            camera.patchValue({
+              [key]: Reflect.get(v, key),
+            });
+          }
+        }
+
+        this.Cameras.push(camera);
+      });
     }
   }
 }

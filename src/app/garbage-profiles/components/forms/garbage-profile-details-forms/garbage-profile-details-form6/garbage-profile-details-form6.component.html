@@ -3,12 +3,27 @@
     <div class="hw-form-group" style="flex-basis: 100%">
       <div class="title">
         <span class="hw-form-label">
-          {{ language["BsCameraId"] }}
+          {{ language["BsStationId"] }}
         </span>
         <span class="hw-form-icon">*</span>
       </div>
       <div class="content">
-        <input type="text" formControlName="BsCameraId" />
+        <input type="text" formControlName="BsStationId" />
+      </div>
+    </div>
+    <div class="hw-form-group" style="flex-basis: 100%">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ language["Cameras"] }}
+        </span>
+      </div>
+      <div class="content">
+        <garbage-profile-details-dynamic
+          [formId]="formId"
+          [state]="state"
+          [stepIndex]="stepIndex"
+          [cameras]="cameras"
+        ></garbage-profile-details-dynamic>
       </div>
     </div>
   </form>

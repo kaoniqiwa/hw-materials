@@ -5,6 +5,7 @@ import {
   Inject,
   Injectable,
   Input,
+  OnInit,
   Output,
 } from '@angular/core';
 import { FormControlStatus, FormGroup } from '@angular/forms';
@@ -14,9 +15,16 @@ import { FormState } from 'src/app/enum/form-state.enum';
 import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/language.tool';
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
+import { PartialData } from 'src/app/network/entity/partial-data.interface';
 import { PartialResult } from 'src/app/network/entity/partial-result.entity';
+import { Property } from 'src/app/network/entity/property.entity';
+import { PartialRequest } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
 import { GarbageProfileDetailFormsBusiness } from './garbage-profile-details-forms.business';
 
+export enum FormMode {
+  ByModel,
+  ByPartial,
+}
 @Directive({})
 export abstract class _GarbageProfileDetailsFormsBase
   implements CommonFormInterface
@@ -37,31 +45,63 @@ export abstract class _GarbageProfileDetailsFormsBase
   @Output() formStatus = new EventEmitter<FormControlStatus>();
 
   FormState = FormState;
+  formMode = FormMode.ByPartial;
 
   protected model: GarbageStationProfile | null = null;
 
   protected formGroup: FormGroup = new FormGroup({});
+
+  protected properties: Property[] = [];
+  protected partialData: PartialData | null = null;
 
   constructor(
     protected _business: GarbageProfileDetailFormsBusiness,
     protected _toastrService: ToastrService,
     protected source: GarbageStationProfilesSourceTools,
     protected language: GarbageStationProfilesLanguageTools
-  ) {}
-
-  protected async init() {
-    if (this.formId) {
-      this.model = await this._business.getModel(this.formId);
-
-      // let res = await this._business.getModelByState(this.formId, 2);
-      // console.log('ppp', res);
-    }
+  ) {
     this.formGroup.statusChanges.subscribe((status) => {
       this.formStatus.emit(status);
     });
-    this.updateForm();
   }
 
+  protected async initByModel() {
+    if (this.formId) {
+      this.model = await this._business.getModel(this.formId);
+    }
+    this.updateFormByModel();
+  }
+  // 没有特殊属性时
+  protected async initByPartial() {
+    this.properties = await this.getPropertyByCategory(this.stepIndex + 1);
+
+    console.log('propertyArr', this.properties);
+    this.partialData = await this.getPartialData(this.properties);
+    console.log('partialData', this.partialData);
+    this.updateFormByPartial();
+  }
+  protected async getProfileState() {
+    return this._business.listProperty({
+      Name: 'ProfileState',
+    });
+  }
+  protected async getPropertyByCategory(category: number) {
+    let profileState = await this.getProfileState();
+    let res = await this._business.listProperty({
+      Category: category,
+    });
+
+    res.push(...profileState);
+    return res;
+  }
+ 
+  protected async getPartialData(propertys: Property[]) {
+    if (this.formId) {
+      let propertyIds = propertys.map((property) => property.Id);
+      return await this._business.getPartialData(this.formId, propertyIds);
+    }
+    return null;
+  }
   protected async createOrUpdateModel() {
     if (this.checkForm()) {
       if (!this.model) {
@@ -91,8 +131,69 @@ export abstract class _GarbageProfileDetailsFormsBase
     }
     return null;
   }
+  protected async updatePartialData() {
+    if (this.checkForm()) {
+      let willBeUpdated = false;
+      let partialRequest = new PartialRequest();
 
-  updateForm() {
+      if (this.partialData) {
+        if (this.partialData['ProfileState'] <= this.stepIndex) {
+          ++this.partialData['ProfileState'];
+
+          partialRequest.ModificationReason = '新建档案';
+          partialRequest.ModificationContent = '';
+          willBeUpdated = true;
+        } else {
+          partialRequest.ModificationReason =
+            '更新档案' + ((Math.random() * 9999) >> 0);
+          partialRequest.ModificationContent = '';
+
+          let objData = this.formGroup.value;
+          let content: Array<{ Name: string; OldValue: any; NewValue: any }> =
+            [];
+          for (let [key, value] of Object.entries(objData)) {
+            if (value != void 0 && value !== '' && value !== null) {
+              let oldValue = Reflect.get(this.partialData, key);
+              let newValue = value;
+              if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
+                content.push({
+                  Name: key,
+                  OldValue: oldValue,
+                  NewValue: newValue,
+                });
+              }
+            }
+          }
+
+          if (content.length) {
+            willBeUpdated = true;
+            partialRequest.ModificationContent = JSON.stringify(content);
+          }
+
+          console.log(partialRequest);
+        }
+        if (willBeUpdated) {
+          let objData = this.formGroup.value;
+          for (let [key, value] of Object.entries(objData)) {
+            if (value != void 0 && value !== '' && value !== null) {
+              Reflect.set(this.partialData, key, value);
+            }
+          }
+
+          partialRequest.Data = this.partialData;
+
+          let res = await this._business.updatePartial(partialRequest);
+
+          return res;
+        } else {
+          // 验证通过，但无数据更新，不发送请求
+          return -1;
+        }
+      }
+    }
+    return null;
+  }
+  updateFormByModel() {
     if (this.model) {
       let controls = this.formGroup.controls;
       for (let [key, control] of Object.entries(controls)) {
@@ -103,6 +204,23 @@ export abstract class _GarbageProfileDetailsFormsBase
         ) {
           this.formGroup.patchValue({
             [key]: Reflect.get(this.model, key),
+          });
+        }
+      }
+    }
+  }
+
+  updateFormByPartial() {
+    if (this.partialData) {
+      let controls = this.formGroup.controls;
+      for (let [key, control] of Object.entries(controls)) {
+        if (
+          Reflect.get(this.partialData, key) != void 0 &&
+          Reflect.get(this.partialData, key) !== '' &&
+          Reflect.get(this.partialData, key) !== null
+        ) {
+          this.formGroup.patchValue({
+            [key]: Reflect.get(this.partialData, key),
           });
         }
       }
@@ -148,19 +266,59 @@ export abstract class _GarbageProfileDetailsFormsBase
   }
 
   async clickSave() {
-    let res: GarbageStationProfile | null | PartialResult<any>;
-    res = await this.createOrUpdateModel();
+    let res: GarbageStationProfile | null | PartialResult<any> | -1 = null;
+
+    if (this.formMode == FormMode.ByModel) {
+      res = await this.createOrUpdateModel();
+    } else {
+      if (this.state == FormState.add) {
+        res = await this.createOrUpdateModel();
+      } else if (this.state == FormState.edit) {
+        res = await this.updatePartialData();
+      }
+    }
     if (res) {
-      this._toastrService.success('操作成功');
-      this.close.emit();
+      if (res instanceof GarbageStationProfile) {
+        this._toastrService.success('操作成功');
+        this.close.emit();
+      } else if (res instanceof PartialResult) {
+        if (res.Succeed) {
+          this._toastrService.success('操作成功');
+          this.close.emit();
+        } else {
+          this._toastrService.error('操作失败');
+        }
+      } else if (res == -1) {
+        this._toastrService.success('无数据更新');
+        this.close.emit();
+      }
     }
   }
   async clickNext() {
-    let res: GarbageStationProfile | null | PartialResult<any>;
-    res = await this.createOrUpdateModel();
-    if (res) {
+    let res: GarbageStationProfile | null | PartialResult<any> | -1 = null;
+
+    if (this.formMode == FormMode.ByModel) {
+      res = await this.createOrUpdateModel();
+    } else {
+      if (this.state == FormState.add) {
+        res = await this.createOrUpdateModel();
+      } else if (this.state == FormState.edit) {
+        res = await this.updatePartialData();
+      }
+    }
+    if (res instanceof GarbageStationProfile) {
       this._toastrService.success('操作成功');
       this.next.emit(res.Id);
+    } else if (res instanceof PartialResult) {
+      if (res.Succeed) {
+        this._toastrService.success('操作成功');
+        this.next.emit(res.Id);
+      } else {
+        this._toastrService.error('操作失败');
+      }
+    } else if (res == -1) {
+      this._toastrService.success('操作成功');
+      this.close.emit();
     }
   }
 }

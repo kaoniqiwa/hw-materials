@@ -25,8 +25,9 @@ import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/to
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
+import { PartialRequest } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
 import { PutOutMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
-import { _GarbageProfileDetailsFormsBase } from '../garbage-profile-details-forms.common';
+import { FormMode, _GarbageProfileDetailsFormsBase } from '../garbage-profile-details-forms.common';
 import { GarbageProfileDetailsForm2Business } from './garbage-profile-details-form2.business';
 
 @Component({
@@ -93,6 +94,7 @@ export class GarbageProfileDetailsForm2
     private changeDetector: ChangeDetectorRef
   ) {
     super(_business, _toastrService, source, language);
+    this.formMode = FormMode.ByModel;
   }
 
   async ngOnInit() {
@@ -100,7 +102,7 @@ export class GarbageProfileDetailsForm2
   }
 
   private async _init() {
-    await this.init();
+    await this.initByPartial();
 
     this._updateCustomForm();
 
@@ -174,7 +176,85 @@ export class GarbageProfileDetailsForm2
 
     return null;
   }
+  protected override async updatePartialData() {
+    if (this.checkForm()) {
+      let willBeUpdated = false;
+      let partialRequest = new PartialRequest();
 
+      if (this.partialData) {
+        if (this.partialData['ProfileState'] <= this.stepIndex) {
+          ++this.partialData['ProfileState'];
+
+          partialRequest.ModificationReason = '新建档案';
+          partialRequest.ModificationContent = '';
+          willBeUpdated = true;
+        } else {
+          partialRequest.ModificationReason =
+            '更新档案' + ((Math.random() * 9999) >> 0);
+          partialRequest.ModificationContent = '';
+
+          let objData = this.formGroup.value;
+          let content: Array<{ Name: string; OldValue: any; NewValue: any }> =
+            [];
+          for (let [key, value] of Object.entries(objData)) {
+            if (value != void 0 && value !== '' && value !== null) {
+              let oldValue = Reflect.get(this.partialData, key);
+              let newValue = value;
+              if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
+                content.push({
+                  Name: key,
+                  OldValue: oldValue,
+                  NewValue: newValue,
+                });
+              }
+            }
+          }
+
+          if (content.length) {
+            willBeUpdated = true;
+            partialRequest.ModificationContent = JSON.stringify(content);
+          }
+
+          console.log(partialRequest);
+        }
+        if (willBeUpdated) {
+          let objData = this.formGroup.value;
+          for (let [key, value] of Object.entries(objData)) {
+            if (value != void 0 && value !== '' && value !== null) {
+              Reflect.set(this.partialData, key, value);
+            }
+          }
+          this.partialData['Functions'] = [];
+
+          if (this.formGroup.value['Functions'].garbagedrop) {
+            this.partialData['Functions'].push(
+              GarbageStationFunction.garbagedrop
+            );
+          }
+          if (this.formGroup.value['Functions'].mixedinto) {
+            this.partialData['Functions'].push(
+              GarbageStationFunction.mixedinto
+            );
+          }
+          if (this.formGroup.value['Functions'].garbagefull) {
+            this.partialData['Functions'].push(
+              GarbageStationFunction.garbagefull
+            );
+          }
+
+          partialRequest.Data = this.partialData;
+
+          let res = await this._business.updatePartial(partialRequest);
+
+          return res;
+        } else {
+          // 验证通过，但无数据更新，不发送请求
+          return -1;
+        }
+      }
+    }
+    return null;
+  }
   async okHandler(params: PutOutMaterialsParams) {
     // console.log(params);
     this.showPutout = false;
@@ -183,7 +263,8 @@ export class GarbageProfileDetailsForm2
       params.ProfileName = this.model.ProfileName;
       let res = await this._business.putout(params);
       console.log(res);
-      this.model.MaterialItems = res.MaterialItems;
+      this.model.MaterialItems = this.model.MaterialItems ?? [];
+      this.model.MaterialItems.push(...res.MaterialItems);
       let res2 = await this._business.updateModel(this.model);
       console.log(res2);
     }

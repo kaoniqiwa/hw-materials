@@ -27,7 +27,10 @@ import { Division } from 'src/app/network/entity/division.entity';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { PartialData } from 'src/app/network/entity/partial-data.interface';
 import { PartialRequest } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
-import { _GarbageProfileDetailsFormsBase } from '../garbage-profile-details-forms.common';
+import {
+  FormMode,
+  _GarbageProfileDetailsFormsBase,
+} from '../garbage-profile-details-forms.common';
 import { GarbageProfileDetailsForm1Business } from './garbage-profile-details-form1.business';
 import {
   DivisionLevel,
@@ -72,15 +75,15 @@ export class GarbageProfileDetailsForm1
   divisionModel: DivisionModel = new DivisionModel();
 
   override formGroup = new FormGroup({
-    ProfileName: new FormControl('', Validators.required),
+    ProfileName: new FormControl(null, Validators.required),
     Province: new FormControl(this.defaultProvince, Validators.required),
     City: new FormControl(this.defaultCity, Validators.required),
     County: new FormControl(this.defaultCounty, Validators.required),
     Street: new FormControl(this.defaultStreet, Validators.required),
     Committee: new FormControl(this.defaultCommittee, Validators.required),
-    Address: new FormControl(''),
-    Contact: new FormControl(''),
-    ContactPhoneNo: new FormControl('', Validators.pattern(ValidPhoneExp)),
+    Address: new FormControl(null),
+    Contact: new FormControl(null),
+    ContactPhoneNo: new FormControl(null, Validators.pattern(ValidPhoneExp)),
     Labels: new FormControl([] as Array<number>),
   });
 
@@ -103,14 +106,20 @@ export class GarbageProfileDetailsForm1
         return this._filterValue(value);
       })
     );
+
+    // this.formMode = FormMode.ByModel;
   }
 
-  ngOnInit() {
-    this._init();
+  ngOnInit(): void {
+    if (this.formMode == FormMode.ByModel) {
+      this._initByModel();
+    } else {
+      this._initByPartial();
+    }
   }
 
-  private async _init() {
-    await this.init();
+  private async _initByModel() {
+    await this.initByModel();
     if (this.model) {
       this.defaultIds = this.model.Labels ?? [];
       this._changeDetector.detectChanges();
@@ -118,9 +127,34 @@ export class GarbageProfileDetailsForm1
     await this._updateDivisionModel();
 
     // 数据加载完成后再触发一次filter
-    this.Committee.setValue('');
+    if (!this.model || !this.model.Committee) {
+      this.Committee.setValue('');
+    }
   }
+  // 有特殊属性 Labels 时
+  private async _initByPartial() {
+    this.properties = await this.getPropertyByCategory(this.stepIndex + 1);
 
+    let labelProperty = await this._business.getLabelProperty();
+
+    this.properties.push(...labelProperty);
+
+    this.partialData = await this.getPartialData(this.properties);
+    console.log('partialData', this.partialData);
+
+    await this.updateFormByPartial();
+
+    if (this.partialData) {
+      this.defaultIds = this.partialData['Labels'];
+
+      this._changeDetector.detectChanges();
+    }
+    await this._updateDivisionPartial();
+
+    if (!this.partialData || !Reflect.get(this.partialData, 'Committee')) {
+      this.Committee.setValue('');
+    }
+  }
   changeDivision(selectEle: HTMLSelectElement, level: DivisionLevel) {
     let selectedOption = selectEle.options[selectEle.selectedIndex];
     let id = selectedOption.id;
@@ -171,6 +205,36 @@ export class GarbageProfileDetailsForm1
       // console.log(key, value, this.divisionModel);
     }
   }
+
+  private async _updateDivisionPartial() {
+    if (this.partialData) {
+      this.defaultDivisionSource.set(
+        DivisionLevel.Province,
+        Reflect.get(this.partialData, 'Province')
+      );
+      this.defaultDivisionSource.set(
+        DivisionLevel.City,
+        Reflect.get(this.partialData, 'City')
+      );
+      this.defaultDivisionSource.set(
+        DivisionLevel.County,
+        Reflect.get(this.partialData, 'County')
+      );
+      this.defaultDivisionSource.set(
+        DivisionLevel.Street,
+        Reflect.get(this.partialData, 'Street')
+      );
+      this.defaultDivisionSource.set(
+        DivisionLevel.Committee,
+        Reflect.get(this.partialData, 'Committee')
+      );
+    }
+    for (let [key, value] of this.defaultDivisionSource.entries()) {
+      await this._getChildDivisionListByName(key, value);
+      // console.log(key, value, this.divisionModel);
+    }
+  }
+
   private _resetSelect(level: DivisionLevel) {
     let patchValue: { [key: string]: any } = {
       Address: '',

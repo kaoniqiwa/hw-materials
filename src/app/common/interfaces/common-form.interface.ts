@@ -1,5 +1,5 @@
 export interface CommonFormInterface {
-  updateForm(): void;
+  updateFormByModel(): void;
 
   checkForm(): boolean;
 }
