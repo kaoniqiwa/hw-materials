@@ -1,0 +1,55 @@
+.btn-bar {
+  display: flex;
+  border-bottom: 1px solid rgba(120, 130, 140, 0.13);
+  .btn-item {
+    width: 100px;
+    height: 34px;
+    background-color: rgba(50, 131, 229, 0.2);
+    color: #747d8a;
+    margin-right: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+
+    .close-btn {
+      position: absolute;
+      bottom: 8px;
+      right: 2px;
+      font-size: small;
+      display: none;
+    }
+
+    &.active {
+      background-image: url(src/assets/img/blue-tab.png);
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      background-position: center center;
+      background-color: #009efb;
+      color: #fff;
+      &:hover {
+        .close-btn {
+          display: block;
+          :hover {
+            color: #f60431;
+          }
+        }
+      }
+    }
+    &:not(.active) {
+      &:hover {
+        background-color: rgba(50, 131, 229, 0.4);
+        color: #fff;
+        .close-btn {
+          display: block;
+        }
+      }
+    }
+  }
+}
+.group-wrapper {
+  // height: 230px;
+  // overflow: auto;
+  margin-top: 5px;
+}

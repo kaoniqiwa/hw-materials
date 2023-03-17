@@ -74,56 +74,6 @@ export class GarbageProfileDetailsForm4
 
     this._updateCustomFormByPartial();
   }
-  protected override async createOrUpdateModel() {
-    if (this.checkForm() && this.dynamicForm?.checkForm()) {
-      console.log(this.formGroup.value);
-      if (!this.model) {
-        this.model = new GarbageStationProfile();
-        this.model.ProfileState = 1;
-      }
-      if (this.model.ProfileState <= this.stepIndex) {
-        ++this.model.ProfileState;
-      }
-      // Object.assign(this.model, this.formGroup.value);
-
-      let objData = this.formGroup.value;
-      for (let [key, value] of Object.entries(objData)) {
-        if (value != void 0 && value !== '' && value !== null) {
-          Reflect.set(this.model, key, value);
-        }
-      }
-
-      Reflect.deleteProperty(this.model, 'Longitude');
-      Reflect.deleteProperty(this.model, 'Latitude');
-      let longitude = this.formGroup.value['Longitude'];
-      let latitude = this.formGroup.value['Latitude'];
-      let gpsPoint = new GPSPoint();
-      gpsPoint.Longitude = +longitude;
-      gpsPoint.Latitude = +latitude;
-      this.model.GPSPoint = gpsPoint;
-
-      this.model.Cameras = this.dynamicForm.getCameras() ?? [];
-      if (this.state == FormState.add) {
-        this.model = await this._business.createModel(this.model!);
-        return this.model;
-      } else if (this.state == FormState.edit) {
-        try {
-          this.model = await this._business.updateModel(this.model);
-          return this.model;
-        } catch (e: unknown) {
-          // console.log('e', e);
-          // error: 'Cameras.SerialNo:1 duplicated.';
-          let error: HttpErrorResponse = e as HttpErrorResponse;
-          if (error.status == 409) {
-            let res = error.error.match(/Cameras\.(\w+):(\w+)/);
-            // console.log(res);
-            this._toastrService.warning(this.language[res[1]] + '冲突');
-          }
-        }
-      }
-    }
-    return null;
-  }
 
   override async updatePartial() {
     if (this.checkForm() && this.dynamicForm?.checkForm()) {

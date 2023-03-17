@@ -40,7 +40,7 @@ export class GarbageProfileDetailFormsBusiness {
     );
     return res.Data[0];
   }
- 
+
   async listProperty(searchInfo: PropertySearchInfo) {
     let params = new GetPropertiesParams();
     if (searchInfo.Category) params.Category = searchInfo.Category;

@@ -31,17 +31,18 @@ import { GarbageProfileDetailsForm6Business } from './garbage-profile-details-fo
 })
 export class GarbageProfileDetailsForm6
   extends _GarbageProfileDetailsFormsBase
-  implements OnInit, AfterViewInit
+  implements OnInit
 {
   cameras: Camera[] = [];
   currentIndex = 0;
-  @ViewChild(GarbageProfileDetailsDynamicForm)
-  dynamicForm?: GarbageProfileDetailsDynamicForm;
 
-  override formGroup: FormGroup<any> = new FormGroup({
-    BsStationId: new FormControl('', Validators.required),
+  override formGroup = new FormGroup({
+    BsStationId: new FormControl(null, Validators.required),
+    Cameras: new FormArray<FormGroup>([]),
   });
-
+  get Cameras() {
+    return this.formGroup.get('Cameras') as FormArray;
+  }
   constructor(
     override _business: GarbageProfileDetailsForm6Business,
     source: GarbageStationProfilesSourceTools,
@@ -60,10 +61,15 @@ export class GarbageProfileDetailsForm6
     if (this.partialData) {
       this.cameras = Reflect.get(this.partialData, 'Cameras');
     }
-  }
 
-  ngAfterViewInit(): void {
-    console.log(this.dynamicForm);
+    this.updateFormByPartial();
+    console.log(this.Cameras.value);
+  }
+  newCamera() {
+    return new FormGroup<{ [key: string]: AbstractControl }>({
+      Name: new FormControl(null, Validators.required),
+      BsCameraId: new FormControl(null, Validators.required),
+    });
   }
   private async _initByPartial() {
     this.properties = await this.getPropertyByCategory(this.stepIndex + 1);
@@ -77,17 +83,15 @@ export class GarbageProfileDetailsForm6
     this.partialData = await this.getPartialData(this.properties);
     console.log('partialData', this.partialData);
   }
-  override async updatePartial() {
-    if (this.checkForm() && this.dynamicForm?.checkForm()) {
-      let willBeUpdated = false;
-      let partialRequest = new PartialRequest();
 
+  override updatePartial() {
+    if (this.checkForm()) {
       if (this.partialData) {
         if (this.partialData['ProfileState'] <= this.stepIndex) {
           ++this.partialData['ProfileState'];
-          partialRequest.ModificationReason = '新建档案';
-          partialRequest.ModificationContent = '';
-          willBeUpdated = true;
+          this.partialRequest.ModificationReason = '新建档案';
+          this.partialRequest.ModificationContent = '';
+          this.willBeUpdated = true;
         } else {
           this.partialRequest.ModificationReason = '';
 
@@ -95,114 +99,88 @@ export class GarbageProfileDetailsForm6
           let objData = this.formGroup.value;
           let content: Array<{ Name: string; OldValue: any; NewValue: any }> =
             [];
-          for (let [key, value] of Object.entries(objData)) {
-            if (value != void 0 && value !== '' && value !== null) {
-              let oldValue = Reflect.get(this.partialData, key);
-              let newValue = value;
-              if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
-                content.push({
-                  Name: key,
-                  OldValue: oldValue,
-                  NewValue: newValue,
-                });
-              }
-            }
-          }
-          let newCameras = this.dynamicForm!.getCameras();
-          let oldCameras = this.partialData['Cameras'] as Camera[];
-
-          console.group(newCameras, oldCameras);
-          for (let i = 0; i < newCameras.length; i++) {
-            let newCamera = newCameras[i];
-            let oldCamera = oldCameras[i];
-
-            if (oldCamera) {
-              for (let [key, value] of Object.entries(oldCamera)) {
-                let oldValue = value;
-                let newValue = newCamera[key as keyof Camera];
-
-                console.log(key, oldValue, newValue);
-
-                if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
-                  content.push({
-                    Name: 'Camera:' + key,
-                    OldValue: oldValue,
-                    NewValue: newValue,
-                  });
-                }
-              }
-            } else {
-              partialRequest.ModificationReason = '添加摄像机';
-
-              content.push({
-                Name: 'Camera',
-                OldValue: JSON.stringify({}),
-                NewValue: JSON.stringify(newCamera),
-              });
-            }
-          }
-
-          if (content.length) {
-            willBeUpdated = true;
-            partialRequest.ModificationContent = JSON.stringify(content);
-          }
-
-          console.log(partialRequest);
-        }
-        if (willBeUpdated) {
-          let objData = this.formGroup.value;
-          for (let [key, value] of Object.entries(objData)) {
-            if (value != void 0 && value !== '' && value !== null) {
-              Reflect.set(this.partialData, key, value);
-            }
-          }
-
-          let newCameras = this.dynamicForm!.getCameras();
-          let oldCameras = this.partialData['Cameras'] as Camera[];
-
-          console.group(newCameras, oldCameras);
-          for (let i = 0; i < newCameras.length; i++) {
-            let newCamera = newCameras[i];
-            let oldCamera = oldCameras[i];
-
-            if (oldCamera) {
-              for (let [key, value] of Object.entries(oldCamera)) {
-                let oldValue = value;
-                let newValue = newCamera[key as keyof Camera];
-
-                console.log(key, oldValue, newValue);
-
-                if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
-                  Reflect.set(oldCamera, key, newValue);
-                }
-              }
-            } else {
-              this.partialData['Cameras'].push(newCamera);
-            }
-          }
-
-          // this.partialData['Cameras'] = this.dynamicForm?.getCameras() ?? [];
-          // let cameras = Reflect.get(this.partialData, 'Cameras') as
-          //   | Camera[]
-          //   | null;
-          // if (cameras && cameras.length) {
-          //   let formCameras = this.dynamicForm?.getCameras() ?? [];
-
-          //   cameras.forEach((camera, index) => {
-          //     let formCamera = formCameras[index];
-          //     if (formCamera) {
-          //       Object.assign(camera, formCamera);
+          // for (let [key, value] of Object.entries(objData)) {
+          //   if (value != void 0 && value !== '' && value !== null) {
+          //     let oldValue = Reflect.get(this.partialData, key);
+          //     let newValue = value;
+          //     if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
+          //       content.push({
+          //         Name: key,
+          //         OldValue: oldValue,
+          //         NewValue: newValue,
+          //       });
           //     }
-          //   });
+          //   }
           // }
-          partialRequest.Data = this.partialData;
+          if (content.length) {
+            this.hasBeenModified = true;
+            this.willBeUpdated = true;
+            this.partialRequest.ModificationContent = JSON.stringify(content);
+            this.partialRequest.Data = this.partialData;
+          } else {
+            this.willBeUpdated = false;
+            this.hasBeenModified = false;
+          }
+        }
+        if (this.willBeUpdated) {
+          let objData = this.formGroup.value;
+          // for (let [key, value] of Object.entries(objData)) {
+          //   if (value != void 0 && value !== '' && value !== null) {
+          //     Reflect.set(this.partialData, key, value);
+          //   }
+          // }
 
-          // let res = await this._business.updatePartial(partialRequest);
+          this.partialData['BsStationId'] = this.formGroup.value['BsStationId'];
 
-          // return res;
+          this.partialRequest.Data = this.partialData;
+        }
+      } else {
+        this.willBeUpdated = false;
+        this.hasBeenModified = false;
+      }
+    }
+  }
+
+  override updateFormByPartial() {
+    if (this.cameras.length) {
+      this.Cameras.clear();
+      this.cameras.forEach((v) => {
+        let camera = this.newCamera();
+
+        let controls = camera.controls;
+        for (let [key, control] of Object.entries(controls)) {
+          if (
+            Reflect.get(v, key) != void 0 &&
+            Reflect.get(v, key) !== '' &&
+            Reflect.get(v, key) !== null
+          ) {
+            camera.patchValue({
+              [key]: Reflect.get(v, key),
+            });
+          }
+        }
+
+        this.Cameras.push(camera);
+      });
+    }
+  }
+
+  override checkForm() {
+    if (this.formGroup.get('BsStationId')?.invalid) {
+      this._toastrService.warning('业务平台厢房ID不能为空');
+
+      return false;
+    }
+    // console.log(this.Cameras.errors);
+    if (this.Cameras.invalid) {
+      for (let i = 0; i < this.Cameras.length; i++) {
+        let control = this.Cameras.at(i);
+        if (control.invalid) {
+          this._toastrService.warning(`摄像机${i + 1}信息无效`);
+          return false;
         }
       }
     }
-    return null;
+    return true;
   }
 }

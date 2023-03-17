@@ -1,5 +1,5 @@
 <div class="details-form">
-  <form [formGroup]="formGroup" class="hw-form" #ngForm="ngForm">
+  <form class="hw-form" [formGroup]="formGroup">
     <div class="hw-form-group" style="flex-basis: 100%">
       <div class="title">
         <span class="hw-form-label">
@@ -18,12 +18,47 @@
         </span>
       </div>
       <div class="content">
-        <garbage-profile-details-dynamic
-          [formId]="formId"
-          [state]="state"
-          [stepIndex]="stepIndex"
-          [cameras]="cameras"
-        ></garbage-profile-details-dynamic>
+        <div class="btn-bar">
+          <div
+            class="btn-item"
+            [class.active]="i == currentIndex"
+            (click)="currentIndex = i"
+            *ngFor="let camera of Cameras.controls; let i = index"
+          >
+            <span> 摄像机 {{ i + 1 }}</span>
+          </div>
+        </div>
+        <div formArrayName="Cameras" class="group-wrapper">
+          <div *ngFor="let camera of Cameras.controls; let i = index">
+            <form
+              class="hw-form"
+              [formGroupName]="i"
+              *ngIf="i == currentIndex"
+              #ngForm="ngForm"
+            >
+              <div class="hw-form-group">
+                <div class="title">
+                  <span class="hw-form-label"> {{ language["Name"] }} </span>
+                  <span class="hw-form-icon">*</span>
+                </div>
+                <div class="content">
+                  <input type="text" formControlName="Name" />
+                </div>
+              </div>
+              <div class="hw-form-group">
+                <div class="title">
+                  <span class="hw-form-label">
+                    {{ language["BsCameraId"] }}
+                  </span>
+                  <span class="hw-form-icon">*</span>
+                </div>
+                <div class="content">
+                  <input type="text" formControlName="BsCameraId" />
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   </form>

@@ -69,12 +69,6 @@ export abstract class _GarbageProfileDetailsFormsBase {
     });
   }
 
-  protected async initByModel() {
-    if (this.formId) {
-      this.model = await this._business.getModel(this.formId);
-    }
-    this.updateFormByModel();
-  }
   // 没有特殊属性时
   protected async initByPartial() {
     this.properties = await this.getPropertyByCategory(this.stepIndex + 1);
@@ -107,31 +101,21 @@ export abstract class _GarbageProfileDetailsFormsBase {
       Name: 'ProfileState',
     });
   }
-  protected async createOrUpdateModel() {
+  protected async createModel() {
     if (this.checkForm()) {
       if (!this.model) {
         this.model = new GarbageStationProfile();
         this.model.ProfileState = 1;
       }
-      if (this.model.ProfileState <= this.stepIndex) {
-        ++this.model.ProfileState;
-      }
 
-      // Object.assign(this.model, this.formGroup.value);
       let objData = this.formGroup.value;
       for (let [key, value] of Object.entries(objData)) {
         if (value != void 0 && value !== '' && value !== null) {
           Reflect.set(this.model, key, value);
         }
       }
+      this.model = await this._business.createModel(this.model!);
 
-      if (this.state == FormState.add) {
-        this.model = await this._business.createModel(this.model!);
-        return this.model;
-      } else if (this.state == FormState.edit) {
-        this.model = await this._business.updateModel(this.model);
-        return this.model;
-      }
       console.log('result', this.model);
     }
     return null;
@@ -187,22 +171,6 @@ export abstract class _GarbageProfileDetailsFormsBase {
       } else {
         this.willBeUpdated = false;
         this.hasBeenModified = false;
-      }
-    }
-  }
-  updateFormByModel() {
-    if (this.model) {
-      let controls = this.formGroup.controls;
-      for (let [key, control] of Object.entries(controls)) {
-        if (
-          Reflect.get(this.model, key) != void 0 &&
-          Reflect.get(this.model, key) !== '' &&
-          Reflect.get(this.model, key) !== null
-        ) {
-          this.formGroup.patchValue({
-            [key]: Reflect.get(this.model, key),
-          });
-        }
       }
     }
   }
@@ -267,7 +235,7 @@ export abstract class _GarbageProfileDetailsFormsBase {
     }
   }
   async clickCreate() {
-    let res = await this.createOrUpdateModel();
+    let res = await this.createModel();
     if (res) {
       this._toastrService.success('创建成功');
       this.close.emit();
@@ -282,7 +250,7 @@ export abstract class _GarbageProfileDetailsFormsBase {
     let res: GarbageStationProfile | null | PartialResult<any> = null;
 
     if (this.state == FormState.add) {
-      res = await this.createOrUpdateModel();
+      res = await this.createModel();
       if (res) {
         this._toastrService.success('操作成功');
       }
@@ -309,7 +277,7 @@ export abstract class _GarbageProfileDetailsFormsBase {
     let res: GarbageStationProfile | null | PartialResult<any> | -1 = null;
 
     if (this.state == FormState.add) {
-      res = await this.createOrUpdateModel();
+      res = await this.createModel();
       if (res) {
         this._toastrService.success('操作成功');
       }

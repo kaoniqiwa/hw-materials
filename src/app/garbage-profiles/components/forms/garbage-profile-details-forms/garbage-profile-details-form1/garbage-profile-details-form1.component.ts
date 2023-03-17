@@ -111,26 +111,9 @@ export class GarbageProfileDetailsForm1
   }
 
   ngOnInit(): void {
-    if (this.formMode == FormMode.ByModel) {
-      this._initByModel();
-    } else {
-      this._initByPartial();
-    }
+    this._initByPartial();
   }
 
-  private async _initByModel() {
-    await this.initByModel();
-    if (this.model) {
-      this.defaultIds = this.model.Labels ?? [];
-      this._changeDetector.detectChanges();
-    }
-    await this._updateDivisionModel();
-
-    // 数据加载完成后再触发一次filter
-    if (!this.model || !this.model.Committee) {
-      this.Committee.setValue('');
-    }
-  }
   // 有特殊属性 Labels 时
   private async _initByPartial() {
     this.properties = await this.getPropertyByCategory(this.stepIndex + 1);
