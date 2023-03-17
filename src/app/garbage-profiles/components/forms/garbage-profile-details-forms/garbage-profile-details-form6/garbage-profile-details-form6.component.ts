@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -31,7 +31,7 @@ import { GarbageProfileDetailsForm6Business } from './garbage-profile-details-fo
 })
 export class GarbageProfileDetailsForm6
   extends _GarbageProfileDetailsFormsBase
-  implements OnInit
+  implements OnInit, AfterViewInit
 {
   cameras: Camera[] = [];
   currentIndex = 0;
@@ -55,17 +55,16 @@ export class GarbageProfileDetailsForm6
     this._init();
   }
   private async _init() {
-    if (this.formMode == FormMode.ByModel) {
-      await this.initByModel();
-    } else {
-      await this._initByPartial();
+    await this._initByPartial();
 
-      if (this.partialData) {
-        this.cameras = Reflect.get(this.partialData, 'Cameras');
-      }
+    if (this.partialData) {
+      this.cameras = Reflect.get(this.partialData, 'Cameras');
     }
   }
 
+  ngAfterViewInit(): void {
+    console.log(this.dynamicForm);
+  }
   private async _initByPartial() {
     this.properties = await this.getPropertyByCategory(this.stepIndex + 1);
 
@@ -78,7 +77,7 @@ export class GarbageProfileDetailsForm6
     this.partialData = await this.getPartialData(this.properties);
     console.log('partialData', this.partialData);
   }
-  protected override async updatePartialData() {
+  override async updatePartial() {
     if (this.checkForm() && this.dynamicForm?.checkForm()) {
       let willBeUpdated = false;
       let partialRequest = new PartialRequest();
@@ -86,15 +85,13 @@ export class GarbageProfileDetailsForm6
       if (this.partialData) {
         if (this.partialData['ProfileState'] <= this.stepIndex) {
           ++this.partialData['ProfileState'];
-
           partialRequest.ModificationReason = '新建档案';
           partialRequest.ModificationContent = '';
           willBeUpdated = true;
         } else {
-          partialRequest.ModificationReason =
-            '更新档案' + ((Math.random() * 9999) >> 0);
-          partialRequest.ModificationContent = '';
+          this.partialRequest.ModificationReason = '';
 
+          this.partialRequest.ModificationContent = '';
           let objData = this.formGroup.value;
           let content: Array<{ Name: string; OldValue: any; NewValue: any }> =
             [];
@@ -159,7 +156,32 @@ export class GarbageProfileDetailsForm6
               Reflect.set(this.partialData, key, value);
             }
           }
-          this.partialData['Cameras'] = this.dynamicForm?.getCameras() ?? [];
+
+          let newCameras = this.dynamicForm!.getCameras();
+          let oldCameras = this.partialData['Cameras'] as Camera[];
+
+          console.group(newCameras, oldCameras);
+          for (let i = 0; i < newCameras.length; i++) {
+            let newCamera = newCameras[i];
+            let oldCamera = oldCameras[i];
+
+            if (oldCamera) {
+              for (let [key, value] of Object.entries(oldCamera)) {
+                let oldValue = value;
+                let newValue = newCamera[key as keyof Camera];
+
+                console.log(key, oldValue, newValue);
+
+                if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
+                  Reflect.set(oldCamera, key, newValue);
+                }
+              }
+            } else {
+              this.partialData['Cameras'].push(newCamera);
+            }
+          }
+
+          // this.partialData['Cameras'] = this.dynamicForm?.getCameras() ?? [];
           // let cameras = Reflect.get(this.partialData, 'Cameras') as
           //   | Camera[]
           //   | null;
@@ -175,12 +197,9 @@ export class GarbageProfileDetailsForm6
           // }
           partialRequest.Data = this.partialData;
 
-          let res = await this._business.updatePartial(partialRequest);
+          // let res = await this._business.updatePartial(partialRequest);
 
-          return res;
-        } else {
-          // 验证通过，但无数据更新，不发送请求
-          return -1;
+          // return res;
         }
       }
     }

@@ -210,3 +210,9 @@
     </button>
   </div>
 </div>
+
+<toast-window *ngIf="showModify" [showClose]="false">
+  <modification-reason
+    (confirmEvent)="clickConfirm($event)"
+  ></modification-reason>
+</toast-window>

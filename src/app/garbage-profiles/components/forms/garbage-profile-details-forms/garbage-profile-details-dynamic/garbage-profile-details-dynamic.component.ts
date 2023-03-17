@@ -11,11 +11,11 @@ import {
   FormArray,
   FormControl,
   FormGroup,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { ToastRef, ToastrService } from 'ngx-toastr';
 import { HowellTouchSpinOptions } from 'src/app/common/directives/touch-spin/touch-spin.class';
-import { CommonFormInterface } from 'src/app/common/interfaces/common-form.interface';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/language.tool';
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
@@ -30,9 +30,7 @@ import { GarbageProfileDetailsDynamicBusiness } from './garbage-profile-details-
   styleUrls: ['./garbage-profile-details-dynamic.component.less'],
   providers: [GarbageProfileDetailsDynamicBusiness],
 })
-export class GarbageProfileDetailsDynamicForm
-  implements CommonFormInterface, OnInit, OnChanges
-{
+export class GarbageProfileDetailsDynamicForm implements OnInit, OnChanges {
   @Input()
   formId?: string;
 
@@ -82,14 +80,7 @@ export class GarbageProfileDetailsDynamicForm
   }
 
   private async _init() {
-    if (this.formMode == FormMode.ByModel) {
-      if (this.formId) {
-        this.model = await this._business.getModel(this.formId);
-      }
-      this.updateFormByModel();
-    } else {
-      this.updateFormByPartial();
-    }
+    this.updateFormByPartial();
   }
   newCamera() {
     return new FormGroup<{ [key: string]: AbstractControl }>({
@@ -152,56 +143,35 @@ export class GarbageProfileDetailsDynamicForm
   getCameras() {
     let cameras: Camera[] = [];
 
-    for (let control of this.Cameras.controls) {
+    for (let group of this.Cameras.controls) {
       let camera = new Camera();
-      camera.Name = control.value.Name;
-      camera.Model = +control.value.Model;
-      camera.SerialNo = control.value.SerialNo;
-      camera.Placement = +control.value.Placement;
-      camera.AccessServer = +control.value.AccessServer;
-      camera.Resolution = +control.value.Resolution;
-      camera.Bitrate = +control.value.Bitrate;
-      camera.StorageTime = +control.value.StorageTime;
-      camera.ActionEquipment = +control.value.ActionEquipment;
-      camera.AudioOutputState = +control.value.AudioOutputState;
-      camera.AudioVolume = +control.value.AudioVolume;
-      camera.AIModelType = +control.value.AIModelType;
-      camera.BsCameraId = control.value.BsCameraId;
+      camera.Name = group.value.Name;
+      camera.Model = +group.value.Model;
+      camera.SerialNo = group.value.SerialNo;
+      camera.Placement = +group.value.Placement;
+      camera.AccessServer = +group.value.AccessServer;
+      camera.Resolution = +group.value.Resolution;
+      camera.Bitrate = +group.value.Bitrate;
+      camera.StorageTime = +group.value.StorageTime;
+      camera.ActionEquipment = +group.value.ActionEquipment;
+      camera.AudioOutputState = +group.value.AudioOutputState;
+      camera.AudioVolume = +group.value.AudioVolume;
+      camera.AIModelType = +group.value.AIModelType;
+      camera.BsCameraId = group.value.BsCameraId;
       cameras.push(camera);
     }
     return cameras;
   }
-  updateFormByModel() {
-    if (this.state == FormState.edit) {
-      if (this.model) {
-        if (this.model.Cameras && this.model.Cameras.length > 0) {
-          this.Cameras.clear();
-          this.model.Cameras?.forEach((v) => {
-            let camera = this.newCamera();
 
-            let controls = camera.controls;
-            for (let [key, control] of Object.entries(controls)) {
-              if (
-                Reflect.get(v, key) != void 0 &&
-                Reflect.get(v, key) !== '' &&
-                Reflect.get(v, key) !== null
-              ) {
-                camera.patchValue({
-                  [key]: Reflect.get(v, key),
-                });
-              }
-            }
-
-            this.Cameras.push(camera);
-          });
-
-          return;
-        }
+  removeValidators(name: string, validators: ValidatorFn | ValidatorFn[]) {
+    for (let group of this.Cameras.controls) {
+      let control = group.get(name);
+      if (control) {
+        control.removeValidators(validators);
       }
-      this.addCamera();
     }
   }
-
+  addControl(name: string, validators: ValidatorFn | ValidatorFn[]) {}
   updateFormByPartial() {
     if (this.cameras.length) {
       this.Cameras.clear();

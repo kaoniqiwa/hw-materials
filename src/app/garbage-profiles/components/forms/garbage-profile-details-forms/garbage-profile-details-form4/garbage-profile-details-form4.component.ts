@@ -60,25 +60,19 @@ export class GarbageProfileDetailsForm4
     override _business: GarbageProfileDetailsForm4Business
   ) {
     super(_business, _toastrService, source, language);
-    // this.formMode = FormMode.ByModel;
   }
   async ngOnInit() {
     this._init();
   }
 
   private async _init() {
-    if (this.formMode == FormMode.ByModel) {
-      await this.initByModel();
-      this._updateCustomFormByModel();
-    } else {
-      await this.initByPartial();
+    await this.initByPartial();
 
-      if (this.partialData) {
-        this.cameras = Reflect.get(this.partialData, 'Cameras');
-      }
-
-      this._updateCustomFormByPartial();
+    if (this.partialData) {
+      this.cameras = Reflect.get(this.partialData, 'Cameras');
     }
+
+    this._updateCustomFormByPartial();
   }
   protected override async createOrUpdateModel() {
     if (this.checkForm() && this.dynamicForm?.checkForm()) {
@@ -131,22 +125,21 @@ export class GarbageProfileDetailsForm4
     return null;
   }
 
-  protected override async updatePartialData() {
+  override async updatePartial() {
     if (this.checkForm() && this.dynamicForm?.checkForm()) {
       let willBeUpdated = false;
       let partialRequest = new PartialRequest();
 
       if (this.partialData) {
         if (this.partialData['ProfileState'] <= this.stepIndex) {
+          this.partialRequest.ModificationReason = '新建档案';
+          this.partialRequest.ModificationContent = '';
+          this.willBeUpdated = true;
           ++this.partialData['ProfileState'];
-
-          partialRequest.ModificationReason = '新建档案';
-          partialRequest.ModificationContent = '';
-          willBeUpdated = true;
         } else {
-          partialRequest.ModificationReason =
-            '更新档案' + ((Math.random() * 9999) >> 0);
-          partialRequest.ModificationContent = '';
+          this.partialRequest.ModificationReason = '';
+
+          this.partialRequest.ModificationContent = '';
 
           let objData = this.formGroup.value;
           let content: Array<{ Name: string; OldValue: any; NewValue: any }> =
@@ -172,47 +165,50 @@ export class GarbageProfileDetailsForm4
             }
           }
 
-          let newCameras = this.dynamicForm.getCameras();
-          let oldCameras = this.partialData['Cameras'] as Camera[];
+          // let newCameras = this.dynamicForm.getCameras();
+          // let oldCameras = this.partialData['Cameras'] as Camera[];
 
-          console.group(newCameras, oldCameras);
+          // console.group(newCameras, oldCameras);
 
-          for (let i = 0; i < newCameras.length; i++) {
-            let newCamera = newCameras[i];
-            let oldCamera = oldCameras[i];
+          // for (let i = 0; i < newCameras.length; i++) {
+          //   let newCamera = newCameras[i];
+          //   let oldCamera = oldCameras[i];
 
-            if (oldCamera) {
-              for (let [key, value] of Object.entries(oldCamera)) {
-                let oldValue = value;
-                let newValue = newCamera[key as keyof Camera];
+          //   if (oldCamera) {
+          //     for (let [key, value] of Object.entries(oldCamera)) {
+          //       let oldValue = value;
+          //       let newValue = newCamera[key as keyof Camera];
 
-                console.log(key, oldValue, newValue);
+          //       console.log(key, oldValue, newValue);
 
-                if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
-                  content.push({
-                    Name: 'Camera:' + key,
-                    OldValue: oldValue,
-                    NewValue: newValue,
-                  });
-                }
-              }
-            } else {
-              partialRequest.ModificationReason = '添加摄像机';
+          //       if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
+          //         content.push({
+          //           Name: 'Camera:' + key,
+          //           OldValue: oldValue,
+          //           NewValue: newValue,
+          //         });
+          //       }
+          //     }
+          //   } else {
+          //     partialRequest.ModificationReason = '添加摄像机';
 
-              content.push({
-                Name: 'Camera',
-                OldValue: JSON.stringify({}),
-                NewValue: JSON.stringify(newCamera),
-              });
-            }
-          }
+          //     content.push({
+          //       Name: 'Camera',
+          //       OldValue: JSON.stringify({}),
+          //       NewValue: JSON.stringify(newCamera),
+          //     });
+          //   }
+          // }
 
           if (content.length) {
-            willBeUpdated = true;
-            partialRequest.ModificationContent = JSON.stringify(content);
+            this.hasBeenModified = true;
+            this.willBeUpdated = true;
+            this.partialRequest.ModificationContent = JSON.stringify(content);
+            this.partialRequest.Data = this.partialData;
+          } else {
+            this.willBeUpdated = false;
+            this.hasBeenModified = false;
           }
-
-          console.log(partialRequest);
         }
         if (willBeUpdated) {
           let objData = this.formGroup.value;
@@ -231,36 +227,14 @@ export class GarbageProfileDetailsForm4
           this.partialData['GPSPoint'] = gpsPoint;
 
           this.partialData['Cameras'] = this.dynamicForm?.getCameras() ?? [];
-          
-          partialRequest.Data = this.partialData;
 
-          let res = await this._business.updatePartial(partialRequest);
-          if (res.Succeed) {
-            return res;
-          } else {
-            if (res.FailedReason) {
-              let reason = res.FailedReason.match(/Cameras\.(\w+):(\w+)/);
-              reason &&
-                this._toastrService.warning(this.language[reason[1]] + '冲突');
-            }
-          }
-        } else {
-          // 验证通过，但无数据更新，不发送请求
-          return -1;
+          partialRequest.Data = this.partialData;
         }
       }
     }
     return null;
   }
 
-  private _updateCustomFormByModel() {
-    if (this.model && this.model.GPSPoint) {
-      this.formGroup.patchValue({
-        Longitude: this.model.GPSPoint.Longitude,
-        Latitude: this.model.GPSPoint.Latitude,
-      });
-    }
-  }
   private _updateCustomFormByPartial() {
     if (this.partialData && this.partialData['GPSPoint']) {
       this.formGroup.patchValue({

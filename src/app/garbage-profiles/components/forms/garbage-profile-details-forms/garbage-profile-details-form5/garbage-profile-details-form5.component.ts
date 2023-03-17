@@ -45,14 +45,10 @@ export class GarbageProfileDetailsForm5
     this._init();
   }
   private async _init() {
-    if (this.formMode == FormMode.ByModel) {
-      await this.initByModel();
-    } else {
-      await this._initByPartial();
+    await this._initByPartial();
 
-      if (this.partialData) {
-        this.cameras = Reflect.get(this.partialData, 'Cameras');
-      }
+    if (this.partialData) {
+      this.cameras = Reflect.get(this.partialData, 'Cameras');
     }
   }
 
@@ -75,22 +71,7 @@ export class GarbageProfileDetailsForm5
     // console.log('partialData', this.partialData);
   }
   ngAfterViewInit(): void {}
-  override async createOrUpdateModel(): Promise<GarbageStationProfile | null> {
-    if (this.checkForm() && this.dynamicForm?.checkForm()) {
-      if (!this.model) {
-        this.model = new GarbageStationProfile();
-        this.model.ProfileState = 1;
-      }
-      if (this.model.ProfileState <= this.stepIndex) {
-        ++this.model.ProfileState;
-      }
-      this.model.Cameras = this.dynamicForm?.getCameras() ?? [];
-      let res = await this._business.updateModel(this.model);
-      return res;
-    }
-    return null;
-  }
-  protected override async updatePartialData() {
+  override async updatePartial() {
     if (this.checkForm() && this.dynamicForm?.checkForm()) {
       let willBeUpdated = false;
       let partialRequest = new PartialRequest();

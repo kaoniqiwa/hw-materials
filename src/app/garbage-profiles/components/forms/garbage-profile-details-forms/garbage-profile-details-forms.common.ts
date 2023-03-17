@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 import { FormControlStatus, FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { CommonFormInterface } from 'src/app/common/interfaces/common-form.interface';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/language.tool';
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
@@ -26,9 +25,7 @@ export enum FormMode {
   ByPartial,
 }
 @Directive({})
-export abstract class _GarbageProfileDetailsFormsBase
-  implements CommonFormInterface
-{
+export abstract class _GarbageProfileDetailsFormsBase {
   @Input()
   formId?: string;
 
@@ -46,6 +43,13 @@ export abstract class _GarbageProfileDetailsFormsBase
 
   FormState = FormState;
   formMode = FormMode.ByPartial;
+
+  partialRequest = new PartialRequest();
+  willBeUpdated = false;
+  hasBeenModified = false;
+  showModify = false;
+
+  clickMode = '';
 
   protected model: GarbageStationProfile | null = null;
 
@@ -80,11 +84,7 @@ export abstract class _GarbageProfileDetailsFormsBase
     console.log('partialData', this.partialData);
     this.updateFormByPartial();
   }
-  protected async getProfileState() {
-    return this._business.listProperty({
-      Name: 'ProfileState',
-    });
-  }
+
   protected async getPropertyByCategory(category: number) {
     let profileState = await this.getProfileState();
     let res = await this._business.listProperty({
@@ -94,13 +94,18 @@ export abstract class _GarbageProfileDetailsFormsBase
     res.push(...profileState);
     return res;
   }
- 
+
   protected async getPartialData(propertys: Property[]) {
     if (this.formId) {
       let propertyIds = propertys.map((property) => property.Id);
       return await this._business.getPartialData(this.formId, propertyIds);
     }
     return null;
+  }
+  protected async getProfileState() {
+    return this._business.listProperty({
+      Name: 'ProfileState',
+    });
   }
   protected async createOrUpdateModel() {
     if (this.checkForm()) {
@@ -131,23 +136,18 @@ export abstract class _GarbageProfileDetailsFormsBase
     }
     return null;
   }
-  protected async updatePartialData() {
+  updatePartial() {
     if (this.checkForm()) {
-      let willBeUpdated = false;
-      let partialRequest = new PartialRequest();
-
       if (this.partialData) {
         if (this.partialData['ProfileState'] <= this.stepIndex) {
           ++this.partialData['ProfileState'];
-
-          partialRequest.ModificationReason = '新建档案';
-          partialRequest.ModificationContent = '';
-          willBeUpdated = true;
+          this.partialRequest.ModificationReason = '新建档案';
+          this.partialRequest.ModificationContent = '';
+          this.willBeUpdated = true;
         } else {
-          partialRequest.ModificationReason =
-            '更新档案' + ((Math.random() * 9999) >> 0);
-          partialRequest.ModificationContent = '';
+          this.partialRequest.ModificationReason = '';
 
+          this.partialRequest.ModificationContent = '';
           let objData = this.formGroup.value;
           let content: Array<{ Name: string; OldValue: any; NewValue: any }> =
             [];
@@ -164,15 +164,17 @@ export abstract class _GarbageProfileDetailsFormsBase
               }
             }
           }
-
           if (content.length) {
-            willBeUpdated = true;
-            partialRequest.ModificationContent = JSON.stringify(content);
+            this.hasBeenModified = true;
+            this.willBeUpdated = true;
+            this.partialRequest.ModificationContent = JSON.stringify(content);
+            this.partialRequest.Data = this.partialData;
+          } else {
+            this.willBeUpdated = false;
+            this.hasBeenModified = false;
           }
-
-          console.log(partialRequest);
         }
-        if (willBeUpdated) {
+        if (this.willBeUpdated) {
           let objData = this.formGroup.value;
           for (let [key, value] of Object.entries(objData)) {
             if (value != void 0 && value !== '' && value !== null) {
@@ -180,18 +182,13 @@ export abstract class _GarbageProfileDetailsFormsBase
             }
           }
 
-          partialRequest.Data = this.partialData;
-
-          let res = await this._business.updatePartial(partialRequest);
-
-          return res;
-        } else {
-          // 验证通过，但无数据更新，不发送请求
-          return -1;
+          this.partialRequest.Data = this.partialData;
         }
+      } else {
+        this.willBeUpdated = false;
+        this.hasBeenModified = false;
       }
     }
-    return null;
   }
   updateFormByModel() {
     if (this.model) {
@@ -254,6 +251,21 @@ export abstract class _GarbageProfileDetailsFormsBase
     }
     return true;
   }
+  async clickConfirm(reason: string) {
+    this.partialRequest.ModificationReason = reason;
+    let res = await this._business.updatePartial(this.partialRequest);
+    console.log(res);
+    if (res.Succeed) {
+      this._toastrService.success('操作成功');
+      if (this.clickMode == 'save') {
+        this.close.emit();
+      } else if ((this.clickMode = 'next')) {
+        this.next.emit();
+      }
+    } else {
+      this._toastrService.error('操作失败');
+    }
+  }
   async clickCreate() {
     let res = await this.createOrUpdateModel();
     if (res) {
@@ -266,59 +278,49 @@ export abstract class _GarbageProfileDetailsFormsBase
   }
 
   async clickSave() {
-    let res: GarbageStationProfile | null | PartialResult<any> | -1 = null;
+    this.clickMode = 'save';
+    let res: GarbageStationProfile | null | PartialResult<any> = null;
 
-    if (this.formMode == FormMode.ByModel) {
+    if (this.state == FormState.add) {
       res = await this.createOrUpdateModel();
-    } else {
-      if (this.state == FormState.add) {
-        res = await this.createOrUpdateModel();
-      } else if (this.state == FormState.edit) {
-        res = await this.updatePartialData();
-      }
-    }
-    if (res) {
-      if (res instanceof GarbageStationProfile) {
+      if (res) {
         this._toastrService.success('操作成功');
-        this.close.emit();
-      } else if (res instanceof PartialResult) {
-        if (res.Succeed) {
-          this._toastrService.success('操作成功');
-          this.close.emit();
+      }
+    } else if (this.state == FormState.edit) {
+      this.updatePartial();
+
+      if (this.willBeUpdated) {
+        if (this.hasBeenModified) {
+          this.showModify = true;
         } else {
-          this._toastrService.error('操作失败');
+          let res = await this._business.updatePartial(this.partialRequest);
+
+          if (res) {
+            this._toastrService.success('操作成功');
+
+            this.close.emit();
+          }
         }
-      } else if (res == -1) {
-        this._toastrService.success('无数据更新');
-        this.close.emit();
       }
     }
   }
   async clickNext() {
+    this.clickMode = 'next';
     let res: GarbageStationProfile | null | PartialResult<any> | -1 = null;
 
-    if (this.formMode == FormMode.ByModel) {
+    if (this.state == FormState.add) {
       res = await this.createOrUpdateModel();
-    } else {
-      if (this.state == FormState.add) {
-        res = await this.createOrUpdateModel();
-      } else if (this.state == FormState.edit) {
-        res = await this.updatePartialData();
-      }
-    }
-    if (res instanceof GarbageStationProfile) {
-      this._toastrService.success('操作成功');
-      this.next.emit(res.Id);
-    } else if (res instanceof PartialResult) {
-      if (res.Succeed) {
+      if (res) {
         this._toastrService.success('操作成功');
-        this.next.emit(res.Id);
-      } else {
-        this._toastrService.error('操作失败');
       }
-    } else if (res == -1) {
-      this._toastrService.success('操作成功');
-      this.close.emit();
+    } else if (this.state == FormState.edit) {
+      this.updatePartial();
+
+      if (this.hasBeenModified) {
+        this.showModify = true;
+      } else {
+        this.next.emit();
+      }
     }
   }
 }

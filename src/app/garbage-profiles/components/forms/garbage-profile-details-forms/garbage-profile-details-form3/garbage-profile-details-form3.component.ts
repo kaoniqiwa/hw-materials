@@ -57,23 +57,18 @@ export class GarbageProfileDetailsForm3
   private _init() {
     this.initByPartial();
   }
-  protected override async updatePartialData() {
+  override updatePartial() {
     if (this.checkForm()) {
-      let willBeUpdated = false;
-      let partialRequest = new PartialRequest();
-
       if (this.partialData) {
         if (this.partialData['ProfileState'] <= this.stepIndex) {
+          this.partialRequest.ModificationReason = '新建档案';
+          this.partialRequest.ModificationContent = '';
+          this.willBeUpdated = true;
           ++this.partialData['ProfileState'];
-
-          partialRequest.ModificationReason = '新建档案';
-          partialRequest.ModificationContent = '';
-          willBeUpdated = true;
         } else {
-          partialRequest.ModificationReason =
-            '更新档案' + ((Math.random() * 9999) >> 0);
-          partialRequest.ModificationContent = '';
+          this.partialRequest.ModificationReason = '';
 
+          this.partialRequest.ModificationContent = '';
           let objData = this.formGroup.value;
           let content: Array<{ Name: string; OldValue: any; NewValue: any }> =
             [];
@@ -90,15 +85,17 @@ export class GarbageProfileDetailsForm3
               }
             }
           }
-
           if (content.length) {
-            willBeUpdated = true;
-            partialRequest.ModificationContent = JSON.stringify(content);
+            this.hasBeenModified = true;
+            this.willBeUpdated = true;
+            this.partialRequest.ModificationContent = JSON.stringify(content);
+            this.partialRequest.Data = this.partialData;
+          } else {
+            this.willBeUpdated = false;
+            this.hasBeenModified = false;
           }
-
-          console.log(partialRequest);
         }
-        if (willBeUpdated) {
+        if (this.willBeUpdated) {
           let objData = this.formGroup.value;
           for (let [key, value] of Object.entries(objData)) {
             if (value != void 0 && value !== '' && value !== null) {
@@ -111,18 +108,13 @@ export class GarbageProfileDetailsForm3
             'en'
           );
 
-          partialRequest.Data = this.partialData;
-
-          let res = await this._business.updatePartial(partialRequest);
-
-          return res;
-        } else {
-          // 验证通过，但无数据更新，不发送请求
-          return -1;
+          this.partialRequest.Data = this.partialData;
         }
+      } else {
+        this.willBeUpdated = false;
+        this.hasBeenModified = false;
       }
     }
-    return null;
   }
   down(e: KeyboardEvent) {
     let key = e.key.toLocaleLowerCase();

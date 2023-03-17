@@ -215,3 +215,8 @@
     ></garbage-profiles-material-record-details>
   </div>
 </toast-window>
+<toast-window *ngIf="showModify" [showClose]="false">
+  <modification-reason
+    (confirmEvent)="clickConfirm($event)"
+  ></modification-reason>
+</toast-window>

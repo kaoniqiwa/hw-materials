@@ -27,7 +27,10 @@ import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profil
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { PartialRequest } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
 import { PutOutMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
-import { FormMode, _GarbageProfileDetailsFormsBase } from '../garbage-profile-details-forms.common';
+import {
+  FormMode,
+  _GarbageProfileDetailsFormsBase,
+} from '../garbage-profile-details-forms.common';
 import { GarbageProfileDetailsForm2Business } from './garbage-profile-details-form2.business';
 
 @Component({
@@ -137,124 +140,74 @@ export class GarbageProfileDetailsForm2
   changeCurrentWire() {
     this._updateValidator(!!this.formGroup.value['StrongCurrentWire']);
   }
-  protected override async createOrUpdateModel() {
-    if (this.checkForm()) {
-      if (!this.model) {
-        this.model = new GarbageStationProfile();
-        this.model.ProfileState = 1;
-      }
-      if (this.model.ProfileState <= this.stepIndex) {
-        ++this.model.ProfileState;
-      }
 
-      let objData = this.formGroup.value;
-      for (let [key, value] of Object.entries(objData)) {
-        if (value != void 0 && value !== '' && value !== null) {
-          Reflect.set(this.model, key, value);
-        }
-      }
-      this.model.Functions = [];
+  override updatePartial() {
+    if (this.partialData) {
+      if (this.partialData['ProfileState'] <= this.stepIndex) {
+        this.partialRequest.ModificationReason = '新建档案';
+        this.partialRequest.ModificationContent = '';
+        this.willBeUpdated = true;
+        ++this.partialData['ProfileState'];
+      } else {
+        this.partialRequest.ModificationReason = '';
 
-      if (this.formGroup.value['Functions'].garbagedrop) {
-        this.model.Functions.push(GarbageStationFunction.garbagedrop);
-      }
-      if (this.formGroup.value['Functions'].mixedinto) {
-        this.model.Functions.push(GarbageStationFunction.mixedinto);
-      }
-      if (this.formGroup.value['Functions'].garbagefull) {
-        this.model.Functions.push(GarbageStationFunction.garbagefull);
-      }
-
-      if (this.state == FormState.add) {
-        this.model = await this._business.createModel(this.model!);
-        return this.model;
-      } else if (this.state == FormState.edit) {
-        this.model = await this._business.updateModel(this.model);
-        return this.model;
-      }
-    }
-
-    return null;
-  }
-  protected override async updatePartialData() {
-    if (this.checkForm()) {
-      let willBeUpdated = false;
-      let partialRequest = new PartialRequest();
-
-      if (this.partialData) {
-        if (this.partialData['ProfileState'] <= this.stepIndex) {
-          ++this.partialData['ProfileState'];
-
-          partialRequest.ModificationReason = '新建档案';
-          partialRequest.ModificationContent = '';
-          willBeUpdated = true;
-        } else {
-          partialRequest.ModificationReason =
-            '更新档案' + ((Math.random() * 9999) >> 0);
-          partialRequest.ModificationContent = '';
-
-          let objData = this.formGroup.value;
-          let content: Array<{ Name: string; OldValue: any; NewValue: any }> =
-            [];
-          for (let [key, value] of Object.entries(objData)) {
-            if (value != void 0 && value !== '' && value !== null) {
-              let oldValue = Reflect.get(this.partialData, key);
-              let newValue = value;
-              if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
-                content.push({
-                  Name: key,
-                  OldValue: oldValue,
-                  NewValue: newValue,
-                });
-              }
+        this.partialRequest.ModificationContent = '';
+        let objData = this.formGroup.value;
+        let content: Array<{ Name: string; OldValue: any; NewValue: any }> = [];
+        for (let [key, value] of Object.entries(objData)) {
+          if (value != void 0 && value !== '' && value !== null) {
+            let oldValue = Reflect.get(this.partialData, key);
+            let newValue = value;
+            if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
+              content.push({
+                Name: key,
+                OldValue: oldValue,
+                NewValue: newValue,
+              });
             }
           }
-
-          if (content.length) {
-            willBeUpdated = true;
-            partialRequest.ModificationContent = JSON.stringify(content);
-          }
-
-          console.log(partialRequest);
         }
-        if (willBeUpdated) {
-          let objData = this.formGroup.value;
-          for (let [key, value] of Object.entries(objData)) {
-            if (value != void 0 && value !== '' && value !== null) {
-              Reflect.set(this.partialData, key, value);
-            }
-          }
-          this.partialData['Functions'] = [];
-
-          if (this.formGroup.value['Functions'].garbagedrop) {
-            this.partialData['Functions'].push(
-              GarbageStationFunction.garbagedrop
-            );
-          }
-          if (this.formGroup.value['Functions'].mixedinto) {
-            this.partialData['Functions'].push(
-              GarbageStationFunction.mixedinto
-            );
-          }
-          if (this.formGroup.value['Functions'].garbagefull) {
-            this.partialData['Functions'].push(
-              GarbageStationFunction.garbagefull
-            );
-          }
-
-          partialRequest.Data = this.partialData;
-
-          let res = await this._business.updatePartial(partialRequest);
-
-          return res;
+        if (content.length) {
+          this.hasBeenModified = true;
+          this.willBeUpdated = true;
+          this.partialRequest.ModificationContent = JSON.stringify(content);
+          this.partialRequest.Data = this.partialData;
         } else {
-          // 验证通过，但无数据更新，不发送请求
-          return -1;
+          this.willBeUpdated = false;
+          this.hasBeenModified = false;
         }
       }
+      if (this.willBeUpdated) {
+        let objData = this.formGroup.value;
+        for (let [key, value] of Object.entries(objData)) {
+          if (value != void 0 && value !== '' && value !== null) {
+            Reflect.set(this.partialData, key, value);
+          }
+        }
+        this.partialData['Functions'] = [];
+
+        if (this.formGroup.value['Functions'].garbagedrop) {
+          this.partialData['Functions'].push(
+            GarbageStationFunction.garbagedrop
+          );
+        }
+        if (this.formGroup.value['Functions'].mixedinto) {
+          this.partialData['Functions'].push(GarbageStationFunction.mixedinto);
+        }
+        if (this.formGroup.value['Functions'].garbagefull) {
+          this.partialData['Functions'].push(
+            GarbageStationFunction.garbagefull
+          );
+        }
+
+        this.partialRequest.Data = this.partialData;
+      }
+    } else {
+      this.willBeUpdated = false;
+      this.hasBeenModified = false;
     }
-    return null;
   }
+
   async okHandler(params: PutOutMaterialsParams) {
     // console.log(params);
     this.showPutout = false;
