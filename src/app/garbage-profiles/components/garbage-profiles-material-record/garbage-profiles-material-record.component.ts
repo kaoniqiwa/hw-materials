@@ -21,7 +21,7 @@ type SearchPropertyName = 'MaterialName' | 'ProfileName';
 })
 export class GarbageProfilesMaterialRecordComponent implements OnInit {
   @Output()
-  picture: EventEmitter<MaterialRecordModel> = new EventEmitter();
+  picture: EventEmitter<string[] | undefined> = new EventEmitter();
   @Output()
   details: EventEmitter<MaterialRecordModel> = new EventEmitter();
 
@@ -56,7 +56,7 @@ export class GarbageProfilesMaterialRecordComponent implements OnInit {
     this.load.emit(this.args);
   }
   onpicture(model: MaterialRecordModel) {
-    this.picture.emit(model);
+    this.picture.emit(model.ImageUrls);
   }
   ondetails(model: MaterialRecordModel) {
     this.details.emit(model);

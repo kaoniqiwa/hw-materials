@@ -1,31 +1,29 @@
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { IObjectModel } from 'src/app/common/interfaces/model.interface';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
 import { IPartialData } from 'src/app/network/entity/partial-data.interface';
+import { PutOutMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
 import { GarbageStationProfilesLanguageTools } from '../../tools/language.tool';
 import { GarbageStationProfilesSourceTools } from '../../tools/source.tool';
 import {
   GarbageStationProfileTableArgs,
   ProfilePropertyValueModel,
 } from '../tables/garbage-station-profile-table/garbage-station-profile-table.model';
+import { GarbageStationProfileManagerMaterialPutoutBusiness } from './business/garbage-station-profile-manager-material-putout.business';
 import { GarbageStationProfileManagerBusiness } from './garbage-station-profile-manager.business';
-import {
-  GarbageStationProfileConfirmWindow,
-  GarbageStationProfileDetailsWindow,
-  GarbageStationProfileFilterWindow,
-  GarbageStationProfilePartialDataWindow,
-  GarbageStationProfilePictureWindow,
-  GarbageStationProfileRecordWindow,
-  GarbageStationProfileSettingWindow,
-} from './garbage-station-profile-manager.model';
+import { GarbageStationProfileWindow } from './garbage-station-profile-manager.model';
 
 @Component({
   selector: 'garbage-station-profile-manager',
   templateUrl: './garbage-station-profile-manager.component.html',
   styleUrls: ['./garbage-station-profile-manager.component.less'],
-  providers: [GarbageStationProfileManagerBusiness],
+  providers: [
+    GarbageStationProfileManagerMaterialPutoutBusiness,
+    GarbageStationProfileManagerBusiness,
+  ],
 })
 export class GarbageStationProfileManagerComponent implements OnInit {
   @Input()
@@ -45,15 +43,7 @@ export class GarbageStationProfileManagerComponent implements OnInit {
 
   selected?: IPartialData;
 
-  window = {
-    details: new GarbageStationProfileDetailsWindow(),
-    setting: new GarbageStationProfileSettingWindow(),
-    picture: new GarbageStationProfilePictureWindow(),
-    record: new GarbageStationProfileRecordWindow(),
-    confirm: new GarbageStationProfileConfirmWindow(),
-    partial: new GarbageStationProfilePartialDataWindow(),
-    filter: new GarbageStationProfileFilterWindow(),
-  };
+  window = new GarbageStationProfileWindow();
   load: EventEmitter<GarbageStationProfileTableArgs> = new EventEmitter();
   toexcel: EventEmitter<GarbageStationProfileTableArgs> = new EventEmitter();
 
@@ -70,18 +60,8 @@ export class GarbageStationProfileManagerComponent implements OnInit {
     this.selected = item;
   }
   onwindowclose() {
-    this.window.details.show = false;
-    this.window.details.state = FormState.none;
-    this.window.details.selected = undefined;
-    this.window.setting.show = false;
-    this.window.picture.show = false;
-    this.window.picture.urlId = undefined;
-    this.window.record.modification.show = false;
-    this.window.confirm.show = false;
-    this.window.partial.show = false;
-    this.window.partial.model = undefined;
-    this.window.partial.id = undefined;
-    this.window.record.material.show = false;
+    this.window.clear();
+    this.window.close();
   }
   oncreate() {
     this.window.details.state = FormState.add;
@@ -187,5 +167,28 @@ export class GarbageStationProfileManagerComponent implements OnInit {
     a.click();
 
     document.removeChild(a);
+  }
+
+  toputout(profile: IObjectModel) {
+    this.window.putout.show = true;
+    this.window.putout.profile = profile;
+  }
+  onputoutok(params: PutOutMaterialsParams) {
+    if (this.window.putout.profile) {
+      params.ProfileId = this.window.putout.profile.Id as string;
+      params.ProfileName = this.window.putout.profile.Name;
+      this.business.putout
+        .putout(params)
+        .then((x) => {
+          this.toastr.success('出库成功');
+        })
+        .catch((x) => {
+          this.toastr.error('出库失败');
+        })
+        .finally(() => {
+          this.window.picture.clear();
+          this.window.putout.show = false;
+        });
+    }
   }
 }

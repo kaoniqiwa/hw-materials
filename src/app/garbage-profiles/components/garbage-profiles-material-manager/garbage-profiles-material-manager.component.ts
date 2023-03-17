@@ -1,5 +1,4 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
-import { MaterialRecordModel } from 'src/app/model/material-record.model';
 import { MaterialModel } from 'src/app/model/material.model';
 import { PutInMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
 import { GarbageProfilesMaterialTableArgs } from '../tables/garbage-profiles-material-table/garbage-profiles-material-table.model';
@@ -81,12 +80,10 @@ export class GarbageProfilesMaterialManagerComponent implements OnInit {
     this.window.putout.show = true;
   }
 
-  onpicture(record: MaterialRecordModel) {
-    if (record.ImageUrls) {
-      if (record.ImageUrls && record.ImageUrls.length > 0) {
-        this.window.picture.urlId = record.ImageUrls[0];
-        this.window.picture.show = true;
-      }
+  onpicture(urls?: string[]) {
+    if (urls && urls.length > 0) {
+      this.window.picture.urlId = urls[0];
+      this.window.picture.show = true;
     }
   }
   ontimeline(item: MaterialModel) {

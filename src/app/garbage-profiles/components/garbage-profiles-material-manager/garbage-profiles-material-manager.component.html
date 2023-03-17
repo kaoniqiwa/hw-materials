@@ -75,17 +75,6 @@
 </app-window>
 
 <app-window
-  [Model]="window.picture"
-  [style]="window.picture.style"
-  *ngIf="window.picture.show"
->
-  <div class="picture-window">
-    <howell-picture-control [id]="window.picture.urlId">
-    </howell-picture-control>
-  </div>
-</app-window>
-
-<app-window
   [Model]="window.record.details"
   [style]="window.record.details.style"
   *ngIf="window.record.details.show"
@@ -103,5 +92,17 @@
 >
   <garbage-profiles-material-record-timeline
     [material]="window.timeline.model"
+    (picture)="onpicture($event)"
   ></garbage-profiles-material-record-timeline>
+</app-window>
+
+<app-window
+  [Model]="window.picture"
+  [style]="window.picture.style"
+  *ngIf="window.picture.show"
+>
+  <div class="picture-window">
+    <howell-picture-control [id]="window.picture.urlId" [contain]="true">
+    </howell-picture-control>
+  </div>
 </app-window>

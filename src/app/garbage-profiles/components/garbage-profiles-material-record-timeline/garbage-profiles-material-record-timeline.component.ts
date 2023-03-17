@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DateTimePickerView } from 'src/app/common/directives/date-time-picker/date-time-picker.directive';
 import { IBusiness } from 'src/app/common/interfaces/bussiness.interface';
 import { IComponent } from 'src/app/common/interfaces/component.interfact';
@@ -26,6 +26,8 @@ export class GarbageProfilesMaterialRecordTimelineComponent
   business: IBusiness<IModel, SingleMaterialRecordModel[]>;
   @Input()
   material?: MaterialModel;
+  @Output()
+  picture: EventEmitter<string[] | undefined> = new EventEmitter();
   constructor(business: GarbageProfilesMaterialRecordTimelineBusiness) {
     this.business = business;
     this.args = {
@@ -54,5 +56,8 @@ export class GarbageProfilesMaterialRecordTimelineComponent
 
   onsearch() {
     this.loadData();
+  }
+  onpicture(item: SingleMaterialRecordModel) {
+    this.picture.emit(item.ImageUrls);
   }
 }

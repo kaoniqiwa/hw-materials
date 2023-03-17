@@ -8,10 +8,18 @@
     </div>
   </div>
   <div class="garbage-station-profile-partial-data-body">
-    <div *ngIf="!!MaterialItems" class="material">
-      <garbage-station-profile-partial-data-material [profileId]="profileId">
+    <div *ngIf="!!MaterialItems" class="materials">
+      <garbage-station-profile-partial-data-material
+        [profileId]="profileId"
+        (putout)="onputout($event)"
+      >
       </garbage-station-profile-partial-data-material>
       <!-- <material-item-table [model]="MaterialItems"> </material-item-table> -->
+    </div>
+    <div *ngIf="!!Cameras" class="cameras">
+      <garbage-station-profile-partial-data-cameras
+        [models]="Cameras"
+      ></garbage-station-profile-partial-data-cameras>
     </div>
   </div>
   <!-- <div class="garbage-station-profile-partial-data-foot">

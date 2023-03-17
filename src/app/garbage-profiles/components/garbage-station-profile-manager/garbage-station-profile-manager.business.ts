@@ -4,12 +4,16 @@ import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-pr
 import { GetPartialDatasExcelParams } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
 import { GarbageStationProfilesRequestService } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
 import { GarbageStationProfileTableArgs } from '../tables/garbage-station-profile-table/garbage-station-profile-table.model';
+import { GarbageStationProfileManagerMaterialPutoutBusiness } from './business/garbage-station-profile-manager-material-putout.business';
 
 @Injectable()
 export class GarbageStationProfileManagerBusiness
   implements IDelete<GarbageStationProfile>
 {
-  constructor(private service: GarbageStationProfilesRequestService) {}
+  constructor(
+    private service: GarbageStationProfilesRequestService,
+    public putout: GarbageStationProfileManagerMaterialPutoutBusiness
+  ) {}
   delete(id: string): Promise<GarbageStationProfile> {
     return this.service.delete(id);
   }

@@ -1,10 +1,14 @@
 <div *ngIf="url" class="picture-control">
   <!-- <img [src]="model.src" (error)="onError($event)" [title]="model.name" /> -->
   <div
+    *ngIf="type === PictureType.css"
     class="img"
     [ngStyle]="{
       backgroundImage: 'url(' + url + ')'
     }"
     [class.contain]="contain"
   ></div>
+  <div class="img" *ngIf="type === PictureType.img">
+    <img [src]="url" />
+  </div>
 </div>

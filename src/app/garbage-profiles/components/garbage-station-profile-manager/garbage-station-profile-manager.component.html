@@ -149,6 +149,7 @@
   <garbage-station-profile-partial-data
     [model]="window.partial.model"
     [profileId]="window.partial.id"
+    (putout)="toputout($event)"
   ></garbage-station-profile-partial-data>
 </app-window>
 <app-window
@@ -162,4 +163,14 @@
 </app-window>
 <app-window>
   <garbage-profiles-material-record-details></garbage-profiles-material-record-details>
+</app-window>
+<app-window
+  [Model]="window.putout"
+  [style]="window.putout.style"
+  *ngIf="window.putout.show"
+>
+  <garbage-profiles-material-putout
+    (cancel)="window.putout.show = false"
+    (ok)="onputoutok($event)"
+  ></garbage-profiles-material-putout>
 </app-window>

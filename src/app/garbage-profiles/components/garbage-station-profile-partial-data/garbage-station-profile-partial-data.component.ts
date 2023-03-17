@@ -1,6 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { IObjectModel } from 'src/app/common/interfaces/model.interface';
 import { MaterialItemModel } from 'src/app/model/material-item.model';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
+import { Camera } from 'src/app/network/entity/camera.entity';
 import { GarbageStationProfilesLanguageTools } from '../../tools/language.tool';
 
 @Component({
@@ -13,6 +15,8 @@ export class GarbageStationProfilePartialDataComponent implements OnInit {
   model?: PropertyValueModel;
   @Input()
   profileId?: string;
+  @Output()
+  putout: EventEmitter<IObjectModel> = new EventEmitter();
   constructor(public language: GarbageStationProfilesLanguageTools) {}
   ngOnInit(): void {
     if (this.model) {
@@ -20,7 +24,9 @@ export class GarbageStationProfilePartialDataComponent implements OnInit {
         case 'MaterialItems':
           this.MaterialItems = this.model.Value as MaterialItemModel[];
           break;
-
+        case 'Cameras':
+          this.Cameras = this.model.Value as Camera[];
+          break;
         default:
           break;
       }
@@ -28,7 +34,9 @@ export class GarbageStationProfilePartialDataComponent implements OnInit {
   }
 
   MaterialItems?: MaterialItemModel[];
+  Cameras?: Camera[];
 
-  onok() {}
-  oncancel() {}
+  onputout(model: IObjectModel) {
+    this.putout.emit(model);
+  }
 }

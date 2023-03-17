@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { PictureType } from './picture-control.model';
 
 @Component({
   selector: 'picture-control',
@@ -10,4 +11,8 @@ export class PictureControlComponent {
   url?: string;
   @Input()
   contain: boolean = false;
+  @Input()
+  type: PictureType = PictureType.img;
+
+  PictureType = PictureType;
 }

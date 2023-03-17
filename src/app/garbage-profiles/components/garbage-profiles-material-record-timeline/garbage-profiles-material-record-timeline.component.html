@@ -84,6 +84,7 @@
               <div
                 class="picture"
                 *ngIf="item.ImageUrls && item.ImageUrls.length > 0"
+                (click)="onpicture(item)"
               >
                 <howell-picture-control
                   [contain]="true"
@@ -123,6 +124,7 @@
               <div
                 class="picture"
                 *ngIf="item.ImageUrls && item.ImageUrls.length > 0"
+                (click)="onpicture(item)"
               >
                 <howell-picture-control
                   [contain]="true"

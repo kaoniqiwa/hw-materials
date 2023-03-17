@@ -1,1 +1,114 @@
-<p>garbage-station-profile-partial-data-cameras works!</p>
+<div class="garbage-station-profile-partial-data-cameras">
+  <mat-tab-group *ngIf="!!models">
+    <mat-tab [label]="item.Name" *ngFor="let item of models; let i = index">
+      <div class="garbage-station-profile-partial-data-cameras-item form">
+        <div class="form-list">
+          <div class="form-list-item">
+            <div class="form-list-item-title">{{ language["Name"] }}：</div>
+            <div class="form-list-item-value">{{ item.Name }}</div>
+          </div>
+          <div class="form-list-item">
+            <div class="form-list-item-title">{{ language["SerialNo"] }}：</div>
+            <div class="form-list-item-value">{{ item.SerialNo }}</div>
+          </div>
+          <div class="form-list-item">
+            <div class="form-list-item-title">{{ language["Model"] }}：</div>
+            <div class="form-list-item-value">
+              {{ language["Model-" + item.Model] }}
+            </div>
+          </div>
+          <div class="form-list-item">
+            <div class="form-list-item-title">
+              {{ language["Placement"] }}：
+            </div>
+            <div class="form-list-item-value">{{ item.Placement }}</div>
+          </div>
+          <div class="form-list-item">
+            <div class="form-list-item-title">
+              {{ language["AccessServer"] }}：
+            </div>
+            <div class="form-list-item-value">
+              {{ language["AccessServer-" + item.AccessServer] }}
+            </div>
+          </div>
+          <div class="form-list-item">
+            <div class="form-list-item-title">
+              {{ language["Resolution"] }}：
+            </div>
+            <div class="form-list-item-value">
+              {{ language["Resolution-" + item.Resolution] }}
+            </div>
+          </div>
+          <div class="form-list-item">
+            <div class="form-list-item-title">{{ language["Bitrate"] }}：</div>
+            <div class="form-list-item-value">{{ item.Bitrate }}</div>
+          </div>
+          <div class="form-list-item">
+            <div class="form-list-item-title">
+              {{ language["StorageTime"] }}：
+            </div>
+            <div class="form-list-item-value">
+              {{ language["StorageTime-" + item.StorageTime] }}
+            </div>
+          </div>
+          <div class="form-list-item">
+            <div class="form-list-item-title">
+              {{ language["ActionEquipment"] }}：
+            </div>
+            <div class="form-list-item-value">
+              {{ language["ActionEquipment-" + item.ActionEquipment] }}
+            </div>
+          </div>
+          <div class="form-list-item">
+            <div class="form-list-item-title">
+              {{ language["AudioOutputState"] }}：
+            </div>
+            <div class="form-list-item-value">
+              {{ language["AudioOutputState-" + item.AudioOutputState] }}
+            </div>
+          </div>
+          <div class="form-list-item">
+            <div class="form-list-item-title">
+              {{ language["AudioVolume"] }}：
+            </div>
+            <div class="form-list-item-value">{{ item.AudioVolume }}</div>
+          </div>
+          <div class="form-list-item">
+            <div class="form-list-item-title">
+              {{ language["AIModelType"] }}：
+            </div>
+            <div class="form-list-item-value">
+              {{ language["AIModelType-" + item.AIModelType] }}
+            </div>
+          </div>
+          <div class="form-list-item">
+            <div class="form-list-item-title">
+              {{ language["BsCameraId"] }}：
+            </div>
+            <div class="form-list-item-value">
+              {{ item.BsCameraId ?? "无" }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+
+  <!-- <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+    <a
+      mat-tab-link
+      *ngFor="let item of models; let i = index"
+      (click)="index = i"
+      [active]="index == i"
+    >
+      {{ item.Name }}
+    </a>
+    <a mat-tab-link disabled><button class="hw-blue-btn">出库</button></a>
+  </nav>
+  <mat-tab-nav-panel #tabPanel>
+    <garbage-profiles-material-record-details
+          [model]="item"
+          [nohead]="true"
+        ></garbage-profiles-material-record-details>
+  </mat-tab-nav-panel> -->
+</div>
