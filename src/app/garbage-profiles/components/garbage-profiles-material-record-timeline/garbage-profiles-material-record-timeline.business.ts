@@ -42,6 +42,11 @@ export class GarbageProfilesMaterialRecordTimelineBusiness
     params.MaterialIds = [materialId];
     params.BeginTime = args.duration.begin;
     params.EndTime = args.duration.end;
+    if (args.asc) {
+      params.Asc = 'CreationTime';
+    } else {
+      params.Desc = 'CreationTime';
+    }
     let paged = await this.service.material.list(params);
     return paged.Data;
   }

@@ -26,7 +26,6 @@
           justify-content: start;
           align-items: center;
           margin-right: 10px;
-          width: 300px;
 
           &:last-child {
             margin-right: 0;
@@ -35,8 +34,19 @@
 
           @filter-title-width: 80px;
 
+          &.short {
+            .filter-item-title {
+              width: 48px;
+            }
+
+            .filter-item-control {
+              width: calc(100% - 48px);
+            }
+          }
+
           &-title {
             width: @filter-title-width;
+
           }
 
           &-control {
@@ -65,34 +75,56 @@
     height: calc(100% - @head-head);
     overflow-y: auto;
 
-    .record {
-      margin: 10px;
+    .list {
       display: flex;
-      justify-content: space-around;
+      flex-direction: column;
+
+      .record {
+        margin: 10px;
+        display: flex;
+        justify-content: space-around;
 
 
-      @time-width: 200px;
+        @time-width: 200px;
 
-      .putin {
-        width: calc((100% - @time-width) / 2)
+        .putin {
+          width: calc((100% - @time-width) / 2)
+        }
+
+        .putout {
+          width: calc((100% - @time-width) / 2);
+        }
+
+        .datetime {
+          width: @time-width;
+          height: 50px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .picture {
+          width: 200px;
+          height: 200px;
+        }
+
+        .mat-expansion-panel-header-description {
+          justify-content: space-between;
+          align-items: center;
+        }
       }
 
-      .putout {
-        width: calc((100% - @time-width) / 2);
-      }
-
-      .time {
-        width: @time-width;
+      .quantity {
+        width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        height: 100px;
-      }
+        margin: -10px 0;
 
-      .mat-expansion-panel-header-description {
-        justify-content: space-between;
-        align-items: center;
+        &:first-child {
+          margin: auto;
+        }
       }
     }
   }

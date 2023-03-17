@@ -30,19 +30,29 @@ export class GarbageProfilesMaterialRecordTimelineComponent
     this.business = business;
     this.args = {
       duration: DateTimeTool.allMonth(new Date()),
+      asc: false,
     };
   }
   args: GarbageProfilesMaterialRecordTimelineArgs;
   models: SingleMaterialRecordModel[] = [];
   MaterialRecordType = MaterialRecordType;
   DateTimePickerView = DateTimePickerView;
+  asc: boolean = false;
+
   ngOnInit(): void {
     this.loadData();
   }
 
   loadData() {
-    this.business.load(101, this.args).then((x) => {
-      this.models = x;
-    });
+    if (this.material) {
+      this.business.load(this.material.Id, this.args).then((x) => {
+        this.models = x;
+        this.asc = this.args.asc;
+      });
+    }
+  }
+
+  onsearch() {
+    this.loadData();
   }
 }

@@ -2,7 +2,17 @@
   <div class="garbage-profiles-material-record-timeline-head">
     <div class="hw-simple-title">出入库清单-{{ material.Name }}</div>
     <div class="garbage-profiles-material-record-timeline-head-filter">
+      <div></div>
       <div class="filter">
+        <div class="filter-item short">
+          <div class="filter-item-title">排序：</div>
+          <div class="filter-item-control">
+            <select [(ngModel)]="args.asc">
+              <option [ngValue]="true">正序</option>
+              <option [ngValue]="false">倒序</option>
+            </select>
+          </div>
+        </div>
         <div class="filter-item">
           <div class="filter-item-title">开始时间：</div>
           <div class="filter-item-control">
@@ -31,67 +41,102 @@
             />
           </div>
         </div>
+        <div>
+          <button class="hw-blue-btn" (click)="onsearch()">
+            <i class="howell-icon-search"></i> 搜索
+          </button>
+        </div>
       </div>
     </div>
   </div>
   <div class="garbage-profiles-material-record-timeline-body">
     <mat-accordion>
-      <div *ngFor="let item of models" class="record">
-        <div
-          class="putin"
-          [ngStyle]="{
-            visibility:
-              item.MaterialRecordType === MaterialRecordType.putin
-                ? ''
-                : 'hidden'
-          }"
-        >
-          <!-- <card>
+      <div class="list" *ngFor="let item of models; let index = index">
+        <div class="quantity" *ngIf="!asc">
+          <div *ngIf="!(index === 0)">|</div>
+          <div>库存：{{ item.Item.Quantity }}</div>
+          <div>|</div>
+        </div>
+        <div class="record">
+          <div
+            class="putin"
+            [ngStyle]="{
+              visibility:
+                item.MaterialRecordType === MaterialRecordType.putin
+                  ? ''
+                  : 'hidden'
+            }"
+          >
+            <!-- <card>
             {{ item.UserLastName }}
           </card> -->
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-              <mat-panel-title> 入库</mat-panel-title>
-              <mat-panel-description>
-                <div>
-                  {{ item.UserLastName }}
-                </div>
-                <div>{{ item.Item.Number }}>{{ item.Item.Quantity }}</div>
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-            <p>This is the primary content of the panel.</p>
-          </mat-expansion-panel>
-        </div>
-
-        <div class="time">
-          <div>
-            {{ item.CreationTime | date : "YYYY年MM月dd日 HH:mm:ss" }}
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title> {{ item.UserLastName }} </mat-panel-title>
+                <mat-panel-description>
+                  <div>
+                    {{ item.Description }}
+                  </div>
+                  <div>入库数量：{{ item.Item.Number }}</div>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <p *ngIf="item.Description">备注：{{ item.Description }}</p>
+              <div
+                class="picture"
+                *ngIf="item.ImageUrls && item.ImageUrls.length > 0"
+              >
+                <howell-picture-control
+                  [contain]="true"
+                  [id]="url"
+                  *ngFor="let url of item.ImageUrls"
+                ></howell-picture-control>
+              </div>
+            </mat-expansion-panel>
           </div>
-          <div>|</div>
-          <div>{{ item.Item.Quantity }}</div>
-        </div>
 
-        <div
-          class="putout"
-          [ngStyle]="{
-            visibility:
-              item.MaterialRecordType === MaterialRecordType.putout
-                ? ''
-                : 'hidden'
-          }"
-        >
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-              <mat-panel-title> {{ item.ProfileName }} </mat-panel-title>
-              <mat-panel-description>
-                <div>
-                  {{ item.UserLastName }}
-                </div>
-                <div>{{ item.Item.Number }}>{{ item.Item.Quantity }}</div>
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-            <p>This is the primary content of the panel.</p>
-          </mat-expansion-panel>
+          <div class="datetime">
+            <div class="time">
+              {{ item.CreationTime | date : "YYYY年MM月dd日 HH:mm:ss" }}
+            </div>
+          </div>
+
+          <div
+            class="putout"
+            [ngStyle]="{
+              visibility:
+                item.MaterialRecordType === MaterialRecordType.putout
+                  ? ''
+                  : 'hidden'
+            }"
+          >
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title> {{ item.UserLastName }} </mat-panel-title>
+                <mat-panel-description>
+                  <div>
+                    {{ item.ProfileName }}
+                  </div>
+                  <div>出库数量：{{ item.Item.Number }}</div>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <p *ngIf="item.Description">备注：{{ item.Description }}</p>
+              <div
+                class="picture"
+                *ngIf="item.ImageUrls && item.ImageUrls.length > 0"
+              >
+                <howell-picture-control
+                  [contain]="true"
+                  [id]="url"
+                  *ngFor="let url of item.ImageUrls"
+                ></howell-picture-control>
+              </div>
+            </mat-expansion-panel>
+          </div>
+        </div>
+        <div class="quantity" *ngIf="asc">
+          <div>|</div>
+          <div>库存：{{ item.Item.Quantity }}</div>
+          <div *ngIf="!(index === models.length - 1)">|</div>
         </div>
       </div>
     </mat-accordion>
