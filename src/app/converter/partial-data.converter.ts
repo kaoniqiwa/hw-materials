@@ -102,12 +102,15 @@ export class PartialDataConverter
   }
 
   fromEnum(value: number, enums: ValueNamePair[]) {
-    let result = value.toString();
-    let keyvalue = enums.find((x) => x.Value === value);
-    if (keyvalue) {
-      result = keyvalue.Name;
+    if (value) {
+      let result = value.toString();
+      let keyvalue = enums.find((x) => x.Value === value);
+      if (keyvalue) {
+        result = keyvalue.Name;
+      }
+      return result;
     }
-    return result;
+    return '无';
   }
 
   fromUrl<T>(value: T) {

@@ -35,16 +35,17 @@
         margin-top: 10px;
         height: calc(100% - 37px);
         width: 100%;
+        overflow-x: auto;
 
         .mat-chip-set {
-          width: 100%;
+          width: min-content;
           display: flex;
           justify-content: start;
-          flex-wrap: wrap;
+
           transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 
           .mat-chip-item {
-
+            width: max-content;
             cursor: pointer;
             transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
           }
