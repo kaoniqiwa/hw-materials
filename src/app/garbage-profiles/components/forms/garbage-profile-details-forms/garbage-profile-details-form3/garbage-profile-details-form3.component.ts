@@ -88,7 +88,6 @@ export class GarbageProfileDetailsForm3
           this.partialRequest.Data = this.partialData
 
         } else {
-          this.willBeUpdated = true;
 
 
           this.partialRequest.ModificationReason = '';
@@ -128,13 +127,14 @@ export class GarbageProfileDetailsForm3
           }
           console.log(this.simpleChanges);
 
-
           if (Object.keys(this.simpleChanges).length) {
             this.hasBeenModified = true;
+            this.willBeUpdated = true;
             this.partialRequest.ModificationContent = JSON.stringify(this.simpleChanges);
 
           } else {
             this.hasBeenModified = false;
+            this.willBeUpdated = false;
           }
         }
 
@@ -143,10 +143,11 @@ export class GarbageProfileDetailsForm3
       } else {
         this.willBeUpdated = false;
         this.hasBeenModified = false;
-      }
+      } console.log(this.simpleChanges)
+      console.log(this.partialRequest)
+      return true
     }
-    console.log(this.partialRequest)
-
+    return false;
   }
   down(e: KeyboardEvent) {
     let key = e.key.toLocaleLowerCase();

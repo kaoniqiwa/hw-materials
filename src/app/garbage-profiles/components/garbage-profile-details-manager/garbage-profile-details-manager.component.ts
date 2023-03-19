@@ -117,7 +117,10 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
     this.closeDetails.emit();
   }
   async nextEvent(id: string) {
-    this.formId = id;
+
+    if (!this.formId) {
+      this.formId = id;
+    }
     this.state = FormState.edit;
     await this._updateState();
 

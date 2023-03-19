@@ -154,7 +154,7 @@ export abstract class _GarbageProfileDetailsFormsBase {
           }
 
         } else {
-          this.willBeUpdated = true;
+
 
           this.partialRequest.ModificationReason = '';
 
@@ -182,14 +182,15 @@ export abstract class _GarbageProfileDetailsFormsBase {
           }
 
 
-          console.log(this.simpleChanges);
 
           if (Object.keys(this.simpleChanges).length) {
             this.hasBeenModified = true;
+            this.willBeUpdated = true;
             this.partialRequest.ModificationContent = JSON.stringify(this.simpleChanges);
 
           } else {
             this.hasBeenModified = false;
+            this.willBeUpdated = false;
           }
         }
         this.partialRequest.Data = this.partialData
@@ -198,7 +199,11 @@ export abstract class _GarbageProfileDetailsFormsBase {
         this.willBeUpdated = false;
         this.hasBeenModified = false;
       }
+      console.log(this.simpleChanges)
+      console.log(this.partialRequest)
+      return true;
     }
+    return false;
   }
 
   updateFormByPartial() {
@@ -254,7 +259,7 @@ export abstract class _GarbageProfileDetailsFormsBase {
       if (this.clickMode == 'save') {
         this.close.emit();
       } else if ((this.clickMode = 'next')) {
-        this.next.emit();
+        this.next.emit(res.Id);
       }
     } else {
       this._toastrService.error('操作失败');
@@ -282,27 +287,30 @@ export abstract class _GarbageProfileDetailsFormsBase {
         this.close.emit();
       }
     } else if (this.state == FormState.edit) {
-      this.updatePartial();
-      console.log(this.simpleChanges);
-
-      console.log(this.partialData)
-      if (this.willBeUpdated) {
-        if (this.hasBeenModified) {
-          this.showModify = true;
-        } else {
-          let res = await this._business.updatePartial(this.partialRequest);
-          console.log(res)
-
-          if (res.Succeed) {
-            this._toastrService.success('操作成功');
-
-            this.close.emit();
+      if (this.updatePartial()) {
+        if (this.willBeUpdated) {
+          if (this.hasBeenModified) {
+            this.showModify = true;
           } else {
-            this.partialData!['ProfileState'] = this.profileState
-            this._toastrService.success('操作失败');
+            let res = await this._business.updatePartial(this.partialRequest);
+            console.log(res)
+
+            if (res.Succeed) {
+              this._toastrService.success('操作成功');
+
+              this.close.emit();
+            } else {
+              this.partialData!['ProfileState'] = this.profileState
+              this._toastrService.success('操作失败');
+            }
           }
+        } else {
+          this._toastrService.success('无数据更新');
+
+          this.close.emit();
         }
       }
+
     }
   }
   async clickNext() {
@@ -316,28 +324,30 @@ export abstract class _GarbageProfileDetailsFormsBase {
         this.next.emit(res.Id);
       }
     } else if (this.state == FormState.edit) {
-      this.updatePartial();
-      console.log(this.simpleChanges);
-
-      console.log(this.partialData)
-
-      if (this.willBeUpdated) {
-        if (this.hasBeenModified) {
-          this.showModify = true;
-        } else {
-          let res = await this._business.updatePartial(this.partialRequest);
-
-          console.log(res)
-          if (res.Succeed) {
-            this._toastrService.success('操作成功');
-
-            this.next.emit(res.Id);
+      if (this.updatePartial()) {
+        if (this.willBeUpdated) {
+          if (this.hasBeenModified) {
+            this.showModify = true;
           } else {
-            this.partialData!['ProfileState'] = this.profileState
-            this._toastrService.error('操作失败');
+            let res = await this._business.updatePartial(this.partialRequest);
+
+            console.log(res)
+            if (res.Succeed) {
+              this._toastrService.success('操作成功');
+
+              this.next.emit(res.Id);
+            } else {
+              this.partialData!['ProfileState'] = this.profileState
+              this._toastrService.error('操作失败');
+            }
           }
+        } else {
+          // this._toastrService.success('无数据更新');
+          this.next.emit(this.formId);
         }
       }
+
+
     }
   }
   diff(oldObj: Record<string, any>, newObj: Record<string, any>) {

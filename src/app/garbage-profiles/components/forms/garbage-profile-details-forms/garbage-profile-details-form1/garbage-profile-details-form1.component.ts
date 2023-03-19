@@ -171,25 +171,6 @@ export class GarbageProfileDetailsForm1
       return this.divisionModel.Committee.slice();
     }
   }
-  private async _updateDivisionModel() {
-    if (this.model) {
-      this.defaultDivisionSource.set(
-        DivisionLevel.Province,
-        this.model.Province
-      );
-      this.defaultDivisionSource.set(DivisionLevel.City, this.model.City);
-      this.defaultDivisionSource.set(DivisionLevel.County, this.model.County);
-      this.defaultDivisionSource.set(DivisionLevel.Street, this.model.Street);
-      this.defaultDivisionSource.set(
-        DivisionLevel.Committee,
-        this.model.Committee
-      );
-    }
-    for (let [key, value] of this.defaultDivisionSource.entries()) {
-      await this._getChildDivisionListByName(key, value);
-      // console.log(key, value, this.divisionModel);
-    }
-  }
 
   private async _updateDivisionPartial() {
     if (this.partialData) {

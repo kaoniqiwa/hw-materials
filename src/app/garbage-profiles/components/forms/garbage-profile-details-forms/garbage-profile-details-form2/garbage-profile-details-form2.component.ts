@@ -174,7 +174,6 @@ export class GarbageProfileDetailsForm2
             );
           }
         } else {
-          this.willBeUpdated = true;
 
 
           this.partialRequest.ModificationReason = '';
@@ -225,10 +224,12 @@ export class GarbageProfileDetailsForm2
 
           if (Object.keys(this.simpleChanges).length) {
             this.hasBeenModified = true;
+            this.willBeUpdated = true;
             this.partialRequest.ModificationContent = JSON.stringify(this.simpleChanges);
 
           } else {
             this.hasBeenModified = false;
+            this.willBeUpdated = false;
           }
         }
         this.partialRequest.Data = this.partialData
@@ -238,9 +239,13 @@ export class GarbageProfileDetailsForm2
         this.hasBeenModified = false;
       }
 
+      console.log(this.simpleChanges)
       console.log(this.partialRequest)
+      return true
+
     }
 
+    return false
 
   }
 

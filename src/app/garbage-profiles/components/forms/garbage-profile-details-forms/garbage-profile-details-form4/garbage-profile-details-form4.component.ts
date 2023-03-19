@@ -113,7 +113,6 @@ export class GarbageProfileDetailsForm4
           }
 
         } else {
-          this.willBeUpdated = true;
 
           this.partialRequest.ModificationReason = '';
 
@@ -223,10 +222,12 @@ export class GarbageProfileDetailsForm4
 
           if (Object.keys(this.simpleChanges).length) {
             this.hasBeenModified = true;
+            this.willBeUpdated = true;
             this.partialRequest.ModificationContent = JSON.stringify(this.simpleChanges);
 
           } else {
             this.hasBeenModified = false;
+            this.willBeUpdated = false;
           }
         }
         this.partialRequest.Data = this.partialData
@@ -235,7 +236,11 @@ export class GarbageProfileDetailsForm4
         this.willBeUpdated = false;
         this.hasBeenModified = false;
       }
+      console.log(this.simpleChanges)
+      console.log(this.partialRequest)
+      return true;
     }
+    return false;
   }
 
   private _updateCustomFormByPartial() {

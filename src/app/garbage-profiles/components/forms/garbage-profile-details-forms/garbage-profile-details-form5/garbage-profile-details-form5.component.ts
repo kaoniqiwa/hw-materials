@@ -76,7 +76,7 @@ export class GarbageProfileDetailsForm5
 
   }
   ngAfterViewInit(): void { }
-  override async updatePartial() {
+  override  updatePartial() {
     if (this.checkForm() && this.dynamicForm?.checkForm()) {
       if (this.partialData) {
         if (this.partialData['ProfileState'] <= this.stepIndex) {
@@ -98,7 +98,6 @@ export class GarbageProfileDetailsForm5
           this.partialRequest.Data = this.partialData
 
         } else {
-          this.willBeUpdated = true;
 
           this.partialRequest.ModificationReason = '';
 
@@ -166,10 +165,12 @@ export class GarbageProfileDetailsForm5
 
           if (Object.keys(this.simpleChanges).length) {
             this.hasBeenModified = true;
+            this.willBeUpdated = true;
             this.partialRequest.ModificationContent = JSON.stringify(this.simpleChanges);
 
           } else {
             this.hasBeenModified = false;
+            this.willBeUpdated = false;
           }
         }
         this.partialRequest.Data = this.partialData
@@ -178,7 +179,10 @@ export class GarbageProfileDetailsForm5
         this.willBeUpdated = false;
         this.hasBeenModified = false;
       }
+      console.log(this.simpleChanges)
+      console.log(this.partialRequest)
+      return true;
     }
-    return null
+    return false
   }
 }
