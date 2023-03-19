@@ -50,8 +50,7 @@ import {
 })
 export class GarbageProfileDetailsForm1
   extends _GarbageProfileDetailsFormsBase
-  implements OnInit
-{
+  implements OnInit {
   DivisionLevel = DivisionLevel;
 
   selectedNodes: CommonFlatNode[] = [];
@@ -125,6 +124,9 @@ export class GarbageProfileDetailsForm1
     this.partialData = await this.getPartialData(this.properties);
     console.log('partialData', this.partialData);
 
+    if (this.partialData) {
+      this.profileState = this.partialData['ProfileState']
+    }
     await this.updateFormByPartial();
 
     if (this.partialData) {

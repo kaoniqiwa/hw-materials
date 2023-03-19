@@ -79,7 +79,7 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
   constructor(
     private _changeDetector: ChangeDetectorRef,
     private _business: ProfileDetailsBusiness
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this._init();
@@ -87,26 +87,37 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
 
   private async _init() {
     await this._updateState();
-  }
-  ngAfterViewInit(): void {
     if (this.stepperTemp) {
       this.templateExpression = this.stepperTemp;
     }
-    // if (this.tabTemp) {
-    //   this.templateExpression = this.tabTemp;
+
+    // if (this.profileState == 6) {
+    //   if (this.expansionTemp) {
+    //     this.templateExpression = this.expansionTemp;
+    //   }
     // }
 
     this._changeDetector.detectChanges();
+  }
+  ngAfterViewInit(): void {
+
   }
   selectionChange(e: StepperSelectionEvent) {
     // console.log('selection change', e);
 
     this.selectedIndex = e.selectedIndex;
   }
+  opened(index: number) {
+    this.selectedIndex = index;
+  }
+  closed(index: number) {
+    // this.selectedIndex = -1;
+  }
   closeEvent() {
     this.closeDetails.emit();
   }
-  async nextEvent() {
+  async nextEvent(id: string) {
+    this.formId = id;
     this.state = FormState.edit;
     await this._updateState();
 

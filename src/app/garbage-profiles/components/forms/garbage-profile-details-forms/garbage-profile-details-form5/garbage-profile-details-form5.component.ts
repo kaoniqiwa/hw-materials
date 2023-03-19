@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import _ from 'lodash';
 import { ToastrService } from 'ngx-toastr';
 import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/language.tool';
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
@@ -24,8 +25,7 @@ import { GarbageProfileDetailsForm5Business } from './garbage-profile-details-fo
 })
 export class GarbageProfileDetailsForm5
   extends _GarbageProfileDetailsFormsBase
-  implements OnInit, AfterViewInit
-{
+  implements OnInit, AfterViewInit {
   @ViewChild(GarbageProfileDetailsDynamicForm)
   dynamicForm?: GarbageProfileDetailsDynamicForm;
 
@@ -65,118 +65,120 @@ export class GarbageProfileDetailsForm5
     // console.log(requiredProperties.flat());
     this.properties.push(...requiredProperties.flat());
 
-    // console.log(this.properties);
+    console.log(this.properties);
 
     this.partialData = await this.getPartialData(this.properties);
-    // console.log('partialData', this.partialData);
+    console.log('partialData', this.partialData);
+    if (this.partialData) {
+
+      this.profileState = this.partialData['ProfileState'];
+    }
+
   }
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void { }
   override async updatePartial() {
     if (this.checkForm() && this.dynamicForm?.checkForm()) {
-      let willBeUpdated = false;
-      let partialRequest = new PartialRequest();
-
       if (this.partialData) {
         if (this.partialData['ProfileState'] <= this.stepIndex) {
           ++this.partialData['ProfileState'];
+          this.partialRequest.ModificationReason = '新建档案';
+          this.partialRequest.ModificationContent = '';
 
-          partialRequest.ModificationReason = '新建档案';
-          partialRequest.ModificationContent = '';
-          willBeUpdated = true;
-        } else {
-          partialRequest.ModificationReason =
-            '更新档案' + ((Math.random() * 9999) >> 0);
-          partialRequest.ModificationContent = '';
+          this.willBeUpdated = true;
+          this.hasBeenModified = false;
 
-          let objData = this.formGroup.value;
-          let content: Array<{ Name: string; OldValue: any; NewValue: any }> =
-            [];
-          for (let [key, value] of Object.entries(objData)) {
-            if (value != void 0 && value !== '' && value !== null) {
-              let oldValue = Reflect.get(this.partialData, key);
-              let newValue = value;
-              if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
-                content.push({
-                  Name: key,
-                  OldValue: oldValue,
-                  NewValue: newValue,
-                });
-              }
-            }
-          }
-          let newCameras = this.dynamicForm!.getCameras();
-          let oldCameras = this.partialData['Cameras'] as Camera[];
-
-          console.group(newCameras, oldCameras);
-          for (let i = 0; i < newCameras.length; i++) {
-            let newCamera = newCameras[i];
-            let oldCamera = oldCameras[i];
-
-            if (oldCamera) {
-              for (let [key, value] of Object.entries(oldCamera)) {
-                let oldValue = value;
-                let newValue = newCamera[key as keyof Camera];
-
-                console.log(key, oldValue, newValue);
-
-                if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
-                  content.push({
-                    Name: 'Camera:' + key,
-                    OldValue: oldValue,
-                    NewValue: newValue,
-                  });
-                }
-              }
-            } else {
-              partialRequest.ModificationReason = '添加摄像机';
-
-              content.push({
-                Name: 'Camera',
-                OldValue: JSON.stringify({}),
-                NewValue: JSON.stringify(newCamera),
-              });
-            }
-          }
-
-          if (content.length) {
-            willBeUpdated = true;
-            partialRequest.ModificationContent = JSON.stringify(content);
-          }
-
-          console.log(partialRequest);
-        }
-        if (willBeUpdated) {
-          let objData = this.formGroup.value;
-          for (let [key, value] of Object.entries(objData)) {
+          let newData = _.cloneDeep(this.formGroup.value);
+          for (let [key, value] of Object.entries(newData)) {
             if (value != void 0 && value !== '' && value !== null) {
               Reflect.set(this.partialData, key, value);
             }
           }
-          this.partialData['Cameras'] = this.dynamicForm?.getCameras() ?? [];
-          // let cameras = Reflect.get(this.partialData, 'Cameras') as
-          //   | Camera[]
-          //   | null;
-          // if (cameras && cameras.length) {
-          //   let formCameras = this.dynamicForm?.getCameras() ?? [];
 
-          //   cameras.forEach((camera, index) => {
-          //     let formCamera = formCameras[index];
-          //     if (formCamera) {
-          //       Object.assign(camera, formCamera);
-          //     }
-          //   });
-          // }
-          partialRequest.Data = this.partialData;
+          newData['Cameras'] = this.dynamicForm.getCameras();
+          this.partialRequest.Data = this.partialData
 
-          let res = await this._business.updatePartial(partialRequest);
-
-          return res;
         } else {
-          // 验证通过，但无数据更新，不发送请求
-          return -1;
+          this.willBeUpdated = true;
+
+          this.partialRequest.ModificationReason = '';
+
+          this.partialRequest.ModificationContent = '';
+
+
+
+          let oldData = this.partialData;
+          let newData = _.cloneDeep(this.formGroup.value);
+
+          newData['Cameras'] = this.dynamicForm.getCameras();
+
+          for (let [key, value] of Object.entries(newData)) {
+
+            if (key == 'Cameras') {
+              let oldCameras = oldData['Cameras'];
+              let newCameras = newData['Cameras']
+              for (let i = 0; i < newCameras.length; i++) {
+                let newCamera = newCameras[i];
+                let oldCamera = oldCameras[i];
+
+                if (oldCamera) {
+                  for (let [key, value] of Object.entries(oldCamera)) {
+                    let oldValue = value;
+                    let newValue = newCamera[key as keyof Camera];
+
+                    // console.log(key, oldValue, newValue);
+
+                    if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
+                      this.simpleChanges['Cameras:' + i + ":" + key] = {
+                        OldValue: oldValue,
+                        NewValue: newValue,
+                      }
+
+                      this.partialData['Cameras'][i][key] = newValue;
+                    }
+                  }
+                } else {
+                  this.simpleChanges['Cameras:' + (i + 1) + ":" + key] = {
+                    OldValue: JSON.stringify({}),
+                    NewValue: JSON.stringify(newCamera),
+                  }
+                  this.partialData['Cameras'][i] = newCamera;
+                }
+              }
+              continue;
+            }
+            let newValue = value;
+            let oldValue = oldData[key];
+
+            if (value != void 0 && value !== '' && value !== null) {
+              if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
+                this.simpleChanges[key] = {
+                  OldValue: oldValue,
+                  NewValue: newValue,
+                }
+                this.partialData[key] = newValue;
+
+              }
+            }
+
+
+          }
+
+
+          if (Object.keys(this.simpleChanges).length) {
+            this.hasBeenModified = true;
+            this.partialRequest.ModificationContent = JSON.stringify(this.simpleChanges);
+
+          } else {
+            this.hasBeenModified = false;
+          }
         }
+        this.partialRequest.Data = this.partialData
+
+      } else {
+        this.willBeUpdated = false;
+        this.hasBeenModified = false;
       }
     }
-    return null;
+    return null
   }
 }

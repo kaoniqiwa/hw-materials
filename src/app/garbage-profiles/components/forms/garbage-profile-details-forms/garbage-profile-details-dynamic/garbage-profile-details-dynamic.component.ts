@@ -171,7 +171,7 @@ export class GarbageProfileDetailsDynamicForm implements OnInit, OnChanges {
       }
     }
   }
-  addControl(name: string, validators: ValidatorFn | ValidatorFn[]) {}
+  addControl(name: string, validators: ValidatorFn | ValidatorFn[]) { }
   updateFormByPartial() {
     if (this.cameras.length) {
       this.Cameras.clear();
@@ -193,6 +193,9 @@ export class GarbageProfileDetailsDynamicForm implements OnInit, OnChanges {
 
         this.Cameras.push(camera);
       });
+    } else {
+      this.Cameras.clear();
+      this.addCamera()
     }
   }
 }

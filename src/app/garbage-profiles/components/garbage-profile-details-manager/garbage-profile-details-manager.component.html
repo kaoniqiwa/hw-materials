@@ -38,7 +38,23 @@
     </mat-tab>
   </mat-tab-group>
 </ng-template>
-<ng-template #expansionTemp>expandsion</ng-template>
+<ng-template #expansionTemp>
+  <mat-accordion>
+    <ng-container *ngFor="let label of labels; let i = index; let c = count">
+      <mat-expansion-panel hideToggle (opened)="opened(i)">
+        <mat-expansion-panel-header>
+          <mat-panel-title> {{ label }} </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ng-template matExpansionPanelContent>
+          <ng-template
+            [ngTemplateOutlet]="getTemplate(i)"
+            [ngTemplateOutletContext]="{ index: i, $implicit: 'hello' }"
+          ></ng-template>
+        </ng-template>
+      </mat-expansion-panel>
+    </ng-container>
+  </mat-accordion>
+</ng-template>
 
 <ng-template #step1 #step let-value let-index="index">
   <garbage-profile-details-form1
@@ -46,7 +62,7 @@
     [formId]="formId"
     [stepIndex]="index"
     [state]="state"
-    (next)="nextEvent()"
+    (next)="nextEvent($event)"
     (close)="closeEvent()"
     (formStatus)="formStatus($event, index)"
   ></garbage-profile-details-form1>
@@ -57,7 +73,7 @@
     [formId]="formId"
     [stepIndex]="index"
     [state]="state"
-    (next)="nextEvent()"
+    (next)="nextEvent($event)"
     (close)="closeEvent()"
     (previous)="previousEvent()"
     (formStatus)="formStatus($event, index)"
@@ -69,7 +85,7 @@
     [formId]="formId"
     [stepIndex]="index"
     [state]="state"
-    (next)="nextEvent()"
+    (next)="nextEvent($event)"
     (close)="closeEvent()"
     (previous)="previousEvent()"
     (formStatus)="formStatus($event, index)"
@@ -81,7 +97,7 @@
     [formId]="formId"
     [stepIndex]="index"
     [state]="state"
-    (next)="nextEvent()"
+    (next)="nextEvent($event)"
     (close)="closeEvent()"
     (previous)="previousEvent()"
     (formStatus)="formStatus($event, index)"
@@ -93,7 +109,7 @@
     [formId]="formId"
     [state]="state"
     [stepIndex]="index"
-    (next)="nextEvent()"
+    (next)="nextEvent($event)"
     (close)="closeEvent()"
     (previous)="previousEvent()"
     (formStatus)="formStatus($event, index)"
@@ -105,7 +121,7 @@
     [formId]="formId"
     [state]="state"
     [stepIndex]="index"
-    (next)="nextEvent()"
+    (next)="nextEvent($event)"
     (close)="closeEvent()"
     (previous)="previousEvent()"
     (formStatus)="formStatus($event, index)"

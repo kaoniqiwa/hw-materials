@@ -1,6 +1,7 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import _ from 'lodash';
 import { ToastrService } from 'ngx-toastr';
 import { DateTimePickerView } from 'src/app/common/directives/date-time-picker/date-time-picker.directive';
 import { Guid } from 'src/app/common/tools/guid';
@@ -28,8 +29,7 @@ import { GarbageProfileDetailsForm3Business } from './garbage-profile-details-fo
 })
 export class GarbageProfileDetailsForm3
   extends _GarbageProfileDetailsFormsBase
-  implements OnInit
-{
+  implements OnInit {
   DateTimePickerView = DateTimePickerView;
 
   override formGroup: FormGroup<any> = new FormGroup({
@@ -61,64 +61,95 @@ export class GarbageProfileDetailsForm3
     if (this.checkForm()) {
       if (this.partialData) {
         if (this.partialData['ProfileState'] <= this.stepIndex) {
+          ++this.partialData['ProfileState'];
           this.partialRequest.ModificationReason = '新建档案';
           this.partialRequest.ModificationContent = '';
-          this.willBeUpdated = true;
-          ++this.partialData['ProfileState'];
-        } else {
-          this.partialRequest.ModificationReason = '';
 
-          this.partialRequest.ModificationContent = '';
-          let objData = this.formGroup.value;
-          let content: Array<{ Name: string; OldValue: any; NewValue: any }> =
-            [];
-          for (let [key, value] of Object.entries(objData)) {
+          this.willBeUpdated = true;
+          this.hasBeenModified = false;
+
+          let newData = _.cloneDeep(this.formGroup.value);
+
+
+          for (let [key, value] of Object.entries(newData)) {
             if (value != void 0 && value !== '' && value !== null) {
-              let oldValue = Reflect.get(this.partialData, key);
-              let newValue = value;
-              if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
-                content.push({
-                  Name: key,
-                  OldValue: oldValue,
-                  NewValue: newValue,
-                });
+              if (key == 'ConstructionDate') {
+                Reflect.set(this.partialData, key, formatDate(
+                  value as Date,
+                  'yyyy-MM-dd',
+                  'en'
+                ));
+                continue;
+
               }
-            }
-          }
-          if (content.length) {
-            this.hasBeenModified = true;
-            this.willBeUpdated = true;
-            this.partialRequest.ModificationContent = JSON.stringify(content);
-            this.partialRequest.Data = this.partialData;
-          } else {
-            this.willBeUpdated = false;
-            this.hasBeenModified = false;
-          }
-        }
-        if (this.willBeUpdated) {
-          let objData = this.formGroup.value;
-          for (let [key, value] of Object.entries(objData)) {
-            if (value != void 0 && value !== '' && value !== null) {
               Reflect.set(this.partialData, key, value);
             }
           }
-          this.partialData['ConstructionDate'] = formatDate(
-            this.partialData['ConstructionDate'],
-            'yyyy-MM-dd',
-            'en'
-          );
+          this.partialRequest.Data = this.partialData
 
-          this.partialRequest.Data = this.partialData;
+        } else {
+          this.willBeUpdated = true;
+
+
+          this.partialRequest.ModificationReason = '';
+
+          this.partialRequest.ModificationContent = '';
+
+          let oldData = this.partialData;
+          let newData = _.cloneDeep(this.formGroup.value);
+
+          for (let [key, value] of Object.entries(newData)) {
+
+            let newValue = value;
+            let oldValue = oldData[key];
+
+
+            if (key == 'ConstructionDate') {
+              newValue = formatDate(
+                value as Date,
+                'yyyy-MM-dd',
+                'en'
+              );;
+              oldValue = oldData[key];
+            }
+
+            if (value != void 0 && value !== '' && value !== null) {
+              if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
+                this.simpleChanges[key] = {
+                  OldValue: oldValue,
+                  NewValue: newValue,
+                }
+                this.partialData[key] = newValue;
+
+              }
+            }
+
+
+          }
+          console.log(this.simpleChanges);
+
+
+          if (Object.keys(this.simpleChanges).length) {
+            this.hasBeenModified = true;
+            this.partialRequest.ModificationContent = JSON.stringify(this.simpleChanges);
+
+          } else {
+            this.hasBeenModified = false;
+          }
         }
+
+        this.partialRequest.Data = this.partialData;
+
       } else {
         this.willBeUpdated = false;
         this.hasBeenModified = false;
       }
     }
+    console.log(this.partialRequest)
+
   }
   down(e: KeyboardEvent) {
     let key = e.key.toLocaleLowerCase();
-    console.log(key);
     if (key === 'e') {
       e.preventDefault();
     }

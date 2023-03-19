@@ -7,18 +7,22 @@ import {
   Validators,
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { isEmpty } from 'rxjs';
 import { PropertyCategory } from 'src/app/enum/property-category.enum';
 import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/language.tool';
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 import { Camera } from 'src/app/network/entity/camera.entity';
 import { PartialRequest } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
+import { isKeyObject } from 'util/types';
 import { GarbageProfileDetailsDynamicForm } from '../garbage-profile-details-dynamic/garbage-profile-details-dynamic.component';
 import { GarbageProfileDetailFormsBusiness } from '../garbage-profile-details-forms.business';
 import {
   FormMode,
   _GarbageProfileDetailsFormsBase,
 } from '../garbage-profile-details-forms.common';
+import { ɵstringify } from '@angular/core'
 import { GarbageProfileDetailsForm6Business } from './garbage-profile-details-form6.business';
+import { Language } from 'src/app/common/tools/language';
 
 @Component({
   selector: 'garbage-profile-details-form6',
@@ -31,8 +35,7 @@ import { GarbageProfileDetailsForm6Business } from './garbage-profile-details-fo
 })
 export class GarbageProfileDetailsForm6
   extends _GarbageProfileDetailsFormsBase
-  implements OnInit
-{
+  implements OnInit {
   cameras: Camera[] = [];
   currentIndex = 0;
 
@@ -82,64 +85,13 @@ export class GarbageProfileDetailsForm6
     this.properties.push(...requiredProperties.flat());
     this.partialData = await this.getPartialData(this.properties);
     console.log('partialData', this.partialData);
-  }
+    if (this.partialData) {
 
-  override updatePartial() {
-    if (this.checkForm()) {
-      if (this.partialData) {
-        if (this.partialData['ProfileState'] <= this.stepIndex) {
-          ++this.partialData['ProfileState'];
-          this.partialRequest.ModificationReason = '新建档案';
-          this.partialRequest.ModificationContent = '';
-          this.willBeUpdated = true;
-        } else {
-          this.partialRequest.ModificationReason = '';
-
-          this.partialRequest.ModificationContent = '';
-          let objData = this.formGroup.value;
-          let content: Array<{ Name: string; OldValue: any; NewValue: any }> =
-            [];
-          // for (let [key, value] of Object.entries(objData)) {
-          //   if (value != void 0 && value !== '' && value !== null) {
-          //     let oldValue = Reflect.get(this.partialData, key);
-          //     let newValue = value;
-          //     if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
-          //       content.push({
-          //         Name: key,
-          //         OldValue: oldValue,
-          //         NewValue: newValue,
-          //       });
-          //     }
-          //   }
-          // }
-          if (content.length) {
-            this.hasBeenModified = true;
-            this.willBeUpdated = true;
-            this.partialRequest.ModificationContent = JSON.stringify(content);
-            this.partialRequest.Data = this.partialData;
-          } else {
-            this.willBeUpdated = false;
-            this.hasBeenModified = false;
-          }
-        }
-        if (this.willBeUpdated) {
-          let objData = this.formGroup.value;
-          // for (let [key, value] of Object.entries(objData)) {
-          //   if (value != void 0 && value !== '' && value !== null) {
-          //     Reflect.set(this.partialData, key, value);
-          //   }
-          // }
-
-          this.partialData['BsStationId'] = this.formGroup.value['BsStationId'];
-
-          this.partialRequest.Data = this.partialData;
-        }
-      } else {
-        this.willBeUpdated = false;
-        this.hasBeenModified = false;
-      }
+      this.profileState = this.partialData['ProfileState'];
     }
+
   }
+
 
   override updateFormByPartial() {
     if (this.cameras.length) {
@@ -171,16 +123,25 @@ export class GarbageProfileDetailsForm6
 
       return false;
     }
-    // console.log(this.Cameras.errors);
+    this.validateCamera()
+    return true;
+  }
+
+  validateCamera() {
     if (this.Cameras.invalid) {
       for (let i = 0; i < this.Cameras.length; i++) {
-        let control = this.Cameras.at(i);
-        if (control.invalid) {
-          this._toastrService.warning(`摄像机${i + 1}信息无效`);
-          return false;
+        let group = this.Cameras.at(i) as FormGroup;
+        if (group.invalid) {
+          for (let [key, control] of Object.entries(group.controls)) {
+            if (control.invalid) {
+              this._toastrService.warning(`摄像机${i + 1}信息无效`);
+              return false;
+            }
+          }
         }
       }
+
     }
-    return true;
+    return true
   }
 }

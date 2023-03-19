@@ -47,14 +47,29 @@
     </div>
   </form>
   <div class="hw-middle-btn-group">
-    <button class="hw-blue-btn" type="button" (click)="clickPrev()">
+    <button
+      class="hw-blue-btn"
+      type="button"
+      (click)="clickPrev()"
+      *ngIf="profileState != maxState"
+    >
       上一步
     </button>
     <button class="hw-green-btn" type="button" (click)="clickSave()">
       保存
     </button>
-    <button class="hw-blue-btn" type="button" (click)="clickNext()">
+    <button
+      class="hw-blue-btn"
+      type="button"
+      (click)="clickNext()"
+      *ngIf="profileState != maxState"
+    >
       下一步
     </button>
   </div>
 </div>
+<toast-window *ngIf="showModify" [showClose]="false">
+  <modification-reason
+    (confirmEvent)="clickConfirm($event)"
+  ></modification-reason>
+</toast-window>

@@ -205,7 +205,12 @@
       保存
     </button>
 
-    <button class="hw-blue-btn" type="button" (click)="clickNext()">
+    <button
+      class="hw-blue-btn"
+      type="button"
+      (click)="clickNext()"
+      *ngIf="profileState != maxState"
+    >
       下一步
     </button>
   </div>

@@ -14,6 +14,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import _ from 'lodash';
 import { ToastrService } from 'ngx-toastr';
 import { Guid } from 'src/app/common/tools/guid';
 import { Medium } from 'src/app/common/tools/medium';
@@ -44,8 +45,7 @@ import { GarbageProfileDetailsForm2Business } from './garbage-profile-details-fo
 })
 export class GarbageProfileDetailsForm2
   extends _GarbageProfileDetailsFormsBase
-  implements OnInit
-{
+  implements OnInit {
   showPutout = false;
   showRecord = false;
   LFImageUrl = '';
@@ -142,70 +142,106 @@ export class GarbageProfileDetailsForm2
   }
 
   override updatePartial() {
-    if (this.partialData) {
-      if (this.partialData['ProfileState'] <= this.stepIndex) {
-        this.partialRequest.ModificationReason = '新建档案';
-        this.partialRequest.ModificationContent = '';
-        this.willBeUpdated = true;
-        ++this.partialData['ProfileState'];
-      } else {
-        this.partialRequest.ModificationReason = '';
+    if (this.checkForm()) {
+      if (this.partialData) {
+        if (this.partialData['ProfileState'] <= this.stepIndex) {
+          ++this.partialData['ProfileState'];
+          this.partialRequest.ModificationReason = '新建档案';
+          this.partialRequest.ModificationContent = '';
 
-        this.partialRequest.ModificationContent = '';
-        let objData = this.formGroup.value;
-        let content: Array<{ Name: string; OldValue: any; NewValue: any }> = [];
-        for (let [key, value] of Object.entries(objData)) {
-          if (value != void 0 && value !== '' && value !== null) {
-            let oldValue = Reflect.get(this.partialData, key);
-            let newValue = value;
-            if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
-              content.push({
-                Name: key,
-                OldValue: oldValue,
-                NewValue: newValue,
-              });
+          this.willBeUpdated = true;
+          this.hasBeenModified = false;
+
+          let newData = _.cloneDeep(this.formGroup.value);
+          for (let [key, value] of Object.entries(newData)) {
+            if (value != void 0 && value !== '' && value !== null) {
+              Reflect.set(this.partialData, key, value);
             }
           }
-        }
-        if (content.length) {
-          this.hasBeenModified = true;
-          this.willBeUpdated = true;
-          this.partialRequest.ModificationContent = JSON.stringify(content);
-          this.partialRequest.Data = this.partialData;
+          this.partialData['Functions'] = [];
+
+          if (this.formGroup.value['Functions'].garbagedrop) {
+            this.partialData['Functions'].push(
+              GarbageStationFunction.garbagedrop
+            );
+          }
+          if (this.formGroup.value['Functions'].mixedinto) {
+            this.partialData['Functions'].push(GarbageStationFunction.mixedinto);
+          }
+          if (this.formGroup.value['Functions'].garbagefull) {
+            this.partialData['Functions'].push(
+              GarbageStationFunction.garbagefull
+            );
+          }
         } else {
-          this.willBeUpdated = false;
-          this.hasBeenModified = false;
-        }
-      }
-      if (this.willBeUpdated) {
-        let objData = this.formGroup.value;
-        for (let [key, value] of Object.entries(objData)) {
-          if (value != void 0 && value !== '' && value !== null) {
-            Reflect.set(this.partialData, key, value);
+          this.willBeUpdated = true;
+
+
+          this.partialRequest.ModificationReason = '';
+
+          this.partialRequest.ModificationContent = '';
+
+
+          let oldData = this.partialData;
+          let newData = _.cloneDeep(this.formGroup.value);
+
+          newData['Functions'] = [];
+
+          if (this.formGroup.value['Functions'].garbagedrop) {
+            newData['Functions'].push(
+              GarbageStationFunction.garbagedrop
+            );
+          }
+          if (this.formGroup.value['Functions'].mixedinto) {
+            newData['Functions'].push(GarbageStationFunction.mixedinto);
+          }
+          if (this.formGroup.value['Functions'].garbagefull) {
+            newData['Functions'].push(
+              GarbageStationFunction.garbagefull
+            );
+          }
+
+
+          for (let [key, value] of Object.entries(newData)) {
+
+            let newValue = value;
+            let oldValue = oldData[key];
+
+            if (value != void 0 && value !== '' && value !== null) {
+              if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
+                this.simpleChanges[key] = {
+                  OldValue: oldValue,
+                  NewValue: newValue,
+                }
+                this.partialData[key] = newValue;
+
+              }
+            }
+
+
+          }
+          console.log(this.simpleChanges);
+
+
+          if (Object.keys(this.simpleChanges).length) {
+            this.hasBeenModified = true;
+            this.partialRequest.ModificationContent = JSON.stringify(this.simpleChanges);
+
+          } else {
+            this.hasBeenModified = false;
           }
         }
-        this.partialData['Functions'] = [];
+        this.partialRequest.Data = this.partialData
 
-        if (this.formGroup.value['Functions'].garbagedrop) {
-          this.partialData['Functions'].push(
-            GarbageStationFunction.garbagedrop
-          );
-        }
-        if (this.formGroup.value['Functions'].mixedinto) {
-          this.partialData['Functions'].push(GarbageStationFunction.mixedinto);
-        }
-        if (this.formGroup.value['Functions'].garbagefull) {
-          this.partialData['Functions'].push(
-            GarbageStationFunction.garbagefull
-          );
-        }
-
-        this.partialRequest.Data = this.partialData;
+      } else {
+        this.willBeUpdated = false;
+        this.hasBeenModified = false;
       }
-    } else {
-      this.willBeUpdated = false;
-      this.hasBeenModified = false;
+
+      console.log(this.partialRequest)
     }
+
+
   }
 
   async okHandler(params: PutOutMaterialsParams) {
@@ -243,14 +279,14 @@ export class GarbageProfileDetailsForm2
   }
 
   private _updateCustomForm() {
-    if (this.model) {
+    if (this.partialData) {
       let functionGroup = this.formGroup.get('Functions')!;
       functionGroup.setValue({
         garbagedrop: false,
         mixedinto: false,
         garbagefull: false,
       });
-      this.model.Functions?.forEach((v) => {
+      (this.partialData['Functions'] as Array<any>).forEach((v) => {
         if (v == GarbageStationFunction.garbagedrop) {
           functionGroup.patchValue({
             garbagedrop: true,
@@ -268,29 +304,28 @@ export class GarbageProfileDetailsForm2
         }
       });
 
-      if (this.model.StrongCurrentWire == YesOrNo.yes) {
+      if (this.partialData['StrongCurrentWire'] == YesOrNo.yes) {
         this.changeCurrentWire();
 
         this.formGroup.patchValue({
-          StrongCurrentWireMode: this.model.StrongCurrentWireMode,
-          StrongCurrentWireLength: this.model.StrongCurrentWireLength,
+          StrongCurrentWireMode: this.partialData['StrongCurrentWireMode'],
+          StrongCurrentWireLength: this.partialData['StrongCurrentWireLength'],
         });
       }
-      if (this.model.LFImageUrl) {
-        this.LFImageUrl = Medium.jpg(this.model.LFImageUrl);
+      if (this.partialData['LFImageUrl']) {
+        this.LFImageUrl = Medium.jpg(this.partialData['LFImageUrl']);
       }
 
-      if (this.model.RFImageUrl) {
-        this.RFImageUrl = Medium.jpg(this.model.RFImageUrl);
+      if (this.partialData['RFImageUrl']) {
+        this.RFImageUrl = Medium.jpg(this.partialData['RFImageUrl']);
+      }
+      if (this.partialData['FImageUrl']) {
+        this.FImageUrl = Medium.jpg(this.partialData['FImageUrl']);
+      }
+      if (this.partialData['PowerImageUrl']) {
+        this.PowerImageUrl = Medium.jpg(this.partialData['PowerImageUrl']);
       }
 
-      if (this.model.FImageUrl) {
-        this.FImageUrl = Medium.jpg(this.model.FImageUrl);
-      }
-
-      if (this.model.PowerImageUrl) {
-        this.PowerImageUrl = Medium.jpg(this.model.PowerImageUrl);
-      }
     }
   }
 }
