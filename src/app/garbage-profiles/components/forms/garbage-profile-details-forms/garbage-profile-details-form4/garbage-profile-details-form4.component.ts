@@ -122,6 +122,10 @@ export class GarbageProfileDetailsForm4
 
           let oldData = this.partialData;
           let newData = this.formGroup.value;
+
+          this.partialData['Cameras'] = [];
+
+
           newData['Cameras'] = this.dynamicForm.getCameras();
 
           for (let [key, value] of Object.entries(newData)) {
@@ -163,6 +167,8 @@ export class GarbageProfileDetailsForm4
                 let oldCamera = oldCameras[i];
 
                 if (oldCamera) {
+                  this.partialData['Cameras'][i] = oldCamera
+
                   for (let [key, value] of Object.entries(oldCamera)) {
                     let oldValue = value;
                     let newValue = newCamera[key as keyof Camera];

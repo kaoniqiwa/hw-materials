@@ -108,6 +108,8 @@ export class GarbageProfileDetailsForm5
           let oldData = this.partialData;
           let newData = _.cloneDeep(this.formGroup.value);
 
+          this.partialData['Cameras'] = [];
+
           newData['Cameras'] = this.dynamicForm.getCameras();
 
           for (let [key, value] of Object.entries(newData)) {
@@ -120,6 +122,8 @@ export class GarbageProfileDetailsForm5
                 let oldCamera = oldCameras[i];
 
                 if (oldCamera) {
+                  this.partialData['Cameras'][i] = oldCamera
+
                   for (let [key, value] of Object.entries(oldCamera)) {
                     let oldValue = value;
                     let newValue = newCamera[key as keyof Camera];
@@ -136,7 +140,7 @@ export class GarbageProfileDetailsForm5
                     }
                   }
                 } else {
-                  this.simpleChanges['Cameras:' + (i + 1) + ":" + key] = {
+                  this.simpleChanges['Cameras:' + (i + 1)] = {
                     OldValue: JSON.stringify({}),
                     NewValue: JSON.stringify(newCamera),
                   }

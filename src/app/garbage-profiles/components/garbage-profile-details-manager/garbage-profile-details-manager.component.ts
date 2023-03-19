@@ -91,11 +91,11 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
       this.templateExpression = this.stepperTemp;
     }
 
-    // if (this.profileState == 6) {
-    //   if (this.expansionTemp) {
-    //     this.templateExpression = this.expansionTemp;
-    //   }
-    // }
+    if (this.profileState == 6) {
+      if (this.expansionTemp) {
+        this.templateExpression = this.expansionTemp;
+      }
+    }
 
     this._changeDetector.detectChanges();
   }
