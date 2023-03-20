@@ -210,8 +210,9 @@ export abstract class _GarbageProfileDetailsFormsBase {
           Reflect.get(this.partialData, key) !== '' &&
           Reflect.get(this.partialData, key) !== null
         ) {
+          // 重新创建对象，比较差异
           this.formGroup.patchValue({
-            [key]: Reflect.get(this.partialData, key),
+            [key]: _.cloneDeep(Reflect.get(this.partialData, key)),
           });
         }
       }
@@ -289,10 +290,8 @@ export abstract class _GarbageProfileDetailsFormsBase {
           } else {
             let res = await this._business.updatePartial(this.partialRequest);
             console.log(res);
-
             if (res.Succeed) {
               this._toastrService.success('操作成功');
-
               this.close.emit();
             } else {
               this.partialData!['ProfileState'] = this.profileState;
@@ -301,7 +300,6 @@ export abstract class _GarbageProfileDetailsFormsBase {
           }
         } else {
           this._toastrService.success('无数据更新');
-
           this.close.emit();
         }
       }

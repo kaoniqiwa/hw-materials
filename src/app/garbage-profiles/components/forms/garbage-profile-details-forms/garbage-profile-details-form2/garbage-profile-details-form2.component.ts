@@ -26,6 +26,8 @@ import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/to
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
+import { MaterialItem } from 'src/app/network/entity/material-item.enitty';
+import { Material } from 'src/app/network/entity/material.entity';
 import { PartialRequest } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
 import { PutOutMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
 import {
@@ -88,6 +90,7 @@ export class GarbageProfileDetailsForm2
     ),
     GarbageStationType: new FormControl(2, Validators.required),
     Remarks: new FormControl(''),
+    MaterialItems: new FormControl([]),
   });
 
   constructor(
@@ -102,6 +105,10 @@ export class GarbageProfileDetailsForm2
 
   async ngOnInit() {
     this._init();
+
+    if (this.formId) {
+      this.model = await this._business.getModel(this.formId);
+    }
   }
 
   private async _init() {
@@ -180,7 +187,7 @@ export class GarbageProfileDetailsForm2
 
           this.partialRequest.ModificationContent = '';
 
-          let oldData = this.partialData;
+          let oldData = _.cloneDeep(this.partialData);
           let newData = _.cloneDeep(this.formGroup.value);
 
           newData['Functions'] = [];
@@ -209,7 +216,6 @@ export class GarbageProfileDetailsForm2
               }
             }
           }
-          console.log(this.simpleChanges);
 
           if (Object.keys(this.simpleChanges).length) {
             this.hasBeenModified = true;
@@ -237,17 +243,28 @@ export class GarbageProfileDetailsForm2
   }
 
   async okHandler(params: PutOutMaterialsParams) {
-    // console.log(params);
     this.showPutout = false;
+
     if (this.model) {
       params.ProfileId = this.model.Id;
       params.ProfileName = this.model.ProfileName;
       let res = await this._business.putout(params);
-      console.log(res);
-      this.model.MaterialItems = this.model.MaterialItems ?? [];
-      this.model.MaterialItems.push(...res.MaterialItems);
-      let res2 = await this._business.updateModel(this.model);
-      console.log(res2);
+      let newItems = res.MaterialItems;
+      let oldItems = this.formGroup.get('MaterialItems')!
+        .value as MaterialItem[];
+
+      newItems.forEach((item) => {
+        let findItem = oldItems.find((oldItem) => oldItem.Id == item.Id);
+        if (findItem) {
+          findItem.Number += item.Number;
+        } else {
+          oldItems.push(item);
+        }
+      });
+      this.formGroup.get('MaterialItems')!.patchValue(oldItems);
+
+      console.log(this.partialData);
+      console.log(this.formGroup.value);
     }
   }
   cancelHandler() {
