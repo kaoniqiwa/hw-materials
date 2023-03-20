@@ -218,13 +218,14 @@
   </div>
 </toast-window>
 
-<toast-window *ngIf="showRecord" (closeEvent)="showRecord = false">
+<!-- <toast-window *ngIf="showRecord" (closeEvent)="showRecord = false">
   <div style="width: 1200px; height: 700px">
     <garbage-profiles-material-record-details
       [profileId]="model ? model.Id : ''"
     ></garbage-profiles-material-record-details>
   </div>
-</toast-window>
+</toast-window> -->
+
 <toast-window *ngIf="showModify" [showClose]="false">
   <modification-reason
     (confirmEvent)="clickConfirm($event)"

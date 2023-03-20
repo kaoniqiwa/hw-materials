@@ -28,6 +28,7 @@ import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profil
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { MaterialItem } from 'src/app/network/entity/material-item.enitty';
 import { Material } from 'src/app/network/entity/material.entity';
+import { PartialData } from 'src/app/network/entity/partial-data.interface';
 import { PartialRequest } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
 import { PutOutMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
 import {
@@ -55,6 +56,9 @@ export class GarbageProfileDetailsForm2
   RFImageUrl = '';
   FImageUrl = '';
   PowerImageUrl = '';
+
+  @Output()
+  recordEvent = new EventEmitter<PartialData>();
 
   identityRevealedValidator: ValidatorFn = (
     control: AbstractControl
@@ -140,8 +144,12 @@ export class GarbageProfileDetailsForm2
     });
   }
   clickRecord() {
-    if (this.model?.MaterialItems?.length) {
-      this.showRecord = true;
+    if (this.partialData) {
+      if (this.partialData['MaterialItems']) {
+        // this.showRecord = true;
+
+        this.recordEvent.emit(this.partialData);
+      }
     }
   }
   changeCurrentWire() {

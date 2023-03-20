@@ -16,6 +16,7 @@ import { FormControlStatus } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
+import { PartialData } from 'src/app/network/entity/partial-data.interface';
 import { ProfileDetailsBusiness } from './garbage-profile-details-manager.business';
 
 @Component({
@@ -50,6 +51,9 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
 
   @Output() closeDetails = new EventEmitter();
   @Output() updateDetails = new EventEmitter();
+
+  @Output()
+  recordEvent = new EventEmitter<PartialData>();
 
   @ViewChild('stepperTemp') stepperTemp?: TemplateRef<any>;
   @ViewChild('tabTemp') tabTemp?: TemplateRef<any>;
@@ -126,6 +130,9 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
 
   previousEvent() {
     this.matStepper?.previous();
+  }
+  clickRecord(data: PartialData) {
+    this.recordEvent.emit(data);
   }
 
   formStatus(status: FormControlStatus, index: number) {
