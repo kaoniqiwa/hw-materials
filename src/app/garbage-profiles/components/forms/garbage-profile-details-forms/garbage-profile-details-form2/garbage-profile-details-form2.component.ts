@@ -45,7 +45,8 @@ import { GarbageProfileDetailsForm2Business } from './garbage-profile-details-fo
 })
 export class GarbageProfileDetailsForm2
   extends _GarbageProfileDetailsFormsBase
-  implements OnInit {
+  implements OnInit
+{
   showPutout = false;
   showRecord = false;
   LFImageUrl = '';
@@ -97,7 +98,6 @@ export class GarbageProfileDetailsForm2
     private changeDetector: ChangeDetectorRef
   ) {
     super(_business, _toastrService, source, language);
-    this.formMode = FormMode.ByModel;
   }
 
   async ngOnInit() {
@@ -166,7 +166,9 @@ export class GarbageProfileDetailsForm2
             );
           }
           if (this.formGroup.value['Functions'].mixedinto) {
-            this.partialData['Functions'].push(GarbageStationFunction.mixedinto);
+            this.partialData['Functions'].push(
+              GarbageStationFunction.mixedinto
+            );
           }
           if (this.formGroup.value['Functions'].garbagefull) {
             this.partialData['Functions'].push(
@@ -174,12 +176,9 @@ export class GarbageProfileDetailsForm2
             );
           }
         } else {
-
-
           this.partialRequest.ModificationReason = '';
 
           this.partialRequest.ModificationContent = '';
-
 
           let oldData = this.partialData;
           let newData = _.cloneDeep(this.formGroup.value);
@@ -187,22 +186,16 @@ export class GarbageProfileDetailsForm2
           newData['Functions'] = [];
 
           if (this.formGroup.value['Functions'].garbagedrop) {
-            newData['Functions'].push(
-              GarbageStationFunction.garbagedrop
-            );
+            newData['Functions'].push(GarbageStationFunction.garbagedrop);
           }
           if (this.formGroup.value['Functions'].mixedinto) {
             newData['Functions'].push(GarbageStationFunction.mixedinto);
           }
           if (this.formGroup.value['Functions'].garbagefull) {
-            newData['Functions'].push(
-              GarbageStationFunction.garbagefull
-            );
+            newData['Functions'].push(GarbageStationFunction.garbagefull);
           }
 
-
           for (let [key, value] of Object.entries(newData)) {
-
             let newValue = value;
             let oldValue = oldData[key];
 
@@ -211,42 +204,36 @@ export class GarbageProfileDetailsForm2
                 this.simpleChanges[key] = {
                   OldValue: oldValue,
                   NewValue: newValue,
-                }
+                };
                 this.partialData[key] = newValue;
-
               }
             }
-
-
           }
           console.log(this.simpleChanges);
-
 
           if (Object.keys(this.simpleChanges).length) {
             this.hasBeenModified = true;
             this.willBeUpdated = true;
-            this.partialRequest.ModificationContent = JSON.stringify(this.simpleChanges);
-
+            this.partialRequest.ModificationContent = JSON.stringify(
+              this.simpleChanges
+            );
           } else {
             this.hasBeenModified = false;
             this.willBeUpdated = false;
           }
         }
-        this.partialRequest.Data = this.partialData
-
+        this.partialRequest.Data = this.partialData;
       } else {
         this.willBeUpdated = false;
         this.hasBeenModified = false;
       }
 
-      console.log(this.simpleChanges)
-      console.log(this.partialRequest)
-      return true
-
+      console.log(this.simpleChanges);
+      console.log(this.partialRequest);
+      return true;
     }
 
-    return false
-
+    return false;
   }
 
   async okHandler(params: PutOutMaterialsParams) {
@@ -330,7 +317,6 @@ export class GarbageProfileDetailsForm2
       if (this.partialData['PowerImageUrl']) {
         this.PowerImageUrl = Medium.jpg(this.partialData['PowerImageUrl']);
       }
-
     }
   }
 }

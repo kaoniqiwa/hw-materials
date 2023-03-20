@@ -29,7 +29,8 @@ import { GarbageProfileDetailsForm3Business } from './garbage-profile-details-fo
 })
 export class GarbageProfileDetailsForm3
   extends _GarbageProfileDetailsFormsBase
-  implements OnInit {
+  implements OnInit
+{
   DateTimePickerView = DateTimePickerView;
 
   override formGroup: FormGroup<any> = new FormGroup({
@@ -48,7 +49,6 @@ export class GarbageProfileDetailsForm3
     override _business: GarbageProfileDetailsForm3Business
   ) {
     super(_business, _toastrService, source, language);
-    this.formMode = FormMode.ByModel;
   }
   ngOnInit(): void {
     this._init();
@@ -70,26 +70,21 @@ export class GarbageProfileDetailsForm3
 
           let newData = _.cloneDeep(this.formGroup.value);
 
-
           for (let [key, value] of Object.entries(newData)) {
             if (value != void 0 && value !== '' && value !== null) {
               if (key == 'ConstructionDate') {
-                Reflect.set(this.partialData, key, formatDate(
-                  value as Date,
-                  'yyyy-MM-dd',
-                  'en'
-                ));
+                Reflect.set(
+                  this.partialData,
+                  key,
+                  formatDate(value as Date, 'yyyy-MM-dd', 'en')
+                );
                 continue;
-
               }
               Reflect.set(this.partialData, key, value);
             }
           }
-          this.partialRequest.Data = this.partialData
-
+          this.partialRequest.Data = this.partialData;
         } else {
-
-
           this.partialRequest.ModificationReason = '';
 
           this.partialRequest.ModificationContent = '';
@@ -98,17 +93,11 @@ export class GarbageProfileDetailsForm3
           let newData = _.cloneDeep(this.formGroup.value);
 
           for (let [key, value] of Object.entries(newData)) {
-
             let newValue = value;
             let oldValue = oldData[key];
 
-
             if (key == 'ConstructionDate') {
-              newValue = formatDate(
-                value as Date,
-                'yyyy-MM-dd',
-                'en'
-              );;
+              newValue = formatDate(value as Date, 'yyyy-MM-dd', 'en');
               oldValue = oldData[key];
             }
 
@@ -117,21 +106,19 @@ export class GarbageProfileDetailsForm3
                 this.simpleChanges[key] = {
                   OldValue: oldValue,
                   NewValue: newValue,
-                }
+                };
                 this.partialData[key] = newValue;
-
               }
             }
-
-
           }
           console.log(this.simpleChanges);
 
           if (Object.keys(this.simpleChanges).length) {
             this.hasBeenModified = true;
             this.willBeUpdated = true;
-            this.partialRequest.ModificationContent = JSON.stringify(this.simpleChanges);
-
+            this.partialRequest.ModificationContent = JSON.stringify(
+              this.simpleChanges
+            );
           } else {
             this.hasBeenModified = false;
             this.willBeUpdated = false;
@@ -139,13 +126,13 @@ export class GarbageProfileDetailsForm3
         }
 
         this.partialRequest.Data = this.partialData;
-
       } else {
         this.willBeUpdated = false;
         this.hasBeenModified = false;
-      } console.log(this.simpleChanges)
-      console.log(this.partialRequest)
-      return true
+      }
+      console.log(this.simpleChanges);
+      console.log(this.partialRequest);
+      return true;
     }
     return false;
   }

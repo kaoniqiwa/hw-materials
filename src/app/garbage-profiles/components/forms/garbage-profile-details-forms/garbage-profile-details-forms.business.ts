@@ -48,9 +48,7 @@ export class GarbageProfileDetailFormsBusiness {
     let res = await this._garbageStationProfilesRequest.property.list(params);
     return res.Data;
   }
-  getPropertyByNames(searchInfos: Array<PropertySearchInfo>) {
-    return Promise.all(searchInfos.map((info) => this.listProperty(info)));
-  }
+
   createModel(model: GarbageStationProfile) {
     return this._garbageStationProfilesRequest.create(model);
   }

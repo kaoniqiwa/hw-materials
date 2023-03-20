@@ -50,7 +50,8 @@ import {
 })
 export class GarbageProfileDetailsForm1
   extends _GarbageProfileDetailsFormsBase
-  implements OnInit {
+  implements OnInit
+{
   DivisionLevel = DivisionLevel;
 
   selectedNodes: CommonFlatNode[] = [];
@@ -105,8 +106,6 @@ export class GarbageProfileDetailsForm1
         return this._filterValue(value);
       })
     );
-
-    // this.formMode = FormMode.ByModel;
   }
 
   ngOnInit(): void {
@@ -117,17 +116,24 @@ export class GarbageProfileDetailsForm1
   private async _initByPartial() {
     this.properties = await this.getPropertyByCategory(this.stepIndex + 1);
 
-    let labelProperty = await this._business.getLabelProperty();
+    let extra = await this.getPropertyByNames([
+      {
+        Name: 'Labels',
+      },
+      {
+        Name: 'ProfileState',
+      },
+    ]);
 
-    this.properties.push(...labelProperty);
+    this.properties.push(...extra.flat());
 
     this.partialData = await this.getPartialData(this.properties);
     console.log('partialData', this.partialData);
 
     if (this.partialData) {
-      this.profileState = this.partialData['ProfileState']
+      this.profileState = this.partialData['ProfileState'];
     }
-    await this.updateFormByPartial();
+    await this.updateForm();
 
     if (this.partialData) {
       this.defaultIds = this.partialData['Labels'];

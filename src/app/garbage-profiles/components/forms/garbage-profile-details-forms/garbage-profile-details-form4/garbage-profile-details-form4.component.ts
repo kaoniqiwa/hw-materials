@@ -37,7 +37,8 @@ import { GarbageProfileDetailsForm4Business } from './garbage-profile-details-fo
 })
 export class GarbageProfileDetailsForm4
   extends _GarbageProfileDetailsFormsBase
-  implements OnInit {
+  implements OnInit
+{
   DateTimePickerView = DateTimePickerView;
 
   @ViewChild(GarbageProfileDetailsDynamicForm)
@@ -76,7 +77,6 @@ export class GarbageProfileDetailsForm4
     this._updateCustomFormByPartial();
   }
 
-
   override updatePartial() {
     if (this.checkForm() && this.dynamicForm?.checkForm()) {
       if (this.partialData) {
@@ -88,14 +88,12 @@ export class GarbageProfileDetailsForm4
           this.willBeUpdated = true;
           this.hasBeenModified = false;
 
-
           let newData = _.cloneDeep(this.formGroup.value);
           newData['Cameras'] = this.dynamicForm.getCameras();
           this.partialData['GPSPoint'] = new GPSPoint();
 
           for (let [key, value] of Object.entries(newData)) {
             if (value != void 0 && value !== '' && value !== null) {
-
               if (key == 'Longitude' || key == 'Latitude') {
                 this.partialData['GPSPoint'][key] = value;
                 continue;
@@ -105,106 +103,110 @@ export class GarbageProfileDetailsForm4
                   value as Date,
                   'yyyy-MM-dd',
                   'en'
-                )
+                );
                 continue;
               }
               Reflect.set(this.partialData, key, value);
             }
           }
-
         } else {
-
           this.partialRequest.ModificationReason = '';
 
           this.partialRequest.ModificationContent = '';
 
-
-
-          let oldData = this.partialData;
-          let newData = this.formGroup.value;
+          let oldData = _.cloneDeep(this.partialData);
+          let newData = _.cloneDeep(this.formGroup.value);
 
           this.partialData['Cameras'] = [];
-
 
           newData['Cameras'] = this.dynamicForm.getCameras();
 
           for (let [key, value] of Object.entries(newData)) {
-
             if (key == 'Longitude' || key == 'Latitude') {
               if (!('GPSPoint' in this.simpleChanges)) {
                 let gpsPoint = oldData['GPSPoint'] as GPSPoint;
                 if (gpsPoint) {
                   if (gpsPoint[key] != value) {
-
                     this.simpleChanges['GPSPoint'] = {
                       OldValue: JSON.stringify(gpsPoint),
-                      NewValue: JSON.stringify({ Longitude: newData['Longitude'], Latitude: newData['Latitude'] } as GPSPoint),
-                    }
-                    this.partialData['GPSPoint'].Longitude = newData['Longitude']
-                    this.partialData['GPSPoint'].Latitude = newData['Latitude']
+                      NewValue: JSON.stringify({
+                        Longitude: newData['Longitude'],
+                        Latitude: newData['Latitude'],
+                      } as GPSPoint),
+                    };
+                    this.partialData['GPSPoint'].Longitude =
+                      newData['Longitude'];
+                    this.partialData['GPSPoint'].Latitude = newData['Latitude'];
                   }
                 } else {
                   this.simpleChanges['GPSPoint'] = {
                     OldValue: JSON.stringify(gpsPoint),
-                    NewValue: JSON.stringify({ Longitude: newData['Longitude'], Latitude: newData['Latitude'] } as GPSPoint),
-                  }
+                    NewValue: JSON.stringify({
+                      Longitude: newData['Longitude'],
+                      Latitude: newData['Latitude'],
+                    } as GPSPoint),
+                  };
                   this.partialData['GPSPoint'] = new GPSPoint();
 
-                  this.partialData['GPSPoint'].Longitude = newData['Longitude']
-                  this.partialData['GPSPoint'].Latitude = newData['Latitude']
+                  this.partialData['GPSPoint'].Longitude = newData['Longitude'];
+                  this.partialData['GPSPoint'].Latitude = newData['Latitude'];
                 }
-
               }
-              continue
+              continue;
             }
-
 
             if (key == 'Cameras') {
               let oldCameras = oldData['Cameras'];
-              let newCameras = newData['Cameras']
-              for (let i = 0; i < newCameras.length; i++) {
+              let newCameras = newData['Cameras'];
+              let len = Math.max(oldCameras.length, newCameras.length);
+              for (let i = 0; i < len; i++) {
                 let newCamera = newCameras[i];
                 let oldCamera = oldCameras[i];
 
                 if (oldCamera) {
-                  this.partialData['Cameras'][i] = oldCamera
+                  if (newCamera) {
+                    this.partialData['Cameras'][i] = newCamera;
 
-                  for (let [key, value] of Object.entries(oldCamera)) {
-                    let oldValue = value;
-                    let newValue = newCamera[key as keyof Camera];
+                    for (let [key, value] of Object.entries(oldCamera)) {
+                      let oldValue = value;
+                      let newValue = newCamera[key as keyof Camera];
 
-                    // console.log(key, oldValue, newValue);
+                      if (
+                        JSON.stringify(oldValue) !== JSON.stringify(newValue)
+                      ) {
+                        this.simpleChanges['Cameras:' + (i + 1) + ':' + key] = {
+                          OldValue: oldValue,
+                          NewValue: newValue,
+                        };
 
-                    if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
-                      this.simpleChanges['Cameras:' + i + ":" + key] = {
-                        OldValue: oldValue,
-                        NewValue: newValue,
+                        this.partialData['Cameras'][i][key] = newValue;
                       }
-
-                      this.partialData['Cameras'][i][key] = newValue;
                     }
+                  } else {
+                    // 删除摄像机
+
+                    this.simpleChanges['Cameras:' + (i + 1)] = {
+                      OldValue: JSON.stringify(oldCamera),
+                      NewValue: JSON.stringify({}),
+                    };
                   }
                 } else {
-                  this.simpleChanges['Cameras:' + (i + 1) + ":" + key] = {
+                  // 新增摄像机
+                  this.simpleChanges['Cameras:' + (i + 1)] = {
                     OldValue: JSON.stringify({}),
                     NewValue: JSON.stringify(newCamera),
-                  }
+                  };
                   this.partialData['Cameras'][i] = newCamera;
                 }
               }
               continue;
             }
 
-
             let newValue = value;
             let oldValue = oldData[key];
 
             if (key == 'TimeToDump') {
-              newValue = formatDate(
-                value as Date,
-                'yyyy-MM-dd',
-                'en'
-              );;
+              newValue = formatDate(value as Date, 'yyyy-MM-dd', 'en');
               oldValue = oldData[key];
             }
             if (value != void 0 && value !== '' && value !== null) {
@@ -212,38 +214,34 @@ export class GarbageProfileDetailsForm4
                 this.simpleChanges[key] = {
                   OldValue: oldValue,
                   NewValue: newValue,
-                }
+                };
                 this.partialData[key] = newValue;
-
               }
             }
-
-
           }
-
 
           console.log(this.simpleChanges);
 
-          console.log(this.partialData)
+          console.log(this.partialData);
 
           if (Object.keys(this.simpleChanges).length) {
             this.hasBeenModified = true;
             this.willBeUpdated = true;
-            this.partialRequest.ModificationContent = JSON.stringify(this.simpleChanges);
-
+            this.partialRequest.ModificationContent = JSON.stringify(
+              this.simpleChanges
+            );
           } else {
             this.hasBeenModified = false;
             this.willBeUpdated = false;
           }
         }
-        this.partialRequest.Data = this.partialData
-
+        this.partialRequest.Data = this.partialData;
       } else {
         this.willBeUpdated = false;
         this.hasBeenModified = false;
       }
-      console.log(this.simpleChanges)
-      console.log(this.partialRequest)
+      console.log(this.simpleChanges);
+      console.log(this.partialRequest);
       return true;
     }
     return false;

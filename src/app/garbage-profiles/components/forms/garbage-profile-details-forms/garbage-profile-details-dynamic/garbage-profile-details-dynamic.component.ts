@@ -96,7 +96,6 @@ export class GarbageProfileDetailsDynamicForm implements OnInit, OnChanges {
       AudioOutputState: new FormControl(0),
       AudioVolume: new FormControl(50),
       AIModelType: new FormControl(0),
-      BsCameraId: new FormControl(null),
     });
   }
   addCamera() {
@@ -157,7 +156,6 @@ export class GarbageProfileDetailsDynamicForm implements OnInit, OnChanges {
       camera.AudioOutputState = +group.value.AudioOutputState;
       camera.AudioVolume = +group.value.AudioVolume;
       camera.AIModelType = +group.value.AIModelType;
-      camera.BsCameraId = group.value.BsCameraId;
       cameras.push(camera);
     }
     return cameras;
@@ -171,7 +169,7 @@ export class GarbageProfileDetailsDynamicForm implements OnInit, OnChanges {
       }
     }
   }
-  addControl(name: string, validators: ValidatorFn | ValidatorFn[]) { }
+  addControl(name: string, validators: ValidatorFn | ValidatorFn[]) {}
   updateFormByPartial() {
     if (this.cameras.length) {
       this.Cameras.clear();
@@ -195,7 +193,7 @@ export class GarbageProfileDetailsDynamicForm implements OnInit, OnChanges {
       });
     } else {
       this.Cameras.clear();
-      this.addCamera()
+      this.addCamera();
     }
   }
 }

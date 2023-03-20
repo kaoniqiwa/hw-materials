@@ -68,7 +68,7 @@ export class GarbageProfileDetailsForm6
       this.cameras = Reflect.get(this.partialData, 'Cameras');
     }
 
-    this.updateFormByPartial();
+    this.updateForm();
     // console.log(this.Cameras.value);
   }
   addCamera() {
@@ -87,7 +87,7 @@ export class GarbageProfileDetailsForm6
   private async _initByPartial() {
     this.properties = await this.getPropertyByCategory(this.stepIndex + 1);
 
-    let properties = await this._business.getPropertyByNames([
+    let properties = await this.getPropertyByNames([
       {
         Name: 'ProfileState',
       },
@@ -127,8 +127,8 @@ export class GarbageProfileDetailsForm6
     }
   }
 
-  override updateFormByPartial() {
-    super.updateFormByPartial();
+  override updateForm() {
+    super.updateForm();
     if (this.cameras.length) {
       this.Cameras.clear();
       this.cameras.forEach((v) => {

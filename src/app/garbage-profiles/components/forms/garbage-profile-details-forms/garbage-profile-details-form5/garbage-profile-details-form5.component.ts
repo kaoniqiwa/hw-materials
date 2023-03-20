@@ -57,7 +57,10 @@ export class GarbageProfileDetailsForm5
   private async _initByPartial() {
     this.properties = await this.getPropertyByCategory(this.stepIndex + 1);
 
-    let requiredProperties = await this._business.getPropertyByNames([
+    let requiredProperties = await this.getPropertyByNames([
+      {
+        Name: 'ProfileState',
+      },
       {
         Name: 'Cameras',
       },
@@ -107,13 +110,12 @@ export class GarbageProfileDetailsForm5
           }
 
           newData['Cameras'] = this.dynamicForm.getCameras();
-          this.partialRequest.Data = this.partialData;
         } else {
           this.partialRequest.ModificationReason = '';
 
           this.partialRequest.ModificationContent = '';
 
-          let oldData = this.partialData;
+          let oldData = _.cloneDeep(this.partialData);
           let newData = _.cloneDeep(this.formGroup.value);
 
           this.partialData['Cameras'] = [];
@@ -124,29 +126,41 @@ export class GarbageProfileDetailsForm5
             if (key == 'Cameras') {
               let oldCameras = oldData['Cameras'];
               let newCameras = newData['Cameras'];
-              for (let i = 0; i < newCameras.length; i++) {
+
+              let len = Math.max(oldCameras.length, newCameras.length);
+              for (let i = 0; i < len; i++) {
                 let newCamera = newCameras[i];
                 let oldCamera = oldCameras[i];
 
                 if (oldCamera) {
-                  this.partialData['Cameras'][i] = oldCamera;
+                  if (newCamera) {
+                    this.partialData['Cameras'][i] = newCamera;
 
-                  for (let [key, value] of Object.entries(oldCamera)) {
-                    let oldValue = value;
-                    let newValue = newCamera[key as keyof Camera];
+                    for (let [key, value] of Object.entries(oldCamera)) {
+                      let oldValue = value;
+                      let newValue = newCamera[key as keyof Camera];
 
-                    // console.log(key, oldValue, newValue);
+                      if (
+                        JSON.stringify(oldValue) !== JSON.stringify(newValue)
+                      ) {
+                        this.simpleChanges['Cameras:' + (i + 1) + ':' + key] = {
+                          OldValue: oldValue,
+                          NewValue: newValue,
+                        };
 
-                    if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
-                      this.simpleChanges['Cameras:' + i + ':' + key] = {
-                        OldValue: oldValue,
-                        NewValue: newValue,
-                      };
-
-                      this.partialData['Cameras'][i][key] = newValue;
+                        this.partialData['Cameras'][i][key] = newValue;
+                      }
                     }
+                  } else {
+                    // 删除摄像机
+
+                    this.simpleChanges['Cameras:' + (i + 1)] = {
+                      OldValue: JSON.stringify(oldCamera),
+                      NewValue: JSON.stringify({}),
+                    };
                   }
                 } else {
+                  // 新增摄像机
                   this.simpleChanges['Cameras:' + (i + 1)] = {
                     OldValue: JSON.stringify({}),
                     NewValue: JSON.stringify(newCamera),

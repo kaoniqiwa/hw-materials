@@ -22,6 +22,7 @@ import { PartialResult } from 'src/app/network/entity/partial-result.entity';
 import { Property } from 'src/app/network/entity/property.entity';
 import { PartialRequest } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
 import { GarbageProfileDetailFormsBusiness } from './garbage-profile-details-forms.business';
+import { PropertySearchInfo } from './garbage-profile-details.model';
 
 export enum FormMode {
   ByModel,
@@ -45,7 +46,6 @@ export abstract class _GarbageProfileDetailsFormsBase {
   @Output() formStatus = new EventEmitter<FormControlStatus>();
 
   FormState = FormState;
-  formMode = FormMode.ByPartial;
   maxState = 6;
   profileState = 0;
 
@@ -79,6 +79,13 @@ export abstract class _GarbageProfileDetailsFormsBase {
   protected async initByPartial() {
     this.properties = await this.getPropertyByCategory(this.stepIndex + 1);
 
+    let extra = await this.getPropertyByNames([
+      {
+        Name: 'ProfileState',
+      },
+    ]);
+    this.properties.push(...extra.flat());
+
     console.log('propertyArr', this.properties);
     this.partialData = await this.getPartialData(this.properties);
     console.log('partialData', this.partialData);
@@ -86,30 +93,27 @@ export abstract class _GarbageProfileDetailsFormsBase {
     if (this.partialData) {
       this.profileState = this.partialData['ProfileState'];
     }
-    this.updateFormByPartial();
+    this.updateForm();
   }
 
   protected async getPropertyByCategory(category: number) {
-    let profileState = await this.getProfileState();
     let res = await this._business.listProperty({
       Category: category,
     });
 
-    res.push(...profileState);
     return res;
   }
-
+  getPropertyByNames(searchInfos: Array<PropertySearchInfo>) {
+    return Promise.all(
+      searchInfos.map((info) => this._business.listProperty(info))
+    );
+  }
   protected getPartialData(propertys: Property[]) {
     if (this.formId) {
       let propertyIds = propertys.map((property) => property.Id);
       return this._business.getPartialData(this.formId, propertyIds);
     }
     return null;
-  }
-  protected async getProfileState() {
-    return this._business.listProperty({
-      Name: 'ProfileState',
-    });
   }
   protected async createModel() {
     if (this.checkForm()) {
@@ -195,7 +199,7 @@ export abstract class _GarbageProfileDetailsFormsBase {
     return false;
   }
 
-  updateFormByPartial() {
+  updateForm() {
     if (this.partialData) {
       let controls = this.formGroup.controls;
       for (let [key, control] of Object.entries(controls)) {
