@@ -113,7 +113,7 @@ export class GarbageStationProfileTableComponent
     }
   }
 
-  async loadData(index: number, size: number = 10) {
+  async loadData(index: number, size: number = this.pageSize) {
     this.loading = true;
     this.selected = undefined;
 

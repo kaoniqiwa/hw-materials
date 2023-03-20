@@ -1,0 +1,43 @@
+<div class="garbage-station-profile-record-details" *ngIf="!!model">
+  <div class="garbage-station-profile-record-details-head">
+    <div class="hw-simple-title">操作记录详情</div>
+  </div>
+  <div class="garbage-station-profile-record-details-body">
+    <table>
+      <colgroup>
+        <col style="width: 150px" />
+        <col style="calc(100% - 150px)" />
+      </colgroup>
+      <tr>
+        <td class="title">档案名称：</td>
+        <td class="value">{{ model.ProfileName }}</td>
+      </tr>
+      <tr>
+        <td class="title">操作时间：</td>
+        <td class="value">
+          {{ model.CreationTime | date : "YYYY-MM-dd HH:mm:ss" }}
+        </td>
+      </tr>
+      <tr>
+        <td class="title">修改人员名称：</td>
+        <td class="value">{{ model.UserLastName }}</td>
+      </tr>
+      <tr>
+        <td class="title">修改原因：</td>
+        <td class="value">{{ model.ModificationReason }}</td>
+      </tr>
+      <tr>
+        <td class="title">修改内容：</td>
+        <td class="value long">
+          <textarea rows="5">{{ model.ModificationContent }}</textarea>
+        </td>
+      </tr>
+      <tr>
+        <td class="title">修改内容：</td>
+        <td class="value long">
+          <textarea>{{ model.JsonContent }}</textarea>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

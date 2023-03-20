@@ -1,6 +1,6 @@
 import { Transform } from 'class-transformer';
 import { IModel } from 'src/app/common/interfaces/model.interface';
-import { transformDateTime } from './transform.model';
+import { transformBase64, transformDateTime } from './transform.model';
 
 /**	修改记录	*/
 export class ModificationRecord implements IModel {
@@ -20,6 +20,7 @@ export class ModificationRecord implements IModel {
   /**	String	修改内容	O	*/
   ModificationContent?: string;
   /**	String	JSON修改内容Base64编码	O	*/
+  @Transform(transformBase64)
   JsonContent?: string;
 
   /**	String	修改人员名称	O */

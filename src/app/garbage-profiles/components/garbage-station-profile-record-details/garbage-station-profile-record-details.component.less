@@ -1,0 +1,42 @@
+.garbage-station-profile-record-details {
+  width: 100%;
+  height: 100%;
+
+  &-head {
+    width: 100%;
+    height: 50px;
+  }
+
+  &-body {
+    width: 100%;
+    height: calc(100% - 50px);
+
+
+    table {
+      color: #cfd7ff;
+      font-size: 18px;
+      width: 100%;
+
+      .title {
+        width: 150px;
+        text-align: right;
+
+        vertical-align: baseline;
+      }
+
+      .value {
+        width: calc(100% - 150px);
+        word-wrap: break-word;
+
+        &.long {
+          overflow-y: auto;
+
+          textarea {
+            min-height: 200px;
+          }
+        }
+      }
+    }
+  }
+
+}

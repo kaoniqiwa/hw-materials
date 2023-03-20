@@ -1,6 +1,7 @@
 import { WindowViewModel } from 'src/app/common/components/window-control/window.model';
 import { IObjectModel } from 'src/app/common/interfaces/model.interface';
 import { FormState } from 'src/app/enum/form-state.enum';
+import { ModificationRecordModel } from 'src/app/model/modification-record.model';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
 export class GarbageStationProfileWindow {
   details = new GarbageStationProfileDetailsWindow();
@@ -33,7 +34,8 @@ export class GarbageStationProfileWindow {
     this.filter.show = false;
     this.putout.show = false;
     this.record.material.show = false;
-    this.record.modification.show = false;
+    this.record.modification.table.show = false;
+    this.record.modification.details.show = false;
   }
 }
 
@@ -66,8 +68,32 @@ class GarbageStationProfilePictureWindow extends ClearWindowViewModel {
   };
   urlId?: string;
 }
-class GarbageStationProfileRecordModificationWindow extends ClearWindowViewModel {
+
+class GarbageStationProfileRecordModificationTableWindow extends ClearWindowViewModel {
   style = {};
+}
+class GarbageStationProfileRecordModificationDetailsWindow extends ClearWindowViewModel {
+  override clear(): void {
+    this.model = undefined;
+  }
+  style = {
+    width: '40%',
+    height: 'auto',
+  };
+  model?: ModificationRecordModel;
+}
+
+class GarbageStationProfileRecordModificationWindow {
+  clear() {
+    this.table.clear();
+    this.details.clear();
+  }
+  table = new GarbageStationProfileRecordModificationTableWindow();
+  details = new GarbageStationProfileRecordModificationDetailsWindow();
+  ondetails(model: ModificationRecordModel) {
+    this.details.model = model;
+    this.details.show = true;
+  }
 }
 class GarbageStationProfileRecordMaterialWindow extends ClearWindowViewModel {}
 class GarbageStationProfileRecordWindow {

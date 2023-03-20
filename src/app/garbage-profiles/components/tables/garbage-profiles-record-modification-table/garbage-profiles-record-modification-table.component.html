@@ -12,6 +12,7 @@
       </colgroup>
       <thead>
         <tr>
+          <td mat-sort-header="ProfileName" [disableClear]="true">文档名称</td>
           <td
             mat-sort-header="CreationTime"
             [disableClear]="true"
@@ -19,10 +20,16 @@
           >
             修改时间
           </td>
-          <td>文档名称</td>
-          <td>修改原因</td>
-          <td>修改内容</td>
-          <td>修改人员名称</td>
+
+          <td mat-sort-header="UserLastName" [disableClear]="true">
+            修改人员名称
+          </td>
+          <td mat-sort-header="ModificationReason" [disableClear]="true">
+            修改原因
+          </td>
+          <td mat-sort-header="ModificationContent" [disableClear]="true">
+            修改内容
+          </td>
           <td class="operation center"><div>操作</div></td>
         </tr>
       </thead>
@@ -39,20 +46,20 @@
               height: 'height:calc(100% / ' + page.PageCount + ')'
             }"
           >
-            <td>
+            <td [title]="item.ProfileName">{{ item.ProfileName }}</td>
+            <td [title]="item.CreationTime | date : 'YYYY-MM-dd HH:mm:ss'">
               {{ item.CreationTime | date : "YYYY-MM-dd HH:mm:ss" }}
             </td>
-            <td>{{ item.ProfileName }}</td>
 
-            <td>
+            <td [title]="item.UserLastName">
+              {{ item.UserLastName }}
+            </td>
+            <td [title]="item.ModificationReason">
               {{ item.ModificationReason }}
             </td>
 
-            <td>
+            <td [title]="item.ModificationContent">
               {{ item.ModificationContent }}
-            </td>
-            <td>
-              {{ item.UserLastName }}
             </td>
             <td class="operation center">
               <div

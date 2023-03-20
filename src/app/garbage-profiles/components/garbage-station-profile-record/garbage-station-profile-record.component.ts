@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DateTimePickerView } from 'src/app/common/directives/date-time-picker/date-time-picker.directive';
 import { IBusiness } from 'src/app/common/interfaces/bussiness.interface';
 import { IComponent } from 'src/app/common/interfaces/component.interfact';
@@ -19,7 +19,8 @@ export class GarbageStationProfileRecordComponent
 {
   @Input()
   business: IBusiness<IModel, GarbageStationProfileRecordSource>;
-
+  @Output()
+  details: EventEmitter<ModificationRecordModel> = new EventEmitter();
   constructor(business: GarbageStationProfileRecordBusiness) {
     this.business = business;
   }
@@ -39,6 +40,10 @@ export class GarbageStationProfileRecordComponent
   load: EventEmitter<GarbageProfilesRecordModificationTableArgs> =
     new EventEmitter();
 
-  onsearch() {}
-  ondetails(model: ModificationRecordModel) {}
+  onsearch() {
+    this.load.emit(this.args);
+  }
+  ondetails(model: ModificationRecordModel) {
+    this.details.emit(model);
+  }
 }

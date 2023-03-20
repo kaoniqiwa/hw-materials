@@ -40,20 +40,15 @@ export class GarbageProfilesRecordModificationTableComponent
   @Input()
   args: GarbageProfilesRecordModificationTableArgs =
     new GarbageProfilesRecordModificationTableArgs();
-  @Input()
-  selected?: ModificationRecordModel;
-  @Output()
-  selectedChange: EventEmitter<ModificationRecordModel> = new EventEmitter();
   @Output()
   loaded: EventEmitter<PagedList<ModificationRecordModel>> = new EventEmitter();
-  @Output()
-  picture: EventEmitter<ModificationRecordModel> = new EventEmitter();
   @Output()
   details: EventEmitter<ModificationRecordModel> = new EventEmitter();
 
   constructor(business: GarbageProfilesRecordModificationTableBusiness) {
     super();
     this.business = business;
+    this.pageSize = 9;
   }
   widths: string[] = [];
   ngOnInit(): void {
@@ -70,7 +65,7 @@ export class GarbageProfilesRecordModificationTableComponent
     }
   }
 
-  loadData(index: number, size: number = 10): void {
+  loadData(index: number, size: number = this.pageSize): void {
     this.business.load(index, size, this.args).then((x) => {
       this.page = x.Page;
       this.datas = x.Data;
@@ -81,10 +76,6 @@ export class GarbageProfilesRecordModificationTableComponent
   ondetails(e: Event, item: ModificationRecordModel) {
     e.stopImmediatePropagation();
     this.details.emit(item);
-  }
-  onpicture(e: Event, item: ModificationRecordModel) {
-    e.stopImmediatePropagation();
-    this.picture.emit(item);
   }
 
   sortData(sort: Sort) {

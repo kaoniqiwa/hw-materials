@@ -8,7 +8,7 @@
     </div>
   </div>
   <div class="garbage-station-profile-partial-data-body">
-    <div *ngIf="!!MaterialItems" class="materials">
+    <div *ngIf="!!MaterialItems && MaterialItems.length > 0" class="materials">
       <garbage-station-profile-partial-data-material
         [profileId]="profileId"
         (putout)="onputout($event)"
@@ -16,11 +16,12 @@
       </garbage-station-profile-partial-data-material>
       <!-- <material-item-table [model]="MaterialItems"> </material-item-table> -->
     </div>
-    <div *ngIf="!!Cameras" class="cameras">
+    <div *ngIf="!!Cameras && Cameras.length > 0" class="cameras">
       <garbage-station-profile-partial-data-cameras
         [models]="Cameras"
       ></garbage-station-profile-partial-data-cameras>
     </div>
+    <div *ngIf="isnone" class="none">无记录</div>
   </div>
   <!-- <div class="garbage-station-profile-partial-data-foot">
     <button class="hw-green-btn" (click)="onok()">确定</button>

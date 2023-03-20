@@ -1,6 +1,6 @@
 import { formatDate } from '@angular/common';
 import { TransformationType, TransformFnParams } from 'class-transformer';
-
+import { Base64 } from 'js-base64';
 export function transformDateTime(params: TransformFnParams) {
   if (params.value === undefined || params.value === null) return undefined;
   if (params.type === TransformationType.PLAIN_TO_CLASS) {
@@ -99,6 +99,23 @@ export function transformNumber(params: TransformFnParams) {
   if (params.type === TransformationType.CLASS_TO_PLAIN) {
     if (params.value === 0) {
       return undefined;
+    }
+  }
+  return params.value;
+}
+export function transformBase64(params: TransformFnParams) {
+  if (params.type === TransformationType.PLAIN_TO_CLASS) {
+    if (params.value) {
+      try {
+        if (Base64.isValid(params.value)) {
+          let result = Base64.decode(params.value);
+          console.log(result);
+          return result;
+        }
+      } catch (error) {
+        console.error('transformBase64', error);
+        return params.value;
+      }
     }
   }
   return params.value;

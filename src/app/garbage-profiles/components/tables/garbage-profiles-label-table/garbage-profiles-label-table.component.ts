@@ -64,7 +64,7 @@ export class GarbageProfilesLabelTableComponent
     }
   }
 
-  loadData(index: number, size: number = 10): void {
+  loadData(index: number, size: number = this.pageSize): void {
     this.business.load(index, size, this.args).then((x) => {
       this.page = x.Page;
       this.datas = x.Data;
