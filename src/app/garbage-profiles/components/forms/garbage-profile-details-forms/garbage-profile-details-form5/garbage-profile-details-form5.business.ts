@@ -17,14 +17,14 @@ export class GarbageProfileDetailsForm5Business extends GarbageProfileDetailForm
     super(_garbageStationProfilesRequest);
   }
 
-  async getPropertyByNames(names: string[]) {
-    return Promise.all(
-      names.map((name) =>
-        this.listProperty({
-          Name: name,
-          Category: PropertyCategory.site,
-        })
-      )
-    );
-  }
+  // async getPropertyByNames(names: string[]) {
+  //   return Promise.all(
+  //     names.map((name) =>
+  //       this.listProperty({
+  //         Name: name,
+  //         Category: PropertyCategory.site,
+  //       })
+  //     )
+  //   );
+  // }
 }

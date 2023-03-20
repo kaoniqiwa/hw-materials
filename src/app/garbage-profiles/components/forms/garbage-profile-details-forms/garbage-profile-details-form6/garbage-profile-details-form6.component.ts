@@ -20,9 +20,10 @@ import {
   FormMode,
   _GarbageProfileDetailsFormsBase,
 } from '../garbage-profile-details-forms.common';
-import { ɵstringify } from '@angular/core'
+import { ɵstringify } from '@angular/core';
 import { GarbageProfileDetailsForm6Business } from './garbage-profile-details-form6.business';
 import { Language } from 'src/app/common/tools/language';
+import _ from 'lodash';
 
 @Component({
   selector: 'garbage-profile-details-form6',
@@ -35,13 +36,15 @@ import { Language } from 'src/app/common/tools/language';
 })
 export class GarbageProfileDetailsForm6
   extends _GarbageProfileDetailsFormsBase
-  implements OnInit {
+  implements OnInit
+{
   cameras: Camera[] = [];
   currentIndex = 0;
+  maxLength = 7;
 
   override formGroup = new FormGroup({
-    BsStationId: new FormControl(null, Validators.required),
-    Cameras: new FormArray<FormGroup>([]),
+    BsStationId: new FormControl('', Validators.required),
+    Cameras: new FormArray<FormGroup<{ [key: string]: AbstractControl }>>([]),
   });
   get Cameras() {
     return this.formGroup.get('Cameras') as FormArray;
@@ -66,34 +69,66 @@ export class GarbageProfileDetailsForm6
     }
 
     this.updateFormByPartial();
-    console.log(this.Cameras.value);
+    // console.log(this.Cameras.value);
+  }
+  addCamera() {
+    if (this.Cameras.length < this.maxLength)
+      this.Cameras.push(this.newCamera());
   }
   newCamera() {
     return new FormGroup<{ [key: string]: AbstractControl }>({
       Name: new FormControl(null, Validators.required),
+      Model: new FormControl(null),
+      SerialNo: new FormControl(null),
+      Placement: new FormControl(null),
       BsCameraId: new FormControl(null, Validators.required),
     });
   }
   private async _initByPartial() {
     this.properties = await this.getPropertyByCategory(this.stepIndex + 1);
 
-    let requiredProperties = await this._business.listProperty({
-      Name: 'Name',
-      Category: PropertyCategory.site,
-    });
+    let properties = await this._business.getPropertyByNames([
+      {
+        Name: 'ProfileState',
+      },
+      {
+        Name: 'BsStationId',
+      },
+      {
+        Name: 'Cameras',
+      },
+      {
+        Name: 'Name',
+        Category: PropertyCategory.site,
+      },
+      {
+        Name: 'Model',
+        Category: PropertyCategory.site,
+      },
+      {
+        Name: 'SerialNo',
+      },
+      {
+        Name: 'Placement',
+      },
 
-    this.properties.push(...requiredProperties.flat());
+      {
+        Name: 'BsCameraId',
+      },
+    ]);
+
+    this.properties = properties.flat();
+    console.log(this.properties);
+
     this.partialData = await this.getPartialData(this.properties);
     console.log('partialData', this.partialData);
     if (this.partialData) {
-
       this.profileState = this.partialData['ProfileState'];
     }
-
   }
 
-
   override updateFormByPartial() {
+    super.updateFormByPartial();
     if (this.cameras.length) {
       this.Cameras.clear();
       this.cameras.forEach((v) => {
@@ -114,6 +149,10 @@ export class GarbageProfileDetailsForm6
 
         this.Cameras.push(camera);
       });
+    } else {
+      this.Cameras.clear();
+
+      this.addCamera();
     }
   }
 
@@ -123,7 +162,7 @@ export class GarbageProfileDetailsForm6
 
       return false;
     }
-    this.validateCamera()
+    this.validateCamera();
     return true;
   }
 
@@ -140,8 +179,7 @@ export class GarbageProfileDetailsForm6
           }
         }
       }
-
     }
-    return true
+    return true;
   }
 }

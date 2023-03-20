@@ -6,6 +6,7 @@ import { GetGarbageProfilesBasicDivisionsParams } from 'src/app/network/request/
 import { GarbageProfilesBasicRequestService } from 'src/app/network/request/garbage-profiles/basics/garbage-profiles-basics.service';
 import { GarbageStationProfilesRequestService } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
 import { GarbageProfileDetailFormsBusiness } from '../garbage-profile-details-forms.business';
+import { PropertySearchInfo } from '../garbage-profile-details.model';
 const NULL_KEY = 'null';
 
 @Injectable()
@@ -17,14 +18,5 @@ export class GarbageProfileDetailsForm6Business extends GarbageProfileDetailForm
     super(_garbageStationProfilesRequest);
   }
 
-  async getPropertyByNames(names: string[]) {
-    return Promise.all(
-      names.map((name) =>
-        this.listProperty({
-          Name: name,
-          Category: PropertyCategory.site,
-        })
-      )
-    );
-  }
+  
 }

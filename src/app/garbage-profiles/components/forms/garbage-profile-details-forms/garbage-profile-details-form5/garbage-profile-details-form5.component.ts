@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import _ from 'lodash';
 import { ToastrService } from 'ngx-toastr';
+import { PropertyCategory } from 'src/app/enum/property-category.enum';
 import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/language.tool';
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 import { Camera } from 'src/app/network/entity/camera.entity';
@@ -25,7 +26,8 @@ import { GarbageProfileDetailsForm5Business } from './garbage-profile-details-fo
 })
 export class GarbageProfileDetailsForm5
   extends _GarbageProfileDetailsFormsBase
-  implements OnInit, AfterViewInit {
+  implements OnInit, AfterViewInit
+{
   @ViewChild(GarbageProfileDetailsDynamicForm)
   dynamicForm?: GarbageProfileDetailsDynamicForm;
 
@@ -56,13 +58,25 @@ export class GarbageProfileDetailsForm5
     this.properties = await this.getPropertyByCategory(this.stepIndex + 1);
 
     let requiredProperties = await this._business.getPropertyByNames([
-      'Name',
-      'Model',
-      'SerialNo',
-      'Placement',
+      {
+        Name: 'Cameras',
+      },
+      {
+        Name: 'Name',
+        Category: PropertyCategory.site,
+      },
+      {
+        Name: 'Model',
+        Category: PropertyCategory.site,
+      },
+      {
+        Name: 'SerialNo',
+      },
+      {
+        Name: 'Placement',
+      },
     ]);
-
-    // console.log(requiredProperties.flat());
+    console.log(requiredProperties.flat());
     this.properties.push(...requiredProperties.flat());
 
     console.log(this.properties);
@@ -70,13 +84,11 @@ export class GarbageProfileDetailsForm5
     this.partialData = await this.getPartialData(this.properties);
     console.log('partialData', this.partialData);
     if (this.partialData) {
-
       this.profileState = this.partialData['ProfileState'];
     }
-
   }
-  ngAfterViewInit(): void { }
-  override  updatePartial() {
+  ngAfterViewInit(): void {}
+  override updatePartial() {
     if (this.checkForm() && this.dynamicForm?.checkForm()) {
       if (this.partialData) {
         if (this.partialData['ProfileState'] <= this.stepIndex) {
@@ -95,15 +107,11 @@ export class GarbageProfileDetailsForm5
           }
 
           newData['Cameras'] = this.dynamicForm.getCameras();
-          this.partialRequest.Data = this.partialData
-
+          this.partialRequest.Data = this.partialData;
         } else {
-
           this.partialRequest.ModificationReason = '';
 
           this.partialRequest.ModificationContent = '';
-
-
 
           let oldData = this.partialData;
           let newData = _.cloneDeep(this.formGroup.value);
@@ -113,16 +121,15 @@ export class GarbageProfileDetailsForm5
           newData['Cameras'] = this.dynamicForm.getCameras();
 
           for (let [key, value] of Object.entries(newData)) {
-
             if (key == 'Cameras') {
               let oldCameras = oldData['Cameras'];
-              let newCameras = newData['Cameras']
+              let newCameras = newData['Cameras'];
               for (let i = 0; i < newCameras.length; i++) {
                 let newCamera = newCameras[i];
                 let oldCamera = oldCameras[i];
 
                 if (oldCamera) {
-                  this.partialData['Cameras'][i] = oldCamera
+                  this.partialData['Cameras'][i] = oldCamera;
 
                   for (let [key, value] of Object.entries(oldCamera)) {
                     let oldValue = value;
@@ -131,10 +138,10 @@ export class GarbageProfileDetailsForm5
                     // console.log(key, oldValue, newValue);
 
                     if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
-                      this.simpleChanges['Cameras:' + i + ":" + key] = {
+                      this.simpleChanges['Cameras:' + i + ':' + key] = {
                         OldValue: oldValue,
                         NewValue: newValue,
-                      }
+                      };
 
                       this.partialData['Cameras'][i][key] = newValue;
                     }
@@ -143,7 +150,7 @@ export class GarbageProfileDetailsForm5
                   this.simpleChanges['Cameras:' + (i + 1)] = {
                     OldValue: JSON.stringify({}),
                     NewValue: JSON.stringify(newCamera),
-                  }
+                  };
                   this.partialData['Cameras'][i] = newCamera;
                 }
               }
@@ -157,36 +164,32 @@ export class GarbageProfileDetailsForm5
                 this.simpleChanges[key] = {
                   OldValue: oldValue,
                   NewValue: newValue,
-                }
+                };
                 this.partialData[key] = newValue;
-
               }
             }
-
-
           }
-
 
           if (Object.keys(this.simpleChanges).length) {
             this.hasBeenModified = true;
             this.willBeUpdated = true;
-            this.partialRequest.ModificationContent = JSON.stringify(this.simpleChanges);
-
+            this.partialRequest.ModificationContent = JSON.stringify(
+              this.simpleChanges
+            );
           } else {
             this.hasBeenModified = false;
             this.willBeUpdated = false;
           }
         }
-        this.partialRequest.Data = this.partialData
-
+        this.partialRequest.Data = this.partialData;
       } else {
         this.willBeUpdated = false;
         this.hasBeenModified = false;
       }
-      console.log(this.simpleChanges)
-      console.log(this.partialRequest)
+      console.log(this.simpleChanges);
+      console.log(this.partialRequest);
       return true;
     }
-    return false
+    return false;
   }
 }

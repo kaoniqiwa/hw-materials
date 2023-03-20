@@ -8,7 +8,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import _ from "lodash";
+import _ from 'lodash';
 
 import { FormControlStatus, FormGroup } from '@angular/forms';
 import { instanceToPlain } from 'class-transformer';
@@ -37,8 +37,6 @@ export abstract class _GarbageProfileDetailsFormsBase {
 
   @Input()
   stepIndex = 0;
-
-
 
   @Output() close = new EventEmitter();
 
@@ -86,7 +84,6 @@ export abstract class _GarbageProfileDetailsFormsBase {
     console.log('partialData', this.partialData);
 
     if (this.partialData) {
-
       this.profileState = this.partialData['ProfileState'];
     }
     this.updateFormByPartial();
@@ -102,10 +99,10 @@ export abstract class _GarbageProfileDetailsFormsBase {
     return res;
   }
 
-  protected async getPartialData(propertys: Property[]) {
+  protected getPartialData(propertys: Property[]) {
     if (this.formId) {
       let propertyIds = propertys.map((property) => property.Id);
-      return await this._business.getPartialData(this.formId, propertyIds);
+      return this._business.getPartialData(this.formId, propertyIds);
     }
     return null;
   }
@@ -131,7 +128,7 @@ export abstract class _GarbageProfileDetailsFormsBase {
 
       console.log('result', this.model);
 
-      return this.model
+      return this.model;
     }
     return null;
   }
@@ -152,17 +149,13 @@ export abstract class _GarbageProfileDetailsFormsBase {
               Reflect.set(this.partialData, key, value);
             }
           }
-
         } else {
-
-
           this.partialRequest.ModificationReason = '';
 
           this.partialRequest.ModificationContent = '';
 
           let oldData = this.partialData;
           let newData = _.cloneDeep(this.formGroup.value);
-
 
           for (let [key, value] of Object.entries(newData)) {
             let newValue = value;
@@ -173,34 +166,30 @@ export abstract class _GarbageProfileDetailsFormsBase {
                 this.simpleChanges[key] = {
                   OldValue: oldValue,
                   NewValue: newValue,
-                }
+                };
                 this.partialData[key] = newValue;
-
               }
             }
-
           }
-
-
 
           if (Object.keys(this.simpleChanges).length) {
             this.hasBeenModified = true;
             this.willBeUpdated = true;
-            this.partialRequest.ModificationContent = JSON.stringify(this.simpleChanges);
-
+            this.partialRequest.ModificationContent = JSON.stringify(
+              this.simpleChanges
+            );
           } else {
             this.hasBeenModified = false;
             this.willBeUpdated = false;
           }
         }
-        this.partialRequest.Data = this.partialData
-
+        this.partialRequest.Data = this.partialData;
       } else {
         this.willBeUpdated = false;
         this.hasBeenModified = false;
       }
-      console.log(this.simpleChanges)
-      console.log(this.partialRequest)
+      console.log(this.simpleChanges);
+      console.log(this.partialRequest);
       return true;
     }
     return false;
@@ -293,14 +282,14 @@ export abstract class _GarbageProfileDetailsFormsBase {
             this.showModify = true;
           } else {
             let res = await this._business.updatePartial(this.partialRequest);
-            console.log(res)
+            console.log(res);
 
             if (res.Succeed) {
               this._toastrService.success('操作成功');
 
               this.close.emit();
             } else {
-              this.partialData!['ProfileState'] = this.profileState
+              this.partialData!['ProfileState'] = this.profileState;
               this._toastrService.success('操作失败');
             }
           }
@@ -310,7 +299,6 @@ export abstract class _GarbageProfileDetailsFormsBase {
           this.close.emit();
         }
       }
-
     }
   }
   async clickNext() {
@@ -331,13 +319,13 @@ export abstract class _GarbageProfileDetailsFormsBase {
           } else {
             let res = await this._business.updatePartial(this.partialRequest);
 
-            console.log(res)
+            console.log(res);
             if (res.Succeed) {
               this._toastrService.success('操作成功');
 
               this.next.emit(res.Id);
             } else {
-              this.partialData!['ProfileState'] = this.profileState
+              this.partialData!['ProfileState'] = this.profileState;
               this._toastrService.error('操作失败');
             }
           }
@@ -346,8 +334,6 @@ export abstract class _GarbageProfileDetailsFormsBase {
           this.next.emit(this.formId);
         }
       }
-
-
     }
   }
   diff(oldObj: Record<string, any>, newObj: Record<string, any>) {
@@ -360,11 +346,9 @@ export abstract class _GarbageProfileDetailsFormsBase {
           this.simpleChanges[key] = {
             OldValue: oldValue,
             NewValue: newValue,
-          }
+          };
         }
       }
-
     }
   }
 }
-
