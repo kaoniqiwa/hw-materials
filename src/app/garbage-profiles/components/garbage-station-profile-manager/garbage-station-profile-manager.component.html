@@ -101,7 +101,7 @@
 <toast-window *ngIf="window.details.show" (closeEvent)="ondetailsclose()">
   <garbage-profile-details-manager
     [formId]="window.details.selected"
-    [state]="window.details.state"
+    [formState]="window.details.state"
     (closeDetails)="closeAndUpdate()"
     (updateDetails)="ondetailsupdate()"
   >

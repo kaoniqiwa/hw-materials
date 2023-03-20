@@ -31,10 +31,13 @@ export enum FormMode {
 @Directive({})
 export abstract class _GarbageProfileDetailsFormsBase {
   @Input()
+  profileState = 0;
+
+  @Input()
   formId?: string;
 
   @Input()
-  state: FormState = FormState.none;
+  formState: FormState = FormState.none;
 
   @Input()
   stepIndex = 0;
@@ -47,7 +50,6 @@ export abstract class _GarbageProfileDetailsFormsBase {
 
   FormState = FormState;
   maxState = 6;
-  profileState = 0;
 
   partialRequest = new PartialRequest();
   simpleChanges: Record<string, any> = {};
@@ -273,13 +275,13 @@ export abstract class _GarbageProfileDetailsFormsBase {
     this.clickMode = 'save';
     let res: GarbageStationProfile | null | PartialResult<any> = null;
 
-    if (this.state == FormState.add) {
+    if (this.formState == FormState.add) {
       res = await this.createModel();
       if (res) {
         this._toastrService.success('操作成功');
         this.close.emit();
       }
-    } else if (this.state == FormState.edit) {
+    } else if (this.formState == FormState.edit) {
       if (this.updatePartial()) {
         if (this.willBeUpdated) {
           if (this.hasBeenModified) {
@@ -309,13 +311,13 @@ export abstract class _GarbageProfileDetailsFormsBase {
     this.clickMode = 'next';
     let res: GarbageStationProfile | null | PartialResult<any> | -1 = null;
 
-    if (this.state == FormState.add) {
+    if (this.formState == FormState.add) {
       res = await this.createModel();
       if (res) {
         this._toastrService.success('操作成功');
         this.next.emit(res.Id);
       }
-    } else if (this.state == FormState.edit) {
+    } else if (this.formState == FormState.edit) {
       if (this.updatePartial()) {
         if (this.willBeUpdated) {
           if (this.hasBeenModified) {

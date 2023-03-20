@@ -192,14 +192,14 @@
       class="hw-green-btn"
       type="button"
       (click)="clickCreate()"
-      *ngIf="state == FormState.add"
+      *ngIf="formState == FormState.add"
     >
       创建
     </button>
     <button
       class="hw-green-btn"
       type="button"
-      *ngIf="state == FormState.edit"
+      *ngIf="formState == FormState.edit"
       (click)="clickSave()"
     >
       保存

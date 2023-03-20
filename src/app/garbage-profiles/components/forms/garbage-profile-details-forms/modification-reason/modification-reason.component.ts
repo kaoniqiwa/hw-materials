@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -9,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 export class ModificationReasonComponent {
   @Output() confirmEvent = new EventEmitter();
 
+  maxLength = 200;
   reason = '';
 
   constructor(protected _toastrService: ToastrService) {}
@@ -17,6 +19,13 @@ export class ModificationReasonComponent {
       this.confirmEvent.emit(this.reason);
     } else {
       this._toastrService.warning('请输入修改原因');
+    }
+  }
+  down(e: KeyboardEvent) {
+    let key = e.key.toLocaleLowerCase();
+
+    if (this.reason.length >= this.maxLength) {
+      e.preventDefault();
     }
   }
 }

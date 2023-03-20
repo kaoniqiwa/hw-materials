@@ -37,7 +37,7 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
   jumpState = 0;
 
   @Input()
-  state: FormState = FormState.none;
+  formState: FormState = FormState.none;
 
   private _selectedIndex = 0;
   @Input()
@@ -79,7 +79,7 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
   constructor(
     private _changeDetector: ChangeDetectorRef,
     private _business: ProfileDetailsBusiness
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this._init();
@@ -99,9 +99,7 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
 
     this._changeDetector.detectChanges();
   }
-  ngAfterViewInit(): void {
-
-  }
+  ngAfterViewInit(): void {}
   selectionChange(e: StepperSelectionEvent) {
     // console.log('selection change', e);
 
@@ -117,11 +115,10 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
     this.closeDetails.emit();
   }
   async nextEvent(id: string) {
-
     if (!this.formId) {
       this.formId = id;
     }
-    this.state = FormState.edit;
+    this.formState = FormState.edit;
     await this._updateState();
 
     this.matStepper?.next();
