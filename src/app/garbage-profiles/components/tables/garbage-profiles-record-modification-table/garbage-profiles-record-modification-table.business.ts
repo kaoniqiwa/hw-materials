@@ -20,12 +20,18 @@ export class GarbageProfilesRecordModificationTableBusiness
     private service: GarbageProfilesRecordRequestService,
     private converter: ViewModelConverter
   ) {}
-  load(
+  async load(
     index: number,
     size: number = 10,
     args: GarbageProfilesRecordModificationTableArgs
   ): Promise<PagedList<ModificationRecordModel>> {
-    throw new Error('Method not implemented.');
+    let data = await this.getData(index, size, args);
+    let paged = new PagedList<ModificationRecordModel>();
+    paged.Page = data.Page;
+    paged.Data = data.Data.map((x) => {
+      return this.converter.record.modification.convert(x);
+    });
+    return paged;
   }
   getData(
     index: number,

@@ -82,11 +82,24 @@
 </app-window> -->
 
 <app-window
-  [Model]="window.record.modification"
-  [style]="window.record.modification.style"
-  *ngIf="window.record.modification.show"
+  [Model]="window.record.modification.table"
+  [style]="window.record.modification.table.style"
+  *ngIf="window.record.modification.table.show"
 >
-  <garbage-station-profile-record> </garbage-station-profile-record>
+  <garbage-station-profile-record
+    (details)="window.record.modification.ondetails($event)"
+  >
+  </garbage-station-profile-record>
+</app-window>
+<app-window
+  [Model]="window.record.modification.details"
+  [style]="window.record.modification.details.style"
+  *ngIf="window.record.modification.details.show"
+>
+  <garbage-station-profile-record-details
+    [model]="window.record.modification.details.model"
+  >
+  </garbage-station-profile-record-details>
 </app-window>
 
 <!-- <toast-window *ngIf="window.details.show" (closeEvent)="closeAndUpdate()">

@@ -97,11 +97,9 @@ export class GarbageStationProfileManagerComponent implements OnInit {
     switch (model.model.PropertyId) {
       case 'Cameras':
       case 'MaterialItems':
-        if ((model.model.Value as any[]).length > 0) {
-          this.window.partial.model = model.model;
-          this.window.partial.id = model.profileId;
-          this.window.partial.show = true;
-        }
+        this.window.partial.model = model.model;
+        this.window.partial.id = model.profileId;
+        this.window.partial.show = true;
 
         break;
 
@@ -120,7 +118,7 @@ export class GarbageStationProfileManagerComponent implements OnInit {
   }
 
   onrecord() {
-    this.window.record.modification.show = true;
+    this.window.record.modification.table.show = true;
   }
 
   todelete() {

@@ -1,0 +1,66 @@
+<!-- <div class="garbage-station-profile-table vertical-layout">
+  <div class="garbage-station-profile-table-main vertical-main">
+    <table
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      matSort
+      (matSortChange)="sortData($event)"
+    >
+      <colgroup>
+        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+      </colgroup>
+      <thead>
+        <tr>
+          <td
+            *ngFor="let name of names"
+            [mat-sort-header]="name"
+            [disableClear]="true"
+            [class]="name"
+            [start]="name === 'UpdateTime' ? 'desc' : ''"
+          >
+            {{ language[name] }}
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let item of datas; let i = index"
+          [ngClass]="{
+            selected: this.selected === item
+          }"
+          (click)="onselected(item)"
+        >
+          <td *ngFor="let name of names" [class]="name">
+            <div
+              (click)="onitemclick($event, item, name)"
+              [innerHTML]="item[name + 'View']"
+            ></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="garbage-station-profile-table-main-footer footer" *ngIf="page">
+    <div class="footer-item">
+      <div class="footer-info">
+        <div class="info-item">当前数量: {{ page && page.RecordCount }}</div>
+        <div class="info-item">总数量: {{ page && page.TotalRecordCount }}</div>
+      </div>
+
+      <app-paginator
+        [length]="page ? page.TotalRecordCount : 0"
+        [pageSize]="page ? page.PageSize : 0"
+        [pagerCount]="5"
+        [pageIndex]="0"
+        [showFirstLastButtons]="true"
+        (page)="pageEvent($event)"
+      >
+      </app-paginator>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+</div> -->

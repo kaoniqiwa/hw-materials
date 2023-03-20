@@ -75,7 +75,7 @@ export class GarbageProfilesMaterialTableComponent
       }
     }
   }
-  loadData(index: number, size: number = 10): void {
+  loadData(index: number, size: number = this.pageSize): void {
     this.business.load(this.args, index, size).then((paged) => {
       this.page = paged.Page;
       this.datas = paged.Data;

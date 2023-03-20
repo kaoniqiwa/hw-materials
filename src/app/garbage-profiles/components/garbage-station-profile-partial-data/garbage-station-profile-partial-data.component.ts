@@ -35,7 +35,15 @@ export class GarbageStationProfilePartialDataComponent implements OnInit {
 
   MaterialItems?: MaterialItemModel[];
   Cameras?: Camera[];
-
+  get isnone() {
+    let result = true;
+    if (this.Cameras && this.Cameras.length > 0) {
+      result = false;
+    } else if (this.MaterialItems && this.MaterialItems.length > 0) {
+      result = false;
+    }
+    return result;
+  }
   onputout(model: IObjectModel) {
     this.putout.emit(model);
   }

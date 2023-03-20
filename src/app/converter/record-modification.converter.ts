@@ -35,7 +35,7 @@ export class ModificationRecordConverter
       let model = plainToInstance(ModificationRecordModel, plain);
 
       if (source.ProfileId) {
-        model.Profile = this.service.cache.get(source.ProfileId).then((x) => {
+        model.Profile = this.service.get(source.ProfileId).then((x) => {
           return this.garbage_station_profile.convert(x);
         });
       }
