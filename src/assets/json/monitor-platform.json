@@ -23,6 +23,11 @@
           "id": "label-manager",
           "path": "/garbage-profiles/underwater/monitor-platform/station-archive/label-manager",
           "hideSelf": true
+        },
+        {
+          "title": "维修工单档案",
+          "id": "maintenance-manager",
+          "path": "/garbage-profiles/underwater/monitor-platform/station-archive/maintenance-manager"
         }
       ]
     }
