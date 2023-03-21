@@ -29,6 +29,7 @@ import { GarbageStationProfileSettingComponent } from './garbage-station-profile
 import { HowellPictureControlComponent } from './howell-picture-control/howell-picture-control.component';
 import { HowellPictureUploadControlComponent } from './howell-picture-upload-control/howell-picture-upload-control.component';
 import { MaintenanceProfileDetailsManagerComponent } from './maintenance-profile-details-manager/maintenance-profile-details-manager.component';
+import { MaintenanceProfileFilterComponent } from './maintenance-profile-filter/maintenance-profile-filter.component';
 import { MaintenanceProfileManagerComponent } from './maintenance-profile-manager/maintenance-profile-manager.component';
 import { MaintenanceProfileSettingComponent } from './maintenance-profile-setting/maintenance-profile-setting.component';
 import { MonitorPlatformComponent } from './monitor-platform/monitor-platform.component';
@@ -77,6 +78,7 @@ import { UnderwaterComponent } from './underwater/underwater.component';
 
     MaintenanceProfileManagerComponent,
     MaintenanceProfileSettingComponent,
+    MaintenanceProfileFilterComponent,
     MaintenanceProfileDetailsManagerComponent,
   ],
   imports: [

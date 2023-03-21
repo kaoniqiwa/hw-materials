@@ -1,28 +1,29 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonFlatNode } from 'src/app/common/components/common-tree/common-flat-node.model';
 import { DateTimePickerView } from 'src/app/common/directives/date-time-picker/date-time-picker.directive';
-import { GarbageStationProfilesLanguageTools } from '../../tools/garbage-station-profile-language.tool';
-import { GarbageStationProfilesSourceTools } from '../../tools/garbage-station-profile-source.tool';
-import { GarbageStationProfileTableArgs } from '../tables/garbage-station-profile-table/garbage-station-profile-table.model';
+import { MaintenanceProfilesLanguageTools } from '../../tools/maintenance-profile-language.too';
+
+import { MaintenanceProfilesSourceTools } from '../../tools/maintenance-profile-source.tool';
+import { MaintenanceProfileTableArgs } from '../tables/maintenance-profile-table/maintenance-profile-table.model';
 
 @Component({
-  selector: 'garbage-station-profile-filter',
-  templateUrl: './garbage-station-profile-filter.component.html',
-  styleUrls: ['./garbage-station-profile-filter.component.less'],
+  selector: 'maintenance-profile-filter',
+  templateUrl: './maintenance-profile-filter.component.html',
+  styleUrls: ['./maintenance-profile-filter.component.less'],
 })
-export class GarbageStationProfileFilterComponent implements OnInit {
+export class MaintenanceProfileFilterComponent implements OnInit {
   @Input()
-  args: GarbageStationProfileTableArgs = new GarbageStationProfileTableArgs();
+  args: MaintenanceProfileTableArgs = new MaintenanceProfileTableArgs();
   @Output()
-  argsChange: EventEmitter<GarbageStationProfileTableArgs> = new EventEmitter();
+  argsChange: EventEmitter<MaintenanceProfileTableArgs> = new EventEmitter();
   @Output()
-  ok: EventEmitter<GarbageStationProfileTableArgs> = new EventEmitter();
+  ok: EventEmitter<MaintenanceProfileTableArgs> = new EventEmitter();
   @Output()
   cancel: EventEmitter<void> = new EventEmitter();
 
   constructor(
-    public source: GarbageStationProfilesSourceTools,
-    public language: GarbageStationProfilesLanguageTools
+    public source: MaintenanceProfilesSourceTools,
+    public language: MaintenanceProfilesLanguageTools
   ) {}
 
   DateTimePickerView = DateTimePickerView;
@@ -34,18 +35,9 @@ export class GarbageStationProfileFilterComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.manager.label.select.subscribe((x) => {
-      this.args.labels = x;
-    });
     this.manager.material.select.subscribe((x) => {
       this.args.materials = x;
     });
-    this.manager.function.select.subscribe((x) => {
-      this.args.functions = x;
-    });
-    this.manager.material.ids = this.args.materials.map((x) => x.toString());
-    console.log(this.args);
-    console.log(this.manager);
   }
 
   onStrongCurrentWire() {
@@ -62,7 +54,7 @@ export class GarbageStationProfileFilterComponent implements OnInit {
     this.manager.material.nodes = [];
     this.manager.function.nodes = [];
     this.args.duration;
-    this.args = new GarbageStationProfileTableArgs();
+    this.args = new MaintenanceProfileTableArgs();
 
     this.argsChange.emit(this.args);
   }
@@ -75,7 +67,7 @@ class LabelTreeManager {
   select: EventEmitter<number[]> = new EventEmitter();
 
   nodes: CommonFlatNode[] = [];
-  ids: Array<string> = [];
+  ids: string[] = [];
   onselected(nodes: CommonFlatNode[]) {
     this.nodes = nodes;
     let ids = nodes.map((x) => parseInt(x.Id));

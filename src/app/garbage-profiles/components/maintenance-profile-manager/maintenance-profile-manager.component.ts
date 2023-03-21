@@ -73,4 +73,11 @@ export class MaintenanceProfileManagerComponent {
       this.window.details.show = true;
     }
   }
+  tofilter() {
+    this.window.filter.show = true;
+  }
+  onfilter(args: MaintenanceProfileTableArgs) {
+    this.load.emit(args);
+    this.onwindowclose();
+  }
 }

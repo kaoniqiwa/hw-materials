@@ -1,0 +1,165 @@
+<div class="maintenance-profile-filter">
+  <div class="maintenance-profile-filter-head">
+    <div class="hw-simple-title">档案筛选</div>
+  </div>
+  <div class="maintenance-profile-filter-body">
+    <div class="filter-item row">
+      <div class="filter-item-title">综合查询：</div>
+      <div class="filter-item-control">
+        <input type="text" [(ngModel)]="args.name" />
+      </div>
+    </div>
+    <div class="filter-item row">
+      <div class="filter-item-title">物料：</div>
+      <div class="filter-item-control">
+        <common-label-select
+          class="common-label-select"
+          [selectedNodes]="manager.material.nodes"
+          (toggleDropDown)="manager.material.ontoggle($event)"
+          [autoclose]="true"
+        >
+          <howell-material-tree
+            #tree
+            [defaultIds]="manager.material.ids"
+            (selectTreeNode)="manager.material.onselected($event)"
+          ></howell-material-tree>
+        </common-label-select>
+      </div>
+    </div>
+    <div class="filter">
+      <div class="filter-item">
+        <div class="filter-item-title">开始时间：</div>
+        <div class="filter-item-control">
+          <input
+            type="text"
+            DateTimePicker
+            [format]="'yyyy年MM月dd日'"
+            [startView]="DateTimePickerView.month"
+            [minView]="DateTimePickerView.month"
+            [(date)]="args.duration.begin"
+            class=""
+          />
+        </div>
+      </div>
+      <div class="filter-item">
+        <div class="filter-item-title">结束时间：</div>
+        <div class="filter-item-control">
+          <input
+            type="text"
+            DateTimePicker
+            [format]="'yyyy年MM月dd日'"
+            [startView]="DateTimePickerView.month"
+            [minView]="DateTimePickerView.month"
+            [(date)]="args.duration.end"
+            class=""
+          />
+        </div>
+      </div>
+      <div class="filter-item">
+        <div class="filter-item-title">{{ language["ProfileState"] }}：</div>
+        <div class="filter-item-control">
+          <select [(ngModel)]="args.enums['ProfileState']">
+            <option [ngValue]="undefined">全部</option>
+            <option
+              *ngFor="let item of source.ProfileState"
+              [ngValue]="item.Value"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="filter-item">
+        <div class="filter-item-title">{{ language["ProfileType"] }}：</div>
+        <div class="filter-item-control">
+          <select [(ngModel)]="args.enums['ProfileType']">
+            <option [ngValue]="undefined">全部</option>
+            <option
+              *ngFor="let item of source.ProfileType"
+              [ngValue]="item.Value"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="filter-item">
+        <div class="filter-item-title">{{ language["MaintenanceType"] }}：</div>
+        <div class="filter-item-control">
+          <select [(ngModel)]="args.enums['MaintenanceType']">
+            <option [ngValue]="undefined">全部</option>
+            <option
+              *ngFor="let item of source.MaintenanceType"
+              [ngValue]="item.Value"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="filter-item">
+        <div class="filter-item-title">{{ language["FaultType"] }}：</div>
+        <div class="filter-item-control">
+          <select [(ngModel)]="args.enums['FaultType']">
+            <option [ngValue]="undefined">全部</option>
+            <option
+              *ngFor="let item of source.FaultType"
+              [ngValue]="item.Value"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="filter-item">
+        <div class="filter-item-title">
+          {{ language["ConstructionState"] }}：
+        </div>
+        <div class="filter-item-control">
+          <select [(ngModel)]="args.enums['ConstructionState']">
+            <option [ngValue]="undefined">全部</option>
+            <option
+              *ngFor="let item of source.ConstructionState"
+              [ngValue]="item.Value"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="filter-item">
+        <div class="filter-item-title">{{ language["OutOfTime"] }}：</div>
+        <div class="filter-item-control">
+          <select [(ngModel)]="args.enums['OutOfTime']">
+            <option [ngValue]="undefined">全部</option>
+            <option
+              *ngFor="let item of source.OutOfTime"
+              [ngValue]="item.Value"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="filter-item">
+        <div class="filter-item-title">{{ language["ProfileState"] }}：</div>
+        <div class="filter-item-control">
+          <select [(ngModel)]="args.enums['ProfileState']">
+            <option [ngValue]="undefined">全部</option>
+            <option
+              *ngFor="let item of source.ProfileState"
+              [ngValue]="item.Value"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="maintenance-profile-filter-foot">
+    <button class="hw-cyan-btn" (click)="onreset()">清空</button>
+    <button class="hw-green-btn" (click)="onok()">搜索</button>
+    <button class="hw-blue-btn" (click)="oncancel()">取消</button>
+  </div>
+</div>

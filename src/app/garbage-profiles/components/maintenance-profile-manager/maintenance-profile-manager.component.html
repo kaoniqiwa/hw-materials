@@ -86,3 +86,13 @@
     [formState]="window.details.formState"
   ></maintenance-profile-details-manager>
 </app-window>
+<app-window
+  [Model]="window.filter"
+  [style]="window.filter.style"
+  *ngIf="window.filter.show"
+>
+  <maintenance-profile-filter
+    [(args)]="args"
+    (ok)="onfilter($event)"
+  ></maintenance-profile-filter>
+</app-window>

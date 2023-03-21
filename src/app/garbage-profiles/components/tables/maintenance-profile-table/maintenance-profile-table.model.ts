@@ -11,6 +11,8 @@ export class MaintenanceProfileTableArgs {
   tableIds?: string[];
   name?: string;
 
+  materials: number[] = [];
+
   asc?: string;
   desc?: string;
 

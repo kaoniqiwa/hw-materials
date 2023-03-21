@@ -1,0 +1,74 @@
+.maintenance-profile-filter {
+  width: 100%;
+  height: 100%;
+
+  @head-height: 70px;
+  @foot-height: 70px;
+  color: #cfd7ff;
+
+
+  &-head {
+    height: @head-height;
+  }
+
+  &-body {
+    height: calc(100% - @head-height - @foot-height);
+    overflow-y: auto;
+
+
+    .filter {
+      display: flex;
+      justify-content: start;
+      flex-wrap: wrap;
+
+      &-item {
+        display: flex;
+        align-items: center;
+        margin-right: 20px;
+        margin: 10px;
+        width: 370px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+
+        &-title {
+          width: 160px;
+          text-align: right;
+        }
+
+        &-control {
+          width: calc(100% - 160px);
+          height: 36px;
+
+          &>* {
+            width: 100%;
+          }
+
+          .common-label-select {
+            width: 600px;
+            position: absolute;
+            height: 0;
+          }
+        }
+
+        &.row {
+          width: 760px;
+
+          & .filter-item {
+            &-title {}
+
+          }
+        }
+      }
+    }
+
+  }
+
+  &-foot {
+    height: @foot-height;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

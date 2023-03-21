@@ -107,10 +107,9 @@ export class GarbageStationProfileTableBusiness
     if (args.functions && args.functions.length > 0) {
       conditions.push(this.getConditionByFunctions(args.functions));
     }
-    // if (args.materials && args.materials.length > 0) {
-    //   let match = new ElemMatch();
-    //   match.PropertyId = "M"
-    // }
+    if (args.materials && args.materials.length > 0) {
+      conditions.push(this.getConditionByMaterials(args.materials));
+    }
 
     for (const key in args.enums) {
       let value = args.enums[key];
@@ -140,6 +139,14 @@ export class GarbageStationProfileTableBusiness
     let condition = new Condition<number[]>();
     condition.Value = value;
     condition.PropertyId = 'Functions';
+    condition.Operator = ConditionOperator.In;
+    condition.OrGroup = 1;
+    return condition;
+  }
+  private getConditionByMaterials(value: number[]) {
+    let condition = new Condition<number[]>();
+    condition.Value = value;
+    condition.PropertyId = 'MaterialItems.Id';
     condition.Operator = ConditionOperator.In;
     condition.OrGroup = 1;
     return condition;
