@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HowellModule } from 'src/app/common/howell.module';
 import { MaterialModule } from 'src/app/material.module';
+import { CUSTOM_PIPES } from '../pipes';
 import { FormComponents } from './forms';
 import { GarbageProfileDetailsManager } from './garbage-profile-details-manager/garbage-profile-details-manager.component';
 import { GarbageProfilesLabelDetailsComponent } from './garbage-profiles-label-details/garbage-profiles-label-details.component';
@@ -27,6 +28,7 @@ import { GarbageStationProfileRecordComponent } from './garbage-station-profile-
 import { GarbageStationProfileSettingComponent } from './garbage-station-profile-setting/garbage-station-profile-setting.component';
 import { HowellPictureControlComponent } from './howell-picture-control/howell-picture-control.component';
 import { HowellPictureUploadControlComponent } from './howell-picture-upload-control/howell-picture-upload-control.component';
+import { MaintenanceProfileManagerComponent } from './maintenance-profile-manager/maintenance-profile-manager.component';
 import { MonitorPlatformComponent } from './monitor-platform/monitor-platform.component';
 import { StationArchiveComponent } from './station-archive/station-archive.component';
 import { SystemModeComponent } from './system-mode/system-mode.component';
@@ -39,6 +41,7 @@ import { UnderwaterComponent } from './underwater/underwater.component';
     ...TableComponents,
     ...TreeComponents,
     ...FormComponents,
+    ...CUSTOM_PIPES,
     MonitorPlatformComponent,
     SystemModeComponent,
     UnderwaterComponent,
@@ -69,6 +72,8 @@ import { UnderwaterComponent } from './underwater/underwater.component';
 
     HowellPictureControlComponent,
     HowellPictureUploadControlComponent,
+
+    MaintenanceProfileManagerComponent,
   ],
   imports: [
     MaterialModule,

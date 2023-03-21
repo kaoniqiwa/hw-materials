@@ -34,6 +34,12 @@
           <td *ngFor="let name of names" [class]="name">
             <div
               (click)="onitemclick($event, item, name)"
+              [ngStyle]="{
+                color:
+                  name === 'ProfileState'
+                    ? (item[name] | garbage_station_profile_state_color_pipe)
+                    : undefined
+              }"
               [innerHTML]="item[name + 'View']"
             ></div>
           </td>

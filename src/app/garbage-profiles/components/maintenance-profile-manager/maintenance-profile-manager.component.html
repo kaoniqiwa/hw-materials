@@ -1,1 +1,63 @@
-<p>maintenance-profile-manager works!</p>
+<div class="garbage-station-profile-manager">
+  <div class="garbage-station-profile-manager-head">
+    <div>
+      <div class="hw-simple-title">维修工单档案管理</div>
+    </div>
+    <div class="garbage-station-profile-manager-head-operation">
+      <div class="operation">
+        <button class="hw-blue-btn">
+          <i class="howell-icon-History"></i> 操作记录
+        </button>
+        <button class="hw-blue-btn">
+          <i class="howell-icon-export"></i> 导出
+        </button>
+        <button class="hw-blue-btn">
+          <i class="howell-icon-settingoutline"></i> 设置
+        </button>
+        <button class="hw-green-btn">
+          <i class="howell-icon-plus"></i> 添加
+        </button>
+
+        <!-- <button class="hw-red-btn" (click)="todelete()" *ngIf="!!selected">
+          <i class="howell-icon-delete-bin"></i> 删除
+        </button> -->
+        <!-- <button class="hw-cyan-btn" *ngIf="!!selected" (click)="onmodify()">
+          <i class="howell-icon-modification"></i> 编辑
+        </button> -->
+      </div>
+      <div class="filter">
+        <div class="filter-item">
+          <div class="filter-item-title">{{ language["ProfileState"] }}：</div>
+          <div class="filter-item-control">
+            <select [(ngModel)]="args.enums['ProfileState']">
+              <option [ngValue]="undefined">全部</option>
+              <option
+                *ngFor="let item of source.ProfileState"
+                [ngValue]="item.Value"
+              >
+                {{ item.Name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="filter-item">
+          <div class="filter-item-title">综合查询：</div>
+          <div class="filter-item-control">
+            <input type="text" [(ngModel)]="args.name" />
+          </div>
+        </div>
+
+        <button class="hw-blue-btn">
+          <i class="howell-icon-search"></i> 搜索
+        </button>
+        <button class="hw-blue-btn">
+          <i class="mdi mdi-filter-outline"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="garbage-station-profile-manager-content">
+    <maintenance-profile-table [args]="args" [load]="load">
+    </maintenance-profile-table>
+  </div>
+</div>

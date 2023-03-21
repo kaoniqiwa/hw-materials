@@ -10,7 +10,12 @@
       <div class="hw-simple-title-1">
         {{ language["ProfileState-" + item.ProfileState] }}
       </div>
-      <div class="hw-simple-title" [class]="'state-' + item.ProfileState">
+      <div
+        class="hw-simple-title"
+        [ngStyle]="{
+          color: item.ProfileState | garbage_station_profile_state_color_pipe
+        }"
+      >
         {{ item.Number }}
       </div>
       <!-- <card>

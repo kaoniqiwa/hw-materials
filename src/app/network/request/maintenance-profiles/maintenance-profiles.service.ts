@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 import { instanceToPlain } from 'class-transformer';
+import { wait } from 'src/app/common/tools/tool';
 import { ExcelUrl } from '../../entity/excel-url.entity';
 import { MaintenanceProfile } from '../../entity/maintenance-profile.entity';
 import { PartialData } from '../../entity/partial-data.interface';
 import { ProfileStateStatisticResult } from '../../entity/profile-state-statistic-result.entity';
 import { Property } from '../../entity/property.entity';
+import { ValueNamePair } from '../../entity/value-name-pair.entity';
 import { MaintenanceProfilesUrl } from '../../url/maintenance-profiles/maintenance-profiles.url';
 import {
   BaseRequestService,
   BaseTypeRequestService,
 } from '../base-request.service';
-import { GetPropertiesParams } from '../garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
 import { HowellAuthHttpService } from '../howell-auth-http.service';
 import {
   ConstructionApplyParams,
@@ -19,6 +20,7 @@ import {
   DistributeMaintenanceProfileParams,
   GetMaintenanceProfilePartialDatasExcelParams,
   GetMaintenanceProfilePartialDatasParams,
+  GetMaintenanceProfilePropertiesParams,
   GetMaintenanceProfilesParams,
   GetMaintenanceProfileStateStatisticsParams,
   SubmitMaintenanceProfileParams,
@@ -105,8 +107,37 @@ export class MaintenanceProfileRequestService {
 }
 class MaintenanceProfilePropertiesRequestService {
   private type: BaseTypeRequestService<Property>;
+  private properties: Property[] = [];
+  private loading = false;
   constructor(private basic: BaseRequestService) {
     this.type = this.basic.type(Property);
+  }
+
+  all(): Promise<Property[]> {
+    return new Promise((resolve) => {
+      wait(
+        () => {
+          return this.load();
+        },
+        () => {
+          resolve(this.properties);
+        }
+      );
+    });
+  }
+  load() {
+    if (this.loading) {
+      return false;
+    }
+    if (this.properties && this.properties.length > 0) {
+      return true;
+    }
+    this.loading = true;
+    this.list().then((x) => {
+      this.properties = x.Data;
+      this.loading = false;
+    });
+    return false;
   }
   get(id: string) {
     let url = MaintenanceProfilesUrl.properties().item(id);
@@ -121,10 +152,58 @@ class MaintenanceProfilePropertiesRequestService {
     let url = MaintenanceProfilesUrl.properties().item(id);
     return this.type.delete(url);
   }
-  list(instance: GetPropertiesParams) {
+  list(
+    instance: GetMaintenanceProfilePropertiesParams = new GetMaintenanceProfilePropertiesParams()
+  ) {
     let url = MaintenanceProfilesUrl.properties().list();
     let plain = instanceToPlain(instance);
     return this.type.paged(url, plain);
+  }
+
+  getEnums(): Promise<Property[]> {
+    return new Promise((resolve) => {
+      wait(
+        () => {
+          return this.load();
+        },
+        () => {
+          let properties = this.properties.filter((x) => {
+            return x.EnumeratedValues && x.EnumeratedValues.length > 0;
+          });
+          resolve(properties);
+        }
+      );
+    });
+  }
+  async language(name: string): Promise<string> {
+    return new Promise((resolve) => {
+      wait(
+        () => {
+          return this.load();
+        },
+        () => {
+          let property = this.properties.find((x) => x.Name === name);
+          if (property) {
+            resolve(property.Description);
+          }
+        }
+      );
+    });
+  }
+  async getEnumByName(name: string): Promise<ValueNamePair[]> {
+    return new Promise((resolve) => {
+      wait(
+        () => {
+          return this.load();
+        },
+        () => {
+          let property = this.properties.find((x) => x.Name === name);
+          if (property && property.EnumeratedValues) {
+            resolve(property.EnumeratedValues);
+          }
+        }
+      );
+    });
   }
 }
 class MaintenanceProfilePartialDatasRequestService {
