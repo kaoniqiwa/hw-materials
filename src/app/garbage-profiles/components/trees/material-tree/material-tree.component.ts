@@ -45,6 +45,8 @@ export class MaterialTreeComponent extends CommonTree implements OnInit {
     super();
   }
 
+  loaded: EventEmitter<void> = new EventEmitter();
+
   ngOnInit(): void {
     this._init();
   }
@@ -54,6 +56,7 @@ export class MaterialTreeComponent extends CommonTree implements OnInit {
     let res = await this._business.init(this._condition);
     // console.log(res);
     this.dataSubject.next(res);
+    this.loaded.emit();
   }
   async searchEventHandler(condition: string) {
     console.log('搜索字段', condition);

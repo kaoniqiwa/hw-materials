@@ -53,7 +53,6 @@ export class MaintenanceProfilePropertyTreeComponent
   ) {
     super();
   }
-
   ngOnInit(): void {
     this._init();
   }

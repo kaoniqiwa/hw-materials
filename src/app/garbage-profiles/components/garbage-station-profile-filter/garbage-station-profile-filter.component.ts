@@ -44,8 +44,8 @@ export class GarbageStationProfileFilterComponent implements OnInit {
       this.args.functions = x;
     });
     this.manager.material.ids = this.args.materials.map((x) => x.toString());
-    console.log(this.args);
-    console.log(this.manager);
+    this.manager.label.ids = this.args.labels.map((x) => x.toString());
+    this.manager.function.ids = this.args.functions.map((x) => x.toString());
   }
 
   onStrongCurrentWire() {

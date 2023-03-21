@@ -36,6 +36,7 @@
         >
           <garbage-station-profile-label-tree
             #tree
+            [ids]="manager.label.ids"
             (selectTreeNode)="manager.label.onselected($event)"
           ></garbage-station-profile-label-tree>
         </common-label-select>
@@ -93,6 +94,7 @@
           >
             <garbage-station-profile-functions-tree
               #tree
+              [ids]="manager.function.ids"
               (selectTreeNode)="manager.function.onselected($event)"
             ></garbage-station-profile-functions-tree>
           </common-label-select>

@@ -41,6 +41,8 @@ export class GarbageStationProfileFunctionsTreeComponent
     this._defaultIds = v;
     this.ids = this._defaultIds.map((x) => x.toString());
   }
+  @Input()
+  ids: string[] = [];
 
   @Input() showSearchBar = true;
 
@@ -61,8 +63,6 @@ export class GarbageStationProfileFunctionsTreeComponent
   }
 
   isloaded = false;
-
-  ids: string[] = [];
 
   ngOnInit(): void {
     this._init();

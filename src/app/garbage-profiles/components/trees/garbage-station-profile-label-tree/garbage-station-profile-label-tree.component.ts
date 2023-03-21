@@ -44,6 +44,9 @@ export class GarbageStationProfileLabelTreeComponent
     this.ids = this._defaultIds.map((x) => x.toString());
   }
 
+  @Input()
+  ids: string[] = [];
+
   @Input() showSearchBar = true;
 
   @Output() selectTreeNode: EventEmitter<CommonFlatNode[]> = new EventEmitter<
@@ -63,8 +66,6 @@ export class GarbageStationProfileLabelTreeComponent
   }
 
   isloaded = false;
-
-  ids: string[] = [];
 
   ngOnInit(): void {
     this._init();
