@@ -80,7 +80,7 @@
   </div>
 </div>
 
-<toast-window *ngIf="showModify" [showClose]="false">
+<toast-window *ngIf="showModify" (closeEvent)="showModify = false">
   <modification-reason
     (confirmEvent)="clickConfirm($event)"
   ></modification-reason>
