@@ -111,12 +111,17 @@
   </garbage-station-profile-details>
 </toast-window> -->
 
-<toast-window *ngIf="window.details.show" (closeEvent)="ondetailsclose()">
+<toast-window
+  *ngIf="window.details.show"
+  (closeEvent)="ondetailsclose()"
+  style="z-index: 999"
+>
   <garbage-profile-details-manager
     [formId]="window.details.selected"
     [formState]="window.details.state"
     (closeDetails)="closeAndUpdate()"
     (updateDetails)="ondetailsupdate()"
+    (recordEvent)="ondetailsputoutrecord($event)"
   >
   </garbage-profile-details-manager>
 </toast-window>
@@ -155,17 +160,6 @@
 </app-window>
 
 <app-window
-  [Model]="window.partial"
-  [style]="window.partial.style"
-  *ngIf="window.partial.show"
->
-  <garbage-station-profile-partial-data
-    [model]="window.partial.model"
-    [profileId]="window.partial.id"
-    (putout)="toputout($event)"
-  ></garbage-station-profile-partial-data>
-</app-window>
-<app-window
   [Model]="window.filter"
   [style]="window.filter.style"
   *ngIf="window.filter.show"
@@ -186,4 +180,16 @@
     (cancel)="window.putout.show = false"
     (ok)="onputoutok($event)"
   ></garbage-profiles-material-putout>
+</app-window>
+
+<app-window
+  [Model]="window.partial"
+  [style]="window.partial.style"
+  *ngIf="window.partial.show"
+>
+  <garbage-station-profile-partial-data
+    [model]="window.partial.model"
+    [profileId]="window.partial.id"
+    (putout)="toputout($event)"
+  ></garbage-station-profile-partial-data>
 </app-window>

@@ -1,18 +1,40 @@
 <div class="garbage-station-profile-partial-data-material">
-  <mat-tab-group *ngIf="!!models">
-    <mat-tab
-      [label]="(item.CreationTime | date : 'YYYY年MM月dd日') ?? ''"
-      *ngFor="let item of models; let i = index"
-    >
-      <div class="garbage-station-profile-partial-data-material-item">
-        <garbage-profiles-material-record-details
-          [model]="item"
-          [nohead]="true"
-        ></garbage-profiles-material-record-details>
-      </div>
-    </mat-tab>
-  </mat-tab-group>
-
+  <div *ngIf="!!models" class="models">
+    <div class="models-title">
+      <div class="hw-simple-title-1">物料清单：</div>
+    </div>
+    <div class="models-value">
+      <mat-chip-list class="mat-chip-list-region-tree" #chipList>
+        <mat-chip
+          *ngFor="let item of models"
+          [title]="item.Name + ':' + item.Number"
+        >
+          <div class="mat-chip-item">
+            <div class="mat-chip-item-title">{{ item.Name }}：</div>
+            <div class="mat-chip-item-value">
+              <b>{{ item.Number }}</b>
+            </div>
+          </div>
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+  <div class="records">
+    <div class="hw-simple-title-1">出库记录</div>
+    <mat-tab-group *ngIf="!!records" class="records-tab-group">
+      <mat-tab
+        [label]="(item.CreationTime | date : 'YYYY年MM月dd日') ?? ''"
+        *ngFor="let item of records; let i = index"
+      >
+        <div class="garbage-station-profile-partial-data-material-item">
+          <garbage-profiles-material-record-details
+            [model]="item"
+            [nohead]="true"
+          ></garbage-profiles-material-record-details>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
   <!-- <nav mat-tab-nav-bar [tabPanel]="tabPanel">
     <div>
       <div

@@ -5,6 +5,7 @@ import {
   IModel,
   IObjectModel,
 } from 'src/app/common/interfaces/model.interface';
+import { MaterialItemModel } from 'src/app/model/material-item.model';
 import { MaterialRecordModel } from 'src/app/model/material-record.model';
 import { GarbageStationProfilePartialDataMaterialBusiness } from './garbage-station-profile-partial-data-material.business';
 
@@ -20,6 +21,8 @@ export class GarbageStationProfilePartialDataMaterialComponent
   @Input()
   profileId?: string;
   @Input()
+  models?: MaterialItemModel[];
+  @Input()
   business: IBusiness<IModel, MaterialRecordModel[]>;
   @Input()
   load?: EventEmitter<void>;
@@ -30,7 +33,7 @@ export class GarbageStationProfilePartialDataMaterialComponent
     this.business = business;
   }
 
-  models: MaterialRecordModel[] = [];
+  records: MaterialRecordModel[] = [];
   index: number = 0;
   selected?: MaterialRecordModel;
 
@@ -46,9 +49,9 @@ export class GarbageStationProfilePartialDataMaterialComponent
   loadData() {
     if (this.profileId) {
       this.business.load(this.profileId).then((x) => {
-        this.models = x;
-        if (this.models && this.models.length > 0) {
-          this.selected = this.models[0];
+        this.records = x;
+        if (this.records && this.records.length > 0) {
+          this.selected = this.records[0];
         }
       });
     }
@@ -56,7 +59,7 @@ export class GarbageStationProfilePartialDataMaterialComponent
 
   ontabchange(index: number) {
     this.index = index;
-    this.selected = this.models[index];
+    this.selected = this.records[index];
   }
 
   onputout() {

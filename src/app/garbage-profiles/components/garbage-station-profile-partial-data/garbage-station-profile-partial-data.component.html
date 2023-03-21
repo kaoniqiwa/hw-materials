@@ -11,6 +11,7 @@
     <div *ngIf="!!MaterialItems && MaterialItems.length > 0" class="materials">
       <garbage-station-profile-partial-data-material
         [profileId]="profileId"
+        [models]="MaterialItems"
         (putout)="onputout($event)"
       >
       </garbage-station-profile-partial-data-material>

@@ -4,7 +4,10 @@ import { ToastrService } from 'ngx-toastr';
 import { IObjectModel } from 'src/app/common/interfaces/model.interface';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
-import { IPartialData } from 'src/app/network/entity/partial-data.interface';
+import {
+  IPartialData,
+  PartialData,
+} from 'src/app/network/entity/partial-data.interface';
 import { PutOutMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
 import { GarbageStationProfilesLanguageTools } from '../../tools/language.tool';
 import { GarbageStationProfilesSourceTools } from '../../tools/source.tool';
@@ -113,6 +116,7 @@ export class GarbageStationProfileManagerComponent implements OnInit {
     this.window.picture.show = true;
   }
   showPartialData(model: ProfilePropertyValueModel) {
+    console.log(model);
     this.window.partial.model = model.model;
     this.window.partial.show = true;
   }
@@ -153,6 +157,15 @@ export class GarbageStationProfileManagerComponent implements OnInit {
   }
   ondetailsupdate() {
     this.load.emit(this.args);
+  }
+  ondetailsputoutrecord(data: PartialData) {
+    console.log(data);
+    let model = new PropertyValueModel();
+    model.PropertyId = 'MaterialItems';
+    model.Value = data[model.PropertyId];
+    this.window.partial.model = model;
+    this.window.partial.id = data.Id;
+    this.window.partial.show = true;
   }
 
   onexport() {

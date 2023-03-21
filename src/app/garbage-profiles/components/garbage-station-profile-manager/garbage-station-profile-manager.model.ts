@@ -113,7 +113,7 @@ class GarbageStationProfilePartialDataWindow extends ClearWindowViewModel {
   }
   style = {
     width: 'auto',
-    height: '600px',
+    height: '700px',
   };
   model?: PropertyValueModel;
   id?: string;
