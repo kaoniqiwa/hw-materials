@@ -7,4 +7,5 @@ export enum UserConfigType {
   VideoRuleState = 5,
   IntervalInspection = 99,
   GarbageStationProfileProperty = 6,
+  MaintenanceProfileProperty = 7,
 }

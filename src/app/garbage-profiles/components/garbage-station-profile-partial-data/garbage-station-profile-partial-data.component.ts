@@ -3,7 +3,7 @@ import { IObjectModel } from 'src/app/common/interfaces/model.interface';
 import { MaterialItemModel } from 'src/app/model/material-item.model';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
 import { Camera } from 'src/app/network/entity/camera.entity';
-import { GarbageStationProfilesLanguageTools } from '../../tools/language.tool';
+import { GarbageStationProfilesLanguageTools } from '../../tools/garbage-station-profile-language.tool';
 
 @Component({
   selector: 'garbage-station-profile-partial-data',

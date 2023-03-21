@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Camera } from 'src/app/network/entity/camera.entity';
-import { GarbageStationProfilesLanguageTools } from '../../tools/language.tool';
+import { GarbageStationProfilesLanguageTools } from '../../tools/garbage-station-profile-language.tool';
 
 @Component({
   selector: 'garbage-station-profile-partial-data-cameras',

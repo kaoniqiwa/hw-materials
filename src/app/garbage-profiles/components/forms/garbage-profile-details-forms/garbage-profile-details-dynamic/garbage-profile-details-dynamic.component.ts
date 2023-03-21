@@ -1,4 +1,3 @@
-import { FormatWidth } from '@angular/common';
 import {
   Component,
   Input,
@@ -14,11 +13,11 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { ToastRef, ToastrService } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { HowellTouchSpinOptions } from 'src/app/common/directives/touch-spin/touch-spin.class';
 import { FormState } from 'src/app/enum/form-state.enum';
-import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/language.tool';
-import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
+import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/garbage-station-profile-language.tool';
+import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/garbage-station-profile-source.tool';
 import { Camera } from 'src/app/network/entity/camera.entity';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { FormMode } from '../garbage-profile-details-forms.common';

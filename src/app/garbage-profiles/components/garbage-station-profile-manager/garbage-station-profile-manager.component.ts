@@ -9,8 +9,8 @@ import {
   PartialData,
 } from 'src/app/network/entity/partial-data.interface';
 import { PutOutMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
-import { GarbageStationProfilesLanguageTools } from '../../tools/language.tool';
-import { GarbageStationProfilesSourceTools } from '../../tools/source.tool';
+import { GarbageStationProfilesLanguageTools } from '../../tools/garbage-station-profile-language.tool';
+import { GarbageStationProfilesSourceTools } from '../../tools/garbage-station-profile-source.tool';
 import {
   GarbageStationProfileTableArgs,
   ProfilePropertyValueModel,

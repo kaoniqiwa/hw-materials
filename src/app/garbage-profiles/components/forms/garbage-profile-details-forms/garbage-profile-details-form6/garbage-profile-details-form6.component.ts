@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -7,23 +7,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { isEmpty } from 'rxjs';
 import { PropertyCategory } from 'src/app/enum/property-category.enum';
-import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/language.tool';
-import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
+import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/garbage-station-profile-language.tool';
+import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/garbage-station-profile-source.tool';
 import { Camera } from 'src/app/network/entity/camera.entity';
-import { PartialRequest } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
-import { isKeyObject } from 'util/types';
-import { GarbageProfileDetailsDynamicForm } from '../garbage-profile-details-dynamic/garbage-profile-details-dynamic.component';
-import { GarbageProfileDetailFormsBusiness } from '../garbage-profile-details-forms.business';
-import {
-  FormMode,
-  _GarbageProfileDetailsFormsBase,
-} from '../garbage-profile-details-forms.common';
-import { ɵstringify } from '@angular/core';
+import { _GarbageProfileDetailsFormsBase } from '../garbage-profile-details-forms.common';
 import { GarbageProfileDetailsForm6Business } from './garbage-profile-details-form6.business';
-import { Language } from 'src/app/common/tools/language';
-import _ from 'lodash';
 
 @Component({
   selector: 'garbage-profile-details-form6',

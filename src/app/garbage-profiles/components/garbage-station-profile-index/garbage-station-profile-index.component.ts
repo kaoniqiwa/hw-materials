@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, Scroll } from '@angular/router';
 import { ValidPathExp } from 'src/app/common/tools/tool';
-import { GarbageStationProfilesLanguageTools } from '../../tools/language.tool';
+import { GarbageStationProfilesLanguageTools } from '../../tools/garbage-station-profile-language.tool';
 import { GarbageStationProfileIndexBusiness } from './garbage-station-profile-index.business';
 import { GarbageStationProfileIndexModel } from './garbage-station-profile-index.model';
 

@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { LocalStorageService } from 'src/app/common/service/local-storage.service';
 import { UserConfigType } from 'src/app/enum/user-config-type.enum';
 import { UserRequestService } from 'src/app/network/request/user/user-request.service';
+import { MaintenanceProfileTableDefaultNames } from './maintenance-profile-table.model';
 
 @Injectable()
-export class GarbageStationProfileTableConfigBusiness {
+export class MaintenanceProfileTableConfigBusiness {
   constructor(
     private config: UserRequestService,
     private local: LocalStorageService
@@ -14,19 +15,11 @@ export class GarbageStationProfileTableConfigBusiness {
     if (!ids) {
       ids = (await this.config.config.get(
         this.local.user.Id,
-        UserConfigType.GarbageStationProfileProperty
+        UserConfigType.MaintenanceProfileProperty
       )) as string[];
     }
     if (!ids || ids.length === 0) {
-      ids = [
-        'ProfileName',
-        'Province',
-        'County',
-        'Street',
-        'Committee',
-        'ProfileState',
-        'UpdateTime',
-      ];
+      ids = MaintenanceProfileTableDefaultNames;
     }
 
     return ids;

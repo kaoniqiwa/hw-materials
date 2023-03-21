@@ -29,7 +29,8 @@ export class MaintenanceProfile implements IIdModel {
   /**	String	创建账户ID	M	*/
   CreationUserId!: string;
   /**	DateTime	创建时间	M	*/
-  @Transform(transformDateTime) CreationTime!: Date;
+  @Transform(transformDateTime)
+  CreationTime!: Date;
   /**	Int32	工单类型	M	*/
   ProfileType!: number;
   /**	Int32	维修类型	M	*/

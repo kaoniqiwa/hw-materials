@@ -1,4 +1,12 @@
-// import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+// import {
+//   Component,
+//   EventEmitter,
+//   Input,
+//   OnChanges,
+//   OnInit,
+//   Output,
+//   SimpleChanges,
+// } from '@angular/core';
 // import { Sort } from '@angular/material/sort';
 // import { IComponent } from 'src/app/common/interfaces/component.interfact';
 // import { IModel } from 'src/app/common/interfaces/model.interface';
@@ -6,17 +14,28 @@
 // import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/language.tool';
 // import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
 // import { PagedList } from 'src/app/network/entity/page.entity';
-// import { PartialData, IPartialData } from 'src/app/network/entity/partial-data.interface';
+// import {
+//   IPartialData,
+//   PartialData,
+// } from 'src/app/network/entity/partial-data.interface';
 // import { Property } from 'src/app/network/entity/property.entity';
 // import { ProfilePropertyValueModel } from '../garbage-station-profile-table/garbage-station-profile-table.model';
 // import { PagedTableAbstractComponent } from '../table-paged-abstract.component';
+// import { MaintenanceProfileTableConfigBusiness } from './maintenance-profile-table-config.business';
 // import { MaintenanceProfileTableBusiness } from './maintenance-profile-table.business';
-// import { MaintenanceProfileTableArgs } from './maintenance-profile-table.model';
+// import {
+//   MaintenanceProfileTableArgs,
+//   MaintenanceProfileTableDefaultNames,
+// } from './maintenance-profile-table.model';
 
 // @Component({
 //   selector: 'maintenance-profile-table',
 //   templateUrl: './maintenance-profile-table.component.html',
 //   styleUrls: ['./maintenance-profile-table.component.less'],
+//   providers: [
+//     MaintenanceProfileTableConfigBusiness,
+//     MaintenanceProfileTableBusiness,
+//   ],
 // })
 // export class MaintenanceProfileTableComponent
 //   extends PagedTableAbstractComponent<PartialData>
@@ -55,14 +74,7 @@
 //     this.business = business;
 //   }
 
-//   names: string[] = [
-//     'ProfileName',
-//     'Province',
-//     'County',
-//     'Street',
-//     'Committee',
-//     'ProfileState',
-//   ];
+//   names: string[] = MaintenanceProfileTableDefaultNames;
 
 //   properties: Property[] = [];
 

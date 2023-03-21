@@ -44,6 +44,9 @@ export abstract class MaintenanceProfilesUrl {
   static partialDatas() {
     return new MaintenanceProfilesPartialDatasUrl(this.basic);
   }
+  static statistic() {
+    return new MaintenanceProfilesStatisticsUrl(this.basic);
+  }
 }
 
 class MaintenanceProfilesPropertiesUrl extends AbstractUrl {
@@ -54,5 +57,19 @@ class MaintenanceProfilesPropertiesUrl extends AbstractUrl {
 class MaintenanceProfilesPartialDatasUrl extends AbstractUrl {
   constructor(base: string) {
     super(`${base}/PartialDatas`);
+  }
+
+  excels() {
+    return `${this.basic()}/Excels`;
+  }
+}
+
+class MaintenanceProfilesStatisticsUrl extends AbstractUrl {
+  constructor(base: string) {
+    super(`${base}/Statistics`);
+  }
+
+  state() {
+    return `${this.basic()}/ProfileState`;
   }
 }

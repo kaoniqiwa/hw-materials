@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { instanceToPlain } from 'class-transformer';
+import { ExcelUrl } from '../../entity/excel-url.entity';
 import { MaintenanceProfile } from '../../entity/maintenance-profile.entity';
 import { PartialData } from '../../entity/partial-data.interface';
+import { ProfileStateStatisticResult } from '../../entity/profile-state-statistic-result.entity';
 import { Property } from '../../entity/property.entity';
 import { MaintenanceProfilesUrl } from '../../url/maintenance-profiles/maintenance-profiles.url';
 import {
@@ -15,8 +17,10 @@ import {
   ConstructionApproveParams,
   CreateMaintenanceProfileParams,
   DistributeMaintenanceProfileParams,
+  GetMaintenanceProfilePartialDatasExcelParams,
+  GetMaintenanceProfilePartialDatasParams,
   GetMaintenanceProfilesParams,
-  GetPartialDatasParams,
+  GetMaintenanceProfileStateStatisticsParams,
   SubmitMaintenanceProfileParams,
 } from './maintenance-profiles.param';
 
@@ -88,6 +92,16 @@ export class MaintenanceProfileRequestService {
     }
     return this._partialData;
   }
+
+  private _statistic?: MaintenanceProfileStatisticsRequestService;
+  public get statistic(): MaintenanceProfileStatisticsRequestService {
+    if (!this._statistic) {
+      this._statistic = new MaintenanceProfileStatisticsRequestService(
+        this.basic
+      );
+    }
+    return this._statistic;
+  }
 }
 class MaintenanceProfilePropertiesRequestService {
   private type: BaseTypeRequestService<Property>;
@@ -118,9 +132,23 @@ class MaintenanceProfilePartialDatasRequestService {
   constructor(private basic: BaseRequestService) {
     this.type = this.basic.type(PartialData);
   }
-  list(instance: GetPartialDatasParams) {
+  list(instance: GetMaintenanceProfilePartialDatasParams) {
     let url = MaintenanceProfilesUrl.partialDatas().list();
     let plain = instanceToPlain(instance);
     return this.type.paged(url, plain);
+  }
+
+  excel(instance: GetMaintenanceProfilePartialDatasExcelParams) {
+    let url = MaintenanceProfilesUrl.partialDatas().excels();
+    let plain = instanceToPlain(instance);
+    return this.basic.post(url, ExcelUrl, plain);
+  }
+}
+class MaintenanceProfileStatisticsRequestService {
+  constructor(private basic: BaseRequestService) {}
+  state(instance: GetMaintenanceProfileStateStatisticsParams) {
+    let url = MaintenanceProfilesUrl.statistic().state();
+    let plain = instanceToPlain(instance);
+    return this.basic.post(url, ProfileStateStatisticResult, plain);
   }
 }

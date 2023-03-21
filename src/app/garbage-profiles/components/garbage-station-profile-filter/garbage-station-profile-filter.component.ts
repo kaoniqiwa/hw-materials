@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonFlatNode } from 'src/app/common/components/common-tree/common-flat-node.model';
 import { DateTimePickerView } from 'src/app/common/directives/date-time-picker/date-time-picker.directive';
-import { GarbageStationProfilesLanguageTools } from '../../tools/language.tool';
-import { GarbageStationProfilesSourceTools } from '../../tools/source.tool';
+import { GarbageStationProfilesLanguageTools } from '../../tools/garbage-station-profile-language.tool';
+import { GarbageStationProfilesSourceTools } from '../../tools/garbage-station-profile-source.tool';
 import { GarbageStationProfileTableArgs } from '../tables/garbage-station-profile-table/garbage-station-profile-table.model';
 
 @Component({

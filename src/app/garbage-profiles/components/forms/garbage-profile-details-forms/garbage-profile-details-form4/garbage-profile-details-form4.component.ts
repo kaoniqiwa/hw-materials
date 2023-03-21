@@ -1,5 +1,4 @@
 import { formatDate } from '@angular/common';
-import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
@@ -10,20 +9,12 @@ import {
 import _ from 'lodash';
 import { ToastrService } from 'ngx-toastr';
 import { DateTimePickerView } from 'src/app/common/directives/date-time-picker/date-time-picker.directive';
-import { Guid } from 'src/app/common/tools/guid';
-import { FormState } from 'src/app/enum/form-state.enum';
-import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/language.tool';
-import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
-import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
+import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/garbage-station-profile-language.tool';
+import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/garbage-station-profile-source.tool';
 import { Camera } from 'src/app/network/entity/camera.entity';
-import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { GPSPoint } from 'src/app/network/entity/gps-point.entity';
-import { PartialRequest } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
 import { GarbageProfileDetailsDynamicForm } from '../garbage-profile-details-dynamic/garbage-profile-details-dynamic.component';
-import {
-  FormMode,
-  _GarbageProfileDetailsFormsBase,
-} from '../garbage-profile-details-forms.common';
+import { _GarbageProfileDetailsFormsBase } from '../garbage-profile-details-forms.common';
 import { GarbageProfileDetailsForm4Business } from './garbage-profile-details-form4.business';
 
 @Component({

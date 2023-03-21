@@ -11,8 +11,8 @@ import { Sort } from '@angular/material/sort';
 import { IComponent } from 'src/app/common/interfaces/component.interfact';
 import { IModel } from 'src/app/common/interfaces/model.interface';
 import { PropertyDataType } from 'src/app/enum/property-data-type.enum';
-import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/language.tool';
-import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
+import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/garbage-station-profile-language.tool';
+import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/garbage-station-profile-source.tool';
 
 import { PagedList } from 'src/app/network/entity/page.entity';
 import {

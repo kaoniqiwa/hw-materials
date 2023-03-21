@@ -3,7 +3,7 @@ import { Condition } from '../../entity/condition.entity';
 import { ElemMatch } from '../../entity/elem-match.entity';
 import { MaterialItem } from '../../entity/material-item.enitty';
 import { transformDateTime } from '../../entity/transform.model';
-import { IParams, PagedParams } from '../IParams.interface';
+import { DurationParams, IParams, PagedParams } from '../IParams.interface';
 
 export class CreateMaintenanceProfileParams implements IParams {
   /**	String	厢房档案ID	M	*/
@@ -28,7 +28,7 @@ export class GetMaintenanceProfilesParams extends PagedParams {
   Ids?: string[];
 }
 
-export class GetPropertiesParams extends PagedParams {
+export class GetMaintenanceProfilePropertiesParams extends PagedParams {
   /**	String[]	属性ID	O	*/
   Ids?: string[];
   /**	String	名称，模糊查询	O	*/
@@ -52,7 +52,9 @@ export class GetPropertiesParams extends PagedParams {
   /**	String	降序排列字段	O	*/
   Desc?: string;
 }
-export class GetPartialDatasParams<T = any> extends PagedParams {
+export class GetMaintenanceProfilePartialDatasParams<
+  T = any
+> extends PagedParams {
   /**	String[]	需要的属性ID，与Path二选一	D	*/
   PropertyIds?: string[];
   /**	ElemMatch[]	数组元素过滤条件	O	*/
@@ -96,4 +98,23 @@ export class DistributeMaintenanceProfileParams implements IParams {
 export class ConstructionApplyParams implements IParams {
   /**	String	申请原因	M */
   ConstructionReason!: string;
+}
+export class GetMaintenanceProfilePartialDatasExcelParams implements IParams {
+  /**	String[]	需要的属性ID，与Path二选一	D */
+  PropertyIds?: string[];
+  /**	ElemMatch[]	数组元素过滤条件	O */
+  ElemMatches?: ElemMatch[];
+  /**	Condition[]	查询条件列表，多条件之间是AND关系。	O */
+  Conditions?: Condition[];
+  /**	String[]	子表格冗余字段	O */
+  SubTablePropertyIds?: string[];
+  /**	String	升序路径	O */
+  Asc?: string;
+  /**	String	降序路径	O */
+  Desc?: string;
+}
+
+export class GetMaintenanceProfileStateStatisticsParams extends DurationParams {
+  /**	Int32[]	档案状态	O */
+  ProfileStates?: number[];
 }

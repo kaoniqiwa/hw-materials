@@ -8,7 +8,7 @@ import { PagedList } from 'src/app/network/entity/page.entity';
 import { PartialData } from 'src/app/network/entity/partial-data.interface';
 
 @Injectable()
-export class GarbageStationProfileTableConverter
+export class MaintenanceProfileTableConverter
   implements IPromiseConverter<PagedList<PartialData>, PagedList<PartialData>>
 {
   constructor(

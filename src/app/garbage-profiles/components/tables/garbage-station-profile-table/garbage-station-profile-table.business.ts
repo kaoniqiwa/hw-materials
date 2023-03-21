@@ -85,10 +85,10 @@ export class GarbageStationProfileTableBusiness
   private getConditions(args: GarbageStationProfileTableArgs, names: string[]) {
     let conditions: Condition[] = [];
 
-    if (args.Name) {
+    if (args.name) {
       names.forEach((name) => {
         let condition = new Condition<string>();
-        condition.Value = args.Name;
+        condition.Value = args.name;
         condition.PropertyId = name;
         condition.Operator = ConditionOperator.Like;
         condition.OrGroup = 1;

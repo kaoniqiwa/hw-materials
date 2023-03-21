@@ -1,36 +1,14 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ToastrService } from 'ngx-toastr';
 import { map, Observable, startWith } from 'rxjs';
 import { CommonFlatNode } from 'src/app/common/components/common-tree/common-flat-node.model';
-import { DateTimePickerView } from 'src/app/common/directives/date-time-picker/date-time-picker.directive';
-import { Guid } from 'src/app/common/tools/guid';
 import { ValidPhoneExp } from 'src/app/common/tools/tool';
-import { FormState } from 'src/app/enum/form-state.enum';
-import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/language.tool';
-import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
-import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
+import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/garbage-station-profile-language.tool';
+import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/garbage-station-profile-source.tool';
 import { Division } from 'src/app/network/entity/division.entity';
-import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
-import { PartialData } from 'src/app/network/entity/partial-data.interface';
-import { PartialRequest } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
-import {
-  FormMode,
-  _GarbageProfileDetailsFormsBase,
-} from '../garbage-profile-details-forms.common';
+import { _GarbageProfileDetailsFormsBase } from '../garbage-profile-details-forms.common';
 import { GarbageProfileDetailsForm1Business } from './garbage-profile-details-form1.business';
 import {
   DivisionLevel,

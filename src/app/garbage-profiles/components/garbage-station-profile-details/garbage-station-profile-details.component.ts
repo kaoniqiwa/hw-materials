@@ -19,36 +19,32 @@ import {
   FormControl,
   FormGroup,
   FormGroupDirective,
-  NgForm,
   ValidationErrors,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { ToastrService } from 'ngx-toastr';
-import path from 'path';
 import { CommonFlatNode } from 'src/app/common/components/common-tree/common-flat-node.model';
 import { Guid } from 'src/app/common/tools/guid';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
-import { ValueNamePair } from 'src/app/network/entity/value-name-pair.entity';
-import { GarbageStationProfilesLanguageTools } from '../../tools/language.tool';
-import { GarbageStationProfilesSourceTools } from '../../tools/source.tool';
+import { GarbageStationProfilesLanguageTools } from '../../tools/garbage-station-profile-language.tool';
+import { GarbageStationProfilesSourceTools } from '../../tools/garbage-station-profile-source.tool';
 import { GarbageStationProfileDetailsBusiness } from './garbage-station-profile-details.business';
 import {
-  getDivisionChildLevel,
   DivisionLevel,
+  getDivisionChildLevel,
   ProfileDetailsDivisionModel,
   ProfileDetailsDivisionSearchInfo,
 } from './garbage-station-profile-details.model';
 
-import { GarbageStationFunction } from 'src/app/enum/garbage-station-function.enum';
 import { DateTimePickerView } from 'src/app/common/directives/date-time-picker/date-time-picker.directive';
-import { GPSPoint } from 'src/app/network/entity/gps-point.entity';
 import { ValidPhoneExp } from 'src/app/common/tools/tool';
+import { GarbageStationFunction } from 'src/app/enum/garbage-station-function.enum';
 import { YesOrNo } from 'src/app/enum/yes-or-no.enum';
-import { StrongCurrentWireMode } from 'src/app/enum/strong-current-wire-mode.enum';
+import { GPSPoint } from 'src/app/network/entity/gps-point.entity';
 import { PutOutMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
 
 @Component({

@@ -4,18 +4,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import _ from 'lodash';
 import { ToastrService } from 'ngx-toastr';
 import { DateTimePickerView } from 'src/app/common/directives/date-time-picker/date-time-picker.directive';
-import { Guid } from 'src/app/common/tools/guid';
 import { ValidPhoneExp } from 'src/app/common/tools/tool';
-import { FormState } from 'src/app/enum/form-state.enum';
-import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/language.tool';
-import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
-import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
-import { PartialResult } from 'src/app/network/entity/partial-result.entity';
-import { PartialRequest } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
-import {
-  FormMode,
-  _GarbageProfileDetailsFormsBase,
-} from '../garbage-profile-details-forms.common';
+import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/garbage-station-profile-language.tool';
+import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/garbage-station-profile-source.tool';
+import { _GarbageProfileDetailsFormsBase } from '../garbage-profile-details-forms.common';
 import { GarbageProfileDetailsForm3Business } from './garbage-profile-details-form3.business';
 
 @Component({

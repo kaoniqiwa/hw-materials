@@ -9,7 +9,7 @@ export class GarbageStationProfileTableArgs {
     };
   }
   tableIds?: string[];
-  Name?: string;
+  name?: string;
   asc?: string;
   desc?: string;
 
@@ -30,7 +30,7 @@ export class GarbageStationProfileTableArgs {
   }
 }
 
-export class KeyValue {
+class KeyValue {
   [key: string]: number | undefined;
 }
 

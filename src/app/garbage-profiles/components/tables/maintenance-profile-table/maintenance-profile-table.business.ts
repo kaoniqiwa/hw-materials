@@ -15,6 +15,7 @@
 //   GetPartialDatasParams,
 // } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
 // import { GarbageStationProfilesRequestService } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
+// import { MaintenanceProfileTableConfigBusiness } from './maintenance-profile-table-config.business';
 // import { MaintenanceProfileTableArgs } from './maintenance-profile-table.model';
 
 // @Injectable()
@@ -23,7 +24,6 @@
 // {
 //   constructor(
 //     private service: GarbageStationProfilesRequestService,
-//     private converter: MaintenanceProfileTableConverter,
 //     private vmConverter: ViewModelConverter,
 //     public config: MaintenanceProfileTableConfigBusiness
 //   ) {}

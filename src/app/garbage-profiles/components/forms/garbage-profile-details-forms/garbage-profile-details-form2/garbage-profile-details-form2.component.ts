@@ -2,7 +2,6 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
-  Input,
   OnInit,
   Output,
 } from '@angular/core';
@@ -16,25 +15,16 @@ import {
 } from '@angular/forms';
 import _ from 'lodash';
 import { ToastrService } from 'ngx-toastr';
-import { Guid } from 'src/app/common/tools/guid';
 import { Medium } from 'src/app/common/tools/medium';
-import { FormState } from 'src/app/enum/form-state.enum';
 import { GarbageStationFunction } from 'src/app/enum/garbage-station-function.enum';
 import { StrongCurrentWireMode } from 'src/app/enum/strong-current-wire-mode.enum';
 import { YesOrNo } from 'src/app/enum/yes-or-no.enum';
-import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/language.tool';
-import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/source.tool';
-import { GarbageStationProfileModel } from 'src/app/model/garbage-station-profile.model';
-import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
+import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/garbage-station-profile-language.tool';
+import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/garbage-station-profile-source.tool';
 import { MaterialItem } from 'src/app/network/entity/material-item.enitty';
-import { Material } from 'src/app/network/entity/material.entity';
 import { PartialData } from 'src/app/network/entity/partial-data.interface';
-import { PartialRequest } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
 import { PutOutMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
-import {
-  FormMode,
-  _GarbageProfileDetailsFormsBase,
-} from '../garbage-profile-details-forms.common';
+import { _GarbageProfileDetailsFormsBase } from '../garbage-profile-details-forms.common';
 import { GarbageProfileDetailsForm2Business } from './garbage-profile-details-form2.business';
 
 @Component({

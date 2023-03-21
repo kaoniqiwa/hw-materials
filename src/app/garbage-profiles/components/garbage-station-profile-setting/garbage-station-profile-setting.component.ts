@@ -2,7 +2,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonFlatNode } from 'src/app/common/components/common-tree/common-flat-node.model';
 import { Property } from 'src/app/network/entity/property.entity';
-import { GarbageStationProfilesLanguageTools } from '../../tools/language.tool';
+import { GarbageStationProfilesLanguageTools } from '../../tools/garbage-station-profile-language.tool';
 import { GarbageStationProfileSettingBusiness } from './garbage-station-profile-setting.business';
 
 @Component({
