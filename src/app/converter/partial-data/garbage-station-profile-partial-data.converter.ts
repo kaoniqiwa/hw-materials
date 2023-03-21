@@ -1,17 +1,17 @@
 import { formatDate } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { IConverter } from '../common/interfaces/converter.interface';
-import { PropertyDataType } from '../enum/property-data-type.enum';
-import { PropertyModel } from '../model/property.model';
-import { PartialData } from '../network/entity/partial-data.interface';
-import { ValueNamePair } from '../network/entity/value-name-pair.entity';
-import { GarbageStationProfilesRequestService } from '../network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
-import { PropertyConverter } from './property.converter';
+import { IConverter } from '../../common/interfaces/converter.interface';
+import { PropertyDataType } from '../../enum/property-data-type.enum';
+import { PropertyModel } from '../../model/property.model';
+import { PartialData } from '../../network/entity/partial-data.interface';
+import { ValueNamePair } from '../../network/entity/value-name-pair.entity';
+import { GarbageStationProfilesRequestService } from '../../network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
+import { PropertyConverter } from '../property.converter';
 
 @Injectable({
   providedIn: 'root',
 })
-export class PartialDataConverter
+export class GarbageStationProfilePartialDataConverter
   implements IConverter<PartialData, Promise<PartialData>>
 {
   constructor(

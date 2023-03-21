@@ -1,0 +1,63 @@
+.maintenance-profile-setting {
+  height: 100%;
+  width: 100%;
+
+  &-head {
+    height: 50px;
+  }
+
+  &-body {
+    height: calc(100% - 50px - 70px);
+    display: flex;
+    justify-content: space-between;
+
+    &>* {
+      border: 1px solid #5e6ebf;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+
+
+    .tree {
+      width: calc(30% - 5px);
+      height: 100%;
+
+      &-content {
+        margin-top: 10px;
+        height: calc(100% - 37px);
+      }
+    }
+
+    .chip {
+      width: calc(70% - 5px);
+
+      &-content {
+        margin-top: 10px;
+        height: calc(100% - 37px);
+        width: 100%;
+        overflow-x: auto;
+
+        .mat-chip-set {
+          width: min-content;
+          display: flex;
+          justify-content: start;
+
+          transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+
+          .mat-chip-item {
+            width: max-content;
+            cursor: pointer;
+            transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+          }
+        }
+      }
+    }
+  }
+
+  &-foot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+  }
+}

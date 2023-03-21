@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IPromiseConverter } from 'src/app/common/interfaces/converter.interface';
 import { wait } from 'src/app/common/tools/tool';
-import { PartialDataConverter } from 'src/app/converter/partial-data.converter';
+import { GarbageStationProfilePartialDataConverter } from 'src/app/converter/partial-data/garbage-station-profile-partial-data.converter';
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/garbage-station-profile-source.tool';
 
 import { PagedList } from 'src/app/network/entity/page.entity';
@@ -13,7 +13,7 @@ export class GarbageStationProfileTableConverter
 {
   constructor(
     private source: GarbageStationProfilesSourceTools,
-    public converter: PartialDataConverter
+    public converter: GarbageStationProfilePartialDataConverter
   ) {}
 
   async convert(source: PagedList<PartialData>, ...res: any[]) {

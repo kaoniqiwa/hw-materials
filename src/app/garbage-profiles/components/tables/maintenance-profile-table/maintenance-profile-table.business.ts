@@ -14,7 +14,7 @@ import {
   GetPartialDatasExcelParams,
   GetPartialDatasParams,
 } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
-import { GarbageStationProfilesRequestService } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
+import { MaintenanceProfileRequestService } from 'src/app/network/request/maintenance-profiles/maintenance-profiles.service';
 import { MaintenanceProfileTableConfigBusiness } from './maintenance-profile-table-config.business';
 import { MaintenanceProfileTableConverter } from './maintenance-profile-table.converter';
 import { MaintenanceProfileTableArgs } from './maintenance-profile-table.model';
@@ -24,7 +24,7 @@ export class MaintenanceProfileTableBusiness
   implements IBusiness<PagedList<IPartialData>>, IGet<PropertyValueModel>
 {
   constructor(
-    private service: GarbageStationProfilesRequestService,
+    private service: MaintenanceProfileRequestService,
     private vmConverter: ViewModelConverter,
     private converter: MaintenanceProfileTableConverter,
     public config: MaintenanceProfileTableConfigBusiness
@@ -52,11 +52,11 @@ export class MaintenanceProfileTableBusiness
     params.Desc = args.desc;
     params.Conditions = this.getConditions(args, names);
     params.PropertyIds = names;
-    let url = await this.service.partialData.excels(params);
+    let url = await this.service.partialData.excel(params);
     return url.Url;
   }
 
-  getData(
+  async getData(
     index: number,
     size: number = 10,
     names: string[],
@@ -76,8 +76,11 @@ export class MaintenanceProfileTableBusiness
         params.Desc = 'UpdateTime';
       }
     }
-
-    params.Conditions = this.getConditions(args, names);
+    let all = await this.service.property.all();
+    params.Conditions = this.getConditions(
+      args,
+      all.map((x) => x.Path)
+    );
 
     return this.service.partialData.list(params);
   }

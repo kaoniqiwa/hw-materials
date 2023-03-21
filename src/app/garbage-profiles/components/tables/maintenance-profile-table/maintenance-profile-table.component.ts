@@ -32,7 +32,10 @@ import {
 @Component({
   selector: 'maintenance-profile-table',
   templateUrl: './maintenance-profile-table.component.html',
-  styleUrls: ['./maintenance-profile-table.component.less'],
+  styleUrls: [
+    '../table-horizontal.less',
+    './maintenance-profile-table.component.less',
+  ],
   providers: [
     MaintenanceProfileTableConverter,
     MaintenanceProfileTableConfigBusiness,

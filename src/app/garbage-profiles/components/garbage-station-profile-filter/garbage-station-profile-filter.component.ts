@@ -52,7 +52,6 @@ export class GarbageStationProfileFilterComponent implements OnInit {
   }
 
   onok() {
-    console.log(this.args);
     this.ok.emit(this.args);
   }
   onreset() {
