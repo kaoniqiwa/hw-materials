@@ -67,13 +67,18 @@ export class GarbageStationProfileManagerComponent implements OnInit {
     this.window.close();
   }
   oncreate() {
-    this.window.details.state = FormState.add;
+    this.window.details.form = FormState.add;
     this.window.details.show = true;
   }
   onmodify() {
     if (this.selected) {
-      this.window.details.state = FormState.edit;
+      this.window.details.form = FormState.edit;
       this.window.details.selected = this.selected.Id;
+      if ('ProfileState' in this.selected) {
+        this.window.details.state = this.selected['ProfileState'] as number;
+      }
+      console.log(this.window.details);
+
       this.window.details.show = true;
     }
   }

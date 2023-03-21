@@ -20,6 +20,8 @@ export class GarbageStationProfileTableArgs {
 
   enums: KeyValue = new KeyValue();
 
+  cameras: KeyValue = new KeyValue();
+
   reset() {
     for (const key in this.enums) {
       if (key === 'ProfileState') {

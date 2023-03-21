@@ -118,7 +118,8 @@
 >
   <garbage-profile-details-manager
     [formId]="window.details.selected"
-    [formState]="window.details.state"
+    [formState]="window.details.form"
+    [jumpState]="window.details.state"
     (closeDetails)="closeAndUpdate()"
     (updateDetails)="ondetailsupdate()"
     (recordEvent)="ondetailsputoutrecord($event)"
@@ -166,6 +167,7 @@
 >
   <garbage-station-profile-filter
     [(args)]="args"
+    (ok)="onfilter($event)"
   ></garbage-station-profile-filter>
 </app-window>
 <app-window>

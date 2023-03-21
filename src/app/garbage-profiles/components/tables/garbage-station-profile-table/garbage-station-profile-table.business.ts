@@ -56,7 +56,7 @@ export class GarbageStationProfileTableBusiness
     return url.Url;
   }
 
-  getData(
+  async getData(
     index: number,
     size: number = 10,
     names: string[],
@@ -76,11 +76,16 @@ export class GarbageStationProfileTableBusiness
         params.Desc = 'UpdateTime';
       }
     }
-
-    params.Conditions = this.getConditions(args, names);
+    let all = await this.service.property.all();
+    params.Conditions = this.getConditions(
+      args,
+      all.map((x) => x.Path)
+    );
 
     return this.service.partialData.list(params);
   }
+
+  private getElemMatch() {}
 
   private getConditions(args: GarbageStationProfileTableArgs, names: string[]) {
     let conditions: Condition[] = [];
@@ -111,6 +116,13 @@ export class GarbageStationProfileTableBusiness
       let value = args.enums[key];
       if (value !== undefined) {
         conditions.push(this.getConditionByName(value, key));
+      }
+    }
+
+    for (const key in args.cameras) {
+      let value = args.cameras[key];
+      if (value !== undefined) {
+        conditions.push(this.getConditionByName(value, `Cameras.${key}`));
       }
     }
 

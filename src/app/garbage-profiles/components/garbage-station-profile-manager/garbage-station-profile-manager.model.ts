@@ -45,14 +45,16 @@ abstract class ClearWindowViewModel extends WindowViewModel {
 
 class GarbageStationProfileDetailsWindow extends ClearWindowViewModel {
   override clear(): void {
-    this.state = FormState.none;
+    this.form = FormState.none;
     this.selected = undefined;
+    this.state = undefined;
   }
   style = {
     width: '600px',
     height: 'auto',
   };
-  state: FormState = FormState.none;
+  form: FormState = FormState.none;
+  state?: number;
   selected?: string;
 }
 class GarbageStationProfileSettingWindow extends ClearWindowViewModel {

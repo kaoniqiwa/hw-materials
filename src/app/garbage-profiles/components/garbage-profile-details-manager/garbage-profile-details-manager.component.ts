@@ -35,7 +35,7 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
   formId?: string;
 
   @Input()
-  jumpState = 0;
+  jumpState?: number;
 
   @Input()
   formState: FormState = FormState.none;

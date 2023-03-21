@@ -163,6 +163,92 @@
           </select>
         </div>
       </div>
+      <div class="filter-item">
+        <div class="filter-item-title">{{ language["AccessServer"] }}：</div>
+        <div class="filter-item-control">
+          <select [(ngModel)]="args.cameras['AccessServer']">
+            <option [ngValue]="undefined">全部</option>
+            <option
+              *ngFor="let item of source.AccessServer"
+              [ngValue]="item.Value"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="filter-item">
+        <div class="filter-item-title">{{ language["Resolution"] }}：</div>
+        <div class="filter-item-control">
+          <select [(ngModel)]="args.cameras['Resolution']">
+            <option [ngValue]="undefined">全部</option>
+            <option
+              *ngFor="let item of source.Resolution"
+              [ngValue]="item.Value"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="filter-item">
+        <div class="filter-item-title">{{ language["StorageTime"] }}：</div>
+        <div class="filter-item-control">
+          <select [(ngModel)]="args.cameras['StorageTime']">
+            <option [ngValue]="undefined">全部</option>
+            <option
+              *ngFor="let item of source.StorageTime"
+              [ngValue]="item.Value"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="filter-item">
+        <div class="filter-item-title">{{ language["ActionEquipment"] }}：</div>
+        <div class="filter-item-control">
+          <select [(ngModel)]="args.cameras['ActionEquipment']">
+            <option [ngValue]="undefined">全部</option>
+            <option
+              *ngFor="let item of source.ActionEquipment"
+              [ngValue]="item.Value"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="filter-item">
+        <div class="filter-item-title">
+          {{ language["AudioOutputState"] }}：
+        </div>
+        <div class="filter-item-control">
+          <select [(ngModel)]="args.cameras['AudioOutputState']">
+            <option [ngValue]="undefined">全部</option>
+            <option
+              *ngFor="let item of source.AudioOutputState"
+              [ngValue]="item.Value"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="filter-item">
+        <div class="filter-item-title">{{ language["AIModelType"] }}：</div>
+        <div class="filter-item-control">
+          <select [(ngModel)]="args.cameras['AIModelType']">
+            <option [ngValue]="undefined">全部</option>
+            <option
+              *ngFor="let item of source.AIModelType"
+              [ngValue]="item.Value"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
     </div>
   </div>
   <div class="garbage-station-profile-filter-foot">
