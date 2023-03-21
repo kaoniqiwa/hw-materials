@@ -19,10 +19,10 @@ class MaintenanceProfileSettingWindow extends DataWindowViewModel {
 }
 class MaintenanceProfileDeatilsWindow extends DataWindowViewModel {
   clear(): void {
-    this.form = FormState.none;
+    this.formState = FormState.none;
     this.id = undefined;
   }
   style = {};
-  form: FormState = FormState.none;
+  formState: FormState = FormState.none;
   id?: string;
 }

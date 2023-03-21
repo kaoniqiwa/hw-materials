@@ -63,12 +63,12 @@ export class MaintenanceProfileManagerComponent {
   }
 
   tocreate() {
-    this.window.details.form = FormState.add;
+    this.window.details.formState = FormState.add;
     this.window.details.show = true;
   }
   tomodify() {
     if (this.selected) {
-      this.window.details.form = FormState.edit;
+      this.window.details.formState = FormState.edit;
       this.window.details.id = this.selected.Id;
       this.window.details.show = true;
     }

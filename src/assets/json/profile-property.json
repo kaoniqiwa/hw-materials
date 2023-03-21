@@ -1,0 +1,825 @@
+{
+  "Page": {
+    "PageIndex": 1,
+    "PageSize": 100,
+    "PageCount": 1,
+    "RecordCount": 56,
+    "TotalRecordCount": 56
+  },
+  "Data": [
+    {
+      "Id": "100001",
+      "Name": "Id",
+      "Description": "档案ID",
+      "Category": 1,
+      "Path": "Id",
+      "DataType": "String",
+      "IsUnique": true,
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100002",
+      "Name": "ProfileName",
+      "Description": "建档名称",
+      "Category": 1,
+      "Path": "ProfileName",
+      "DataType": "String",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100003",
+      "Name": "Province",
+      "Description": "省",
+      "Category": 1,
+      "Path": "Province",
+      "DataType": "String",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100004",
+      "Name": "City",
+      "Description": "市",
+      "Category": 1,
+      "Path": "City",
+      "DataType": "String",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100005",
+      "Name": "County",
+      "Description": "区、县",
+      "Category": 1,
+      "Path": "County",
+      "DataType": "String",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100006",
+      "Name": "Street",
+      "Description": "街道、村",
+      "Category": 1,
+      "Path": "Street",
+      "DataType": "String",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100007",
+      "Name": "Committee",
+      "Description": "居委会",
+      "Category": 1,
+      "Path": "Committee",
+      "DataType": "String",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100008",
+      "Name": "Address",
+      "Description": "地址",
+      "Category": 1,
+      "Path": "Address",
+      "DataType": "String",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100009",
+      "Name": "Contact",
+      "Description": "联系人",
+      "Category": 1,
+      "Path": "Contact",
+      "DataType": "String",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100010",
+      "Name": "ContactPhoneNo",
+      "Description": "联系人电话",
+      "Category": 1,
+      "Path": "ContactPhoneNo",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100011",
+      "Name": "GarbageStationName",
+      "Description": "厢房名称",
+      "Category": 2,
+      "Path": "GarbageStationName",
+      "DataType": "String",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100012",
+      "Name": "CommunityName",
+      "Description": "小区名称",
+      "Category": 2,
+      "Path": "CommunityName",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100013",
+      "Name": "StrongCurrentWire",
+      "Description": "强电拉线",
+      "Category": 2,
+      "Path": "StrongCurrentWire",
+      "DataType": "Int32",
+      "CompositeIndexes": [],
+      "EnumeratedValues": [
+        {
+          "Value": 0,
+          "Name": "不需要"
+        },
+        {
+          "Value": 1,
+          "Name": "需要"
+        }
+      ]
+    },
+    {
+      "Id": "100014",
+      "Name": "StrongCurrentWireMode",
+      "Description": "强电拉线方式",
+      "Category": 2,
+      "Path": "StrongCurrentWireMode",
+      "DataType": "Int32",
+      "CompositeIndexes": [],
+      "EnumeratedValues": [
+        {
+          "Value": 1,
+          "Name": "架空线"
+        },
+        {
+          "Value": 2,
+          "Name": "套管拉线"
+        },
+        {
+          "Value": 3,
+          "Name": "挖土地套管拉线"
+        },
+        {
+          "Value": 4,
+          "Name": "挖水泥柏油路拉线"
+        },
+        {
+          "Value": 5,
+          "Name": "立杆"
+        }
+      ]
+    },
+    {
+      "Id": "100015",
+      "Name": "StrongCurrentWireLength",
+      "Description": "强电拉线长度(米)",
+      "Category": 2,
+      "Path": "StrongCurrentWireLength",
+      "DataType": "Double",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100016",
+      "Name": "LFImageUrl",
+      "Description": "厢房左前照片",
+      "Category": 2,
+      "Path": "LFImageUrl",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100017",
+      "Name": "RFImageUrl",
+      "Description": "厢房右前照片",
+      "Category": 2,
+      "Path": "RFImageUrl",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100018",
+      "Name": "FImageUrl",
+      "Description": "厢房正面照片",
+      "Category": 2,
+      "Path": "FImageUrl",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100019",
+      "Name": "PowerImageUrl",
+      "Description": "电源位置照片",
+      "Category": 2,
+      "Path": "PowerImageUrl",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100020",
+      "Name": "CameraNumber",
+      "Description": "摄像机数量",
+      "Category": 2,
+      "Path": "CameraNumber",
+      "DataType": "Int32",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100021",
+      "Name": "Functions",
+      "Description": "厢房功能",
+      "Category": 2,
+      "Path": "Functions",
+      "IsArray": true,
+      "DataType": "Int32",
+      "CompositeIndexes": [],
+      "EnumeratedValues": [
+        {
+          "Value": 1,
+          "Name": "小包垃圾"
+        },
+        {
+          "Value": 2,
+          "Name": "混合投放"
+        },
+        {
+          "Value": 3,
+          "Name": "垃圾满溢"
+        }
+      ]
+    },
+    {
+      "Id": "100022",
+      "Name": "GarbageStationType",
+      "Description": "投放点类型",
+      "Category": 2,
+      "Path": "GarbageStationType",
+      "DataType": "Int32",
+      "CompositeIndexes": [],
+      "EnumeratedValues": [
+        {
+          "Value": 1,
+          "Name": "垃圾投放点"
+        },
+        {
+          "Value": 2,
+          "Name": "垃圾箱房"
+        }
+      ]
+    },
+    {
+      "Id": "100023",
+      "Name": "Remarks",
+      "Description": "备注信息",
+      "Category": 2,
+      "Path": "Remarks",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100024",
+      "Name": "MaterialItems",
+      "Description": "物料项列表",
+      "Category": 2,
+      "Path": "MaterialItems",
+      "IsArray": true,
+      "IsObject": true,
+      "DataType": "Object",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100025",
+      "Name": "Id",
+      "Description": "物料ID",
+      "Category": 2,
+      "Path": "MaterialItems.Id",
+      "ParentId": "100024",
+      "DataType": "Int32",
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100026",
+      "Name": "Name",
+      "Description": "物料名称",
+      "Category": 2,
+      "Path": "MaterialItems.Name",
+      "ParentId": "100024",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100027",
+      "Name": "Number",
+      "Description": "物料数量",
+      "Category": 2,
+      "Path": "MaterialItems.Number",
+      "ParentId": "100024",
+      "DataType": "Int32",
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100028",
+      "Name": "ConstructionContact",
+      "Description": "施工负责人",
+      "Category": 3,
+      "Path": "ConstructionContact",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100029",
+      "Name": "ConstructionContactPhoneNo",
+      "Description": "施工负责人电话",
+      "Category": 3,
+      "Path": "ConstructionContactPhoneNo",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100030",
+      "Name": "ConstructionDate",
+      "Description": "施工日期",
+      "Category": 3,
+      "Path": "ConstructionDate",
+      "DataType": "Date",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100031",
+      "Name": "GPSPoint",
+      "Description": "GPS经纬度坐标",
+      "Category": 4,
+      "Path": "GPSPoint",
+      "IsObject": true,
+      "DataType": "Object",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100032",
+      "Name": "Longitude",
+      "Description": "经度",
+      "Category": 4,
+      "Path": "GPSPoint.Longitude",
+      "ParentId": "100031",
+      "DataType": "Double",
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100033",
+      "Name": "Latitude",
+      "Description": "纬度",
+      "Category": 4,
+      "Path": "GPSPoint.Latitude",
+      "ParentId": "100031",
+      "DataType": "Double",
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100034",
+      "Name": "TimeToDump",
+      "Description": "投放时间",
+      "Category": 4,
+      "Path": "TimeToDump",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100035",
+      "Name": "IMEI",
+      "Description": "流量卡号码",
+      "Category": 4,
+      "Path": "IMEI",
+      "DataType": "String",
+      "IsUnique": true,
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100036",
+      "Name": "NB",
+      "Description": "NB面板编号",
+      "Category": 4,
+      "Path": "NB",
+      "DataType": "String",
+      "IsUnique": true,
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100037",
+      "Name": "Cameras",
+      "Description": "摄像机列表",
+      "Category": 4,
+      "Path": "Cameras",
+      "IsArray": true,
+      "IsObject": true,
+      "DataType": "Object",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100038",
+      "Name": "Name",
+      "Description": "摄像机名称",
+      "Category": 4,
+      "Path": "Cameras.Name",
+      "ParentId": "100037",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100039",
+      "Name": "Model",
+      "Description": "摄像机型号",
+      "Category": 4,
+      "Path": "Cameras.Model",
+      "ParentId": "100037",
+      "DataType": "Int32",
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": [
+        {
+          "Value": 1,
+          "Name": "G3"
+        },
+        {
+          "Value": 2,
+          "Name": "G5"
+        }
+      ]
+    },
+    {
+      "Id": "100040",
+      "Name": "SerialNo",
+      "Description": "序列号",
+      "Category": 4,
+      "Path": "Cameras.SerialNo",
+      "ParentId": "100037",
+      "DataType": "String",
+      "IsUnique": true,
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100041",
+      "Name": "Placement",
+      "Description": "机位 [1,20]",
+      "Category": 4,
+      "Path": "Cameras.Placement",
+      "ParentId": "100037",
+      "DataType": "Int32",
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100042",
+      "Name": "AccessServer",
+      "Description": "接入服务器",
+      "Category": 5,
+      "Path": "Cameras.AccessServer",
+      "ParentId": "100037",
+      "DataType": "Int32",
+      "CompositeIndexes": [],
+      "EnumeratedValues": [
+        {
+          "Value": 1,
+          "Name": "天翼云1号服务器"
+        },
+        {
+          "Value": 2,
+          "Name": "天翼云2号服务器"
+        },
+        {
+          "Value": 3,
+          "Name": "天翼云3号服务器"
+        },
+        {
+          "Value": 4,
+          "Name": "天翼云4号服务器"
+        }
+      ]
+    },
+    {
+      "Id": "100043",
+      "Name": "Resolution",
+      "Description": "分辨率",
+      "Category": 5,
+      "Path": "Cameras.Resolution",
+      "ParentId": "100037",
+      "DataType": "Int32",
+      "CompositeIndexes": [],
+      "EnumeratedValues": [
+        {
+          "Value": 1,
+          "Name": "720P"
+        },
+        {
+          "Value": 2,
+          "Name": "1080P"
+        }
+      ]
+    },
+    {
+      "Id": "100044",
+      "Name": "Bitrate",
+      "Description": "码率(Kbps)",
+      "Category": 5,
+      "Path": "Cameras.Bitrate",
+      "ParentId": "100037",
+      "DataType": "Int32",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100045",
+      "Name": "StorageTime",
+      "Description": "录像存储布防时间",
+      "Category": 5,
+      "Path": "Cameras.StorageTime",
+      "ParentId": "100037",
+      "DataType": "Int32",
+      "CompositeIndexes": [],
+      "EnumeratedValues": [
+        {
+          "Value": 1,
+          "Name": "全天"
+        },
+        {
+          "Value": 2,
+          "Name": "投放时间"
+        },
+        {
+          "Value": 3,
+          "Name": "非投放时间"
+        }
+      ]
+    },
+    {
+      "Id": "100046",
+      "Name": "ActionEquipment",
+      "Description": "联动设备",
+      "Category": 5,
+      "Path": "Cameras.ActionEquipment",
+      "ParentId": "100037",
+      "DataType": "Int32",
+      "CompositeIndexes": [],
+      "EnumeratedValues": [
+        {
+          "Value": 0,
+          "Name": "无"
+        },
+        {
+          "Value": 1,
+          "Name": "RFID"
+        },
+        {
+          "Value": 2,
+          "Name": "烟感"
+        },
+        {
+          "Value": 3,
+          "Name": "声光报警器"
+        }
+      ]
+    },
+    {
+      "Id": "100047",
+      "Name": "AudioOutputState",
+      "Description": "音频输出状态",
+      "Category": 5,
+      "Path": "Cameras.AudioOutputState",
+      "ParentId": "100037",
+      "DataType": "Int32",
+      "CompositeIndexes": [],
+      "EnumeratedValues": [
+        {
+          "Value": 0,
+          "Name": "关闭"
+        },
+        {
+          "Value": 1,
+          "Name": "开启"
+        }
+      ]
+    },
+    {
+      "Id": "100048",
+      "Name": "AudioVolume",
+      "Description": "音量[0-100]",
+      "Category": 5,
+      "Path": "Cameras.AudioVolume",
+      "ParentId": "100037",
+      "DataType": "Int32",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100049",
+      "Name": "AIModelType",
+      "Description": "AI模型类型",
+      "Category": 5,
+      "Path": "Cameras.AIModelType",
+      "ParentId": "100037",
+      "DataType": "Int32",
+      "CompositeIndexes": [],
+      "EnumeratedValues": [
+        {
+          "Value": 0,
+          "Name": "无"
+        },
+        {
+          "Value": 1,
+          "Name": "乱丢垃圾"
+        },
+        {
+          "Value": 2,
+          "Name": "混合投放"
+        },
+        {
+          "Value": 3,
+          "Name": "垃圾满溢"
+        }
+      ]
+    },
+    {
+      "Id": "100050",
+      "Name": "BsCameraId",
+      "Description": "业务平台摄像机ID",
+      "Category": 6,
+      "Path": "Cameras.BsCameraId",
+      "ParentId": "100037",
+      "DataType": "String",
+      "IsUnique": true,
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100051",
+      "Name": "ProfileState",
+      "Description": "档案状态",
+      "Category": 6,
+      "Path": "ProfileState",
+      "DataType": "Int32",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "EnumeratedValues": [
+        {
+          "Value": 1,
+          "Name": "初建档案"
+        },
+        {
+          "Value": 2,
+          "Name": "勘察完成"
+        },
+        {
+          "Value": 3,
+          "Name": "安装完成"
+        },
+        {
+          "Value": 4,
+          "Name": "现场调试"
+        },
+        {
+          "Value": 5,
+          "Name": "准备上线"
+        },
+        {
+          "Value": 6,
+          "Name": "运营上线"
+        },
+        {
+          "Value": 7,
+          "Name": "过期拆除"
+        },
+        {
+          "Value": 8,
+          "Name": "超期欠费"
+        }
+      ]
+    },
+    {
+      "Id": "100052",
+      "Name": "BsStationId",
+      "Description": "业务平台厢房ID",
+      "Category": 6,
+      "Path": "BsStationId",
+      "DataType": "String",
+      "IsUnique": true,
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100053",
+      "Name": "CreationTime",
+      "Description": "创建时间",
+      "Category": 6,
+      "Path": "CreationTime",
+      "DataType": "DateTime",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100054",
+      "Name": "UpdateTime",
+      "Description": "更新时间",
+      "Category": 6,
+      "Path": "UpdateTime",
+      "DataType": "DateTime",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100055",
+      "Name": "Labels",
+      "Description": "自定义标签数组",
+      "Category": 6,
+      "Path": "Labels",
+      "IsArray": true,
+      "DataType": "Int32",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100056",
+      "Name": "IMEICardType",
+      "Description": "流量卡类型",
+      "Category": 4,
+      "Path": "IMEICardType",
+      "DataType": "Int32",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "EnumeratedValues": [
+        {
+          "Value": 1,
+          "Name": "五角场电信有线网络"
+        },
+        {
+          "Value": 2,
+          "Name": "五角场电信流量池"
+        },
+        {
+          "Value": 3,
+          "Name": "移动流量池"
+        },
+        {
+          "Value": 4,
+          "Name": "宝山电信流量池"
+        }
+      ]
+    }
+  ]
+}

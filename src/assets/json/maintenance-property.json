@@ -1,0 +1,617 @@
+{
+  "Page": {
+    "PageIndex": 1,
+    "PageSize": 100,
+    "PageCount": 1,
+    "RecordCount": 43,
+    "TotalRecordCount": 43
+  },
+  "Data": [
+    {
+      "Id": "100001",
+      "Name": "Id",
+      "Description": "工单ID",
+      "Category": 1,
+      "Path": "Id",
+      "DataType": "String",
+      "IsUnique": true,
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100002",
+      "Name": "Province",
+      "Description": "省",
+      "Category": 1,
+      "Path": "Province",
+      "DataType": "String",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100003",
+      "Name": "City",
+      "Description": "市",
+      "Category": 1,
+      "Path": "City",
+      "DataType": "String",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100004",
+      "Name": "County",
+      "Description": "区、县",
+      "Category": 1,
+      "Path": "County",
+      "DataType": "String",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100005",
+      "Name": "Street",
+      "Description": "街道、村",
+      "Category": 1,
+      "Path": "Street",
+      "DataType": "String",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100006",
+      "Name": "Committee",
+      "Description": "居委会",
+      "Category": 1,
+      "Path": "Committee",
+      "DataType": "String",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100007",
+      "Name": "GarbageStationProfileId",
+      "Description": "厢房档案ID",
+      "Category": 1,
+      "Path": "GarbageStationProfileId",
+      "DataType": "String",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100008",
+      "Name": "GarbageStationName",
+      "Description": "厢房名称",
+      "Category": 1,
+      "Path": "GarbageStationName",
+      "DataType": "String",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100009",
+      "Name": "GarbageStationAddress",
+      "Description": "厢房地址",
+      "Category": 1,
+      "Path": "GarbageStationAddress",
+      "DataType": "String",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100010",
+      "Name": "CreationPersonnel",
+      "Description": "创建人员",
+      "Category": 1,
+      "Path": "CreationPersonnel",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100011",
+      "Name": "CreationUserId",
+      "Description": "创建账户ID",
+      "Category": 1,
+      "Path": "CreationUserId",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100012",
+      "Name": "CreationTime",
+      "Description": "创建时间",
+      "Category": 1,
+      "Path": "CreationTime",
+      "DataType": "DateTime",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100013",
+      "Name": "ProfileType",
+      "Description": "工单类型",
+      "Category": 1,
+      "Path": "ProfileType",
+      "DataType": "Int32",
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": [
+        {
+          "Value": 1,
+          "Name": "用户报修"
+        },
+        {
+          "Value": 2,
+          "Name": "平台巡检报修"
+        },
+        {
+          "Value": 3,
+          "Name": "运营报修"
+        }
+      ]
+    },
+    {
+      "Id": "100014",
+      "Name": "MaintenanceType",
+      "Description": "维修类型",
+      "Category": 1,
+      "Path": "MaintenanceType",
+      "DataType": "Int32",
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": [
+        {
+          "Value": 1,
+          "Name": "摄像机全下线"
+        },
+        {
+          "Value": 2,
+          "Name": "摄像机角度调整"
+        },
+        {
+          "Value": 3,
+          "Name": "摄像机镜头遮挡"
+        },
+        {
+          "Value": 4,
+          "Name": "摄像机掉落"
+        },
+        {
+          "Value": 5,
+          "Name": "摄像机离线"
+        },
+        {
+          "Value": 6,
+          "Name": "网络信号不好"
+        },
+        {
+          "Value": 7,
+          "Name": "摄像机图像异常"
+        },
+        {
+          "Value": 8,
+          "Name": "灯损坏"
+        },
+        {
+          "Value": 99,
+          "Name": "其它"
+        }
+      ]
+    },
+    {
+      "Id": "100015",
+      "Name": "MaintenanceDescription",
+      "Description": "其他维修类型描述",
+      "Category": 1,
+      "Path": "MaintenanceDescription",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100016",
+      "Name": "Customer",
+      "Description": "报修用户",
+      "Category": 1,
+      "Path": "Customer",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100017",
+      "Name": "CustomerPhoneNo",
+      "Description": "用户电话",
+      "Category": 1,
+      "Path": "CustomerPhoneNo",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100018",
+      "Name": "FaultDate",
+      "Description": "故障日期",
+      "Category": 1,
+      "Path": "FaultDate",
+      "DataType": "Date",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100019",
+      "Name": "DistributionPersonnel",
+      "Description": "派单人员",
+      "Category": 2,
+      "Path": "DistributionPersonnel",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100020",
+      "Name": "DistributionUserId",
+      "Description": "派单账户ID",
+      "Category": 2,
+      "Path": "DistributionUserId",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100021",
+      "Name": "DistributionTime",
+      "Description": "派单时间",
+      "Category": 2,
+      "Path": "DistributionTime",
+      "DataType": "DateTime",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100022",
+      "Name": "MaintenancePersonnel",
+      "Description": "维修人员",
+      "Category": 2,
+      "Path": "MaintenancePersonnel",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100023",
+      "Name": "MaintenanceUserId",
+      "Description": "维修账户ID",
+      "Category": 2,
+      "Path": "MaintenanceUserId",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100024",
+      "Name": "MaintenanceDeadline",
+      "Description": "维修截至时间",
+      "Category": 2,
+      "Path": "MaintenanceDeadline",
+      "DataType": "DateTime",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100025",
+      "Name": "FaultType",
+      "Description": "故障类型",
+      "Category": 3,
+      "Path": "FaultType",
+      "DataType": "Int32",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "EnumeratedValues": [
+        {
+          "Value": 1,
+          "Name": "流量卡故障"
+        },
+        {
+          "Value": 2,
+          "Name": "线路故障"
+        },
+        {
+          "Value": 3,
+          "Name": "交换机故障"
+        },
+        {
+          "Value": 4,
+          "Name": "视频画面失效"
+        },
+        {
+          "Value": 5,
+          "Name": "12V灯泡故障"
+        },
+        {
+          "Value": 6,
+          "Name": "需要工程维修"
+        },
+        {
+          "Value": 7,
+          "Name": "NB板重启恢复"
+        },
+        {
+          "Value": 99,
+          "Name": "其它"
+        }
+      ]
+    },
+    {
+      "Id": "100026",
+      "Name": "FaultDescription",
+      "Description": "其他故障描述",
+      "Category": 3,
+      "Path": "FaultDescription",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100027",
+      "Name": "MaterialItems",
+      "Description": "物料项列表",
+      "Category": 3,
+      "Path": "MaterialItems",
+      "IsArray": true,
+      "IsObject": true,
+      "DataType": "Object",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100028",
+      "Name": "Id",
+      "Description": "物料ID",
+      "Category": 3,
+      "Path": "MaterialItems.Id",
+      "ParentId": "100027",
+      "DataType": "Int32",
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100029",
+      "Name": "Name",
+      "Description": "物料名称",
+      "Category": 3,
+      "Path": "MaterialItems.Name",
+      "ParentId": "100027",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100030",
+      "Name": "Number",
+      "Description": "物料数量",
+      "Category": 3,
+      "Path": "MaterialItems.Number",
+      "ParentId": "100027",
+      "DataType": "Int32",
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100031",
+      "Name": "MaintenanceTime",
+      "Description": "维修完成时间",
+      "Category": 3,
+      "Path": "MaintenanceTime",
+      "DataType": "DateTime",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100032",
+      "Name": "SceneImageUrls",
+      "Description": "维修现场照片",
+      "Category": 3,
+      "Path": "SceneImageUrls",
+      "IsArray": true,
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100033",
+      "Name": "ConstructionState",
+      "Description": "工程维修状态",
+      "Category": 4,
+      "Path": "ConstructionState",
+      "DataType": "Int32",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "EnumeratedValues": [
+        {
+          "Value": 0,
+          "Name": "非工程维修"
+        },
+        {
+          "Value": 1,
+          "Name": "申请工程维修"
+        },
+        {
+          "Value": 2,
+          "Name": "已批准工程维修"
+        },
+        {
+          "Value": 3,
+          "Name": "驳回工程维修"
+        }
+      ]
+    },
+    {
+      "Id": "100034",
+      "Name": "ConstructionReason",
+      "Description": "工程维修原因",
+      "Category": 4,
+      "Path": "ConstructionReason",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100035",
+      "Name": "ConstructionApplicationTime",
+      "Description": "工程维修申请时间",
+      "Category": 4,
+      "Path": "ConstructionApplicationTime",
+      "DataType": "DateTime",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100036",
+      "Name": "ConstructionApprovalReason",
+      "Description": "工程维修审批原因",
+      "Category": 4,
+      "Path": "ConstructionApprovalReason",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100037",
+      "Name": "ConstructionApprovalTime",
+      "Description": "工程维修审批时间",
+      "Category": 4,
+      "Path": "ConstructionApprovalTime",
+      "DataType": "DateTime",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100038",
+      "Name": "CompletionPersonnel",
+      "Description": "确认完成人员",
+      "Category": 5,
+      "Path": "CompletionPersonnel",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100039",
+      "Name": "CompletionUserId",
+      "Description": "确认完成账户ID",
+      "Category": 5,
+      "Path": "CompletionUserId",
+      "DataType": "String",
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100040",
+      "Name": "CompletionTime",
+      "Description": "确认完成时间",
+      "Category": 5,
+      "Path": "CompletionTime",
+      "DataType": "DateTime",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100041",
+      "Name": "OutOfTime",
+      "Description": "是否超期",
+      "Category": 1,
+      "Path": "OutOfTime",
+      "DataType": "Int32",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "EnumeratedValues": [
+        {
+          "Value": 0,
+          "Name": "未超期"
+        },
+        {
+          "Value": 1,
+          "Name": "已超期"
+        }
+      ]
+    },
+    {
+      "Id": "100042",
+      "Name": "UpdateTime",
+      "Description": "更新时间",
+      "Category": 1,
+      "Path": "UpdateTime",
+      "DataType": "DateTime",
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": []
+    },
+    {
+      "Id": "100043",
+      "Name": "ProfileState",
+      "Description": "档案状态",
+      "Category": 1,
+      "Path": "ProfileState",
+      "DataType": "Int32",
+      "IsIndex": true,
+      "CompositeIndexes": [],
+      "Mandatory": true,
+      "EnumeratedValues": [
+        {
+          "Value": 1,
+          "Name": "待派单"
+        },
+        {
+          "Value": 2,
+          "Name": "已派单"
+        },
+        {
+          "Value": 3,
+          "Name": "维修完成"
+        },
+        {
+          "Value": 4,
+          "Name": "维修未完成"
+        },
+        {
+          "Value": 5,
+          "Name": "确认完成"
+        }
+      ]
+    }
+  ]
+}
