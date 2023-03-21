@@ -86,6 +86,7 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.jumpState);
     this._init();
   }
 
@@ -102,6 +103,8 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
     }
 
     this._changeDetector.detectChanges();
+    if (this.matStepper)
+      this.matStepper.selectedIndex = this.jumpState ? this.jumpState - 1 : 0;
   }
   ngAfterViewInit(): void {}
   selectionChange(e: StepperSelectionEvent) {
