@@ -40,3 +40,12 @@ export interface ProfilePropertyValueModel {
   profileId: string;
   model: PropertyValueModel;
 }
+export const GarbageStationProfileTableDefaultNames = [
+  'ProfileName',
+  'Province',
+  'County',
+  'Street',
+  'Committee',
+  'ProfileState',
+  'UpdateTime',
+];

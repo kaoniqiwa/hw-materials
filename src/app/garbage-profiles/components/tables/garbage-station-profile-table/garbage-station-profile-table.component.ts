@@ -18,6 +18,7 @@ import { GarbageStationProfileTableBusiness } from './garbage-station-profile-ta
 import { GarbageStationProfileTableConverter } from './garbage-station-profile-table.converter';
 import {
   GarbageStationProfileTableArgs,
+  GarbageStationProfileTableDefaultNames,
   ProfilePropertyValueModel,
 } from './garbage-station-profile-table.model';
 
@@ -69,14 +70,7 @@ export class GarbageStationProfileTableComponent
     this.business = business;
   }
 
-  names: string[] = [
-    'ProfileName',
-    'Province',
-    'County',
-    'Street',
-    'Committee',
-    'ProfileState',
-  ];
+  names: string[] = GarbageStationProfileTableDefaultNames;
 
   properties: Property[] = [];
 

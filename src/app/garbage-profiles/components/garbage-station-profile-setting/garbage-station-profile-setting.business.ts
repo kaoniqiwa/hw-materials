@@ -7,6 +7,7 @@ import {
 import { LocalStorageService } from 'src/app/common/service/local-storage.service';
 import { UserConfigType } from 'src/app/enum/user-config-type.enum';
 import { UserRequestService } from 'src/app/network/request/user/user-request.service';
+import { GarbageStationProfileTableDefaultNames } from '../tables/garbage-station-profile-table/garbage-station-profile-table.model';
 
 @Injectable()
 export class GarbageStationProfileSettingBusiness
@@ -27,15 +28,7 @@ export class GarbageStationProfileSettingBusiness
     );
 
     if (!data) {
-      return [
-        'ProfileName',
-        'Province',
-        'County',
-        'Street',
-        'Committee',
-        'ProfileState',
-        'UpdateTime',
-      ];
+      return GarbageStationProfileTableDefaultNames;
     }
 
     return data as string[];

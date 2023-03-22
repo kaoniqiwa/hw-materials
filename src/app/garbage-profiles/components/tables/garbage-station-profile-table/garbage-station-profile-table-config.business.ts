@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { LocalStorageService } from 'src/app/common/service/local-storage.service';
 import { UserConfigType } from 'src/app/enum/user-config-type.enum';
 import { UserRequestService } from 'src/app/network/request/user/user-request.service';
+import { GarbageStationProfileTableDefaultNames } from './garbage-station-profile-table.model';
 
 @Injectable()
 export class GarbageStationProfileTableConfigBusiness {
@@ -18,15 +19,7 @@ export class GarbageStationProfileTableConfigBusiness {
       )) as string[];
     }
     if (!ids || ids.length === 0) {
-      ids = [
-        'ProfileName',
-        'Province',
-        'County',
-        'Street',
-        'Committee',
-        'ProfileState',
-        'UpdateTime',
-      ];
+      ids = GarbageStationProfileTableDefaultNames;
     }
 
     return ids;
