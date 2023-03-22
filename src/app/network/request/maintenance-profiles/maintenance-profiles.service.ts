@@ -139,7 +139,13 @@ class MaintenanceProfilePropertiesRequestService {
     });
     return false;
   }
-  get(id: string) {
+  async get(id: string) {
+    if (this.properties && this.properties.length > 0) {
+      let property = this.properties.find((x) => x.Id === id || x.Name === id);
+      if (property) {
+        return property;
+      }
+    }
     let url = MaintenanceProfilesUrl.properties().item(id);
     return this.type.get(url);
   }
