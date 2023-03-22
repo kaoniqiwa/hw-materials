@@ -21,6 +21,7 @@
           </td>
           <td>记录类型</td>
           <td>物料</td>
+          <td *ngIf="hasputout">档案名称</td>
           <td>备注信息</td>
           <td class="operation center"><div>操作</div></td>
         </tr>
@@ -44,16 +45,29 @@
             <td>{{ item.MaterialRecordTypeName }}</td>
 
             <td>
-              <mat-chip-list class="mat-chip-list-region-tree" #chipList>
+              <mat-chip-list class="material-chip-list" #chipList>
                 <mat-chip
-                  *ngFor="let item of item.MaterialItems"
-                  [title]="item.Name + ':' + item.Number"
+                  *ngFor="let material of item.MaterialItems"
+                  [title]="material.Name + ':' + material.Number"
                 >
-                  {{ item.Name }}:{{ item.Number }}
+                  <div class="mat-chip-item">
+                    <div class="mat-chip-item-title">{{ material.Name }}：</div>
+                    <div
+                      class="mat-chip-item-value"
+                      [ngClass]="{
+                        putin:
+                          item.MaterialRecordType === MaterialRecordType.putin,
+                        putout:
+                          item.MaterialRecordType === MaterialRecordType.putout
+                      }"
+                    >
+                      <b>{{ material.Number }}</b>
+                    </div>
+                  </div>
                 </mat-chip>
               </mat-chip-list>
             </td>
-
+            <td *ngIf="hasputout">{{ item.ProfileName }}</td>
             <td>
               {{ item.Description }}
             </td>
@@ -94,7 +108,7 @@
           [length]="page ? page.TotalRecordCount : 0"
           [pageSize]="page ? page.PageSize : 0"
           [pagerCount]="5"
-          [pageIndex]="0"
+          [pageIndex]="page.PageIndex - 1"
           [showFirstLastButtons]="true"
           (page)="pageEvent($event)"
         >

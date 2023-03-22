@@ -37,6 +37,17 @@ export class MaintenanceProfileManagerComponent {
         this.showPicture(model.model);
       }
     }
+    switch (model.model.PropertyId) {
+      case 'MaterialItems':
+        this.window.partial.model = model.model;
+        this.window.partial.id = model.profileId;
+        this.window.partial.show = true;
+
+        break;
+
+      default:
+        break;
+    }
   }
   private async showPicture(model: PropertyValueModel) {
     if (model.Property) {

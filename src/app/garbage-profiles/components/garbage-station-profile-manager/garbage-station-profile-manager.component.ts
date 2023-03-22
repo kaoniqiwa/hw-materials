@@ -110,11 +110,16 @@ export class GarbageStationProfileManagerComponent implements OnInit {
 
     switch (model.model.PropertyId) {
       case 'Cameras':
+        this.window.partial.model = model.model;
+        this.window.partial.id = model.profileId;
+        this.window.partial.show = true;
+        this.window.partial.style.height = '600px';
+        break;
       case 'MaterialItems':
         this.window.partial.model = model.model;
         this.window.partial.id = model.profileId;
         this.window.partial.show = true;
-
+        this.window.partial.style.height = '700px';
         break;
 
       default:

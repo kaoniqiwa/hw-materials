@@ -98,6 +98,17 @@
 </app-window>
 
 <app-window
+  [Model]="window.partial"
+  [style]="window.partial.style"
+  *ngIf="window.partial.show"
+>
+  <garbage-station-profile-partial-data
+    [model]="window.partial.model"
+    [profileId]="window.partial.id"
+  ></garbage-station-profile-partial-data>
+</app-window>
+
+<app-window
   [Model]="window.picture.multiple"
   [style]="window.picture.multiple.style"
   *ngIf="window.picture.multiple.show"

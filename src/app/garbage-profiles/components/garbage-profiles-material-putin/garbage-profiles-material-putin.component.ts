@@ -20,6 +20,9 @@ export class GarbageProfilesMaterialPutInComponent {
 
   materials: MaterialItemModel[] = [];
   selectedIds: string[] = [];
+
+  max = Number.MAX_VALUE;
+
   onTreeNodeSelected(nodes: CommonFlatNode[]) {
     let materials = nodes
       .filter((x) => {

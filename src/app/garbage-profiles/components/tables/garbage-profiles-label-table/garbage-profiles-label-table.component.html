@@ -65,7 +65,7 @@
           [length]="page ? page.TotalRecordCount : 0"
           [pageSize]="page ? page.PageSize : 0"
           [pagerCount]="5"
-          [pageIndex]="0"
+          [pageIndex]="page.PageIndex - 1"
           [showFirstLastButtons]="true"
           (page)="pageEvent($event)"
         >

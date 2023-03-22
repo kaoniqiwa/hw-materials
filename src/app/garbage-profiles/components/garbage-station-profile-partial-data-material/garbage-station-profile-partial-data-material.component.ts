@@ -5,6 +5,7 @@ import {
   IModel,
   IObjectModel,
 } from 'src/app/common/interfaces/model.interface';
+import { MaterialRecordType } from 'src/app/enum/material-record-type.enum';
 import { MaterialItemModel } from 'src/app/model/material-item.model';
 import { MaterialRecordModel } from 'src/app/model/material-record.model';
 import { GarbageStationProfilePartialDataMaterialBusiness } from './garbage-station-profile-partial-data-material.business';
@@ -36,7 +37,7 @@ export class GarbageStationProfilePartialDataMaterialComponent
   records: MaterialRecordModel[] = [];
   index: number = 0;
   selected?: MaterialRecordModel;
-
+  MaterialRecordType = MaterialRecordType;
   ngOnInit(): void {
     this.loadData();
     if (this.load) {

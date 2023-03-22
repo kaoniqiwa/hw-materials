@@ -1,16 +1,19 @@
 import { DataWindowViewModel } from 'src/app/common/components/window-control/window.model';
 import { FormState } from 'src/app/enum/form-state.enum';
+import { PropertyValueModel } from 'src/app/model/property-value.model';
 
 export class MaintenanceProfileWindow {
   setting = new MaintenanceProfileSettingWindow();
   details = new MaintenanceProfileDeatilsWindow();
   filter = new MaintenanceProfileFilterWindow();
   picture = new MaintenanceProfilePictureWindow();
+  partial = new MaintenanceProfilePartialDataWindow();
   clear() {
     this.setting.clear();
     this.details.clear();
     this.filter.clear();
     this.picture.clear();
+    this.partial.clear();
   }
   close() {
     this.setting.show = false;
@@ -18,6 +21,7 @@ export class MaintenanceProfileWindow {
     this.filter.show = false;
     this.picture.single.show = false;
     this.picture.multiple.show = false;
+    this.partial.show = false;
   }
 }
 class MaintenanceProfileSettingWindow extends DataWindowViewModel {
@@ -69,4 +73,16 @@ class MaintenanceProfilePictureWindow {
 
   single = new MaintenanceProfilePictureSingleWindow();
   multiple = new MaintenanceProfilePictureMultipleWindow();
+}
+class MaintenanceProfilePartialDataWindow extends DataWindowViewModel {
+  override clear(): void {
+    this.model = undefined;
+    this.id = undefined;
+  }
+  style = {
+    width: 'auto',
+    height: '700px',
+  };
+  model?: PropertyValueModel;
+  id?: string;
 }

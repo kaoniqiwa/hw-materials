@@ -40,17 +40,29 @@
     .mat-tab-label .mat-tab-label-content {
       font-size: 16px;
     }
+
+    .mat-chip-list {
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
   }
 
   .mat-chip-item {
     display: flex;
     align-items: center;
 
-    &-title {}
+    // &-title {}
 
     &-value {
-      color: white;
       color: aqua;
+
+      &.putin {
+        color: #21E452
+      }
+
+      &.putout {
+        color: #ffba00
+      }
     }
   }
 

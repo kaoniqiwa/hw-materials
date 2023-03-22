@@ -17,7 +17,7 @@ export class GarbageProfilesMaterialPutoutComponent {
 
   description: string = '';
   image?: string;
-
+  max = Number.MAX_VALUE;
   materials: MaterialItemModel[] = [];
   selectedIds: string[] = [];
   onTreeNodeSelected(nodes: CommonFlatNode[]) {

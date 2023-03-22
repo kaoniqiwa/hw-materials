@@ -10,5 +10,27 @@
     margin-right: 10px;
   }
 
+  .material-chip-list {
+    overflow-x: auto;
+    overflow-y: hidden;
 
+    .mat-chip-item {
+      display: flex;
+      align-items: center;
+
+      // &-title {}
+
+      &-value {
+        color: aqua;
+
+        &.putin {
+          color: #21E452
+        }
+
+        &.putout {
+          color: #ffba00
+        }
+      }
+    }
+  }
 }

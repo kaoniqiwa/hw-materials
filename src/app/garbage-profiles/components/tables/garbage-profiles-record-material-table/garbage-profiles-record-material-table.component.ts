@@ -12,6 +12,7 @@ import { CommonFlatNode } from 'src/app/common/components/common-tree/common-fla
 import { IBusiness } from 'src/app/common/interfaces/bussiness.interface';
 import { IComponent } from 'src/app/common/interfaces/component.interfact';
 import { IModel } from 'src/app/common/interfaces/model.interface';
+import { MaterialRecordType } from 'src/app/enum/material-record-type.enum';
 import { MaterialRecordModel } from 'src/app/model/material-record.model';
 import { PagedList } from 'src/app/network/entity/page.entity';
 import { PagedTableAbstractComponent } from '../table-paged-abstract.component';
@@ -59,6 +60,8 @@ export class GarbageProfilesRecordMaterialTableComponent
   }
   widths: string[] = ['', '10%', '30%', '', ''];
   selectedNodes: { [key: string]: CommonFlatNode[] } = {};
+  MaterialRecordType = MaterialRecordType;
+  hasputout = false;
   ngOnInit(): void {
     this.loadData(1);
   }
@@ -76,9 +79,13 @@ export class GarbageProfilesRecordMaterialTableComponent
   loadData(index: number, size: number = 8): void {
     this.selectedNodes = {};
     this.loading = true;
-    this.business.load(index, size, this.args).then((x) => {
-      this.page = x.Page;
-      this.datas = x.Data;
+    this.business.load(index, size, this.args).then((paged) => {
+      this.page = paged.Page;
+      this.datas = paged.Data;
+      let index = this.datas.findIndex(
+        (x) => x.MaterialRecordType === MaterialRecordType.putout
+      );
+      this.hasputout = index >= 0;
       this.datas.forEach((data) => {
         this.selectedNodes[data.Id] = data.MaterialItems.map((item) => {
           let node = new CommonFlatNode();
@@ -87,7 +94,7 @@ export class GarbageProfilesRecordMaterialTableComponent
           return node;
         });
       });
-      this.loaded.emit(x);
+      this.loaded.emit(paged);
       this.loading = false;
     });
   }
