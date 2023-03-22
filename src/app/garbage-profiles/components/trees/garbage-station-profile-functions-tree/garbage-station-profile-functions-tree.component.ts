@@ -71,7 +71,6 @@ export class GarbageStationProfileFunctionsTreeComponent
     this._nestedNodeMap = this._business.nestedNodeMap;
 
     let res = await this._business.init();
-    // console.log(res);
     this.dataSubject.next(res);
 
     if (this.isloaded === false) {

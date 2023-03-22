@@ -70,14 +70,18 @@ export class GarbageStationProfileManagerComponent implements OnInit {
     this.window.details.form = FormState.add;
     this.window.details.show = true;
   }
-  onmodify() {
+  async onmodify() {
     if (this.selected) {
       this.window.details.form = FormState.edit;
       this.window.details.selected = this.selected.Id;
       if ('ProfileState' in this.selected) {
         this.window.details.state = this.selected['ProfileState'] as number;
+      } else {
+        let data = await this.business.get(this.selected.Id);
+        if (data) {
+          this.window.details.state = data['ProfileState'];
+        }
       }
-      console.log(this.window.details);
 
       this.window.details.show = true;
     }
@@ -95,7 +99,6 @@ export class GarbageStationProfileManagerComponent implements OnInit {
     this.load.emit(this.args);
   }
   async onitemclick(model: ProfilePropertyValueModel) {
-    console.log(model);
     if (model.model.PropertyId && model.model.Value) {
       if (model.model.PropertyId.toLowerCase().includes('url')) {
         this.showPicture(model.model);
@@ -121,7 +124,6 @@ export class GarbageStationProfileManagerComponent implements OnInit {
     this.window.picture.show = true;
   }
   showPartialData(model: ProfilePropertyValueModel) {
-    console.log(model);
     this.window.partial.model = model.model;
     this.window.partial.show = true;
   }
@@ -164,7 +166,6 @@ export class GarbageStationProfileManagerComponent implements OnInit {
     this.load.emit(this.args);
   }
   ondetailsputoutrecord(data: PartialData) {
-    console.log(data);
     let model = new PropertyValueModel();
     model.PropertyId = 'MaterialItems';
     model.Value = data[model.PropertyId];

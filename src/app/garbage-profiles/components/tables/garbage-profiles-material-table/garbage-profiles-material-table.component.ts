@@ -77,7 +77,6 @@ export class GarbageProfilesMaterialTableComponent
     if (this.excel) {
       this.excel.subscribe((title) => {
         this.business.download(this.args).then((url) => {
-          console.log(url);
           let link = document.createElement('a');
           link.href = url;
           link.download = title;

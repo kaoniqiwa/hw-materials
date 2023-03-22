@@ -61,12 +61,10 @@ export class GarbageStationProfilePropertyTreeComponent
     this._nestedNodeMap = this._business.nestedNodeMap;
 
     let res = await this._business.init(this._condition);
-    // console.log(res);
     this.dataSubject.next(res);
     this.loaded.emit();
   }
   async searchEventHandler(condition: string) {
-    console.log('搜索字段', condition);
     if (this._condition == condition && this._condition != '') {
       this._toastrService.warning('重复搜索相同字段');
       return;
@@ -75,7 +73,6 @@ export class GarbageStationProfilePropertyTreeComponent
     this._condition = condition;
 
     let res = await this._business.searchNode(condition);
-    // console.log(res)
     if (res && res.length) {
       this._toastrService.success('操作成功');
 
