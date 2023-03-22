@@ -1,22 +1,22 @@
 import { formatDate } from '@angular/common';
 import { Injectable } from '@angular/core';
+import { MaintenanceProfileRequestService } from 'src/app/network/request/maintenance-profiles/maintenance-profiles.service';
 import { IConverter } from '../../common/interfaces/converter.interface';
 import { PropertyDataType } from '../../enum/property-data-type.enum';
 import { PropertyModel } from '../../model/property.model';
 import { PartialData } from '../../network/entity/partial-data.interface';
 import { ValueNamePair } from '../../network/entity/value-name-pair.entity';
-import { GarbageStationProfilesRequestService } from '../../network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
-import { PropertyConverter } from '../property.converter';
+import { GarbageStationProfilePropertyConverter } from '../garbage-statopm-profile/garbage-statopm-profile-property.converter';
 
 @Injectable({
   providedIn: 'root',
 })
-export class GarbageStationProfilePartialDataConverter
+export class MaintenanceProfilePartialDataConverter
   implements IConverter<PartialData, Promise<PartialData>>
 {
   constructor(
-    private service: GarbageStationProfilesRequestService,
-    private converter: PropertyConverter
+    private service: MaintenanceProfileRequestService,
+    private converter: GarbageStationProfilePropertyConverter
   ) {}
 
   async convert(source: PartialData): Promise<PartialData> {

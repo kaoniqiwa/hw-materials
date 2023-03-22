@@ -51,7 +51,7 @@ export class GarbageStationProfileTableBusiness
     let pv = new PropertyValue();
     pv.PropertyId = name;
     pv.Value = value;
-    return this.vmConverter.property_value.convert(pv);
+    return this.vmConverter.property_value.garbagestation.convert(pv);
   }
   async load(
     index: number,

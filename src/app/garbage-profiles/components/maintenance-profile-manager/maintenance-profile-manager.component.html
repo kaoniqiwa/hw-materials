@@ -96,3 +96,12 @@
     (cancel)="onwindowclose()"
   ></maintenance-profile-filter>
 </app-window>
+
+<app-window
+  [Model]="window.picture.multiple"
+  [style]="window.picture.multiple.style"
+  *ngIf="window.picture.multiple.show"
+>
+  <howell-picture-control-multiple [ids]="window.picture.multiple.ids">
+  </howell-picture-control-multiple>
+</app-window>

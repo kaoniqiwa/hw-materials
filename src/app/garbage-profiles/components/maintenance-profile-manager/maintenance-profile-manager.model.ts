@@ -5,15 +5,19 @@ export class MaintenanceProfileWindow {
   setting = new MaintenanceProfileSettingWindow();
   details = new MaintenanceProfileDeatilsWindow();
   filter = new MaintenanceProfileFilterWindow();
+  picture = new MaintenanceProfilePictureWindow();
   clear() {
     this.setting.clear();
     this.details.clear();
     this.filter.clear();
+    this.picture.clear();
   }
   close() {
     this.setting.show = false;
     this.details.show = false;
     this.filter.show = false;
+    this.picture.single.show = false;
+    this.picture.multiple.show = false;
   }
 }
 class MaintenanceProfileSettingWindow extends DataWindowViewModel {
@@ -36,4 +40,33 @@ class MaintenanceProfileFilterWindow extends DataWindowViewModel {
     width: '800px',
     height: 'auto',
   };
+}
+class MaintenanceProfilePictureMultipleWindow extends DataWindowViewModel {
+  override clear(): void {
+    this.ids = [];
+  }
+  style = {
+    width: '50%',
+    height: '50%',
+  };
+  ids: string[] = [];
+}
+class MaintenanceProfilePictureSingleWindow extends DataWindowViewModel {
+  override clear(): void {
+    this.id = undefined;
+  }
+  style = {
+    width: '50%',
+    height: '50%',
+  };
+  id?: string;
+}
+class MaintenanceProfilePictureWindow {
+  clear(): void {
+    this.single.clear();
+    this.multiple.clear();
+  }
+
+  single = new MaintenanceProfilePictureSingleWindow();
+  multiple = new MaintenanceProfilePictureMultipleWindow();
 }

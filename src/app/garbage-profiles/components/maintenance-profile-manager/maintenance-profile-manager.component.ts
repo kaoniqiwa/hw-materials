@@ -1,6 +1,7 @@
 import { Component, EventEmitter } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { FormState } from 'src/app/enum/form-state.enum';
+import { PropertyValueModel } from 'src/app/model/property-value.model';
 import { IPartialData } from 'src/app/network/entity/partial-data.interface';
 import { MaintenanceProfilesLanguageTools } from '../../tools/maintenance-profile-language.too';
 import { MaintenanceProfilesSourceTools } from '../../tools/maintenance-profile-source.tool';
@@ -30,7 +31,25 @@ export class MaintenanceProfileManagerComponent {
   onselected(item?: IPartialData) {
     this.selected = item;
   }
-  async onitemclick(model: ProfilePropertyValueModel) {}
+  async onitemclick(model: ProfilePropertyValueModel) {
+    if (model.model.PropertyId && model.model.Value) {
+      if (model.model.PropertyId.toLowerCase().includes('url')) {
+        this.showPicture(model.model);
+      }
+    }
+  }
+  private async showPicture(model: PropertyValueModel) {
+    if (model.Property) {
+      let property = await model.Property;
+      if (property.IsArray) {
+        this.window.picture.multiple.ids = model.Value as string[];
+        this.window.picture.multiple.show = true;
+      } else {
+        this.window.picture.single.id = model.Value as string;
+        this.window.picture.single.show = true;
+      }
+    }
+  }
 
   toexcel() {
     this.excel.emit(this.title);

@@ -40,7 +40,11 @@
                     ? (item[name] | garbage_station_profile_state_color_pipe)
                     : undefined
               }"
-              [innerHTML]="item[name + 'View']"
+              [innerHTML]="
+                name === 'Labels'
+                  ? (item[name + 'View'] | async)
+                  : item[name + 'View']
+              "
             ></div>
           </td>
         </tr>

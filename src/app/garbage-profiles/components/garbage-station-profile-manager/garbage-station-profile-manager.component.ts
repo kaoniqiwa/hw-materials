@@ -122,13 +122,9 @@ export class GarbageStationProfileManagerComponent implements OnInit {
     }
   }
 
-  showPicture(model: PropertyValueModel) {
+  private showPicture(model: PropertyValueModel) {
     this.window.picture.urlId = model.Value as string;
     this.window.picture.show = true;
-  }
-  showPartialData(model: ProfilePropertyValueModel) {
-    this.window.partial.model = model.model;
-    this.window.partial.show = true;
   }
 
   onrecord() {

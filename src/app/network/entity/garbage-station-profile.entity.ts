@@ -1,4 +1,5 @@
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
+import 'reflect-metadata';
 import { GarbageStationFunction } from 'src/app/enum/garbage-station-function.enum';
 import { StrongCurrentWireMode } from 'src/app/enum/strong-current-wire-mode.enum';
 import { YesOrNo } from 'src/app/enum/yes-or-no.enum';
@@ -66,6 +67,7 @@ export class GarbageStationProfile implements IPartialData {
   @Transform(transformDate)
   ConstructionDate?: Date;
   /**	GPSPoint	GPS经纬度坐标	O	*/
+  @Type(() => GPSPoint)
   GPSPoint?: GPSPoint;
   /**	String	投放时间：如20:00-23:00	O	*/
   @Transform(transformDate)

@@ -1,22 +1,25 @@
 import { formatDate } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { MaintenanceProfileRequestService } from 'src/app/network/request/maintenance-profiles/maintenance-profiles.service';
+import { plainToInstance } from 'class-transformer';
+import { GPSPoint } from 'src/app/network/entity/gps-point.entity';
+import { GetLabelsParams } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
 import { IConverter } from '../../common/interfaces/converter.interface';
 import { PropertyDataType } from '../../enum/property-data-type.enum';
 import { PropertyModel } from '../../model/property.model';
 import { PartialData } from '../../network/entity/partial-data.interface';
 import { ValueNamePair } from '../../network/entity/value-name-pair.entity';
-import { PropertyConverter } from '../property.converter';
+import { GarbageStationProfilesRequestService } from '../../network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
+import { GarbageStationProfilePropertyConverter } from './garbage-statopm-profile-property.converter';
 
 @Injectable({
   providedIn: 'root',
 })
-export class MaintenanceProfilePartialDataConverter
+export class GarbageStationProfilePartialDataConverter
   implements IConverter<PartialData, Promise<PartialData>>
 {
   constructor(
-    private service: MaintenanceProfileRequestService,
-    private converter: PropertyConverter
+    private service: GarbageStationProfilesRequestService,
+    private converter: GarbageStationProfilePropertyConverter
   ) {}
 
   async convert(source: PartialData): Promise<PartialData> {
@@ -57,7 +60,7 @@ export class MaintenanceProfilePartialDataConverter
             source[key + view] = this.fromDouble(value);
             break;
           case PropertyDataType.Object:
-            source[key + view] = this.fromObject(value);
+            source[key + view] = this.fromObject(value, property);
             break;
           case PropertyDataType.Boolean:
             source[key + view] = this.fromBoolean(value);
@@ -94,7 +97,14 @@ export class MaintenanceProfilePartialDataConverter
   fromDouble<T>(value: T) {
     return value;
   }
-  fromObject<T>(value: T) {
+  fromObject<T>(value: T, property: PropertyModel) {
+    if (value) {
+      if (property.Name === 'GPSPoint') {
+        let _value = plainToInstance(GPSPoint, value);
+        return `${_value.Longitude},${_value.Latitude}`;
+      }
+    }
+
     return value;
   }
   fromBoolean<T = boolean>(value: T) {
@@ -123,11 +133,22 @@ export class MaintenanceProfilePartialDataConverter
         property.EnumeratedValues!
       );
     }
-    return this.fromObjectArray(value);
+    return this.fromObjectArray(value, property);
   }
-  fromObjectArray<T>(value: T[]) {
+  fromObjectArray<T>(value: T[], property: PropertyModel) {
+    if (property.Name === 'Labels') {
+      return this.fromLabels(value as unknown as number[]);
+    }
     return `<a>【 ${value.length} 】</a>`;
   }
+
+  async fromLabels(ids: number[]) {
+    let params = new GetLabelsParams();
+    params.Ids = ids;
+    let paged = await this.service.label.list(params);
+    return paged.Data.map((x) => x.Name);
+  }
+
   fromInt32Array<T = number>(value: T[]) {}
   fromEnumArray(array: number[], enums: ValueNamePair[]) {
     let result = '';
