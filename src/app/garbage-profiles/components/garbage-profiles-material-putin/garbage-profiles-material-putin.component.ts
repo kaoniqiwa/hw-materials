@@ -21,21 +21,27 @@ export class GarbageProfilesMaterialPutInComponent {
   materials: MaterialItemModel[] = [];
   selectedIds: string[] = [];
   onTreeNodeSelected(nodes: CommonFlatNode[]) {
-    this.materials = nodes
+    let materials = nodes
       .filter((x) => {
         return x.RawData instanceof MaterialModel;
       })
       .map((n) => {
         let data = n.RawData as MaterialModel;
-        let item = new MaterialItemModel();
-        item.Id = data.Id;
-        item.Name = data.Name;
-        item.Number = 1;
-        item.Model = new Promise((x) => {
-          x(data);
-        });
+        let item = this.materials.find((x) => x.Id.toString() === n.Id);
+        if (!item) {
+          item = new MaterialItemModel();
+          item.Id = data.Id;
+          item.Name = data.Name;
+          item.Number = 1;
+          item.Model = new Promise((x) => {
+            x(data);
+          });
+        }
+
         return item;
       });
+
+    this.materials = materials;
   }
 
   onremove(item: MaterialItemModel) {

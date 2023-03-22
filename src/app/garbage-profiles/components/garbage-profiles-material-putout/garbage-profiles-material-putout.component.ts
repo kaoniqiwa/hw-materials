@@ -2,10 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonFlatNode } from 'src/app/common/components/common-tree/common-flat-node.model';
 import { MaterialItemModel } from 'src/app/model/material-item.model';
 import { MaterialModel } from 'src/app/model/material.model';
-import {
-  PutInMaterialsParams,
-  PutOutMaterialsParams,
-} from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
+import { PutOutMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
 
 @Component({
   selector: 'garbage-profiles-material-putout',
@@ -30,13 +27,16 @@ export class GarbageProfilesMaterialPutoutComponent {
       })
       .map((n) => {
         let data = n.RawData as MaterialModel;
-        let item = new MaterialItemModel();
-        item.Id = data.Id;
-        item.Name = data.Name;
-        item.Number = 1;
-        item.Model = new Promise((x) => {
-          x(data);
-        });
+        let item = this.materials.find((x) => x.Id.toString() === n.Id);
+        if (!item) {
+          item = new MaterialItemModel();
+          item.Id = data.Id;
+          item.Name = data.Name;
+          item.Number = 1;
+          item.Model = new Promise((x) => {
+            x(data);
+          });
+        }
         return item;
       });
   }
