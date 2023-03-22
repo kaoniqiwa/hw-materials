@@ -118,7 +118,7 @@
   <garbage-profile-details-manager
     [formId]="window.details.selected"
     [formState]="window.details.form"
-    [jumpState]="window.details.state"
+    [selectedIndex]="window.details.state"
     (closeDetails)="closeAndUpdate()"
     (updateDetails)="ondetailsupdate()"
     (recordEvent)="ondetailsputoutrecord($event)"

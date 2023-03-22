@@ -47,14 +47,14 @@ class GarbageStationProfileDetailsWindow extends ClearWindowViewModel {
   override clear(): void {
     this.form = FormState.none;
     this.selected = undefined;
-    this.state = undefined;
+    this.state = 0;
   }
   style = {
     width: '600px',
     height: 'auto',
   };
   form: FormState = FormState.none;
-  state?: number;
+  state: number = 0;
   selected?: string;
 }
 class GarbageStationProfileSettingWindow extends ClearWindowViewModel {

@@ -75,11 +75,14 @@ export class GarbageStationProfileManagerComponent implements OnInit {
       this.window.details.form = FormState.edit;
       this.window.details.selected = this.selected.Id;
       if ('ProfileState' in this.selected) {
-        this.window.details.state = this.selected['ProfileState'] as number;
+        this.window.details.state = Math.max(
+          (this.selected['ProfileState'] as number) - 1,
+          0
+        );
       } else {
         let data = await this.business.get(this.selected.Id);
         if (data) {
-          this.window.details.state = data['ProfileState'];
+          this.window.details.state = Math.max(data['ProfileState'] - 1, 0);
         }
       }
 
