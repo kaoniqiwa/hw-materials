@@ -31,7 +31,6 @@ export class WheelHorizontalScrollDirective
     this.ele.removeEventListener('wheel', this.handle);
   }
   event(e: WheelEvent) {
-    console.log(e);
     e.preventDefault();
     this.ele.scrollBy({
       left: e.deltaY < 0 ? -120 : 120,
