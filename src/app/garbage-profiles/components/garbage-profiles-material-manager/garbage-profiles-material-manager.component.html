@@ -1,10 +1,13 @@
 <div class="garbage-profiles-material-manager">
   <div class="garbage-profiles-material-manager-head">
-    <div class="hw-simple-title">物料档案管理</div>
+    <div class="hw-simple-title">{{ title }}</div>
     <div class="garbage-profiles-material-manager-head-operation">
       <div class="operation">
         <button class="hw-blue-btn" (click)="onrecord()">
           <i class="howell-icon-details"></i> 出入库记录
+        </button>
+        <button class="hw-blue-btn" (click)="toexcel()">
+          <i class="howell-icon-export"></i> 导出
         </button>
         <button class="hw-green-btn" (click)="onputin()">
           <i class="howell-icon-inbox"></i> 入库
@@ -18,6 +21,7 @@
           <div class="filter-item-title">类别：</div>
           <div class="filter-item-control">
             <select [(ngModel)]="args.Category">
+              <option [ngValue]="undefined">全部</option>
               <option [ngValue]="item.Id" *ngFor="let item of source.categorys">
                 {{ item.Name }}
               </option>
@@ -39,6 +43,7 @@
   <div class="garbage-profiles-material-manager-content">
     <garbage-profiles-material-table
       [load]="load"
+      [excel]="excel"
       (timeline)="ontimeline($event)"
     >
     </garbage-profiles-material-table>

@@ -25,11 +25,12 @@ export class GarbageProfilesMaterialManagerComponent implements OnInit {
     private business: GarbageProfilesMaterialManagerBusiness,
     private toastr: ToastrService
   ) {}
-
+  title = '物料档案';
   args: GarbageProfilesMaterialTableArgs =
     new GarbageProfilesMaterialTableArgs();
 
   load: EventEmitter<GarbageProfilesMaterialTableArgs> = new EventEmitter();
+  excel: EventEmitter<string> = new EventEmitter();
 
   source: GarbageProfilesMaterialManagerSource =
     new GarbageProfilesMaterialManagerSource();
@@ -41,7 +42,6 @@ export class GarbageProfilesMaterialManagerComponent implements OnInit {
   ngOnInit(): void {
     this.sourceBusiness.load().then((x) => {
       this.source = x;
-      this.source.categorys.unshift({ Id: 0, Name: '全部' });
     });
   }
 
@@ -88,5 +88,8 @@ export class GarbageProfilesMaterialManagerComponent implements OnInit {
   ontimeline(item: MaterialModel) {
     this.window.timeline.model = item;
     this.window.timeline.show = true;
+  }
+  toexcel() {
+    this.excel.emit(this.title);
   }
 }

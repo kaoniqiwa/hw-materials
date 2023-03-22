@@ -43,7 +43,7 @@ export class CommonLabelSelecComponent
   @Output() toggleDropDown = new EventEmitter<boolean>();
   @Output() removeDropItem = new EventEmitter();
 
-  @ContentChild(CommonTree) tree?: CommonTree;
+  @ContentChild('tree') tree?: CommonTree;
 
   constructor(@Inject(DOCUMENT) private document: Document) {}
 

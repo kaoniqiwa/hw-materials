@@ -38,6 +38,7 @@ export class MaintenanceProfileFilterComponent implements OnInit {
     this.manager.material.select.subscribe((x) => {
       this.args.materials = x;
     });
+    this.manager.material.ids = this.args.materials.map((x) => x.toString());
   }
 
   onStrongCurrentWire() {

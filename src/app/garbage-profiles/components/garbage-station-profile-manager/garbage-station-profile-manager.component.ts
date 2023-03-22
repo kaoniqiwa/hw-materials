@@ -40,7 +40,7 @@ export class GarbageStationProfileManagerComponent implements OnInit {
     private activeRoute: ActivatedRoute
   ) {}
 
-  title = '厢房档案管理';
+  title = '厢房档案';
 
   args: GarbageStationProfileTableArgs = new GarbageStationProfileTableArgs();
 
@@ -48,7 +48,7 @@ export class GarbageStationProfileManagerComponent implements OnInit {
 
   window = new GarbageStationProfileWindow();
   load: EventEmitter<GarbageStationProfileTableArgs> = new EventEmitter();
-  toexcel: EventEmitter<GarbageStationProfileTableArgs> = new EventEmitter();
+  excel: EventEmitter<string> = new EventEmitter();
 
   ngOnInit(): void {
     this.args.enums['ProfileState'] = this.state;
@@ -173,16 +173,8 @@ export class GarbageStationProfileManagerComponent implements OnInit {
     this.window.partial.show = true;
   }
 
-  onexport() {
-    this.toexcel.emit(this.args);
-  }
-  onexcel(url: string) {
-    let a = document.createElement('a');
-    a.href = url;
-    a.setAttribute('download', this.title);
-    a.click();
-
-    document.removeChild(a);
+  toexcel() {
+    this.excel.emit(this.title);
   }
 
   toputout(profile: IObjectModel) {

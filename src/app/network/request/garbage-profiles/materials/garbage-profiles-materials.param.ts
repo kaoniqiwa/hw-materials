@@ -25,3 +25,11 @@ export class PutOutMaterialsParams implements IParams {
   /**	String	档案名称	O	*/ ProfileName?: string;
   /**	String[]	存档照片列表	O	*/ ImageUrls?: string[];
 }
+export class GetMaterialsExcelParams {
+  /**	Int32[]	ID	O */
+  Ids?: number[];
+  /**	String	名称，LIKE支持	O */
+  Name?: string;
+  /**	Int32	分类	O */
+  Category?: number;
+}

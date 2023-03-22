@@ -8,7 +8,7 @@
         <button class="hw-blue-btn" (click)="onrecord()">
           <i class="howell-icon-History"></i> 操作记录
         </button>
-        <button class="hw-blue-btn" (click)="onexport()">
+        <button class="hw-blue-btn" (click)="toexcel()">
           <i class="howell-icon-export"></i> 导出
         </button>
         <button class="hw-blue-btn" (click)="onsetting()">
@@ -59,9 +59,7 @@
   <div class="garbage-station-profile-manager-content">
     <garbage-station-profile-table
       [load]="load"
-      [args]="args"
-      [toexcel]="toexcel"
-      (onexcel)="onexcel($event)"
+      [excel]="excel"
       (selectedChange)="onselected($event)"
       (itemclick)="onitemclick($event)"
     >
@@ -168,6 +166,7 @@
   <garbage-station-profile-filter
     [(args)]="args"
     (ok)="onfilter($event)"
+    (cancel)="onwindowclose()"
   ></garbage-station-profile-filter>
 </app-window>
 <app-window>

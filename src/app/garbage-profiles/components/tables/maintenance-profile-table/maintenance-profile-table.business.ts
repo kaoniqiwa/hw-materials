@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { IBusiness, IGet } from 'src/app/common/interfaces/bussiness.interface';
+import {
+  IBusiness,
+  IDownload,
+  IGet,
+} from 'src/app/common/interfaces/bussiness.interface';
 import { ViewModelConverter } from 'src/app/converter/view-model.converter';
 import { ConditionOperator } from 'src/app/enum/condition-operator.enum';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
@@ -21,7 +25,10 @@ import { MaintenanceProfileTableArgs } from './maintenance-profile-table.model';
 
 @Injectable()
 export class MaintenanceProfileTableBusiness
-  implements IBusiness<PagedList<IPartialData>>, IGet<PropertyValueModel>
+  implements
+    IBusiness<PagedList<IPartialData>>,
+    IGet<PropertyValueModel>,
+    IDownload
 {
   constructor(
     private service: MaintenanceProfileRequestService,
@@ -29,6 +36,18 @@ export class MaintenanceProfileTableBusiness
     private converter: MaintenanceProfileTableConverter,
     public config: MaintenanceProfileTableConfigBusiness
   ) {}
+  async download(
+    args: MaintenanceProfileTableArgs,
+    names: string[]
+  ): Promise<string> {
+    let params = new GetPartialDatasExcelParams();
+    params.Asc = args.asc;
+    params.Desc = args.desc;
+    params.Conditions = this.getConditions(args, names);
+    params.PropertyIds = names;
+    let url = await this.service.partialData.excel(params);
+    return url.Url;
+  }
   async get(name: string, value: string): Promise<PropertyValueModel> {
     let pv = new PropertyValue();
     pv.PropertyId = name;
@@ -44,16 +63,6 @@ export class MaintenanceProfileTableBusiness
     let data = await this.getData(index, size, names, args);
     let model = this.converter.convert(data);
     return model;
-  }
-
-  async excel(args: MaintenanceProfileTableArgs, names: string[]) {
-    let params = new GetPartialDatasExcelParams();
-    params.Asc = args.asc;
-    params.Desc = args.desc;
-    params.Conditions = this.getConditions(args, names);
-    params.PropertyIds = names;
-    let url = await this.service.partialData.excel(params);
-    return url.Url;
   }
 
   async getData(

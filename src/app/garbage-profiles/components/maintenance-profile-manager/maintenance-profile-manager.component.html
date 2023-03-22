@@ -5,21 +5,21 @@
     </div>
     <div class="maintenance-profile-manager-head-operation">
       <div class="operation">
-        <button class="hw-blue-btn" (click)="toexport()">
+        <button class="hw-blue-btn" (click)="toexcel()">
           <i class="howell-icon-export"></i> 导出
         </button>
         <button class="hw-blue-btn" (click)="tosetting()">
           <i class="howell-icon-settingoutline"></i> 设置
         </button>
         <button class="hw-green-btn" (click)="tocreate()">
-          <i class="howell-icon-plus"></i> 添加
+          <i class="howell-icon-plus"></i> 派单
         </button>
 
         <!-- <button class="hw-red-btn" (click)="todelete()" *ngIf="!!selected">
           <i class="howell-icon-delete-bin"></i> 删除
         </button> -->
         <button class="hw-cyan-btn" *ngIf="!!selected" (click)="tomodify()">
-          <i class="howell-icon-modification"></i> 编辑
+          <i class="howell-icon-modification"></i> 查看
         </button>
       </div>
       <div class="filter">
@@ -47,7 +47,7 @@
         <button class="hw-blue-btn" (click)="onsearch()">
           <i class="howell-icon-search"></i> 搜索
         </button>
-        <button class="hw-blue-btn">
+        <button class="hw-blue-btn" (click)="tofilter()">
           <i class="mdi mdi-filter-outline"></i>
         </button>
       </div>
@@ -57,8 +57,7 @@
     <maintenance-profile-table
       [args]="args"
       [load]="load"
-      [toexcel]="toexcel"
-      (onexcel)="onexcel($event)"
+      [excel]="excel"
       (selectedChange)="onselected($event)"
       (itemclick)="onitemclick($event)"
     >
@@ -94,5 +93,6 @@
   <maintenance-profile-filter
     [(args)]="args"
     (ok)="onfilter($event)"
+    (cancel)="onwindowclose()"
   ></maintenance-profile-filter>
 </app-window>

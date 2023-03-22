@@ -31,11 +31,9 @@ class MaintenanceProfileDeatilsWindow extends DataWindowViewModel {
 }
 
 class MaintenanceProfileFilterWindow extends DataWindowViewModel {
-  clear(): void {
-    this.form = FormState.none;
-    this.id = undefined;
-  }
-  style = {};
-  form: FormState = FormState.none;
-  id?: string;
+  clear(): void {}
+  style = {
+    width: '800px',
+    height: 'auto',
+  };
 }

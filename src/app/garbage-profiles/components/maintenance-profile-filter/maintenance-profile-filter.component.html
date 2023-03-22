@@ -141,25 +141,17 @@
           </select>
         </div>
       </div>
-      <div class="filter-item">
-        <div class="filter-item-title">{{ language["ProfileState"] }}：</div>
-        <div class="filter-item-control">
-          <select [(ngModel)]="args.enums['ProfileState']">
-            <option [ngValue]="undefined">全部</option>
-            <option
-              *ngFor="let item of source.ProfileState"
-              [ngValue]="item.Value"
-            >
-              {{ item.Name }}
-            </option>
-          </select>
-        </div>
-      </div>
     </div>
   </div>
   <div class="maintenance-profile-filter-foot">
-    <button class="hw-cyan-btn" (click)="onreset()">清空</button>
-    <button class="hw-green-btn" (click)="onok()">搜索</button>
-    <button class="hw-blue-btn" (click)="oncancel()">取消</button>
+    <button class="hw-cyan-btn" (click)="onreset()">
+      <i class="howell-icon-restart"></i> 清空
+    </button>
+    <button class="hw-green-btn" (click)="onok()">
+      <i class="howell-icon-search"></i> 搜索
+    </button>
+    <button class="hw-blue-btn" (click)="oncancel()">
+      <i class="howell-icon-return-back"></i> 取消
+    </button>
   </div>
 </div>

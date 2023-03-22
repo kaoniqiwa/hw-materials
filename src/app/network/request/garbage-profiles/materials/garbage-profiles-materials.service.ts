@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { instanceToPlain } from 'class-transformer';
 import { wait } from 'src/app/common/tools/tool';
+import { ExcelUrl } from 'src/app/network/entity/excel-url.entity';
 import { MaterialCategory } from 'src/app/network/entity/material-category.entity';
 import { MaterialRecord } from 'src/app/network/entity/material-record.entity';
 import { Material } from 'src/app/network/entity/material.entity';
@@ -13,6 +14,7 @@ import {
 import { HowellAuthHttpService } from '../../howell-auth-http.service';
 import {
   GetGarbageProfilesMaterialsParams,
+  GetMaterialsExcelParams,
   PutInMaterialsParams,
   PutOutMaterialsParams,
 } from './garbage-profiles-materials.param';
@@ -64,6 +66,12 @@ export class GarbageProfilesMaterialRequestService {
     let url = GarbageProfilesMaterialsUrl.putout();
     let plain = instanceToPlain(params);
     return this.basic.post(url, MaterialRecord, plain);
+  }
+
+  excel(params: GetMaterialsExcelParams) {
+    let url = GarbageProfilesMaterialsUrl.excels();
+    let plain = instanceToPlain(params);
+    return this.basic.post(url, ExcelUrl, plain);
   }
 
   private _category?: BasicMaterialCategoryRequestService;

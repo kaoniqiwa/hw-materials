@@ -1,12 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { IComponent } from 'src/app/common/interfaces/component.interfact';
 import { IModel } from 'src/app/common/interfaces/model.interface';
@@ -44,7 +36,7 @@ import {
 })
 export class GarbageStationProfileTableComponent
   extends PagedTableAbstractComponent<PartialData>
-  implements IComponent<IModel, PagedList<PartialData>>, OnInit, OnChanges
+  implements IComponent<IModel, PagedList<PartialData>>, OnInit
 {
   @Input()
   business: GarbageStationProfileTableBusiness;
@@ -66,9 +58,7 @@ export class GarbageStationProfileTableComponent
   itemclick: EventEmitter<ProfilePropertyValueModel> = new EventEmitter();
 
   @Input()
-  toexcel?: EventEmitter<GarbageStationProfileTableArgs>;
-  @Output()
-  onexcel: EventEmitter<string> = new EventEmitter();
+  excel?: EventEmitter<string>;
 
   constructor(
     business: GarbageStationProfileTableBusiness,
@@ -93,23 +83,26 @@ export class GarbageStationProfileTableComponent
   widths: string[] = [];
 
   ngOnInit(): void {
+    this.tosubscribe();
     this.loadData(1);
-    if (this.toexcel) {
-      this.toexcel.subscribe((args) => {
-        this.business.excel(args, this.names).then((x) => {
-          this.onexcel.emit(x);
-        });
+  }
+
+  tosubscribe() {
+    if (this.load) {
+      this.load.subscribe((args) => {
+        this.args = args;
+        this.loadData(1, this.pageSize);
       });
     }
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['load']) {
-      if (this.load) {
-        this.load.subscribe((args) => {
-          this.args = args;
-          this.loadData(1, this.pageSize);
+    if (this.excel) {
+      this.excel.subscribe((title) => {
+        this.business.download(this.args, this.names).then((x) => {
+          let link = document.createElement('a');
+          link.href = x;
+          link.download = title;
+          link.click();
         });
-      }
+      });
     }
   }
 

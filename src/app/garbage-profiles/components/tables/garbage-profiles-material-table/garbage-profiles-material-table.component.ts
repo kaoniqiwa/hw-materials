@@ -1,14 +1,9 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Sort } from '@angular/material/sort';
-import { IBusiness } from 'src/app/common/interfaces/bussiness.interface';
+import {
+  IBusiness,
+  IDownload,
+} from 'src/app/common/interfaces/bussiness.interface';
 import { IComponent } from 'src/app/common/interfaces/component.interfact';
 import { IModel } from 'src/app/common/interfaces/model.interface';
 import { MaterialModel } from 'src/app/model/material.model';
@@ -32,17 +27,22 @@ import { GarbageProfilesMaterialTableArgs } from './garbage-profiles-material-ta
 })
 export class GarbageProfilesMaterialTableComponent
   extends PagedTableSelectionAbstractComponent<MaterialModel>
-  implements IComponent<IModel, PagedList<MaterialModel>>, OnInit, OnChanges
+  implements IComponent<IModel, PagedList<MaterialModel>>, OnInit
 {
   @Input()
-  business: IBusiness<IModel, PagedList<MaterialModel>>;
+  business: IBusiness<IModel, PagedList<MaterialModel>> & IDownload;
   @Input()
   args: GarbageProfilesMaterialTableArgs =
     new GarbageProfilesMaterialTableArgs();
+
   @Input()
   load?: EventEmitter<GarbageProfilesMaterialTableArgs>;
   @Input()
-  selected?: MaterialModel[] | undefined;
+  excel?: EventEmitter<string>;
+
+  @Input()
+  selected?: MaterialModel[];
+
   @Output()
   selectedChange: EventEmitter<MaterialModel[]> = new EventEmitter();
   @Output()
@@ -64,17 +64,29 @@ export class GarbageProfilesMaterialTableComponent
 
   ngOnInit(): void {
     this.loadData(1);
+    this.tosubscribe();
   }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['load']) {
-      if (this.load) {
-        this.load.subscribe((x) => {
-          this.args = x;
-          this.loadData(1);
+
+  tosubscribe() {
+    if (this.load) {
+      this.load.subscribe((x) => {
+        this.args = x;
+        this.loadData(1);
+      });
+    }
+    if (this.excel) {
+      this.excel.subscribe((title) => {
+        this.business.download(this.args).then((url) => {
+          console.log(url);
+          let link = document.createElement('a');
+          link.href = url;
+          link.download = title;
+          link.click();
         });
-      }
+      });
     }
   }
+
   loadData(index: number, size: number = this.pageSize): void {
     this.business.load(this.args, index, size).then((paged) => {
       this.page = paged.Page;

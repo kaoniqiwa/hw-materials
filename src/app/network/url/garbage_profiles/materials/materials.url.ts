@@ -22,6 +22,10 @@ export class GarbageProfilesMaterialsUrl {
     return `${this.basic}/PutOut`;
   }
 
+  static excels() {
+    return `${this.basic}/Excels`;
+  }
+
   static get category() {
     return new MateriaCategoryUrl(this.basic);
   }

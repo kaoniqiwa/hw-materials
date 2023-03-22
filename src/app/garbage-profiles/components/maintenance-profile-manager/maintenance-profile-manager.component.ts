@@ -23,7 +23,7 @@ export class MaintenanceProfileManagerComponent {
   title = '维修工单档案';
   args: MaintenanceProfileTableArgs = new MaintenanceProfileTableArgs();
   load: EventEmitter<MaintenanceProfileTableArgs> = new EventEmitter();
-  toexcel: EventEmitter<MaintenanceProfileTableArgs> = new EventEmitter();
+  excel: EventEmitter<string> = new EventEmitter();
   window: MaintenanceProfileWindow = new MaintenanceProfileWindow();
   selected?: IPartialData;
 
@@ -32,16 +32,8 @@ export class MaintenanceProfileManagerComponent {
   }
   async onitemclick(model: ProfilePropertyValueModel) {}
 
-  toexport() {
-    this.toexcel.emit(this.args);
-  }
-  onexcel(url: string) {
-    let a = document.createElement('a');
-    a.href = url;
-    a.setAttribute('download', this.title);
-    a.click();
-
-    document.removeChild(a);
+  toexcel() {
+    this.excel.emit(this.title);
   }
 
   onwindowclose() {

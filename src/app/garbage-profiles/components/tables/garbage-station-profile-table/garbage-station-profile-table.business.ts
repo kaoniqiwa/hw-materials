@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { IBusiness, IGet } from 'src/app/common/interfaces/bussiness.interface';
+import {
+  IBusiness,
+  IDownload,
+  IGet,
+} from 'src/app/common/interfaces/bussiness.interface';
 import { ViewModelConverter } from 'src/app/converter/view-model.converter';
 import { ConditionOperator } from 'src/app/enum/condition-operator.enum';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
@@ -21,7 +25,10 @@ import { GarbageStationProfileTableArgs } from './garbage-station-profile-table.
 
 @Injectable()
 export class GarbageStationProfileTableBusiness
-  implements IBusiness<PagedList<IPartialData>>, IGet<PropertyValueModel>
+  implements
+    IBusiness<PagedList<IPartialData>>,
+    IGet<PropertyValueModel>,
+    IDownload
 {
   constructor(
     private service: GarbageStationProfilesRequestService,
@@ -29,6 +36,17 @@ export class GarbageStationProfileTableBusiness
     private vmConverter: ViewModelConverter,
     public config: GarbageStationProfileTableConfigBusiness
   ) {}
+
+  async download(args: GarbageStationProfileTableArgs, names: string[]) {
+    let params = new GetPartialDatasExcelParams();
+    params.Asc = args.asc;
+    params.Desc = args.desc;
+    params.Conditions = this.getConditions(args, names);
+    params.PropertyIds = names;
+    let url = await this.service.partialData.excels(params);
+    return url.Url;
+  }
+
   async get(name: string, value: string): Promise<PropertyValueModel> {
     let pv = new PropertyValue();
     pv.PropertyId = name;
@@ -44,16 +62,6 @@ export class GarbageStationProfileTableBusiness
     let data = await this.getData(index, size, names, args);
     let model = this.converter.convert(data);
     return model;
-  }
-
-  async excel(args: GarbageStationProfileTableArgs, names: string[]) {
-    let params = new GetPartialDatasExcelParams();
-    params.Asc = args.asc;
-    params.Desc = args.desc;
-    params.Conditions = this.getConditions(args, names);
-    params.PropertyIds = names;
-    let url = await this.service.partialData.excels(params);
-    return url.Url;
   }
 
   async getData(
@@ -84,8 +92,6 @@ export class GarbageStationProfileTableBusiness
 
     return this.service.partialData.list(params);
   }
-
-  private getElemMatch() {}
 
   private getConditions(args: GarbageStationProfileTableArgs, names: string[]) {
     let conditions: Condition[] = [];
