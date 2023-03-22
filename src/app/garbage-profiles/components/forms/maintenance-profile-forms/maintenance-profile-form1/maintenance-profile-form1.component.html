@@ -1,1 +1,98 @@
-<p>maintenance-profile-form1 works!</p>
+<div class="maintenance-form1 vertical-layout">
+  <form [formGroup]="formGroup" class="hw-form" #ngForm="ngForm">
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["ProfileType"] }}
+        </span>
+      </div>
+      <div class="content">
+        <select formControlName="ProfileType">
+          <option
+            [ngValue]="profileType.Value"
+            *ngFor="let profileType of this.sourceTool['ProfileType']"
+          >
+            {{ profileType.Name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["MaintenanceType"] }}
+        </span>
+      </div>
+      <div class="content">
+        <select formControlName="MaintenanceType">
+          <option
+            [ngValue]="maintenanceType.Value"
+            *ngFor="let maintenanceType of this.sourceTool['MaintenanceType']"
+          >
+            {{ maintenanceType.Name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["MaintenanceDescription"] }}
+        </span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="MaintenanceDescription" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["CustomerPhoneNo"] }}
+        </span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="CustomerPhoneNo" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["Customer"] }}
+        </span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="Customer" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["FaultDate"] }}
+        </span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="FaultDate" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label"> 厢房档案 </span>
+      </div>
+      <div class="content">
+        <select formControlName="MaintenanceType">
+          <option
+            [ngValue]="maintenanceType.Value"
+            *ngFor="let maintenanceType of this.sourceTool['MaintenanceType']"
+          >
+            {{ maintenanceType.Name }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </form>
+  <div class="hw-middle-btn-group">
+    <button class="hw-green-btn" type="button">创建</button>
+    <button class="hw-green-btn" type="button">保存</button>
+    <button class="hw-blue-btn" type="button">下一步</button>
+  </div>
+</div>

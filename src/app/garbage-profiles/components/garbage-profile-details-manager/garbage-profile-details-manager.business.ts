@@ -13,7 +13,4 @@ export class ProfileDetailsBusiness {
   getModel(id: string) {
     return this._garbageStationProfilesRequest.get(id);
   }
-  getProperty(id: string) {
-    return this._garbageStationProfilesRequest.property.get(id);
-  }
 }

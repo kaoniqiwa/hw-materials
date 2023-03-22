@@ -60,29 +60,30 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
   @ViewChild('tabTemp', { static: true }) tabTemp!: TemplateRef<any>;
   @ViewChild('expansionTemp', { static: true })
   expansionTemp!: TemplateRef<any>;
-  @ViewChild(MatStepper, { static: true }) matStepper!: MatStepper;
+  @ViewChild(MatStepper) matStepper!: MatStepper;
   @ViewChildren('step') stepList?: QueryList<TemplateRef<any>>;
 
   profileState = 0;
   maxProfileState = 6;
-  labelData: Array<ValueNamePair> = this.source['ProfileState'];
+  labelData: Array<ValueNamePair> = this.sourceTool['ProfileState'];
 
   completedArr: boolean[] = [];
 
   model: GarbageStationProfile | null = null;
   templateExpression: TemplateRef<any> | null = null;
-  viewMode = ViewMode.Stepper;
+  viewMode = ViewMode.Tab;
 
   getTemplate(index: number) {
     return this.stepList ? this.stepList.get(index) ?? null : null;
   }
   constructor(
-    private source: GarbageStationProfilesSourceTools,
-
+    private sourceTool: GarbageStationProfilesSourceTools,
     private _changeDetector: ChangeDetectorRef,
     private _business: ProfileDetailsBusiness
   ) {
-    this.labelData = this.labelData.filter((data) => data.Value < 7);
+    this.labelData = this.labelData.filter(
+      (data) => data.Value <= this.maxProfileState
+    );
 
     this.completedArr = Array.from(Array(this.labelData.length), () => false);
   }
@@ -121,6 +122,7 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
   closed(index: number) {
     // this.selectedIndex = -1;
   }
+
   closeEvent() {
     this.closeDetails.emit();
   }

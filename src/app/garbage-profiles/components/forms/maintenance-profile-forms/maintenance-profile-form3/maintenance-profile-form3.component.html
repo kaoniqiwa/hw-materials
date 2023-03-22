@@ -1,1 +1,59 @@
-<p>maintenance-profile-form3 works!</p>
+<div class="maintenance-form1 vertical-layout">
+  <form [formGroup]="formGroup" class="hw-form" #ngForm="ngForm">
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["FaultType"] }}
+        </span>
+      </div>
+      <div class="content">
+        <select formControlName="FaultType">
+          <option
+            [ngValue]="faultType.Value"
+            *ngFor="let faultType of this.sourceTool['FaultType']"
+          >
+            {{ faultType.Name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["MaintenanceTime"] }}
+        </span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="MaintenanceTime" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["FaultDescription"] }}
+        </span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="FaultDescription" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["SceneImageUrls"] }}
+        </span>
+      </div>
+      <div class="content" style="height: 220px">
+        <!-- <howell-picture-upload-control
+          (upload)="uploadLFImage($event)"
+          [image]="LFImageUrl"
+        ></howell-picture-upload-control> -->
+      </div>
+    </div>
+  </form>
+  <div class="hw-middle-btn-group">
+    <button class="hw-green-btn" type="button">创建</button>
+    <button class="hw-green-btn" type="button">保存</button>
+    <button class="hw-blue-btn" type="button">下一步</button>
+  </div>
+</div>
