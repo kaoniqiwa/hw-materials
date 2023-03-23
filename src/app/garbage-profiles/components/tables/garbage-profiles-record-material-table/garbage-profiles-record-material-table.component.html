@@ -45,7 +45,11 @@
             <td>{{ item.MaterialRecordTypeName }}</td>
 
             <td>
-              <mat-chip-list class="material-chip-list" #chipList>
+              <mat-chip-list
+                class="material-chip-list"
+                #chipList
+                WheelHorizontalScroll
+              >
                 <mat-chip
                   *ngFor="let material of item.MaterialItems"
                   [title]="material.Name + ':' + material.Number"

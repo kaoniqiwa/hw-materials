@@ -54,7 +54,6 @@
       </div>
       <div class="content">
         <select class="hw-form-select" formControlName="StrongCurrentWireMode">
-          <option value="" disabled>请选择</option>
           <option
             *ngFor="let wireMode of source.StrongCurrentWireMode"
             [ngValue]="wireMode.Value"
@@ -84,7 +83,6 @@
       </div>
       <div class="content">
         <select class="hw-form-select" formControlName="GarbageStationType">
-          <option value="" disabled>请选择</option>
           <option
             *ngFor="let stationType of source.GarbageStationType"
             [value]="stationType.Value"

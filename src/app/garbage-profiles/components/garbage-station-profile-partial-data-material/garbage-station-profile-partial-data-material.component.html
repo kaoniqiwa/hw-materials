@@ -4,7 +4,11 @@
       <div class="hw-simple-title-1">物料清单：</div>
     </div>
     <div class="models-value">
-      <mat-chip-list class="mat-chip-list-region-tree" #chipList>
+      <mat-chip-list
+        class="mat-chip-list-region-tree"
+        #chipList
+        WheelHorizontalScroll
+      >
         <mat-chip
           *ngFor="let item of models"
           [title]="item.Name + ':' + item.Number"
