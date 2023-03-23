@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MaintenanceProfilesLanguageTools } from 'src/app/garbage-profiles/tools/maintenance-profile-language.too';
 import { MaintenanceProfilesSourceTools } from 'src/app/garbage-profiles/tools/maintenance-profile-source.tool';
 import { MaintenanceProfileBaseFormDirective } from '../maintenance-profile-base-form/maintenance-profile-base-form.component';
-import { MaintenanceProfileForm5Business } from './maintenance-profile-form5.business';
+import { MaintenanceProfileForm5Business } from './maintenance-profile-form4.business';
 
 @Component({
   selector: 'maintenance-profile-form5',

@@ -2,6 +2,119 @@
   <form [formGroup]="formGroup" class="hw-form" #ngForm="ngForm">
     <div class="hw-form-group">
       <div class="title">
+        <span class="hw-form-label"> 厢房档案 </span>
+      </div>
+      <div class="content">
+        <select formControlName="ProfileType">
+          <option *ngFor="let profile of garbageStationProfiles">
+            {{ profile.ProfileName }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["Province"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <select #province class="hw-form-select" formControlName="Province">
+          <option
+            [id]="province.Id"
+            [value]="province.Name"
+            *ngFor="let province of divisionInfo.Province"
+          >
+            {{ province.Name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["City"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <select #province class="hw-form-select" formControlName="City">
+          <option
+            [id]="city.Id"
+            [value]="city.Name"
+            *ngFor="let city of divisionInfo.City"
+          >
+            {{ city.Name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["County"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <select #province class="hw-form-select" formControlName="County">
+          <option
+            [id]="county.Id"
+            [value]="county.Name"
+            *ngFor="let county of divisionInfo.County"
+          >
+            {{ county.Name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["Street"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <select #province class="hw-form-select" formControlName="Street">
+          <option
+            [id]="street.Id"
+            [value]="street.Name"
+            *ngFor="let street of divisionInfo.Street"
+          >
+            {{ street.Name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["Committee"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <input
+          type="text"
+          formControlName="Committee"
+          [matAutocomplete]="auto"
+        />
+
+        <mat-autocomplete role="combobox" #auto="matAutocomplete">
+          <mat-option
+            *ngFor="let item of filteredOption | async"
+            [id]="item.Id"
+            [value]="item.Name"
+          >
+            <span>{{ item.Name }}</span>
+          </mat-option>
+        </mat-autocomplete>
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
         <span class="hw-form-label">
           {{ languageTool["ProfileType"] }}
         </span>
@@ -34,7 +147,7 @@
         </select>
       </div>
     </div>
-    <div class="hw-form-group">
+    <div class="hw-form-group" style="flex-basis: 100%">
       <div class="title">
         <span class="hw-form-label">
           {{ languageTool["MaintenanceDescription"] }}
@@ -91,8 +204,14 @@
     </div>
   </form>
   <div class="hw-middle-btn-group">
-    <button class="hw-green-btn" type="button">创建</button>
-    <button class="hw-green-btn" type="button">保存</button>
-    <button class="hw-blue-btn" type="button">下一步</button>
+    <button class="hw-green-btn" type="button" (click)="clickCreate()">
+      创建
+    </button>
+    <button class="hw-green-btn" type="button" (click)="clickSave()">
+      保存
+    </button>
+    <button class="hw-blue-btn" type="button" (click)="clickNext()">
+      下一步
+    </button>
   </div>
 </div>

@@ -10,13 +10,15 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
+import { MatAccordion } from '@angular/material/expansion';
 import { MatStepper } from '@angular/material/stepper';
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { ViewMode } from 'src/app/enum/view-mode.enum';
 import { MaintenanceProfile } from 'src/app/network/entity/maintenance-profile.entity';
 import { ValueNamePair } from 'src/app/network/entity/value-name-pair.entity';
 import { MaintenanceProfilesSourceTools } from '../../tools/maintenance-profile-source.tool';
+import { MaintenanceProfileBaseFormDirective } from '../forms/maintenance-profile-forms/maintenance-profile-base-form/maintenance-profile-base-form.component';
 import { MaintenanceProfileDetailsManagerBusiness } from './maintenance-profile-details-manager.business';
 
 @Component({
@@ -47,18 +49,22 @@ export class MaintenanceProfileDetailsManagerComponent
   @ViewChild('tabTemp', { static: true }) tabTemp!: TemplateRef<any>;
   @ViewChild('expansionTemp', { static: true })
   expansionTemp!: TemplateRef<any>;
-  @ViewChild(MatStepper) matStepper!: MatStepper;
   @ViewChildren('step') stepList?: QueryList<TemplateRef<any>>;
 
+  @ViewChild(MatStepper) matStepper!: MatStepper;
+  @ViewChild(MatTabGroup) matTabGroup!: MatTabGroup;
+  @ViewChild(MatAccordion) matAccordion!: MatAccordion;
+
+  viewMode = ViewMode.Stepper;
   profileState = 0;
   maxProfileState = 5;
-  labelData: Array<ValueNamePair> = this.sourceTool['ProfileState'];
 
+  labelData: Array<ValueNamePair> = this.sourceTool['ProfileState'];
   completedArr: boolean[] = [];
 
   model: MaintenanceProfile | null = null;
   templateExpression: TemplateRef<any> | null = null;
-  viewMode = ViewMode.Tab;
+  templateController: MatStepper | MatTabGroup | null = null;
 
   getTemplate(index: number) {
     return this.stepList ? this.stepList.get(index) ?? null : null;
@@ -81,12 +87,13 @@ export class MaintenanceProfileDetailsManagerComponent
 
   private async _init() {
     await this._updateState();
-    // if (this.profileState == this.maxProfileState) {
-    //   this.viewMode = ViewMode.Expansion;
-    // }
+    if (this.profileState == this.maxProfileState) {
+      this.viewMode = ViewMode.Expansion;
+    }
     switch (this.viewMode) {
       case ViewMode.Stepper:
         this.templateExpression = this.stepperTemp;
+        this.templateController = this.matStepper;
         break;
       case ViewMode.Tab:
         this.templateExpression = this.tabTemp;
@@ -106,10 +113,18 @@ export class MaintenanceProfileDetailsManagerComponent
   opened(index: number) {
     this.selectedIndex = index;
   }
+  nextEvent() {
+    this.selectedIndex = Math.min(
+      this.selectedIndex + 1,
+      this.maxProfileState - 1
+    );
+  }
+  closeEvent() {}
+  previousEvent() {}
   private async _updateState() {
     if (this.formId) {
       this.model = await this._business.getModel(this.formId);
-      console.log('updateState', this.model);
+      console.log('Model:', this.model);
     }
     this.profileState = this.model ? this.model.ProfileState : 0;
     this.completedArr = this.completedArr.map((v, i) => {

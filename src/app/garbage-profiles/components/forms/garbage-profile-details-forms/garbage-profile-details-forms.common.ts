@@ -34,7 +34,6 @@ export abstract class _GarbageProfileDetailsFormsBase {
   stepIndex = 0;
 
   @Output() close = new EventEmitter();
-
   @Output() next = new EventEmitter();
   @Output() previous = new EventEmitter();
   @Output() formStatus = new EventEmitter<FormControlStatus>();
@@ -260,7 +259,7 @@ export abstract class _GarbageProfileDetailsFormsBase {
       this.close.emit();
     }
   }
-  async clickPrev() {
+  clickPrev() {
     this.previous.emit();
   }
 
