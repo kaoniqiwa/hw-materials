@@ -5,7 +5,7 @@ import { GarbageProfileDetailsForm3 } from './garbage-profile-details-forms/garb
 import { GarbageProfileDetailsForm4 } from './garbage-profile-details-forms/garbage-profile-details-form4/garbage-profile-details-form4.component';
 import { GarbageProfileDetailsForm5 } from './garbage-profile-details-forms/garbage-profile-details-form5/garbage-profile-details-form5.component';
 import { GarbageProfileDetailsForm6 } from './garbage-profile-details-forms/garbage-profile-details-form6/garbage-profile-details-form6.component';
-import { ModificationReasonComponent } from './garbage-profile-details-forms/modification-reason/modification-reason.component';
+import { ModificationConfirmComponent } from './garbage-profile-details-forms/modification-confirm/modification-confirm.component';
 import { MaintenanceProfileBaseFormDirective } from './maintenance-profile-forms/maintenance-profile-base-form/maintenance-profile-base-form.component';
 import { MaintenanceProfileForm1Component } from './maintenance-profile-forms/maintenance-profile-form1/maintenance-profile-form1.component';
 import { MaintenanceProfileForm2Component } from './maintenance-profile-forms/maintenance-profile-form2/maintenance-profile-form2.component';
@@ -21,7 +21,7 @@ export const FormComponents = [
   GarbageProfileDetailsForm5,
   GarbageProfileDetailsForm6,
   GarbageProfileDetailsDynamicForm,
-  ModificationReasonComponent,
+  ModificationConfirmComponent,
 
   MaintenanceProfileForm1Component,
   MaintenanceProfileForm2Component,

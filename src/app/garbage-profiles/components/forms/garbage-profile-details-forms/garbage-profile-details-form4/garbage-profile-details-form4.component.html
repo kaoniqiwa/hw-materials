@@ -101,7 +101,7 @@
       (click)="clickPrev()"
       *ngIf="profileState != maxState"
     >
-      上一步
+      <i class="howell-icon-arrowleftbold"></i> 上一步
     </button>
     <button
       class="hw-green-btn"
@@ -109,19 +109,20 @@
       *ngIf="formState == FormState.edit"
       (click)="clickSave()"
     >
-      保存</button
+      <i class="howell-icon-save"></i> 保存</button
     ><button
       class="hw-blue-btn"
       type="button"
       (click)="clickNext()"
       *ngIf="profileState != maxState"
     >
-      下一步
+      下一步 <i class="howell-icon-arrowrightbold"></i>
     </button>
   </div>
 </div>
 <toast-window *ngIf="showModify" (closeEvent)="showModify = false">
-  <modification-reason
-    (confirmEvent)="clickConfirm($event)"
-  ></modification-reason>
+  <modification-confirm
+    (confirm)="clickConfirm($event)"
+    (cancel)="showModify = false"
+  ></modification-confirm>
 </toast-window>

@@ -71,7 +71,7 @@ export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
 
   model: GarbageStationProfile | null = null;
   templateExpression: TemplateRef<any> | null = null;
-  viewMode = ViewMode.Tab;
+  viewMode = ViewMode.Stepper;
 
   getTemplate(index: number) {
     return this.stepList ? this.stepList.get(index) ?? null : null;

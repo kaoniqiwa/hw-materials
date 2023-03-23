@@ -1,0 +1,30 @@
+<div class="modification-confirm vertical-layout">
+  <div class="hw-simple-title vertical-header">修改原因</div>
+  <div class="vertical-main">
+    <input type="text" [(ngModel)]="model.reason" />
+  </div>
+  <div class="hw-simple-title vertical-header">修改内容</div>
+  <div class="vertical-main">
+    <div class="modification-content">
+      <div class="content-area">
+        <textarea
+          [(ngModel)]="model.content"
+          (keydown)="down($event)"
+        ></textarea>
+      </div>
+      <div class="content-suffix">
+        {{ model.content.length }}/{{ maxLength }}
+      </div>
+    </div>
+  </div>
+  <div class="vertical-footer">
+    <div class="btn-group">
+      <button class="hw-green-btn" (click)="onconfirm()">
+        <i class="howell-icon-Check"></i> 确定
+      </button>
+      <button class="hw-red-btn" (click)="oncancel()">
+        <i class="howell-icon-Close"></i> 取消
+      </button>
+    </div>
+  </div>
+</div>

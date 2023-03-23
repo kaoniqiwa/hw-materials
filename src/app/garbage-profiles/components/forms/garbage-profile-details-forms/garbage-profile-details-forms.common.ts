@@ -13,6 +13,7 @@ import { Property } from 'src/app/network/entity/property.entity';
 import { PartialRequest } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
 import { GarbageProfileDetailFormsBusiness } from './garbage-profile-details-forms.business';
 import { PropertySearchInfo } from './garbage-profile-details.model';
+import { Modification } from './modification-confirm/modification-confirm.model';
 
 export enum FormMode {
   ByModel,
@@ -236,8 +237,9 @@ export abstract class _GarbageProfileDetailsFormsBase {
     }
     return true;
   }
-  async clickConfirm(reason: string) {
-    this.partialRequest.ModificationReason = reason;
+  async clickConfirm(modification: Modification) {
+    this.partialRequest.ModificationReason = modification.reason;
+    this.partialRequest.ModificationContent = modification.content;
     let res = await this._business.updatePartial(this.partialRequest);
     console.log(res);
     if (res.Succeed) {

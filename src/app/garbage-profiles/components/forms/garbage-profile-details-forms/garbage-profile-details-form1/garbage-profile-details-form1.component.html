@@ -194,7 +194,7 @@
       (click)="clickCreate()"
       *ngIf="formState == FormState.add"
     >
-      创建
+      <i class="howell-icon-plus"></i> 创建
     </button>
     <button
       class="hw-green-btn"
@@ -202,7 +202,7 @@
       *ngIf="formState == FormState.edit"
       (click)="clickSave()"
     >
-      保存
+      <i class="howell-icon-save"></i> 保存
     </button>
 
     <button
@@ -211,13 +211,14 @@
       (click)="clickNext()"
       *ngIf="profileState != maxState"
     >
-      下一步
+      下一步 <i class="howell-icon-arrowrightbold"></i>
     </button>
   </div>
 </div>
 
 <toast-window *ngIf="showModify" (closeEvent)="showModify = false">
-  <modification-reason
-    (confirmEvent)="clickConfirm($event)"
-  ></modification-reason>
+  <modification-confirm
+    (confirm)="clickConfirm($event)"
+    (cancel)="showModify = false"
+  ></modification-confirm>
 </toast-window>
