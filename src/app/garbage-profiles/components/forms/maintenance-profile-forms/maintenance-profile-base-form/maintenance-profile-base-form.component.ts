@@ -37,7 +37,8 @@ export class MaintenanceProfileBaseFormDirective {
     this.previous.emit();
   }
   clickSave() {
-    this.close.emit();
+    // this.close.emit();
+    console.log(this.formGroup.value);
   }
   clickNext() {
     this.next.emit();

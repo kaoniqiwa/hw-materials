@@ -33,7 +33,6 @@ export class DivisionUtil {
           res;
       }
     }
-
     this.behaviorSubject.next(this._divisionInfo);
   }
 
