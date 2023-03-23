@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { map, Observable, startWith } from 'rxjs';
@@ -21,8 +21,7 @@ import { MaintenanceProfileForm1Business } from './maintenance-profile-form1.bus
 })
 export class MaintenanceProfileForm1Component
   extends MaintenanceProfileBaseFormDirective
-  implements OnInit
-{
+  implements OnInit {
   DivisionLevel = DivisionLevel;
 
   private defaultProvince = '江苏省';
@@ -77,7 +76,8 @@ export class MaintenanceProfileForm1Component
     protected override _toastrService: ToastrService,
     protected override sourceTool: MaintenanceProfilesSourceTools,
     protected override languageTool: MaintenanceProfilesLanguageTools,
-    protected _divisionUtil: DivisionUtil
+    protected _changeDetector: ChangeDetectorRef,
+    protected _divisionUtil: DivisionUtil,
   ) {
     super(_business, _toastrService, sourceTool, languageTool);
     this.filteredOption = this.Committee.valueChanges.pipe(
@@ -92,6 +92,9 @@ export class MaintenanceProfileForm1Component
       this.divisionInfo = data;
       console.log(this.formGroup.value);
 
+      // this._changeDetector.markForCheck();
+
+      // this.formGroup.
       // 数据加载完成，触发一次 valueChange
       // this.Committee.updateValueAndValidity();
     });
@@ -109,6 +112,10 @@ export class MaintenanceProfileForm1Component
 
     // 清空下级
     this._resetSelect(level);
+
+    // 更新表单视图绑定
+    this._changeDetector.detectChanges()
+
 
     this.divisionSource.set(
       DivisionLevel.Province,
@@ -132,7 +139,7 @@ export class MaintenanceProfileForm1Component
     );
 
     this._getDivisionInfo();
-    console.log(this.divisionSource);
+
   }
 
   private async _init() {
@@ -179,6 +186,6 @@ export class MaintenanceProfileForm1Component
     }
 
     console.log('清空下级字段名: ', patchValue);
-    this.formGroup.patchValue(patchValue);
+    this.formGroup.patchValue(patchValue)
   }
 }
