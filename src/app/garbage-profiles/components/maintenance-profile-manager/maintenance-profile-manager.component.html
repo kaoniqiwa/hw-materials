@@ -20,7 +20,7 @@
         </button> -->
         <button class="hw-cyan-btn" *ngIf="!!selected" (click)="tomodify()">
           <i class="howell-icon-modification"></i>
-          {{ 1 | maintenance_profile_state_step_pipe }}
+          {{ selected.ProfileState | maintenance_profile_state_step_pipe }}
         </button>
       </div>
       <div class="filter">
