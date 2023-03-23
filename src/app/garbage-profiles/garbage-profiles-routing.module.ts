@@ -4,6 +4,7 @@ import { GarbageProfilesLabelManagerComponent } from './components/garbage-profi
 import { GarbageProfilesMaterialManagerComponent } from './components/garbage-profiles-material-manager/garbage-profiles-material-manager.component';
 import { GarbageStationProfileIndexComponent } from './components/garbage-station-profile-index/garbage-station-profile-index.component';
 import { GarbageStationProfileManagerComponent } from './components/garbage-station-profile-manager/garbage-station-profile-manager.component';
+import { MaintenanceProfileIndexComponent } from './components/maintenance-profile-index/maintenance-profile-index.component';
 import { MaintenanceProfileManagerComponent } from './components/maintenance-profile-manager/maintenance-profile-manager.component';
 import { MonitorPlatformComponent } from './components/monitor-platform/monitor-platform.component';
 import { StationArchiveComponent } from './components/station-archive/station-archive.component';
@@ -45,11 +46,11 @@ const routes: Routes = [
             children: [
               {
                 path: '',
-                redirectTo: 'profile-index',
+                redirectTo: 'station-profile-index',
                 pathMatch: 'full',
               },
               {
-                path: 'profile-index',
+                path: 'station-profile-index',
                 component: GarbageStationProfileIndexComponent,
 
                 children: [
@@ -74,8 +75,15 @@ const routes: Routes = [
                 component: GarbageProfilesLabelManagerComponent,
               },
               {
-                path: 'maintenance-manager',
-                component: MaintenanceProfileManagerComponent,
+                path: 'maintenance-profile-index',
+                component: MaintenanceProfileIndexComponent,
+
+                children: [
+                  {
+                    path: 'profile-manager',
+                    component: MaintenanceProfileManagerComponent,
+                  },
+                ],
               },
             ],
           },

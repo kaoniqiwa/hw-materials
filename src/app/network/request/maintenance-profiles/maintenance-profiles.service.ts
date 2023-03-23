@@ -231,7 +231,9 @@ class MaintenanceProfilePartialDatasRequestService {
 }
 class MaintenanceProfileStatisticsRequestService {
   constructor(private basic: BaseRequestService) {}
-  state(instance: GetMaintenanceProfileStateStatisticsParams) {
+  state(
+    instance: GetMaintenanceProfileStateStatisticsParams = new GetMaintenanceProfileStateStatisticsParams()
+  ) {
     let url = MaintenanceProfilesUrl.statistic().state();
     let plain = instanceToPlain(instance);
     return this.basic.post(url, ProfileStateStatisticResult, plain);

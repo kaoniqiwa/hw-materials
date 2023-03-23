@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, Scroll } from '@angular/router';
+import { RoutePath } from 'src/app/app-routing.path';
 import { ValidPathExp } from 'src/app/common/tools/tool';
 import { GarbageStationProfilesLanguageTools } from '../../tools/garbage-station-profile-language.tool';
 import { GarbageStationProfileIndexBusiness } from './garbage-station-profile-index.business';
@@ -24,7 +25,7 @@ export class GarbageStationProfileIndexComponent implements OnInit {
         if (
           mode &&
           mode.groups &&
-          mode.groups['third'] == 'profile-index' &&
+          mode.groups['third'] == RoutePath.station_profile_index &&
           !mode.groups['forth']
         ) {
           // console.log('show');

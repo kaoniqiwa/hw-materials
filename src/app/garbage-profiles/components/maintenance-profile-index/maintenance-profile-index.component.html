@@ -1,0 +1,39 @@
+<div class="maintenance-profile-index" *ngIf="!!model && show">
+  <div class="maintenance-profiles">
+    <div
+      *ngFor="let item of model.profiles"
+      class="card"
+      [class]="'state-' + item.ProfileState"
+      [routerLink]="['profile-manager']"
+      [queryParams]="{ state: item.ProfileState }"
+    >
+      <div class="hw-simple-title-1">
+        {{ language["ProfileState-" + item.ProfileState] }}
+      </div>
+      <div
+        class="hw-simple-title"
+        [ngStyle]="{
+          color: item.ProfileState | garbage_station_profile_state_color_pipe
+        }"
+      >
+        {{ item.Number }}
+      </div>
+      <!-- <card>
+        <div class="item">
+          <div class="hw-simple-title-1">
+            {{ language["ProfileState-" + item.ProfileState] }}
+          </div>
+          <div [class]="'number'">
+            {{ item.Number }}
+          </div>
+        </div>
+      </card> -->
+    </div>
+    <div class="card" [routerLink]="['profile-manager']">
+      <div class="hw-simple-title-1">全部档案</div>
+      <div class="hw-simple-title">{{ model.profileCount }}</div>
+    </div>
+  </div>
+</div>
+
+<router-outlet *ngIf="!show"></router-outlet>

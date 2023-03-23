@@ -1,4 +1,5 @@
-import { Component, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
@@ -14,19 +15,31 @@ import { MaintenanceProfileWindow } from './maintenance-profile-manager.model';
   templateUrl: './maintenance-profile-manager.component.html',
   styleUrls: ['./maintenance-profile-manager.component.less'],
 })
-export class MaintenanceProfileManagerComponent {
+export class MaintenanceProfileManagerComponent implements OnInit {
+  @Input()
+  state?: number;
   constructor(
     public source: MaintenanceProfilesSourceTools,
     public language: MaintenanceProfilesLanguageTools,
-
+    private activeRoute: ActivatedRoute,
     private toastr: ToastrService
   ) {}
+
   title = '维修工单档案';
   args: MaintenanceProfileTableArgs = new MaintenanceProfileTableArgs();
   load: EventEmitter<MaintenanceProfileTableArgs> = new EventEmitter();
   excel: EventEmitter<string> = new EventEmitter();
   window: MaintenanceProfileWindow = new MaintenanceProfileWindow();
   selected?: IPartialData;
+
+  ngOnInit(): void {
+    this.args.enums['ProfileState'] = this.state;
+    this.activeRoute.queryParams.subscribe((params) => {
+      if ('state' in params) {
+        this.args.enums['ProfileState'] = parseInt(params['state']);
+      }
+    });
+  }
 
   onselected(item?: IPartialData) {
     this.selected = item;

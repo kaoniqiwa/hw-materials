@@ -12,14 +12,15 @@
           <i class="howell-icon-settingoutline"></i> 设置
         </button>
         <button class="hw-green-btn" (click)="tocreate()">
-          <i class="howell-icon-plus"></i> 派单
+          <i class="howell-icon-plus"></i> 创建工单
         </button>
 
         <!-- <button class="hw-red-btn" (click)="todelete()" *ngIf="!!selected">
           <i class="howell-icon-delete-bin"></i> 删除
         </button> -->
         <button class="hw-cyan-btn" *ngIf="!!selected" (click)="tomodify()">
-          <i class="howell-icon-modification"></i> 查看
+          <i class="howell-icon-modification"></i>
+          {{ 1 | maintenance_profile_state_step_pipe }}
         </button>
       </div>
       <div class="filter">

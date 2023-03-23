@@ -10,8 +10,8 @@
       "children": [
         {
           "title": "厢房档案",
-          "id": "profile-index",
-          "path": "/garbage-profiles/underwater/monitor-platform/station-archive/profile-index"
+          "id": "station-profile-index",
+          "path": "/garbage-profiles/underwater/monitor-platform/station-archive/station-profile-index"
         },
         {
           "title": "物料档案",
@@ -26,8 +26,8 @@
         },
         {
           "title": "维修工单档案",
-          "id": "maintenance-manager",
-          "path": "/garbage-profiles/underwater/monitor-platform/station-archive/maintenance-manager"
+          "id": "maintenance-profile-index",
+          "path": "/garbage-profiles/underwater/monitor-platform/station-archive/maintenance-profile-index"
         }
       ]
     }
