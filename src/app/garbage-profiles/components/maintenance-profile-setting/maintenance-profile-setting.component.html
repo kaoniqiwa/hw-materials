@@ -16,7 +16,7 @@
     </div>
     <div class="chip">
       <div class="hw-simple-title-1">表格预览</div>
-      <div class="chip-content">
+      <div class="chip-content" WheelHorizontalScroll>
         <mat-chip-set
           class="mat-chip-set"
           cdkDropList
@@ -27,7 +27,7 @@
             class="mat-chip-item"
             cdkDrag
             *ngFor="let item of selecteds; let i = index"
-            >{{ i + 1 }}:{{ language[item.Name] }}</mat-chip
+            >{{ i + 1 }}：{{ language[item.Name] }}</mat-chip
           ></mat-chip-set
         >
       </div>

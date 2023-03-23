@@ -283,7 +283,7 @@ export class CommonTreeComponent implements OnInit, OnChanges {
     }
 
     let len = this.defaultIds.length;
-
+    let parentIds: string[] = [];
     for (let i = 0; i < len; i++) {
       let id = this.defaultIds[i]; // 会改变数组长度
       if (id) {
@@ -302,6 +302,11 @@ export class CommonTreeComponent implements OnInit, OnChanges {
                 this.treeControl.isExpanded(parentNode))
             ) {
               this.selection.select(node);
+              // this._checkAllParentsSelection(node);
+              if (this._descendantAllSelected(parentNode)) {
+                this.selection.select(parentNode);
+                parentIds.push(parentNode.Id);
+              }
             }
           }
         }
@@ -311,7 +316,10 @@ export class CommonTreeComponent implements OnInit, OnChanges {
 
     for (let i = 0; i < this.selection.selected.length; i++) {
       const selected = this.selection.selected[i];
-      if (!this.defaultIds.includes(selected.Id)) {
+      if (
+        !this.defaultIds.includes(selected.Id) &&
+        !parentIds.includes(selected.Id)
+      ) {
         this.selection.deselect(selected);
       }
     }

@@ -89,7 +89,7 @@ export class GarbageProfileDetailsDynamicForm implements OnInit, OnChanges {
       Placement: new FormControl(1, Validators.required),
       AccessServer: new FormControl(1),
       Resolution: new FormControl(1),
-      Bitrate: new FormControl(1),
+      Bitrate: new FormControl(1024),
       StorageTime: new FormControl(1),
       ActionEquipment: new FormControl(0),
       AudioOutputState: new FormControl(0),
