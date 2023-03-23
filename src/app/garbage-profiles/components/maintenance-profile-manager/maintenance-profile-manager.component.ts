@@ -1,18 +1,19 @@
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { ToastrService } from 'ngx-toastr';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
-import { IPartialData } from 'src/app/network/entity/partial-data.interface';
+import {
+  IPartialData,
+  StatePartialData,
+} from 'src/app/network/entity/partial-data.interface';
 import { MaintenanceProfilesLanguageTools } from '../../tools/maintenance-profile-language.too';
 import { MaintenanceProfilesSourceTools } from '../../tools/maintenance-profile-source.tool';
 import { ProfilePropertyValueModel } from '../tables/garbage-station-profile-table/garbage-station-profile-table.model';
 import { MaintenanceProfileTableArgs } from '../tables/maintenance-profile-table/maintenance-profile-table.model';
 import { MaintenanceProfileManagerBusiness } from './maintenance-profile-manager.business';
-import {
-  MaintenanceProfileWindow,
-  PartialDataSelection,
-} from './maintenance-profile-manager.model';
+import { MaintenanceProfileWindow } from './maintenance-profile-manager.model';
 
 @Component({
   selector: 'maintenance-profile-manager',
@@ -36,7 +37,7 @@ export class MaintenanceProfileManagerComponent implements OnInit {
   load: EventEmitter<MaintenanceProfileTableArgs> = new EventEmitter();
   excel: EventEmitter<string> = new EventEmitter();
   window: MaintenanceProfileWindow = new MaintenanceProfileWindow();
-  selected?: PartialDataSelection;
+  selected?: StatePartialData;
 
   ngOnInit(): void {
     this.args.enums['ProfileState'] = this.state;
@@ -48,13 +49,20 @@ export class MaintenanceProfileManagerComponent implements OnInit {
   }
 
   async onselected(item?: IPartialData) {
-    this.selected = item;
-    if (this.selected && !this.selected.ProfileState) {
+    if (!item) {
+      this.selected = undefined;
+      return;
+    }
+    let plain = instanceToPlain(item);
+    this.selected = plainToInstance(StatePartialData, plain);
+
+    if (!this.selected.ProfileState) {
       let data = await this.business.get(this.selected.Id);
       if (data && 'ProfileState' in data) {
         this.selected.ProfileState = data['ProfileState'];
       }
     }
+    this.selected.ProfileState = 2;
   }
   async onitemclick(model: ProfilePropertyValueModel) {
     if (model.model.PropertyId && model.model.Value) {
@@ -111,12 +119,13 @@ export class MaintenanceProfileManagerComponent implements OnInit {
 
   tocreate() {
     this.window.details.formState = FormState.add;
+    this.window.details.data = undefined;
     this.window.details.show = true;
   }
   tomodify() {
     if (this.selected) {
       this.window.details.formState = FormState.edit;
-      this.window.details.id = this.selected.Id;
+      this.window.details.data = this.selected;
       this.window.details.show = true;
     }
   }

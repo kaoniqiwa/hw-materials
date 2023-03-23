@@ -1,11 +1,7 @@
 import { DataWindowViewModel } from 'src/app/common/components/window-control/window.model';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
-import { PartialData } from 'src/app/network/entity/partial-data.interface';
-
-export class PartialDataSelection extends PartialData {
-  ProfileState?: number;
-}
+import { StatePartialData } from 'src/app/network/entity/partial-data.interface';
 
 export class MaintenanceProfileWindow {
   setting = new MaintenanceProfileSettingWindow();
@@ -36,11 +32,11 @@ class MaintenanceProfileSettingWindow extends DataWindowViewModel {
 class MaintenanceProfileDeatilsWindow extends DataWindowViewModel {
   clear(): void {
     this.formState = FormState.none;
-    this.id = undefined;
+    this.data = undefined;
   }
   style = {};
   formState: FormState = FormState.none;
-  id?: string;
+  data?: StatePartialData;
 }
 
 class MaintenanceProfileFilterWindow extends DataWindowViewModel {

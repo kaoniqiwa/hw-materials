@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { instanceToPlain } from 'class-transformer';
 import { wait } from 'src/app/common/tools/tool';
+import { ConditionOperator } from 'src/app/enum/condition-operator.enum';
+import { Condition } from '../../entity/condition.entity';
 import { ExcelUrl } from '../../entity/excel-url.entity';
 import { MaintenanceProfile } from '../../entity/maintenance-profile.entity';
 import { PartialData } from '../../entity/partial-data.interface';
@@ -216,6 +218,17 @@ class MaintenanceProfilePartialDatasRequestService {
   private type: BaseTypeRequestService<PartialData>;
   constructor(private basic: BaseRequestService) {
     this.type = this.basic.type(PartialData);
+  }
+  async get(id: string, names: string[]) {
+    let params = new GetMaintenanceProfilePartialDatasParams();
+    params.PropertyIds = names;
+    let condition = new Condition();
+    condition.PropertyId = 'Id';
+    condition.Operator = ConditionOperator.Eq;
+    condition.Value = id;
+    params.Conditions = [condition];
+    let paged = await this.list(params);
+    return paged.Data[0];
   }
   list(instance: GetMaintenanceProfilePartialDatasParams) {
     let url = MaintenanceProfilesUrl.partialDatas().list();
