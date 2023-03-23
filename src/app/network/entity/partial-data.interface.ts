@@ -6,3 +6,7 @@ export class PartialData implements IPartialData {
   Id!: string;
   [key: string]: any;
 }
+
+export class StatePartialData extends PartialData {
+  ProfileState!: number;
+}

@@ -10,11 +10,11 @@ export class MaintenanceProfileStateStepPipe implements PipeTransform {
       case 1:
         return '派单';
       case 2:
-        return '维修进度';
+        return '申请';
       case 3:
-        return '工程审批';
+        return '审批';
       case 4:
-        return '确认完成';
+        return '递交';
       default:
         return '查看';
     }

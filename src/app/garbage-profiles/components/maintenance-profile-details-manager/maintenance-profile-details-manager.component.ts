@@ -1,24 +1,17 @@
-import { StepperSelectionEvent } from '@angular/cdk/stepper';
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-  QueryList,
-  TemplateRef,
-  ViewChild,
-  ViewChildren,
-} from '@angular/core';
-import { MatAccordion } from '@angular/material/expansion';
-import { MatStepper } from '@angular/material/stepper';
-import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+import { Component, Input, OnInit } from '@angular/core';
+import { LocalStorageService } from 'src/app/common/service/local-storage.service';
 import { FormState } from 'src/app/enum/form-state.enum';
-import { ViewMode } from 'src/app/enum/view-mode.enum';
 import { MaintenanceProfile } from 'src/app/network/entity/maintenance-profile.entity';
-import { ValueNamePair } from 'src/app/network/entity/value-name-pair.entity';
-import { MaintenanceProfilesSourceTools } from '../../tools/maintenance-profile-source.tool';
-import { MaintenanceProfileBaseFormDirective } from '../forms/maintenance-profile-forms/maintenance-profile-base-form/maintenance-profile-base-form.component';
+import { StatePartialData } from 'src/app/network/entity/partial-data.interface';
+import { User } from 'src/app/network/entity/user.model';
+import { IParams } from 'src/app/network/request/IParams.interface';
+import {
+  ConstructionApplyParams,
+  ConstructionApproveParams,
+  CreateMaintenanceProfileParams,
+  DistributeMaintenanceProfileParams,
+  SubmitMaintenanceProfileParams,
+} from 'src/app/network/request/maintenance-profiles/maintenance-profiles.param';
 import { MaintenanceProfileDetailsManagerBusiness } from './maintenance-profile-details-manager.business';
 
 @Component({
@@ -27,109 +20,79 @@ import { MaintenanceProfileDetailsManagerBusiness } from './maintenance-profile-
   styleUrls: ['./maintenance-profile-details-manager.component.less'],
   providers: [MaintenanceProfileDetailsManagerBusiness],
 })
-export class MaintenanceProfileDetailsManagerComponent
-  implements OnInit, AfterViewInit
-{
+export class MaintenanceProfileDetailsManagerComponent implements OnInit {
   @Input()
-  formId?: string;
+  data?: StatePartialData;
 
   @Input()
   formState: FormState = FormState.none;
 
-  private _selectedIndex = 0;
-  @Input()
-  get selectedIndex() {
-    return this._selectedIndex;
-  }
-  set selectedIndex(index: number) {
-    this._selectedIndex = index;
-  }
-
-  @ViewChild('stepperTemp', { static: true }) stepperTemp!: TemplateRef<any>;
-  @ViewChild('tabTemp', { static: true }) tabTemp!: TemplateRef<any>;
-  @ViewChild('expansionTemp', { static: true })
-  expansionTemp!: TemplateRef<any>;
-  @ViewChildren('step') stepList?: QueryList<TemplateRef<any>>;
-
-  @ViewChild(MatStepper) matStepper!: MatStepper;
-  @ViewChild(MatTabGroup) matTabGroup!: MatTabGroup;
-  @ViewChild(MatAccordion) matAccordion!: MatAccordion;
-
-  viewMode = ViewMode.Stepper;
-  profileState = 0;
-  maxProfileState = 5;
-
-  labelData: Array<ValueNamePair> = this.sourceTool['ProfileState'];
-  completedArr: boolean[] = [];
-
-  model: MaintenanceProfile | null = null;
-  templateExpression: TemplateRef<any> | null = null;
-  templateController: MatStepper | MatTabGroup | null = null;
-
-  getTemplate(index: number) {
-    return this.stepList ? this.stepList.get(index) ?? null : null;
-  }
-
   constructor(
-    private _business: MaintenanceProfileDetailsManagerBusiness,
-    private sourceTool: MaintenanceProfilesSourceTools,
-    private _changeDetector: ChangeDetectorRef
+    private business: MaintenanceProfileDetailsManagerBusiness,
+
+    local: LocalStorageService
   ) {
-    this.labelData = this.labelData.filter(
-      (data) => data.Value <= this.maxProfileState
-    );
-    this.completedArr = Array.from(Array(this.labelData.length), () => false);
+    this.user = local.user;
   }
+
+  user: User;
+  profile?: MaintenanceProfile;
+  params: IParams = new CreateMaintenanceProfileParams();
+
   ngOnInit(): void {
-    this._init();
-  }
-  ngAfterViewInit(): void {}
+    console.log(this.user);
+    if (this.data) {
+      this.business.load(this.data.Id, this.data.ProfileState).then((data) => {
+        this.profile = data;
 
-  private async _init() {
-    await this._updateState();
-    if (this.profileState == this.maxProfileState) {
-      this.viewMode = ViewMode.Expansion;
-    }
-    switch (this.viewMode) {
-      case ViewMode.Stepper:
-        this.templateExpression = this.stepperTemp;
-        this.templateController = this.matStepper;
-        break;
-      case ViewMode.Tab:
-        this.templateExpression = this.tabTemp;
-        break;
-      case ViewMode.Expansion:
-        this.templateExpression = this.expansionTemp;
-        break;
+        console.log(this.profile);
+      });
+
+      this.params = this.getParams(this.data.ProfileState);
     }
   }
 
-  selectStepperChange(e: StepperSelectionEvent) {
-    this.selectedIndex = e.selectedIndex;
-  }
-  selectedTabChange(e: MatTabChangeEvent) {
-    this.selectedIndex = e.index;
-  }
-  opened(index: number) {
-    this.selectedIndex = index;
-  }
-  nextEvent() {
-    this.selectedIndex = Math.min(
-      this.selectedIndex + 1,
-      this.maxProfileState - 1
-    );
-  }
-  closeEvent() {}
-  previousEvent() {}
-  private async _updateState() {
-    if (this.formId) {
-      this.model = await this._business.getModel(this.formId);
-      console.log('Model:', this.model);
+  getParams(state: number) {
+    switch (state) {
+      case 1:
+        return new DistributeMaintenanceProfileParams();
+      case 2:
+        return new ConstructionApplyParams();
+      case 3:
+        return new ConstructionApproveParams();
+      case 4:
+        return new SubmitMaintenanceProfileParams();
+      default:
+        return new CreateMaintenanceProfileParams();
     }
-    this.profileState = this.model ? this.model.ProfileState : 0;
-    this.completedArr = this.completedArr.map((v, i) => {
-      return i < this.profileState;
-    });
-    this._changeDetector.detectChanges();
+  }
+
+  /** 创建工单 */
+  create(params: CreateMaintenanceProfileParams) {
+    this.business.create(params);
+  }
+  /** 分派维修工单 */
+  distribute(params: DistributeMaintenanceProfileParams) {
+    if (this.data) {
+      this.business.distribute(this.data.Id, params);
+    }
+  }
+  /** 申请工程维修（需要施工） */
+  constructionapply(params: ConstructionApplyParams) {
+    if (this.data) {
+      this.business.constructionapply(this.data.Id, params);
+    }
+  }
+  /** 审批工程维修（需要施工） */
+  constructionapprove(params: ConstructionApproveParams) {
+    if (this.data) {
+      this.business.constructionapprove(this.data.Id, params);
+    }
+  }
+  /** 提交维修完成或维修未完成 */
+  submit(params: SubmitMaintenanceProfileParams) {
+    if (this.data) {
+      this.business.submit(this.data.Id, params);
+    }
   }
 }

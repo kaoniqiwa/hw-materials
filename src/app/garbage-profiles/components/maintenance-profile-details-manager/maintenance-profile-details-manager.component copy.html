@@ -1,0 +1,112 @@
+<div class="maintenance-details vertical-layout">
+  <div class="maintenance-details-header vertical-header">
+    <div class="hw-simple-title">维修工单档案</div>
+  </div>
+  <div class="maintenances-details-body vertical-main">
+    <ng-template [ngTemplateOutlet]="templateExpression"></ng-template>
+  </div>
+</div>
+
+<ng-template #stepperTemp>
+  <mat-stepper
+    #stepper
+    linear
+    [selectedIndex]="selectedIndex"
+    (selectionChange)="selectStepperChange($event)"
+  >
+    <ng-container *ngFor="let label of labelData; let i = index; let c = count">
+      <mat-step [completed]="!!completedArr[i]">
+        <ng-template matStepLabel>{{ label.Name }} </ng-template>
+        <ng-template matStepContent>
+          <ng-template
+            [ngTemplateOutlet]="getTemplate(i)"
+            [ngTemplateOutletContext]="{ index: i, $implicit: 'hello' }"
+          ></ng-template>
+        </ng-template>
+      </mat-step>
+    </ng-container> </mat-stepper
+></ng-template>
+
+<ng-template #tabTemp>
+  <mat-tab-group
+    [selectedIndex]="selectedIndex"
+    (selectedTabChange)="selectedTabChange($event)"
+  >
+    <ng-container *ngFor="let label of labelData; let i = index; let c = count"
+      ><mat-tab>
+        <ng-template mat-tab-label> {{ label.Name }} </ng-template>
+        <ng-template matTabContent>
+          <ng-template
+            [ngTemplateOutlet]="getTemplate(i)"
+            [ngTemplateOutletContext]="{ index: i, $implicit: 'hello' }"
+          ></ng-template
+        ></ng-template>
+      </mat-tab>
+    </ng-container>
+  </mat-tab-group>
+</ng-template>
+
+<ng-template #expansionTemp>
+  <mat-accordion>
+    <ng-container *ngFor="let label of labelData; let i = index; let c = count">
+      <mat-expansion-panel
+        hideToggle
+        (opened)="opened(i)"
+        [style.border]="
+          '1px solid ' + (i + 1 | garbage_station_profile_state_color_pipe)
+        "
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title> {{ label.Name }} </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ng-template matExpansionPanelContent>
+          <ng-template
+            [ngTemplateOutlet]="getTemplate(i)"
+            [ngTemplateOutletContext]="{ index: i, $implicit: 'hello' }"
+          ></ng-template>
+        </ng-template>
+      </mat-expansion-panel>
+    </ng-container>
+  </mat-accordion>
+</ng-template>
+
+<ng-template #step1 #step let-value let-index="index">
+  <maintenance-profile-form1
+    [formId]="formId"
+    (next)="nextEvent()"
+    (close)="closeEvent()"
+    (previous)="previousEvent()"
+  ></maintenance-profile-form1>
+</ng-template>
+<ng-template #step2 #step let-value let-index="index">
+  <maintenance-profile-form2
+    [formId]="formId"
+    (next)="nextEvent()"
+    (close)="closeEvent()"
+    (previous)="previousEvent()"
+  ></maintenance-profile-form2>
+</ng-template>
+<ng-template #step3 #step let-value let-index="index">
+  <maintenance-profile-form3
+    [formId]="formId"
+    (next)="nextEvent()"
+    (close)="closeEvent()"
+    (previous)="previousEvent()"
+  ></maintenance-profile-form3>
+</ng-template>
+<ng-template #step4 #step let-value let-index="index">
+  <maintenance-profile-form4
+    [formId]="formId"
+    (next)="nextEvent()"
+    (close)="closeEvent()"
+    (previous)="previousEvent()"
+  ></maintenance-profile-form4>
+</ng-template>
+<ng-template #step5 #step let-value let-index="index">
+  <maintenance-profile-form5
+    [formId]="formId"
+    (next)="nextEvent()"
+    (close)="closeEvent()"
+    (previous)="previousEvent()"
+  ></maintenance-profile-form5>
+</ng-template>
