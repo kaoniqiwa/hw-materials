@@ -49,15 +49,15 @@
 <ng-template #expansionTemp>
   <mat-accordion>
     <ng-container *ngFor="let label of labelData; let i = index; let c = count">
-      <mat-expansion-panel
-        hideToggle
-        (opened)="opened(i)"
-        [style.border]="
-          '1px solid ' + (i + 1 | garbage_station_profile_state_color_pipe)
-        "
-      >
+      <mat-expansion-panel hideToggle (opened)="opened(i)">
         <mat-expansion-panel-header>
-          <mat-panel-title> {{ label.Name }} </mat-panel-title>
+          <mat-panel-title>
+            <div
+              [style.color]="i + 1 | garbage_station_profile_state_color_pipe"
+            >
+              {{ label.Name }}
+            </div>
+          </mat-panel-title>
         </mat-expansion-panel-header>
         <ng-template matExpansionPanelContent>
           <ng-template

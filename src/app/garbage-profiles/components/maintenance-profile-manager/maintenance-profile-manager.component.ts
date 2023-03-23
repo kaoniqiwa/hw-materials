@@ -8,12 +8,17 @@ import { MaintenanceProfilesLanguageTools } from '../../tools/maintenance-profil
 import { MaintenanceProfilesSourceTools } from '../../tools/maintenance-profile-source.tool';
 import { ProfilePropertyValueModel } from '../tables/garbage-station-profile-table/garbage-station-profile-table.model';
 import { MaintenanceProfileTableArgs } from '../tables/maintenance-profile-table/maintenance-profile-table.model';
-import { MaintenanceProfileWindow } from './maintenance-profile-manager.model';
+import { MaintenanceProfileManagerBusiness } from './maintenance-profile-manager.business';
+import {
+  MaintenanceProfileWindow,
+  PartialDataSelection,
+} from './maintenance-profile-manager.model';
 
 @Component({
   selector: 'maintenance-profile-manager',
   templateUrl: './maintenance-profile-manager.component.html',
   styleUrls: ['./maintenance-profile-manager.component.less'],
+  providers: [MaintenanceProfileManagerBusiness],
 })
 export class MaintenanceProfileManagerComponent implements OnInit {
   @Input()
@@ -21,6 +26,7 @@ export class MaintenanceProfileManagerComponent implements OnInit {
   constructor(
     public source: MaintenanceProfilesSourceTools,
     public language: MaintenanceProfilesLanguageTools,
+    private business: MaintenanceProfileManagerBusiness,
     private activeRoute: ActivatedRoute,
     private toastr: ToastrService
   ) {}
@@ -30,7 +36,7 @@ export class MaintenanceProfileManagerComponent implements OnInit {
   load: EventEmitter<MaintenanceProfileTableArgs> = new EventEmitter();
   excel: EventEmitter<string> = new EventEmitter();
   window: MaintenanceProfileWindow = new MaintenanceProfileWindow();
-  selected?: IPartialData;
+  selected?: PartialDataSelection;
 
   ngOnInit(): void {
     this.args.enums['ProfileState'] = this.state;
@@ -41,8 +47,14 @@ export class MaintenanceProfileManagerComponent implements OnInit {
     });
   }
 
-  onselected(item?: IPartialData) {
+  async onselected(item?: IPartialData) {
     this.selected = item;
+    if (this.selected && !this.selected.ProfileState) {
+      let data = await this.business.get(this.selected.Id);
+      if (data && 'ProfileState' in data) {
+        this.selected.ProfileState = data['ProfileState'];
+      }
+    }
   }
   async onitemclick(model: ProfilePropertyValueModel) {
     if (model.model.PropertyId && model.model.Value) {
