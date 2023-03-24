@@ -8,7 +8,11 @@
         </span>
       </div>
       <div class="content">
-        <input type="text" [(ngModel)]="params.MaintenanceUserId" />
+        <select [(ngModel)]="params.MaintenanceUserId">
+          <option [ngValue]="contract.Id" *ngFor="let contract of contracts">
+            {{ contract.Name }}
+          </option>
+        </select>
       </div>
     </div>
     <div class="hw-form-group">

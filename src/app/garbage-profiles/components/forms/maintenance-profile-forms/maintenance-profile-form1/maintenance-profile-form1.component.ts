@@ -59,7 +59,6 @@ export class MaintenanceProfileForm1Component implements OnInit {
 
     if (this.formId) {
       this.model = await this._business.getMaintenanceModel(this.formId);
-      console.log('model', this.model);
 
       this.profileState = this.model.ProfileState;
 
