@@ -5,12 +5,12 @@ import { MaintenanceProfilesLanguageTools } from 'src/app/garbage-profiles/tools
 import { MaintenanceProfilesSourceTools } from 'src/app/garbage-profiles/tools/maintenance-profile-source.tool';
 import { PartialData } from 'src/app/network/entity/partial-data.interface';
 import { Property } from 'src/app/network/entity/property.entity';
-import { MaintenanceProfileBaseFormBusiness } from './maintenance-profile-base-form.business';
+import { MaintenanceProfileReactiveFormBusiness } from './maintenance-profile-reactive-form.business';
 
 @Directive({
-  selector: 'maintenance-profile-base-form',
+  selector: 'maintenance-profile-reactive-form',
 })
-export class MaintenanceProfileBaseFormDirective {
+export class MaintenanceProfileReactiveFormDirective {
   @Input()
   formId?: string;
 
@@ -24,7 +24,7 @@ export class MaintenanceProfileBaseFormDirective {
   protected partialData: PartialData | null = null;
 
   constructor(
-    protected _business: MaintenanceProfileBaseFormBusiness,
+    protected _business: MaintenanceProfileReactiveFormBusiness,
     protected _toastrService: ToastrService,
     protected sourceTool: MaintenanceProfilesSourceTools,
     protected languageTool: MaintenanceProfilesLanguageTools

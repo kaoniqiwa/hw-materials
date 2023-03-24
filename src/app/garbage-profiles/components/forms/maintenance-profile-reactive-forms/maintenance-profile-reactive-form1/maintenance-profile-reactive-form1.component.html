@@ -1,17 +1,16 @@
 <div class="maintenance-form1 vertical-layout">
-  <div class="hw-form">
+  <form [formGroup]="formGroup" class="hw-form" #ngForm="ngForm">
     <div class="hw-form-group">
       <div class="title">
         <span class="hw-form-label"> 厢房档案名称 </span>
       </div>
       <div class="content">
-        <select [(ngModel)]="params.GarbageStationProfileId">
-          <option value="" disabled>请选择</option>
+        <select formControlName="GarbageStationProfileId">
           <option
             [value]="profile.Id"
             *ngFor="let profile of garbageStationProfiles"
           >
-            {{ profile["ProfileName"] }}
+            {{ profile.ProfileName }}
           </option>
         </select>
       </div>
@@ -24,7 +23,7 @@
         </span>
       </div>
       <div class="content">
-        <input type="text" />
+        <input type="text" formControlName="GarbageStationName" />
       </div>
     </div>
 
@@ -35,7 +34,7 @@
         </span>
       </div>
       <div class="content">
-        <input type="text" />
+        <input type="text" formControlName="GarbageStationAddress" />
       </div>
     </div>
 
@@ -47,7 +46,12 @@
         <span class="hw-form-icon">*</span>
       </div>
       <div class="content">
-        <select #province class="hw-form-select">
+        <select
+          #province
+          class="hw-form-select"
+          formControlName="Province"
+          (change)="changeDivision(province, DivisionLevel.Province)"
+        >
           <option
             [id]="province.Id"
             [value]="province.Name"
@@ -66,7 +70,12 @@
         <span class="hw-form-icon">*</span>
       </div>
       <div class="content">
-        <select #city class="hw-form-select">
+        <select
+          #city
+          class="hw-form-select"
+          formControlName="City"
+          (change)="changeDivision(city, DivisionLevel.City)"
+        >
           <option
             [id]="city.Id"
             [value]="city.Name"
@@ -84,7 +93,22 @@
         </span>
         <span class="hw-form-icon">*</span>
       </div>
-      <div class="content"></div>
+      <div class="content">
+        <select
+          #county
+          class="hw-form-select"
+          formControlName="County"
+          (change)="changeDivision(county, DivisionLevel.County)"
+        >
+          <option
+            [id]="county.Id"
+            [value]="county.Name"
+            *ngFor="let county of divisionInfo.County; trackBy: trackBy"
+          >
+            {{ county.Name }}
+          </option>
+        </select>
+      </div>
     </div>
     <div class="hw-form-group">
       <div class="title">
@@ -93,7 +117,18 @@
         </span>
         <span class="hw-form-icon">*</span>
       </div>
-      <div class="content"></div>
+      <div class="content">
+        <select #street class="hw-form-select" formControlName="Street">
+          <!-- <option value="" disabled>请选择</option> -->
+          <option
+            [id]="street.Id"
+            [value]="street.Name"
+            *ngFor="let street of divisionInfo.Street; trackBy: trackBy"
+          >
+            {{ street.Name }}
+          </option>
+        </select>
+      </div>
     </div>
     <div class="hw-form-group">
       <div class="title">
@@ -103,7 +138,21 @@
         <span class="hw-form-icon">*</span>
       </div>
       <div class="content">
-        <input type="text" />
+        <input
+          type="text"
+          formControlName="Committee"
+          [matAutocomplete]="auto"
+        />
+
+        <mat-autocomplete role="combobox" #auto="matAutocomplete">
+          <mat-option
+            *ngFor="let item of filteredOption | async"
+            [id]="item.Id"
+            [value]="item.Name"
+          >
+            <span>{{ item.Name }}</span>
+          </mat-option>
+        </mat-autocomplete>
       </div>
     </div>
     <div class="hw-form-group">
@@ -111,7 +160,7 @@
         <span class="hw-form-label"> 厢房地址</span>
       </div>
       <div class="content">
-        <input type="text" />
+        <input type="text" formControlName="Address" />
       </div>
     </div>
     <div class="hw-form-group">
@@ -120,7 +169,16 @@
           {{ languageTool["ProfileType"] }}
         </span>
       </div>
-      <div class="content"></div>
+      <div class="content">
+        <select formControlName="ProfileType">
+          <option
+            [ngValue]="profileType.Value"
+            *ngFor="let profileType of this.sourceTool['ProfileType']"
+          >
+            {{ profileType.Name }}
+          </option>
+        </select>
+      </div>
     </div>
     <div class="hw-form-group">
       <div class="title">
@@ -128,7 +186,16 @@
           {{ languageTool["MaintenanceType"] }}
         </span>
       </div>
-      <div class="content"></div>
+      <div class="content">
+        <select formControlName="MaintenanceType">
+          <option
+            [ngValue]="maintenanceType.Value"
+            *ngFor="let maintenanceType of this.sourceTool['MaintenanceType']"
+          >
+            {{ maintenanceType.Name }}
+          </option>
+        </select>
+      </div>
     </div>
     <div class="hw-form-group" style="flex-basis: 100%">
       <div class="title">
@@ -137,7 +204,7 @@
         </span>
       </div>
       <div class="content">
-        <input type="text" />
+        <input type="text" formControlName="MaintenanceDescription" />
       </div>
     </div>
     <div class="hw-form-group">
@@ -147,7 +214,7 @@
         </span>
       </div>
       <div class="content">
-        <input type="text" />
+        <input type="text" formControlName="CustomerPhoneNo" />
       </div>
     </div>
     <div class="hw-form-group">
@@ -157,7 +224,7 @@
         </span>
       </div>
       <div class="content">
-        <input type="text" />
+        <input type="text" formControlName="Customer" />
       </div>
     </div>
     <div class="hw-form-group">
@@ -167,14 +234,34 @@
         </span>
       </div>
       <div class="content">
-        <input type="text" readonly />
+        <input type="text" formControlName="FaultDate" />
       </div>
     </div>
     <div class="hw-form-group">
       <div class="title">
         <span class="hw-form-label"> 厢房档案 </span>
       </div>
-      <div class="content"></div>
+      <div class="content">
+        <select formControlName="MaintenanceType">
+          <option
+            [ngValue]="maintenanceType.Value"
+            *ngFor="let maintenanceType of this.sourceTool['MaintenanceType']"
+          >
+            {{ maintenanceType.Name }}
+          </option>
+        </select>
+      </div>
     </div>
+  </form>
+  <div class="hw-middle-btn-group">
+    <button class="hw-green-btn" type="button" (click)="clickCreate()">
+      创建
+    </button>
+    <button class="hw-green-btn" type="button" (click)="clickSave()">
+      保存
+    </button>
+    <button class="hw-blue-btn" type="button" (click)="clickNext()">
+      下一步
+    </button>
   </div>
 </div>

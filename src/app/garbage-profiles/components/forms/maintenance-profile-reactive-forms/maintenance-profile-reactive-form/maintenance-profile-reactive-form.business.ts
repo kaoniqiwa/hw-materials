@@ -7,10 +7,10 @@ import {
   GetMaintenanceProfilePropertiesParams,
 } from 'src/app/network/request/maintenance-profiles/maintenance-profiles.param';
 import { MaintenanceProfileRequestService } from 'src/app/network/request/maintenance-profiles/maintenance-profiles.service';
-import { MaintenanceProfileBasePropertySearchInfo } from './maintenance-profile-base-form.model';
+import { MaintenanceProfileReactivePropertySearchInfo } from './maintenance-profile-base-form.model';
 
 @Injectable()
-export class MaintenanceProfileBaseFormBusiness {
+export class MaintenanceProfileReactiveFormBusiness {
   constructor(
     protected _garbageStationProfilesRequest: GarbageStationProfilesRequestService,
     private _maintenanceProfileRequest: MaintenanceProfileRequestService
@@ -25,11 +25,11 @@ export class MaintenanceProfileBaseFormBusiness {
   }
 
   getPropertyByNames(
-    searchInfos: Array<MaintenanceProfileBasePropertySearchInfo>
+    searchInfos: Array<MaintenanceProfileReactivePropertySearchInfo>
   ) {
     return Promise.all(searchInfos.map((info) => this.listProperty(info)));
   }
-  async listProperty(searchInfo: MaintenanceProfileBasePropertySearchInfo) {
+  async listProperty(searchInfo: MaintenanceProfileReactivePropertySearchInfo) {
     let params = new GetMaintenanceProfilePropertiesParams();
     if (searchInfo.Category) params.Category = searchInfo.Category;
     if (searchInfo.Name) params.Name = searchInfo.Name;

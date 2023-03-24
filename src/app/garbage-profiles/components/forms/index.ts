@@ -6,12 +6,16 @@ import { GarbageProfileDetailsForm4 } from './garbage-profile-details-forms/garb
 import { GarbageProfileDetailsForm5 } from './garbage-profile-details-forms/garbage-profile-details-form5/garbage-profile-details-form5.component';
 import { GarbageProfileDetailsForm6 } from './garbage-profile-details-forms/garbage-profile-details-form6/garbage-profile-details-form6.component';
 import { ModificationConfirmComponent } from './garbage-profile-details-forms/modification-confirm/modification-confirm.component';
-import { MaintenanceProfileBaseFormDirective } from './maintenance-profile-forms/maintenance-profile-base-form/maintenance-profile-base-form.component';
 import { MaintenanceProfileForm1Component } from './maintenance-profile-forms/maintenance-profile-form1/maintenance-profile-form1.component';
 import { MaintenanceProfileForm2Component } from './maintenance-profile-forms/maintenance-profile-form2/maintenance-profile-form2.component';
 import { MaintenanceProfileForm3Component } from './maintenance-profile-forms/maintenance-profile-form3/maintenance-profile-form3.component';
 import { MaintenanceProfileForm4Component } from './maintenance-profile-forms/maintenance-profile-form4/maintenance-profile-form4.component';
 import { MaintenanceProfileForm5Component } from './maintenance-profile-forms/maintenance-profile-form5/maintenance-profile-form5.component';
+import { MaintenanceProfileReactiveForm1Component } from './maintenance-profile-reactive-forms/maintenance-profile-reactive-form1/maintenance-profile-reactive-form1.component';
+import { MaintenanceProfileReactiveForm2Component } from './maintenance-profile-reactive-forms/maintenance-profile-reactive-form2/maintenance-profile-reactive-form2.component';
+import { MaintenanceProfileReactiveForm3Component } from './maintenance-profile-reactive-forms/maintenance-profile-reactive-form3/maintenance-profile-reactive-form3.component';
+import { MaintenanceProfileReactiveForm4Component } from './maintenance-profile-reactive-forms/maintenance-profile-reactive-form4/maintenance-profile-reactive-form4.component';
+import { MaintenanceProfileReactiveForm5Component } from './maintenance-profile-reactive-forms/maintenance-profile-reactive-form5/maintenance-profile-reactive-form5.component';
 
 export const FormComponents = [
   GarbageProfileDetailsForm1,
@@ -28,5 +32,10 @@ export const FormComponents = [
   MaintenanceProfileForm3Component,
   MaintenanceProfileForm4Component,
   MaintenanceProfileForm5Component,
-  MaintenanceProfileBaseFormDirective,
+
+  MaintenanceProfileReactiveForm1Component,
+  MaintenanceProfileReactiveForm2Component,
+  MaintenanceProfileReactiveForm3Component,
+  MaintenanceProfileReactiveForm4Component,
+  MaintenanceProfileReactiveForm5Component,
 ];
