@@ -37,13 +37,13 @@ export class MaintenanceProfileDetailsManagerComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.user);
-    if (this.data) {
-      this.business.load(this.data.Id, this.data.ProfileState).then((data) => {
-        this.profile = data;
+    // if (this.data) {
+    //   this.business.load(this.data.Id, this.data.ProfileState).then((data) => {
+    //     this.profile = data;
 
-        console.log(this.profile);
-      });
-    }
+    //     console.log(this.profile);
+    //   });
+    // }
   }
 
   validate(params: CreateMaintenanceProfileParams) {
