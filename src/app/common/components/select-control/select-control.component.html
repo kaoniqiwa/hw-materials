@@ -60,11 +60,7 @@
 </mat-select> -->
 <div class="select-control" [ngStyle]="style">
   <select #element [(ngModel)]="selected">
-    <option
-      [ngValue]="item.Value"
-      *ngFor="let item of data"
-      [innerHTML]="item.Name"
-    ></option>
+    <ng-content></ng-content>
   </select>
   <div
     class="clear"

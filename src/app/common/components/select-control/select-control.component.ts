@@ -11,7 +11,6 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { ValueNamePair } from 'src/app/network/entity/value-name-pair.entity';
 
 @Component({
   selector: 'app-select-control',
@@ -22,7 +21,7 @@ export class SelectControlComponent
   implements OnInit, OnChanges, AfterViewChecked
 {
   @Input()
-  data?: ValueNamePair[];
+  data?: any[];
   @Input()
   cannull: boolean = false;
   @Input()
@@ -40,17 +39,17 @@ export class SelectControlComponent
     return this._style;
   }
 
-  private _selected?: number = undefined;
-  public get selected(): number | undefined {
+  private _selected?: any = undefined;
+  public get selected(): any | undefined {
     return this._selected;
   }
   @Input()
-  public set selected(v: number | undefined) {
+  public set selected(v: any | undefined) {
     this._selected = v;
     this.selectedChange.emit(v);
   }
   @Output()
-  selectedChange: EventEmitter<number> = new EventEmitter();
+  selectedChange: EventEmitter<any> = new EventEmitter();
 
   constructor(public detector: ChangeDetectorRef) {}
   ngAfterViewChecked(): void {
@@ -69,7 +68,7 @@ export class SelectControlComponent
       if (this.default) {
         if (this.data && this.data.length > 0) {
           if (!this.selected) {
-            this.selected = this.data[0].Value;
+            this.selected = this.data[0];
             return;
           }
         }
