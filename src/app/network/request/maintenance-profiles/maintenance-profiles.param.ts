@@ -2,7 +2,7 @@ import { Transform } from 'class-transformer';
 import { Condition } from '../../entity/condition.entity';
 import { ElemMatch } from '../../entity/elem-match.entity';
 import { MaterialItem } from '../../entity/material-item.enitty';
-import { transformDateTime } from '../../entity/transform.model';
+import { transformDate, transformDateTime } from '../../entity/transform.model';
 import { DurationParams, IParams, PagedParams } from '../IParams.interface';
 
 export class CreateMaintenanceProfileParams implements IParams {
@@ -19,7 +19,7 @@ export class CreateMaintenanceProfileParams implements IParams {
   /**	String	用户电话(用户报修必填)	O/D	*/
   CustomerPhoneNo?: string;
   /**	Date	故障日期(用户报修必填)	O/D	*/
-  @Transform(transformDateTime)
+  @Transform(transformDate)
   FaultDate?: Date;
 }
 
