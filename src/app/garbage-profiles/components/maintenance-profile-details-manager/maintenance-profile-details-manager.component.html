@@ -5,6 +5,7 @@
   <div class="maintenance-details-body vertical-main">
     <maintenance-profile-form1
       [(params)]="params.create"
+      [formId]="data ? data.Id : ''"
     ></maintenance-profile-form1>
     <maintenance-profile-form2
       *ngIf="data && data.ProfileState >= 1"
