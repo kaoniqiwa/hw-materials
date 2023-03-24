@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { DateTimePickerView } from 'src/app/common/directives/date-time-picker/date-time-picker.directive';
 import { DivisionLevel } from 'src/app/enum/division-level.enum';
 import { MaintenanceProfilesLanguageTools } from 'src/app/garbage-profiles/tools/maintenance-profile-language.too';
@@ -32,9 +39,12 @@ export class MaintenanceProfileForm1Component implements OnInit {
     new EventEmitter();
 
   garbageStationProfiles: GarbageStationProfile[] = [];
-  selectedStationProfile: GarbageStationProfile | null = null;
-  model: MaintenanceProfile | null = null;
+  selectedStationProfile?: GarbageStationProfile;
+  model?: MaintenanceProfile;
 
+  get disabled() {
+    return this.stepIndex < this.profileState;
+  }
   constructor(
     public sourceTool: MaintenanceProfilesSourceTools,
     public languageTool: MaintenanceProfilesLanguageTools,
@@ -42,21 +52,18 @@ export class MaintenanceProfileForm1Component implements OnInit {
   ) {}
   ngOnInit(): void {
     this._init();
-
-    console.log(this.params);
   }
 
   private async _init() {
     this.garbageStationProfiles = await this._business.getProfiles();
 
-    console.log(this.garbageStationProfiles);
-
     if (this.formId) {
       this.model = await this._business.getMaintenanceModel(this.formId);
       console.log('model', this.model);
 
+      this.profileState = this.model.ProfileState;
+
       this.params.GarbageStationProfileId = this.model.GarbageStationProfileId;
-      this.params.ProfileType = this.model.ProfileType;
       this.params.ProfileType = this.model.ProfileType;
       this.params.MaintenanceType = this.model.MaintenanceType;
       this.params.MaintenanceDescription = this.model.MaintenanceDescription;
@@ -64,12 +71,19 @@ export class MaintenanceProfileForm1Component implements OnInit {
       this.params.CustomerPhoneNo = this.model.CustomerPhoneNo;
       this.params.FaultDate = this.model.FaultDate;
     } else {
+      this.params.GarbageStationProfileId = this.garbageStationProfiles.length
+        ? this.garbageStationProfiles[0].Id
+        : '';
+      this.params.ProfileType = 1;
+      this.params.MaintenanceType = 1;
     }
+    this.changeProfile(this.params.GarbageStationProfileId);
   }
 
-  changeProfile(id: any) {
+  changeProfile(id: string) {
+    console.log('change', id);
     this.selectedStationProfile = this.garbageStationProfiles.find(
       (profile) => profile.Id == id
-    )!;
+    );
   }
 }

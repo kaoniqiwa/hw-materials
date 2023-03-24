@@ -6,10 +6,10 @@
         <span class="hw-form-label"> 厢房档案名称 </span>
       </div>
       <div class="content">
-        <app-select-control
-          [cannull]="true"
-          [(selected)]="params.GarbageStationProfileId"
-          (selectedChange)="changeProfile($event)"
+        <select
+          [disabled]="disabled"
+          [(ngModel)]="params.GarbageStationProfileId"
+          (ngModelChange)="changeProfile($event)"
         >
           <option
             [value]="profile.Id"
@@ -17,7 +17,7 @@
           >
             {{ profile["ProfileName"] }}
           </option>
-        </app-select-control>
+        </select>
       </div>
     </div>
 
@@ -29,8 +29,8 @@
       </div>
       <div class="content">
         <input
+          [disabled]="disabled"
           type="text"
-          readonly
           [ngModel]="selectedStationProfile?.GarbageStationName"
         />
       </div>
@@ -44,8 +44,8 @@
       </div>
       <div class="content">
         <input
+          [disabled]="disabled"
           type="text"
-          readonly
           [ngModel]="selectedStationProfile?.Address"
         />
       </div>
@@ -59,8 +59,8 @@
       </div>
       <div class="content">
         <input
+          [disabled]="disabled"
           type="text"
-          readonly
           [ngModel]="selectedStationProfile?.Province"
         />
       </div>
@@ -73,7 +73,12 @@
         <span class="hw-form-icon">*</span>
       </div>
       <div class="content">
-        <input type="text" readonly [ngModel]="selectedStationProfile?.City" />
+        <input
+          [disabled]="disabled"
+          type="text"
+          readonly
+          [ngModel]="selectedStationProfile?.City"
+        />
       </div>
     </div>
     <div class="hw-form-group">
@@ -84,8 +89,8 @@
       </div>
       <div class="content">
         <input
+          [disabled]="disabled"
           type="text"
-          readonly
           [ngModel]="selectedStationProfile?.County"
         />
       </div>
@@ -99,8 +104,8 @@
       </div>
       <div class="content">
         <input
+          [disabled]="disabled"
           type="text"
-          readonly
           [ngModel]="selectedStationProfile?.Street"
         />
       </div>
@@ -114,8 +119,8 @@
       </div>
       <div class="content">
         <input
+          [disabled]="disabled"
           type="text"
-          readonly
           [ngModel]="selectedStationProfile?.Committee"
         />
       </div>
@@ -127,7 +132,7 @@
         </span>
       </div>
       <div class="content">
-        <select [(ngModel)]="params.ProfileType">
+        <select [disabled]="disabled" [(ngModel)]="params.ProfileType">
           <option
             [ngValue]="profileType.Value"
             *ngFor="let profileType of this.sourceTool['ProfileType']"
@@ -144,7 +149,7 @@
         </span>
       </div>
       <div class="content">
-        <select [(ngModel)]="params.MaintenanceType">
+        <select [disabled]="disabled" [(ngModel)]="params.MaintenanceType">
           <option
             [ngValue]="maintenanceType.Value"
             *ngFor="let maintenanceType of this.sourceTool['MaintenanceType']"
@@ -154,6 +159,35 @@
         </select>
       </div>
     </div>
+
+    <div class="hw-form-group" *ngIf="params.ProfileType == 1">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["CustomerPhoneNo"] }}
+        </span>
+      </div>
+      <div class="content">
+        <input
+          [disabled]="disabled"
+          type="text"
+          [(ngModel)]="params.CustomerPhoneNo"
+        />
+      </div>
+    </div>
+    <div class="hw-form-group" *ngIf="params.ProfileType == 1">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["Customer"] }}
+        </span>
+      </div>
+      <div class="content">
+        <input
+          [disabled]="disabled"
+          type="text"
+          [(ngModel)]="params.Customer"
+        />
+      </div>
+    </div>
     <div class="hw-form-group">
       <div class="title">
         <span class="hw-form-label">
@@ -161,27 +195,11 @@
         </span>
       </div>
       <div class="content">
-        <input type="text" [(ngModel)]="params.MaintenanceDescription" />
-      </div>
-    </div>
-    <div class="hw-form-group">
-      <div class="title">
-        <span class="hw-form-label">
-          {{ languageTool["CustomerPhoneNo"] }}
-        </span>
-      </div>
-      <div class="content">
-        <input type="text" [(ngModel)]="params.CustomerPhoneNo" />
-      </div>
-    </div>
-    <div class="hw-form-group">
-      <div class="title">
-        <span class="hw-form-label">
-          {{ languageTool["Customer"] }}
-        </span>
-      </div>
-      <div class="content">
-        <input type="text" [(ngModel)]="params.Customer" />
+        <input
+          [disabled]="disabled"
+          type="text"
+          [(ngModel)]="params.MaintenanceDescription"
+        />
       </div>
     </div>
     <div class="hw-form-group">
@@ -191,7 +209,12 @@
         </span>
       </div>
       <div class="content">
-        <input type="text" DateTimePicker [(date)]="params.FaultDate" />
+        <input
+          type="text"
+          [disabled]="disabled"
+          DateTimePicker
+          [(date)]="params.FaultDate"
+        />
       </div>
     </div>
   </div>
