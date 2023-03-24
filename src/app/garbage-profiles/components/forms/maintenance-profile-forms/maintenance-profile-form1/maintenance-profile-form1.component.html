@@ -1,11 +1,11 @@
 <div class="maintenance-form1 vertical-layout">
-  <form [formGroup]="formGroup" class="hw-form" #ngForm="ngForm">
+  <div class="hw-form">
     <div class="hw-form-group">
       <div class="title">
         <span class="hw-form-label"> 厢房档案名称 </span>
       </div>
       <div class="content">
-        <select formControlName="GarbageStationProfileId">
+        <select [(ngModel)]="params.GarbageStationProfileId">
           <option
             [value]="profile.Id"
             *ngFor="let profile of garbageStationProfiles"
@@ -23,7 +23,7 @@
         </span>
       </div>
       <div class="content">
-        <input type="text" formControlName="GarbageStationName" />
+        <input type="text" />
       </div>
     </div>
 
@@ -34,7 +34,7 @@
         </span>
       </div>
       <div class="content">
-        <input type="text" formControlName="GarbageStationAddress" />
+        <input type="text" />
       </div>
     </div>
 
@@ -49,7 +49,6 @@
         <select
           #province
           class="hw-form-select"
-          formControlName="Province"
           (change)="changeDivision(province, DivisionLevel.Province)"
         >
           <option
@@ -73,7 +72,6 @@
         <select
           #city
           class="hw-form-select"
-          formControlName="City"
           (change)="changeDivision(city, DivisionLevel.City)"
         >
           <option
@@ -97,7 +95,6 @@
         <select
           #county
           class="hw-form-select"
-          formControlName="County"
           (change)="changeDivision(county, DivisionLevel.County)"
         >
           <option
@@ -118,7 +115,7 @@
         <span class="hw-form-icon">*</span>
       </div>
       <div class="content">
-        <select #street class="hw-form-select" formControlName="Street">
+        <select #street class="hw-form-select">
           <!-- <option value="" disabled>请选择</option> -->
           <option
             [id]="street.Id"
@@ -138,11 +135,7 @@
         <span class="hw-form-icon">*</span>
       </div>
       <div class="content">
-        <input
-          type="text"
-          formControlName="Committee"
-          [matAutocomplete]="auto"
-        />
+        <input type="text" [matAutocomplete]="auto" />
 
         <mat-autocomplete role="combobox" #auto="matAutocomplete">
           <mat-option
@@ -160,7 +153,7 @@
         <span class="hw-form-label"> 厢房地址</span>
       </div>
       <div class="content">
-        <input type="text" formControlName="Address" />
+        <input type="text" />
       </div>
     </div>
     <div class="hw-form-group">
@@ -170,7 +163,7 @@
         </span>
       </div>
       <div class="content">
-        <select formControlName="ProfileType">
+        <select [(ngModel)]="params.ProfileType">
           <option
             [ngValue]="profileType.Value"
             *ngFor="let profileType of this.sourceTool['ProfileType']"
@@ -187,7 +180,7 @@
         </span>
       </div>
       <div class="content">
-        <select formControlName="MaintenanceType">
+        <select [(ngModel)]="params.MaintenanceType">
           <option
             [ngValue]="maintenanceType.Value"
             *ngFor="let maintenanceType of this.sourceTool['MaintenanceType']"
@@ -204,7 +197,7 @@
         </span>
       </div>
       <div class="content">
-        <input type="text" formControlName="MaintenanceDescription" />
+        <input type="text" [(ngModel)]="params.MaintenanceDescription" />
       </div>
     </div>
     <div class="hw-form-group">
@@ -214,7 +207,7 @@
         </span>
       </div>
       <div class="content">
-        <input type="text" formControlName="CustomerPhoneNo" />
+        <input type="text" [(ngModel)]="params.CustomerPhoneNo" />
       </div>
     </div>
     <div class="hw-form-group">
@@ -224,7 +217,7 @@
         </span>
       </div>
       <div class="content">
-        <input type="text" formControlName="Customer" />
+        <input type="text" [(ngModel)]="params.Customer" />
       </div>
     </div>
     <div class="hw-form-group">
@@ -234,7 +227,15 @@
         </span>
       </div>
       <div class="content">
-        <input type="text" formControlName="FaultDate" />
+        <input
+          type="text"
+          readonly
+          DateTimePicker
+          [format]="'yyyy年MM月dd日'"
+          [startView]="DateTimePickerView.month"
+          [minView]="DateTimePickerView.month"
+        />
+        <!-- [(date)]="params.FaultDate" -->
       </div>
     </div>
     <div class="hw-form-group">
@@ -242,7 +243,7 @@
         <span class="hw-form-label"> 厢房档案 </span>
       </div>
       <div class="content">
-        <select formControlName="MaintenanceType">
+        <select>
           <option
             [ngValue]="maintenanceType.Value"
             *ngFor="let maintenanceType of this.sourceTool['MaintenanceType']"
@@ -252,16 +253,5 @@
         </select>
       </div>
     </div>
-  </form>
-  <div class="hw-middle-btn-group">
-    <button class="hw-green-btn" type="button" (click)="clickCreate()">
-      创建
-    </button>
-    <button class="hw-green-btn" type="button" (click)="clickSave()">
-      保存
-    </button>
-    <button class="hw-blue-btn" type="button" (click)="clickNext()">
-      下一步
-    </button>
   </div>
 </div>

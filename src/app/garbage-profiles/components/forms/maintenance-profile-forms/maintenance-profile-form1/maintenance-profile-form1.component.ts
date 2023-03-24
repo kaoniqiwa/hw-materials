@@ -1,13 +1,22 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { map, Observable, startWith } from 'rxjs';
+import { DateTimePickerView } from 'src/app/common/directives/date-time-picker/date-time-picker.directive';
 import { DivisionLevel } from 'src/app/enum/division-level.enum';
 import { EnumHelper } from 'src/app/enum/enum-helper';
 import { MaintenanceProfilesLanguageTools } from 'src/app/garbage-profiles/tools/maintenance-profile-language.too';
 import { MaintenanceProfilesSourceTools } from 'src/app/garbage-profiles/tools/maintenance-profile-source.tool';
 import { Division } from 'src/app/network/entity/division.entity';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
+import { CreateMaintenanceProfileParams } from 'src/app/network/request/maintenance-profiles/maintenance-profiles.param';
 import { DivisionInfo } from '../../utils/division/division.model';
 import { DivisionUtil } from '../../utils/division/division.util';
 import { MaintenanceProfileBaseFormDirective } from '../maintenance-profile-base-form/maintenance-profile-base-form.component';
@@ -21,8 +30,15 @@ import { MaintenanceProfileForm1Business } from './maintenance-profile-form1.bus
 })
 export class MaintenanceProfileForm1Component
   extends MaintenanceProfileBaseFormDirective
-  implements OnInit {
+  implements OnInit
+{
   DivisionLevel = DivisionLevel;
+
+  @Input()
+  params: CreateMaintenanceProfileParams = new CreateMaintenanceProfileParams();
+  @Output()
+  paramsChange: EventEmitter<CreateMaintenanceProfileParams> =
+    new EventEmitter();
 
   private defaultProvince = '江苏省';
   private defaultCity = '南京市';
@@ -70,6 +86,7 @@ export class MaintenanceProfileForm1Component
   selectedStationProfile: GarbageStationProfile | null = null;
   divisionInfo: DivisionInfo = new DivisionInfo();
   filteredOption: Observable<Division[]>;
+  DateTimePickerView = DateTimePickerView;
 
   constructor(
     protected override _business: MaintenanceProfileForm1Business,
@@ -77,7 +94,7 @@ export class MaintenanceProfileForm1Component
     protected override sourceTool: MaintenanceProfilesSourceTools,
     protected override languageTool: MaintenanceProfilesLanguageTools,
     protected _changeDetector: ChangeDetectorRef,
-    protected _divisionUtil: DivisionUtil,
+    protected _divisionUtil: DivisionUtil
   ) {
     super(_business, _toastrService, sourceTool, languageTool);
     this.filteredOption = this.Committee.valueChanges.pipe(
@@ -114,8 +131,7 @@ export class MaintenanceProfileForm1Component
     this._resetSelect(level);
 
     // 更新表单视图绑定
-    this._changeDetector.detectChanges()
-
+    this._changeDetector.detectChanges();
 
     this.divisionSource.set(
       DivisionLevel.Province,
@@ -139,7 +155,6 @@ export class MaintenanceProfileForm1Component
     );
 
     this._getDivisionInfo();
-
   }
 
   private async _init() {
@@ -186,6 +201,6 @@ export class MaintenanceProfileForm1Component
     }
 
     console.log('清空下级字段名: ', patchValue);
-    this.formGroup.patchValue(patchValue)
+    this.formGroup.patchValue(patchValue);
   }
 }
