@@ -53,8 +53,17 @@ export class MaintenanceProfileForm1Component implements OnInit {
 
     if (this.formId) {
       this.model = await this._business.getMaintenanceModel(this.formId);
+      console.log('model', this.model);
 
-      // console.log('model', this.model);
+      this.params.GarbageStationProfileId = this.model.GarbageStationProfileId;
+      this.params.ProfileType = this.model.ProfileType;
+      this.params.ProfileType = this.model.ProfileType;
+      this.params.MaintenanceType = this.model.MaintenanceType;
+      this.params.MaintenanceDescription = this.model.MaintenanceDescription;
+      this.params.Customer = this.model.Customer;
+      this.params.CustomerPhoneNo = this.model.CustomerPhoneNo;
+      this.params.FaultDate = this.model.FaultDate;
+    } else {
     }
   }
 
@@ -62,7 +71,5 @@ export class MaintenanceProfileForm1Component implements OnInit {
     this.selectedStationProfile = this.garbageStationProfiles.find(
       (profile) => profile.Id == id
     )!;
-
-    // console.log(this.selectedStationProfile);
   }
 }
