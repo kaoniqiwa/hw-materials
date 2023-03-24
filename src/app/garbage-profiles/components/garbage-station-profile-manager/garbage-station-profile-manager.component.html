@@ -126,6 +126,15 @@
   </garbage-profile-details-manager>
 </toast-window>
 
+<!-- <toast-window
+  *ngIf="window.details.show"
+  (closeEvent)="ondetailsclose()"
+  style="z-index: 999"
+>
+  <garbage-profile-details-reactive-manager>
+  </garbage-profile-details-reactive-manager>
+</toast-window> -->
+
 <app-window
   [Model]="window.setting"
   [style]="window.setting.style"
