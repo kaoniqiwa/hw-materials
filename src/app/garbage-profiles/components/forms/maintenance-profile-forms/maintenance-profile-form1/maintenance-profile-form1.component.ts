@@ -43,7 +43,7 @@ export class MaintenanceProfileForm1Component implements OnInit {
   ngOnInit(): void {
     this._init();
 
-    // console.log(this.params);
+    console.log(this.params);
   }
 
   private async _init() {

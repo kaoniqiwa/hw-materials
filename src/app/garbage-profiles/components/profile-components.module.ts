@@ -7,6 +7,7 @@ import { MaterialModule } from 'src/app/material.module';
 import { CUSTOM_PIPES } from '../pipes';
 import { FormComponents } from './forms';
 import { GarbageProfileDetailsManager } from './garbage-profile-details-manager/garbage-profile-details-manager.component';
+import { GarbageProfileDetailsReactiveManagerComponent } from './garbage-profile-details-reactive-manager/garbage-profile-details-reactive-manager.component';
 import { GarbageProfilesLabelDetailsComponent } from './garbage-profiles-label-details/garbage-profiles-label-details.component';
 import { GarbageProfilesLabelManagerComponent } from './garbage-profiles-label-manager/garbage-profiles-label-manager.component';
 import { GarbageProfilesMaterialDetailsComponent } from './garbage-profiles-material-details/garbage-profiles-material-details.component';
@@ -72,6 +73,8 @@ import { UnderwaterComponent } from './underwater/underwater.component';
     GarbageProfilesMaterialPutInComponent,
     GarbageProfilesMaterialPutoutComponent,
     GarbageProfilesMaterialRecordTimelineComponent,
+
+    GarbageProfileDetailsReactiveManagerComponent,
 
     GarbageProfilesLabelManagerComponent,
     GarbageProfilesLabelDetailsComponent,

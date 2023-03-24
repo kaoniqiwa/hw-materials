@@ -15,7 +15,7 @@ export class MaintenanceProfileForm5Component implements OnInit {
   constructor(
     public sourceTool: MaintenanceProfilesSourceTools,
     public languageTool: MaintenanceProfilesLanguageTools,
-    private _business: MaintenanceProfileForm3Business
+    private _business: MaintenanceProfileForm5Business
   ) {}
   ngOnInit(): void {}
 }
