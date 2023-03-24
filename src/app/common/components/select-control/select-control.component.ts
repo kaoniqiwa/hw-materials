@@ -23,9 +23,9 @@ export class SelectControlComponent
   @Input()
   data?: any[];
   @Input()
-  cannull: boolean = false;
+  cannull: boolean = true;
   @Input()
-  default: boolean = true;
+  default: boolean = false;
 
   @Input()
   public set style(v: any) {
