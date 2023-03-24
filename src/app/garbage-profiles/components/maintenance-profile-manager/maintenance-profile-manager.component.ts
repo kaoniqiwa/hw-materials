@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { ToastrService } from 'ngx-toastr';
-import { FormState } from 'src/app/enum/form-state.enum';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
 import {
   IPartialData,
@@ -117,16 +116,18 @@ export class MaintenanceProfileManagerComponent implements OnInit {
   }
 
   tocreate() {
-    this.window.details.formState = FormState.add;
     this.window.details.data = undefined;
     this.window.details.show = true;
   }
   tomodify() {
     if (this.selected) {
-      this.window.details.formState = FormState.edit;
       this.window.details.data = this.selected;
       this.window.details.show = true;
     }
+  }
+  ondetailsok() {
+    this.load.emit(this.args);
+    this.onwindowclose();
   }
   tofilter() {
     this.window.filter.show = true;

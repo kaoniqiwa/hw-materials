@@ -1,4 +1,4 @@
-export class Contact {
+export class Contract {
   /**	String	联系人ID	M */
   Id!: string;
   /**	String	联系人姓名	M */

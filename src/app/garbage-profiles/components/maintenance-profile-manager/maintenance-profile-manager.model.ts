@@ -1,5 +1,4 @@
 import { DataWindowViewModel } from 'src/app/common/components/window-control/window.model';
-import { FormState } from 'src/app/enum/form-state.enum';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
 import { StatePartialData } from 'src/app/network/entity/partial-data.interface';
 
@@ -31,11 +30,9 @@ class MaintenanceProfileSettingWindow extends DataWindowViewModel {
 }
 class MaintenanceProfileDeatilsWindow extends DataWindowViewModel {
   clear(): void {
-    this.formState = FormState.none;
     this.data = undefined;
   }
   style = {};
-  formState: FormState = FormState.none;
   data?: StatePartialData;
 }
 

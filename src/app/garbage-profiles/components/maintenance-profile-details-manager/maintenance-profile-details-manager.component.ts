@@ -20,7 +20,9 @@ export class MaintenanceProfileDetailsManagerComponent implements OnInit {
   data?: StatePartialData;
 
   @Output()
-  close: EventEmitter<void> = new EventEmitter();
+  ok: EventEmitter<void> = new EventEmitter();
+  @Output()
+  cancel: EventEmitter<void> = new EventEmitter();
 
   constructor(
     private business: MaintenanceProfileDetailsManagerBusiness,
@@ -71,7 +73,7 @@ export class MaintenanceProfileDetailsManagerComponent implements OnInit {
         .create(params)
         .then((x) => {
           this.toastr.success('工单创建成功');
-          this.close.emit();
+          this.ok.emit();
         })
         .catch((x) => {
           this.toastr.error('工单创建失败');
@@ -104,9 +106,36 @@ export class MaintenanceProfileDetailsManagerComponent implements OnInit {
     }
   }
   /** 提交维修完成或维修未完成 */
-  submit() {
+  complate() {
     if (this.data) {
       this.business.submit(this.data.Id, this.params.submit);
+    }
+  }
+
+  submit(state?: number) {
+    if (this.data) {
+      switch (state) {
+        case 1:
+          this.business.distribute(this.data.Id, this.params.distribute);
+          break;
+        case 2:
+          this.business.constructionapply(
+            this.data.Id,
+            this.params.constructionapply
+          );
+          break;
+        case 3:
+          this.business.constructionapply(
+            this.data.Id,
+            this.params.constructionapply
+          );
+          break;
+        case 4:
+          this.business.submit(this.data.Id, this.params.submit);
+          break;
+        default:
+          break;
+      }
     }
   }
 }
