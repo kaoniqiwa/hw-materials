@@ -28,8 +28,8 @@ export class DateTimePickerDirective
   @Input('minView') minView: DateTimePickerView = DateTimePickerView.month;
   @Input('week') week: boolean = false;
 
-  private _date: Date = new Date();
-  public get date(): Date {
+  private _date?: Date;
+  public get date(): Date | undefined {
     return this._date;
   }
   @Input('date')
@@ -75,7 +75,7 @@ export class DateTimePickerDirective
     startView: number,
     minView: number,
     format: string,
-    value: Date,
+    value: Date = new Date(),
     week?: boolean
   ) {
     $(this.ele).val('');
@@ -156,7 +156,7 @@ export class DateTimePickerDirective
           const dayDom = $('.datetimepicker-days');
           dayDom.find('.week-tr').removeClass('week-tr');
         });
-      $(this.ele).val(formatDate(value, this.format, 'en'));
+      if (this.date) $(this.ele).val(formatDate(value, this.format, 'en'));
     }
   }
 }
