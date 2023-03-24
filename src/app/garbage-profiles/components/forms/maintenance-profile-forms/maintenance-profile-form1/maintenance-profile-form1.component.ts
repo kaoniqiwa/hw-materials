@@ -17,7 +17,7 @@ import { MaintenanceProfileForm1Business } from './maintenance-profile-form1.bus
   providers: [MaintenanceProfileForm1Business],
 })
 export class MaintenanceProfileForm1Component implements OnInit {
-  DivisionLevel = DivisionLevel;
+  DateTimePickerView = DateTimePickerView;
 
   @Input() formId?: string;
 
@@ -34,12 +34,11 @@ export class MaintenanceProfileForm1Component implements OnInit {
   garbageStationProfiles: GarbageStationProfile[] = [];
   selectedStationProfile: GarbageStationProfile | null = null;
   model: MaintenanceProfile | null = null;
-  DateTimePickerView = DateTimePickerView;
 
   constructor(
-    private _business: MaintenanceProfileForm1Business,
     public sourceTool: MaintenanceProfilesSourceTools,
-    public languageTool: MaintenanceProfilesLanguageTools
+    public languageTool: MaintenanceProfilesLanguageTools,
+    private _business: MaintenanceProfileForm1Business
   ) {}
   ngOnInit(): void {
     this._init();

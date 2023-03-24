@@ -6,6 +6,13 @@ import { GarbageProfileDetailsForm4 } from './garbage-profile-details-forms/garb
 import { GarbageProfileDetailsForm5 } from './garbage-profile-details-forms/garbage-profile-details-form5/garbage-profile-details-form5.component';
 import { GarbageProfileDetailsForm6 } from './garbage-profile-details-forms/garbage-profile-details-form6/garbage-profile-details-form6.component';
 import { ModificationConfirmComponent } from './garbage-profile-details-forms/modification-confirm/modification-confirm.component';
+import { GarbageProfileReactiveFormComponent } from './garbage-profile-reactive-forms/garbage-profile-reactive-form/garbage-profile-reactive-form.component';
+import { GarbageProfileReactiveForm1Component } from './garbage-profile-reactive-forms/garbage-profile-reactive-form1/garbage-profile-reactive-form1.component';
+import { GarbageProfileReactiveForm2Component } from './garbage-profile-reactive-forms/garbage-profile-reactive-form2/garbage-profile-reactive-form2.component';
+import { GarbageProfileReactiveForm3Component } from './garbage-profile-reactive-forms/garbage-profile-reactive-form3/garbage-profile-reactive-form3.component';
+import { GarbageProfileReactiveForm4Component } from './garbage-profile-reactive-forms/garbage-profile-reactive-form4/garbage-profile-reactive-form4.component';
+import { GarbageProfileReactiveForm5Component } from './garbage-profile-reactive-forms/garbage-profile-reactive-form5/garbage-profile-reactive-form5.component';
+import { GarbageProfileReactiveForm6Component } from './garbage-profile-reactive-forms/garbage-profile-reactive-form6/garbage-profile-reactive-form6.component';
 import { MaintenanceProfileForm1Component } from './maintenance-profile-forms/maintenance-profile-form1/maintenance-profile-form1.component';
 import { MaintenanceProfileForm2Component } from './maintenance-profile-forms/maintenance-profile-form2/maintenance-profile-form2.component';
 import { MaintenanceProfileForm3Component } from './maintenance-profile-forms/maintenance-profile-form3/maintenance-profile-form3.component';
@@ -26,6 +33,14 @@ export const FormComponents = [
   GarbageProfileDetailsForm6,
   GarbageProfileDetailsDynamicForm,
   ModificationConfirmComponent,
+
+  GarbageProfileReactiveFormComponent,
+  GarbageProfileReactiveForm1Component,
+  GarbageProfileReactiveForm2Component,
+  GarbageProfileReactiveForm3Component,
+  GarbageProfileReactiveForm4Component,
+  GarbageProfileReactiveForm5Component,
+  GarbageProfileReactiveForm6Component,
 
   MaintenanceProfileForm1Component,
   MaintenanceProfileForm2Component,

@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MaintenanceProfileForm5Business } from './maintenance-profile-form4.business';
+import { MaintenanceProfilesLanguageTools } from 'src/app/garbage-profiles/tools/maintenance-profile-language.too';
+import { MaintenanceProfilesSourceTools } from 'src/app/garbage-profiles/tools/maintenance-profile-source.tool';
+import { MaintenanceProfileForm3Business } from '../maintenance-profile-form3/maintenance-profile-form3.business';
+import { MaintenanceProfileForm5Business } from './maintenance-profile-form5.business';
 
 @Component({
   selector: 'maintenance-profile-form5',
@@ -9,6 +12,10 @@ import { MaintenanceProfileForm5Business } from './maintenance-profile-form4.bus
 })
 export class MaintenanceProfileForm5Component implements OnInit {
   @Input() formId = '';
-
+  constructor(
+    public sourceTool: MaintenanceProfilesSourceTools,
+    public languageTool: MaintenanceProfilesLanguageTools,
+    private _business: MaintenanceProfileForm3Business
+  ) {}
   ngOnInit(): void {}
 }

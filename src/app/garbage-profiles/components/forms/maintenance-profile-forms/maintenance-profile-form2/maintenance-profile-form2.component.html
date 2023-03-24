@@ -1,0 +1,29 @@
+<div class="maintenance-form1 vertical-layout">
+  {{ params | json }}
+  <div class="hw-form">
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["MaintenanceUserId"] }}
+        </span>
+      </div>
+      <div class="content">
+        <input type="text" [(ngModel)]="params.MaintenanceUserId" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["MaintenanceUserId"] }}
+        </span>
+      </div>
+      <div class="content">
+        <input
+          type="text"
+          DateTimePicker
+          [(date)]="params.MaintenanceDeadline"
+        />
+      </div>
+    </div>
+  </div>
+</div>
