@@ -237,21 +237,6 @@
         <input type="text" formControlName="FaultDate" />
       </div>
     </div>
-    <div class="hw-form-group">
-      <div class="title">
-        <span class="hw-form-label"> 厢房档案 </span>
-      </div>
-      <div class="content">
-        <select formControlName="MaintenanceType">
-          <option
-            [ngValue]="maintenanceType.Value"
-            *ngFor="let maintenanceType of this.sourceTool['MaintenanceType']"
-          >
-            {{ maintenanceType.Name }}
-          </option>
-        </select>
-      </div>
-    </div>
   </form>
   <div class="hw-middle-btn-group">
     <button class="hw-green-btn" type="button" (click)="clickCreate()">

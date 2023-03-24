@@ -33,9 +33,11 @@ export class DateTimePickerDirective
     return this._date;
   }
   @Input('date')
-  public set date(v: Date) {
-    this._date = v;
-    this.dateChange.emit(v);
+  public set date(v: Date | undefined) {
+    if (v) {
+      this._date = v;
+      this.dateChange.emit(v);
+    }
   }
 
   @Output()

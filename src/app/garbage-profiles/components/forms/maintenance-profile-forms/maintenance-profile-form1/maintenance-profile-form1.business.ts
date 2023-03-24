@@ -5,17 +5,20 @@ import { Condition } from 'src/app/network/entity/condition.entity';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { GetPartialDatasParams } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
 import { GarbageStationProfilesRequestService } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
+import { MaintenanceProfileRequestService } from 'src/app/network/request/maintenance-profiles/maintenance-profiles.service';
 
 @Injectable()
 export class MaintenanceProfileForm1Business {
   constructor(
-    private _garbageStationProfilesRequest: GarbageStationProfilesRequestService
+    private _garbageStationProfilesRequest: GarbageStationProfilesRequestService,
+    private _maintenanceProfileRequest: MaintenanceProfileRequestService
   ) {}
   async getProfiles() {
     let params = new GetPartialDatasParams();
     params.PropertyIds = [
       'ProfileState',
       'ProfileName',
+      'GarbageStationName',
       'Address',
       'Province',
       'City',
@@ -38,5 +41,8 @@ export class MaintenanceProfileForm1Business {
 
     let res = plainToInstance(GarbageStationProfile, Data);
     return res;
+  }
+  getMaintenanceModel(id: string) {
+    return this._maintenanceProfileRequest.get(id);
   }
 }

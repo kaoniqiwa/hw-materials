@@ -1,19 +1,23 @@
 <div class="maintenance-form1 vertical-layout">
+  {{ params | json }}
   <div class="hw-form">
     <div class="hw-form-group">
       <div class="title">
         <span class="hw-form-label"> 厢房档案名称 </span>
       </div>
       <div class="content">
-        <select [(ngModel)]="params.GarbageStationProfileId">
-          <option value="" disabled>请选择</option>
+        <app-select-control
+          [cannull]="true"
+          [(selected)]="params.GarbageStationProfileId"
+          (selectedChange)="changeProfile($event)"
+        >
           <option
             [value]="profile.Id"
             *ngFor="let profile of garbageStationProfiles"
           >
             {{ profile["ProfileName"] }}
           </option>
-        </select>
+        </app-select-control>
       </div>
     </div>
 
@@ -24,7 +28,11 @@
         </span>
       </div>
       <div class="content">
-        <input type="text" />
+        <input
+          type="text"
+          readonly
+          [ngModel]="selectedStationProfile?.GarbageStationName"
+        />
       </div>
     </div>
 
@@ -35,7 +43,11 @@
         </span>
       </div>
       <div class="content">
-        <input type="text" />
+        <input
+          type="text"
+          readonly
+          [ngModel]="selectedStationProfile?.Address"
+        />
       </div>
     </div>
 
@@ -44,18 +56,13 @@
         <span class="hw-form-label">
           {{ languageTool["Province"] }}
         </span>
-        <span class="hw-form-icon">*</span>
       </div>
       <div class="content">
-        <select #province class="hw-form-select">
-          <option
-            [id]="province.Id"
-            [value]="province.Name"
-            *ngFor="let province of divisionInfo.Province"
-          >
-            {{ province.Name }}
-          </option>
-        </select>
+        <input
+          type="text"
+          readonly
+          [ngModel]="selectedStationProfile?.Province"
+        />
       </div>
     </div>
     <div class="hw-form-group">
@@ -66,15 +73,7 @@
         <span class="hw-form-icon">*</span>
       </div>
       <div class="content">
-        <select #city class="hw-form-select">
-          <option
-            [id]="city.Id"
-            [value]="city.Name"
-            *ngFor="let city of divisionInfo.City"
-          >
-            {{ city.Name }}
-          </option>
-        </select>
+        <input type="text" readonly [ngModel]="selectedStationProfile?.City" />
       </div>
     </div>
     <div class="hw-form-group">
@@ -82,9 +81,14 @@
         <span class="hw-form-label">
           {{ languageTool["County"] }}
         </span>
-        <span class="hw-form-icon">*</span>
       </div>
-      <div class="content"></div>
+      <div class="content">
+        <input
+          type="text"
+          readonly
+          [ngModel]="selectedStationProfile?.County"
+        />
+      </div>
     </div>
     <div class="hw-form-group">
       <div class="title">
@@ -93,7 +97,13 @@
         </span>
         <span class="hw-form-icon">*</span>
       </div>
-      <div class="content"></div>
+      <div class="content">
+        <input
+          type="text"
+          readonly
+          [ngModel]="selectedStationProfile?.Street"
+        />
+      </div>
     </div>
     <div class="hw-form-group">
       <div class="title">
@@ -103,15 +113,11 @@
         <span class="hw-form-icon">*</span>
       </div>
       <div class="content">
-        <input type="text" />
-      </div>
-    </div>
-    <div class="hw-form-group">
-      <div class="title">
-        <span class="hw-form-label"> 厢房地址</span>
-      </div>
-      <div class="content">
-        <input type="text" />
+        <input
+          type="text"
+          readonly
+          [ngModel]="selectedStationProfile?.Committee"
+        />
       </div>
     </div>
     <div class="hw-form-group">
@@ -120,7 +126,16 @@
           {{ languageTool["ProfileType"] }}
         </span>
       </div>
-      <div class="content"></div>
+      <div class="content">
+        <select [(ngModel)]="params.ProfileType">
+          <option
+            [ngValue]="profileType.Value"
+            *ngFor="let profileType of this.sourceTool['ProfileType']"
+          >
+            {{ profileType.Name }}
+          </option>
+        </select>
+      </div>
     </div>
     <div class="hw-form-group">
       <div class="title">
@@ -128,16 +143,25 @@
           {{ languageTool["MaintenanceType"] }}
         </span>
       </div>
-      <div class="content"></div>
+      <div class="content">
+        <select [(ngModel)]="params.MaintenanceType">
+          <option
+            [ngValue]="maintenanceType.Value"
+            *ngFor="let maintenanceType of this.sourceTool['MaintenanceType']"
+          >
+            {{ maintenanceType.Name }}
+          </option>
+        </select>
+      </div>
     </div>
-    <div class="hw-form-group" style="flex-basis: 100%">
+    <div class="hw-form-group">
       <div class="title">
         <span class="hw-form-label">
           {{ languageTool["MaintenanceDescription"] }}
         </span>
       </div>
       <div class="content">
-        <input type="text" />
+        <input type="text" [(ngModel)]="params.MaintenanceDescription" />
       </div>
     </div>
     <div class="hw-form-group">
@@ -147,7 +171,7 @@
         </span>
       </div>
       <div class="content">
-        <input type="text" />
+        <input type="text" [(ngModel)]="params.CustomerPhoneNo" />
       </div>
     </div>
     <div class="hw-form-group">
@@ -157,7 +181,7 @@
         </span>
       </div>
       <div class="content">
-        <input type="text" />
+        <input type="text" [(ngModel)]="params.Customer" />
       </div>
     </div>
     <div class="hw-form-group">
@@ -167,14 +191,8 @@
         </span>
       </div>
       <div class="content">
-        <input type="text" readonly />
+        <input type="text" DateTimePicker [(date)]="params.FaultDate" />
       </div>
-    </div>
-    <div class="hw-form-group">
-      <div class="title">
-        <span class="hw-form-label"> 厢房档案 </span>
-      </div>
-      <div class="content"></div>
     </div>
   </div>
 </div>

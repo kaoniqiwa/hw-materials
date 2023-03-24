@@ -4,6 +4,7 @@ import { DivisionLevel } from 'src/app/enum/division-level.enum';
 import { MaintenanceProfilesLanguageTools } from 'src/app/garbage-profiles/tools/maintenance-profile-language.too';
 import { MaintenanceProfilesSourceTools } from 'src/app/garbage-profiles/tools/maintenance-profile-source.tool';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
+import { MaintenanceProfile } from 'src/app/network/entity/maintenance-profile.entity';
 import { PartialData } from 'src/app/network/entity/partial-data.interface';
 import { CreateMaintenanceProfileParams } from 'src/app/network/request/maintenance-profiles/maintenance-profiles.param';
 import { DivisionInfo } from '../../utils/division/division.model';
@@ -18,7 +19,7 @@ import { MaintenanceProfileForm1Business } from './maintenance-profile-form1.bus
 export class MaintenanceProfileForm1Component implements OnInit {
   DivisionLevel = DivisionLevel;
 
-  @Input() formId = '';
+  @Input() formId?: string;
 
   profileState = 0;
 
@@ -30,9 +31,9 @@ export class MaintenanceProfileForm1Component implements OnInit {
   paramsChange: EventEmitter<CreateMaintenanceProfileParams> =
     new EventEmitter();
 
-  garbageStationProfiles: PartialData[] = [];
+  garbageStationProfiles: GarbageStationProfile[] = [];
   selectedStationProfile: GarbageStationProfile | null = null;
-  divisionInfo: DivisionInfo = new DivisionInfo();
+  model: MaintenanceProfile | null = null;
   DateTimePickerView = DateTimePickerView;
 
   constructor(
@@ -43,12 +44,26 @@ export class MaintenanceProfileForm1Component implements OnInit {
   ngOnInit(): void {
     this._init();
 
-    console.log(this.params);
+    // console.log(this.params);
   }
 
   private async _init() {
     this.garbageStationProfiles = await this._business.getProfiles();
 
     console.log(this.garbageStationProfiles);
+
+    if (this.formId) {
+      this.model = await this._business.getMaintenanceModel(this.formId);
+
+      // console.log('model', this.model);
+    }
+  }
+
+  changeProfile(id: any) {
+    this.selectedStationProfile = this.garbageStationProfiles.find(
+      (profile) => profile.Id == id
+    )!;
+
+    // console.log(this.selectedStationProfile);
   }
 }
