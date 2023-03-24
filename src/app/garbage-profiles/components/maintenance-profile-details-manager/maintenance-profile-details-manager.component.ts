@@ -1,9 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { LocalStorageService } from 'src/app/common/service/local-storage.service';
-import { FormState } from 'src/app/enum/form-state.enum';
 import { MaintenanceProfile } from 'src/app/network/entity/maintenance-profile.entity';
 import { StatePartialData } from 'src/app/network/entity/partial-data.interface';
 import { User } from 'src/app/network/entity/user.model';
+import { CreateMaintenanceProfileParams } from 'src/app/network/request/maintenance-profiles/maintenance-profiles.param';
+import { MaintenanceProfilesLanguageTools } from '../../tools/maintenance-profile-language.too';
 import { MaintenanceProfileDetailsManagerBusiness } from './maintenance-profile-details-manager.business';
 import { MaintenanceProfileDetailsManagerParams } from './maintenance-profile-details-manager.model';
 
@@ -17,12 +19,13 @@ export class MaintenanceProfileDetailsManagerComponent implements OnInit {
   @Input()
   data?: StatePartialData;
 
-  @Input()
-  formState: FormState = FormState.none;
+  @Output()
+  close: EventEmitter<void> = new EventEmitter();
 
   constructor(
     private business: MaintenanceProfileDetailsManagerBusiness,
-
+    private toastr: ToastrService,
+    private language: MaintenanceProfilesLanguageTools,
     local: LocalStorageService
   ) {
     this.user = local.user;
@@ -43,9 +46,38 @@ export class MaintenanceProfileDetailsManagerComponent implements OnInit {
     }
   }
 
+  validate(params: CreateMaintenanceProfileParams) {
+    if (params.ProfileType === 1) {
+      if (!params.Customer) {
+        this.toastr.warning(`请输入${this.language['Customer']}`);
+        return false;
+      }
+      if (!params.CustomerPhoneNo) {
+        this.toastr.warning(`请输入${this.language['CustomerPhoneNo']}`);
+        return false;
+      }
+      // if (!params.FaultDate) {
+      //   this.toastr.warning(`请输入${this.language['FaultDate']}`);
+      //   return false;
+      // }
+    }
+    return true;
+  }
+
   /** 创建工单 */
-  create() {
-    this.business.create(this.params.create);
+  create(params: CreateMaintenanceProfileParams) {
+    if (this.validate(params)) {
+      this.business
+        .create(params)
+        .then((x) => {
+          this.toastr.success('工单创建成功');
+          this.close.emit();
+        })
+        .catch((x) => {
+          this.toastr.error('工单创建失败');
+          console.error(x.error);
+        });
+    }
   }
   /** 分派维修工单 */
   distribute() {

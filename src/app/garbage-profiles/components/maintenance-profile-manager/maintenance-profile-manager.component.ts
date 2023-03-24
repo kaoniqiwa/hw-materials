@@ -62,7 +62,6 @@ export class MaintenanceProfileManagerComponent implements OnInit {
         this.selected.ProfileState = data['ProfileState'];
       }
     }
-    this.selected.ProfileState = 2;
   }
   async onitemclick(model: ProfilePropertyValueModel) {
     if (model.model.PropertyId && model.model.Value) {

@@ -24,7 +24,9 @@
     ></maintenance-profile-form5>
   </div>
   <div class="maintenance-details-foot">
-    <button class="hw-green-btn" *ngIf="!data" (click)="create()">创建</button>
+    <button class="hw-green-btn" *ngIf="!data" (click)="create(params.create)">
+      创建
+    </button>
     <button class="hw-green-btn" *ngIf="data">
       {{ data.ProfileState | maintenance_profile_state_step_pipe }}
     </button>
