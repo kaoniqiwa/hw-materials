@@ -16,15 +16,13 @@ import { MaintenanceProfileForm2Business } from './maintenance-profile-form2.bus
 })
 export class MaintenanceProfileForm2Component implements OnInit {
   DateTimePickerView = DateTimePickerView;
-  profileState = 0;
-  stepIndex = 1;
 
   @Input() formId = '';
 
   @Input() params: DistributeMaintenanceProfileParams =
     new DistributeMaintenanceProfileParams();
 
-  private _disabled = this.stepIndex < this.profileState;
+  private _disabled = false;
   @Input()
   get disabled() {
     return this._disabled;
@@ -56,7 +54,6 @@ export class MaintenanceProfileForm2Component implements OnInit {
     if (this.formId) {
       this.model = await this._business.getMaintenanceModel(this.formId);
       console.log('model', this.model);
-      this.profileState = this.model.ProfileState;
       this.params.MaintenanceUserId = this.model.MaintenanceUserId
         ? this.model.MaintenanceUserId
         : this.contracts.length

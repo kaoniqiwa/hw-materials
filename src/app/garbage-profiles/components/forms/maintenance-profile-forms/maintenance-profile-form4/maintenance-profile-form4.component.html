@@ -5,7 +5,7 @@
         <span class="hw-form-label"> 是否同意 </span>
       </div>
       <div class="content">
-        <select [(ngModel)]="params.ApproveOrNot">
+        <select [(ngModel)]="params.ApproveOrNot" [disabled]="disabled">
           <option [ngValue]="true">同意</option>
           <option [ngValue]="false">不同意</option>
         </select>
@@ -33,6 +33,7 @@
       </div>
       <div class="content">
         <input
+          [disabled]="disabled"
           type="text"
           DateTimePicker
           [(date)]="params.MaintenanceDeadline"

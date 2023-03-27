@@ -7,7 +7,7 @@
         </span>
       </div>
       <div class="content">
-        <select [(ngModel)]="params.MaintenanceUserId">
+        <select [(ngModel)]="params.MaintenanceUserId" [disabled]="disabled">
           <option [ngValue]="contract.Id" *ngFor="let contract of contracts">
             {{ contract.Name }}
           </option>
@@ -22,6 +22,7 @@
       </div>
       <div class="content">
         <input
+          [disabled]="true"
           type="text"
           DateTimePicker
           [(date)]="params.MaintenanceDeadline"

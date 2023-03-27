@@ -26,9 +26,6 @@ import { MaintenanceProfileForm1Business } from './maintenance-profile-form1.bus
 export class MaintenanceProfileForm1Component implements OnInit {
   DateTimePickerView = DateTimePickerView;
 
-  profileState = 0;
-  stepIndex = 0;
-
   @Input() formId?: string;
 
   @Input()
@@ -37,7 +34,7 @@ export class MaintenanceProfileForm1Component implements OnInit {
   paramsChange: EventEmitter<CreateMaintenanceProfileParams> =
     new EventEmitter();
 
-  private _disabled = this.stepIndex < this.profileState;
+  private _disabled = false;
   @Input()
   get disabled() {
     return this._disabled;
@@ -64,8 +61,6 @@ export class MaintenanceProfileForm1Component implements OnInit {
 
     if (this.formId) {
       this.model = await this._business.getMaintenanceModel(this.formId);
-
-      this.profileState = this.model.ProfileState;
 
       this.params.GarbageStationProfileId = this.model.GarbageStationProfileId;
       this.params.ProfileType = this.model.ProfileType;
