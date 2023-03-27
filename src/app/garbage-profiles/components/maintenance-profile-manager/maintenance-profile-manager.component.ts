@@ -2,17 +2,24 @@ import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { ToastrService } from 'ngx-toastr';
+import { LocalStorageService } from 'src/app/common/service/local-storage.service';
+import { UserType } from 'src/app/enum/user-type.enum';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
+import { MaintenanceProfile } from 'src/app/network/entity/maintenance-profile.entity';
 import {
   IPartialData,
   StatePartialData,
 } from 'src/app/network/entity/partial-data.interface';
+import { User } from 'src/app/network/entity/user.model';
 import { MaintenanceProfilesLanguageTools } from '../../tools/maintenance-profile-language.too';
 import { MaintenanceProfilesSourceTools } from '../../tools/maintenance-profile-source.tool';
 import { ProfilePropertyValueModel } from '../tables/garbage-station-profile-table/garbage-station-profile-table.model';
 import { MaintenanceProfileTableArgs } from '../tables/maintenance-profile-table/maintenance-profile-table.model';
 import { MaintenanceProfileManagerBusiness } from './maintenance-profile-manager.business';
-import { MaintenanceProfileWindow } from './maintenance-profile-manager.model';
+import {
+  MaintenanceProfileAuthority,
+  MaintenanceProfileWindow,
+} from './maintenance-profile-manager.model';
 
 @Component({
   selector: 'maintenance-profile-manager',
@@ -28,15 +35,62 @@ export class MaintenanceProfileManagerComponent implements OnInit {
     public language: MaintenanceProfilesLanguageTools,
     private business: MaintenanceProfileManagerBusiness,
     private activeRoute: ActivatedRoute,
-    private toastr: ToastrService
-  ) {}
-
+    private toastr: ToastrService,
+    local: LocalStorageService
+  ) {
+    this.user = local.user;
+    this.args.user = this.user;
+    this.authority = this.getauthority(local.user.UserType);
+  }
+  user: User;
   title = '维修工单档案';
   args: MaintenanceProfileTableArgs = new MaintenanceProfileTableArgs();
   load: EventEmitter<MaintenanceProfileTableArgs> = new EventEmitter();
   excel: EventEmitter<string> = new EventEmitter();
   window: MaintenanceProfileWindow = new MaintenanceProfileWindow();
   selected?: StatePartialData;
+
+  authority: MaintenanceProfileAuthority;
+
+  getauthority(type: UserType, state?: number) {
+    let authority = new MaintenanceProfileAuthority();
+    switch (type) {
+      case UserType.admin:
+        authority.create = true;
+        authority.distribute = false;
+        authority.construction.apply = false;
+        authority.construction.approve = false;
+        authority.complate = true;
+        if (state === 4) {
+          authority.operation = true;
+        }
+        break;
+      case UserType.maintenance_admin:
+        authority.create = false;
+        authority.distribute = true;
+        authority.construction.apply = true;
+        authority.construction.approve = true;
+        authority.complate = false;
+        if (state === 1 || state === 2 || state === 3) {
+          authority.operation = true;
+        }
+        break;
+      case UserType.maintenance:
+        authority.create = false;
+        authority.distribute = false;
+        authority.construction.apply = true;
+        authority.construction.approve = false;
+        authority.complate = false;
+        if (state === 2) {
+          authority.operation = true;
+        }
+        break;
+
+      default:
+        break;
+    }
+    return authority;
+  }
 
   ngOnInit(): void {
     this.args.enums['ProfileState'] = this.state;
@@ -61,6 +115,10 @@ export class MaintenanceProfileManagerComponent implements OnInit {
         this.selected.ProfileState = data['ProfileState'];
       }
     }
+    this.authority = this.getauthority(
+      this.user.UserType,
+      this.selected.ProfileState
+    );
   }
   async onitemclick(model: ProfilePropertyValueModel) {
     if (model.model.PropertyId && model.model.Value) {
@@ -121,7 +179,8 @@ export class MaintenanceProfileManagerComponent implements OnInit {
   }
   tomodify() {
     if (this.selected) {
-      this.window.details.data = this.selected;
+      let plain = instanceToPlain(this.selected);
+      this.window.details.data = plainToInstance(MaintenanceProfile, plain);
       this.window.details.show = true;
     }
   }

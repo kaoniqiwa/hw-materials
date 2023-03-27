@@ -21,6 +21,7 @@ export class MaintenanceProfileDetailsManagerBusiness
   async load(id: string, state: number): Promise<MaintenanceProfile> {
     let names = await this.getNames(state);
     names.push('ProfileState');
+    names.push('ConstructionState');
     let data = await this.getData(id, names);
     let plain = instanceToPlain(data);
     let model = plainToInstance(MaintenanceProfile, plain);

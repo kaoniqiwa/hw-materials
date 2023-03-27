@@ -3,46 +3,63 @@
     <div class="hw-simple-title">维修工单档案</div>
   </div>
   <div class="maintenance-details-body vertical-main">
+    1
     <maintenance-profile-form1
       [(params)]="params.create"
-      [formId]="data ? data.Id : ''"
+      [formId]="profile ? profile.Id : ''"
+      [disabled]="!!profile"
     ></maintenance-profile-form1>
+    2
     <maintenance-profile-form2
       id="form2"
-      *ngIf="data && data.ProfileState >= 1"
-      [formId]="data.Id"
+      *ngIf="profile && profile.ProfileState >= 1"
+      [formId]="profile.Id"
       [params]="params.distribute"
+      [disabled]="profile.ProfileState >= 1"
     ></maintenance-profile-form2>
+    3
     <maintenance-profile-form3
-      *ngIf="data && data.ProfileState >= 2"
-      [formId]="data.Id"
+      *ngIf="profile && profile.ProfileState >= 2"
+      [formId]="profile.Id"
       [(params)]="params.constructionapply"
+      [disabled]="profile.ProfileState >= 2 && !!profile.ConstructionState"
     ></maintenance-profile-form3>
-
+    4
     <maintenance-profile-form4
-      *ngIf="data && data.ProfileState >= 3"
-      [formId]="data.Id"
+      *ngIf="
+        profile &&
+        profile.ProfileState >= 2 &&
+        profile.ConstructionState &&
+        profile.ConstructionState > 0
+      "
+      [formId]="profile.Id"
       [(params)]="params.constructionapprove"
+      [disabled]="profile.ProfileState >= 2 && profile.ConstructionState > 1"
     ></maintenance-profile-form4>
-
+    <!-- 5
     <maintenance-profile-form5
-      *ngIf="data && data.ProfileState >= 4"
-      [formId]="data.Id"
+      *ngIf="profile && profile.ProfileState >= 2"
+      [formId]="profile.Id"
       [(params)]="params.submit"
-    ></maintenance-profile-form5>
+      [disabled]="profile.ProfileState >= 2"
+    ></maintenance-profile-form5> -->
   </div>
   <div class="maintenance-details-foot">
-    <button class="hw-green-btn" *ngIf="!data" (click)="create(params.create)">
+    <button
+      class="hw-green-btn"
+      *ngIf="!profile"
+      (click)="create(params.create)"
+    >
       <i class="howell-icon-plus"></i> 创建
     </button>
 
     <button
       class="hw-green-btn"
-      *ngIf="data"
-      (click)="submit(data.ProfileState)"
+      *ngIf="profile"
+      (click)="submit(profile.ProfileState)"
     >
       <i class="howell-icon-direction"></i>
-      {{ data.ProfileState | maintenance_profile_state_step_pipe }}
+      {{ profile.ProfileState | maintenance_profile_state_step_pipe }}
     </button>
   </div>
 </div>

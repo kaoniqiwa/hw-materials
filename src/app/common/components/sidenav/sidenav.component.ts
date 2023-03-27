@@ -13,8 +13,12 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { Subscription } from 'rxjs';
+import { RoutePath } from 'src/app/app-routing.path';
+import { UserType } from 'src/app/enum/user-type.enum';
 import { ISideNavConfig } from '../../models/sidenav-config';
+import { LocalStorageService } from '../../service/local-storage.service';
 import { ValidPathExp } from '../../tools/tool';
 
 @Component({
@@ -51,7 +55,11 @@ export class SidenavComponent implements OnInit, OnChanges, OnDestroy {
 
   models: Array<ISideNavConfig> = [];
 
-  constructor(private _router: Router, private _activeRoute: ActivatedRoute) {
+  constructor(
+    private _router: Router,
+    private _activeRoute: ActivatedRoute,
+    local: LocalStorageService
+  ) {
     this._subscription = this._router.events.subscribe((e) => {
       if (e instanceof NavigationEnd) {
         // console.log('router', e);
@@ -62,8 +70,27 @@ export class SidenavComponent implements OnInit, OnChanges, OnDestroy {
           Object.assign(this.groups, mode.groups);
           import(`src/assets/json/${mode.groups['first']}.json`).then(
             (config) => {
-              // console.log('config', config.data);
+              let plain = instanceToPlain(config);
+              let instance = plainToInstance(MonitorPlatformConfig, plain);
+              let user = local.user;
+              instance.data.forEach((data) => {
+                switch (user.UserType) {
+                  case UserType.maintenance:
+                  case UserType.maintenance_admin:
+                    let index = data.children.findIndex(
+                      (x) => x.id === RoutePath.station_profile_index
+                    );
+                    if (index >= 0) {
+                      // data.children.splice(index, 1);
+                      data.children[index].hideSelf = true;
+                    }
+                    break;
 
+                  default:
+                    break;
+                }
+              });
+              config = instance;
               this.models = config.data;
             }
           );
@@ -96,4 +123,17 @@ export class SidenavComponent implements OnInit, OnChanges, OnDestroy {
 
     this._router.navigateByUrl(model.path);
   }
+}
+
+class MonitorPlatformConfig {
+  $schema: string = '';
+  data: IMonitorPlatformDataConfig[] = [];
+}
+interface IMonitorPlatformDataConfig {
+  title: string;
+  id: string;
+  icon: string;
+  path: string;
+  CanNavigate: boolean;
+  children: any[];
 }
