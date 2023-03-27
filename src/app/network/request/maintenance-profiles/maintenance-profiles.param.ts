@@ -74,7 +74,7 @@ export class ConstructionApproveParams implements IParams {
   ApproveOrNot!: boolean;
   /**	DateTime	维修截至时间，如果同意，需要重新填写截至时间	O/D	*/
   @Transform(transformDateTime)
-  MaintenanceDeadline?: Date;
+  MaintenanceDeadline?: Date = new Date();
 }
 export class SubmitMaintenanceProfileParams implements IParams {
   /**	Boolean	维修结果，	M	*/
@@ -93,7 +93,7 @@ export class DistributeMaintenanceProfileParams implements IParams {
   MaintenanceUserId?: string;
   /**	DateTime	维修截至时间	O */
   @Transform(transformDateTime)
-  MaintenanceDeadline?: Date;
+  MaintenanceDeadline?: Date = new Date();
 }
 export class ConstructionApplyParams implements IParams {
   /**	String	申请原因	M */
