@@ -1,6 +1,17 @@
 import { DataWindowViewModel } from 'src/app/common/components/window-control/window.model';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
-import { StatePartialData } from 'src/app/network/entity/partial-data.interface';
+import { MaintenanceProfile } from 'src/app/network/entity/maintenance-profile.entity';
+
+export class MaintenanceProfileAuthority {
+  create = false;
+  distribute = false;
+  construction = {
+    apply: false,
+    approve: false,
+  };
+  complate = false;
+  operation = false;
+}
 
 export class MaintenanceProfileWindow {
   setting = new MaintenanceProfileSettingWindow();
@@ -33,7 +44,7 @@ class MaintenanceProfileDeatilsWindow extends DataWindowViewModel {
     this.data = undefined;
   }
   style = {};
-  data?: StatePartialData;
+  data?: MaintenanceProfile;
 }
 
 class MaintenanceProfileFilterWindow extends DataWindowViewModel {

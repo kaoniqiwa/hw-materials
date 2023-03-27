@@ -11,14 +11,22 @@
         <button class="hw-blue-btn" (click)="tosetting()">
           <i class="howell-icon-settingoutline"></i> 设置
         </button>
-        <button class="hw-green-btn" (click)="tocreate()">
+        <button
+          class="hw-green-btn"
+          (click)="tocreate()"
+          *ngIf="authority.create"
+        >
           <i class="howell-icon-plus"></i> 创建工单
         </button>
 
         <!-- <button class="hw-red-btn" (click)="todelete()" *ngIf="!!selected">
           <i class="howell-icon-delete-bin"></i> 删除
         </button> -->
-        <button class="hw-cyan-btn" *ngIf="!!selected" (click)="tomodify()">
+        <button
+          class="hw-cyan-btn"
+          *ngIf="!!selected && authority.operation"
+          (click)="tomodify()"
+        >
           <i class="howell-icon-modification"></i>
           {{ selected.ProfileState | maintenance_profile_state_step_pipe }}
         </button>

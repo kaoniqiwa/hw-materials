@@ -6,6 +6,7 @@ import {
 } from 'src/app/common/interfaces/bussiness.interface';
 import { ViewModelConverter } from 'src/app/converter/view-model.converter';
 import { ConditionOperator } from 'src/app/enum/condition-operator.enum';
+import { UserType } from 'src/app/enum/user-type.enum';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
 import { Condition } from 'src/app/network/entity/condition.entity';
 import { PagedList } from 'src/app/network/entity/page.entity';
@@ -14,6 +15,7 @@ import {
   PartialData,
 } from 'src/app/network/entity/partial-data.interface';
 import { PropertyValue } from 'src/app/network/entity/property-value.entity';
+import { User } from 'src/app/network/entity/user.model';
 import {
   GetPartialDatasExcelParams,
   GetPartialDatasParams,
@@ -119,9 +121,30 @@ export class MaintenanceProfileTableBusiness
       }
     }
 
+    if (args.user) {
+      let condition = this.getConditionByUser(args.user);
+      if (condition) {
+        conditions.push(condition);
+      }
+    }
+
     return conditions;
   }
+  private getConditionByUser(user: User) {
+    let condition = new Condition();
+    condition.Operator = ConditionOperator.Eq;
+    switch (user.UserType) {
+      case UserType.maintenance:
+        condition.PropertyId = 'MaintenanceUserId';
+        condition.Value = user.Id;
 
+        break;
+
+      default:
+        return undefined;
+    }
+    return condition;
+  }
   private getConditionByName(value: number, name: string) {
     let condition = new Condition<number>();
     condition.Value = value;

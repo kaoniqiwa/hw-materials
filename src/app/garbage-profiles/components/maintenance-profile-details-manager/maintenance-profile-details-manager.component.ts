@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { LocalStorageService } from 'src/app/common/service/local-storage.service';
 import { MaintenanceProfile } from 'src/app/network/entity/maintenance-profile.entity';
-import { StatePartialData } from 'src/app/network/entity/partial-data.interface';
 import { User } from 'src/app/network/entity/user.model';
 import { CreateMaintenanceProfileParams } from 'src/app/network/request/maintenance-profiles/maintenance-profiles.param';
 import { MaintenanceProfilesLanguageTools } from '../../tools/maintenance-profile-language.too';
@@ -17,7 +16,7 @@ import { MaintenanceProfileDetailsManagerParams } from './maintenance-profile-de
 })
 export class MaintenanceProfileDetailsManagerComponent implements OnInit {
   @Input()
-  data?: StatePartialData;
+  data?: MaintenanceProfile;
 
   @Output()
   ok: EventEmitter<void> = new EventEmitter();
@@ -38,14 +37,12 @@ export class MaintenanceProfileDetailsManagerComponent implements OnInit {
   params = new MaintenanceProfileDetailsManagerParams();
 
   ngOnInit(): void {
-    console.log(this.user);
-    // if (this.data) {
-    //   this.business.load(this.data.Id, this.data.ProfileState).then((data) => {
-    //     this.profile = data;
-
-    //     console.log(this.profile);
-    //   });
-    // }
+    if (this.data) {
+      this.business.load(this.data.Id, this.data.ProfileState).then((data) => {
+        this.profile = data;
+        console.log(this.profile);
+      });
+    }
   }
 
   validate(params: CreateMaintenanceProfileParams) {
@@ -113,29 +110,45 @@ export class MaintenanceProfileDetailsManagerComponent implements OnInit {
   }
 
   submit(state?: number) {
-    if (this.data) {
-      switch (state) {
-        case 1:
-          this.business.distribute(this.data.Id, this.params.distribute);
-          break;
-        case 2:
-          this.business.constructionapply(
-            this.data.Id,
-            this.params.constructionapply
-          );
-          break;
-        case 3:
-          this.business.constructionapply(
-            this.data.Id,
-            this.params.constructionapply
-          );
-          break;
-        case 4:
-          this.business.submit(this.data.Id, this.params.submit);
-          break;
-        default:
-          break;
+    new Promise((ok, error) => {
+      if (this.data) {
+        switch (state) {
+          case 1:
+            this.business
+              .distribute(this.data.Id, this.params.distribute)
+              .then((x) => {
+                ok(x);
+              })
+              .then((x) => {
+                error(x);
+              });
+            break;
+          case 2:
+            this.business
+              .submit(this.data.Id, this.params.submit)
+              .then((x) => {
+                ok(x);
+              })
+              .then((x) => {
+                error(x);
+              });
+            break;
+          case 3:
+            break;
+          case 4:
+            break;
+          default:
+            break;
+        }
       }
-    }
+    })
+      .then((x) => {
+        this.toastr.success('操作成功');
+        this.ok.emit();
+      })
+      .catch((x) => {
+        this.toastr.error('操作失败');
+        console.error(x.error);
+      });
   }
 }
