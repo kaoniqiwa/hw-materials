@@ -2,6 +2,7 @@ import { Transform } from 'class-transformer';
 import { IModel } from 'src/app/common/interfaces/model.interface';
 import { Gender } from 'src/app/enum/gender.enum';
 import { UserState } from 'src/app/enum/user-state.enum';
+import { UserType } from 'src/app/enum/user-type.enum';
 
 import { transformDateTime } from './transform.model';
 export class User implements IModel {
@@ -67,4 +68,6 @@ export class User implements IModel {
   CreatorId?: string;
   /**	Int32[]	停止推送的事件类型	O	RW */
   OffEvents?: number[];
+  /** 用户类型 */
+  UserType!: UserType;
 }
