@@ -24,7 +24,7 @@ export class MaintenanceProfileForm5Component implements OnInit {
     return this.stepIndex < this.profileState;
   }
   profileState = 0;
-  stepIndex = 1;
+  stepIndex = 4;
   model?: MaintenanceProfile;
   showPutout = false;
 

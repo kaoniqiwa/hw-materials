@@ -34,7 +34,9 @@ import { ProfileDetailsBusiness } from './garbage-profile-details-manager.busine
     },
   ],
 })
-export class GarbageProfileDetailsManager implements OnInit, AfterViewInit {
+export class GarbageProfileDetailsManagerComponent
+  implements OnInit, AfterViewInit
+{
   @Input()
   formId?: string;
 

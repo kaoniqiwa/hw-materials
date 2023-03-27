@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnInit,
   QueryList,
   TemplateRef,
   ViewChild,
@@ -24,7 +25,7 @@ import { GarbageProfileDetailsReactiveManagerBusiness } from './garbage-profile-
   styleUrls: ['./garbage-profile-details-reactive-manager.component.less'],
   providers: [GarbageProfileDetailsReactiveManagerBusiness],
 })
-export class GarbageProfileDetailsReactiveManagerComponent {
+export class GarbageProfileDetailsReactiveManagerComponent implements OnInit {
   @Input()
   formId?: string;
   @Input()
@@ -68,7 +69,27 @@ export class GarbageProfileDetailsReactiveManagerComponent {
     );
     this.completedArr = Array.from(Array(this.labelData.length), () => false);
   }
-
+  ngOnInit(): void {
+    this._init();
+  }
+  private async _init() {
+    await this._updateState();
+    // if (this.profileState == this.maxProfileState) {
+    //   this.viewMode = ViewMode.Expansion;
+    // }
+    switch (this.viewMode) {
+      case ViewMode.Stepper:
+        this.templateExpression = this.stepperTemp;
+        this.templateController = this.matStepper;
+        break;
+      case ViewMode.Tab:
+        this.templateExpression = this.tabTemp;
+        break;
+      case ViewMode.Expansion:
+        this.templateExpression = this.expansionTemp;
+        break;
+    }
+  }
   selectStepperChange(e: StepperSelectionEvent) {
     this.selectedIndex = e.selectedIndex;
   }
@@ -86,4 +107,15 @@ export class GarbageProfileDetailsReactiveManagerComponent {
   }
   closeEvent() {}
   previousEvent() {}
+  private async _updateState() {
+    if (this.formId) {
+      this.model = await this._business.getModel(this.formId);
+      console.log('Model:', this.model);
+    }
+    this.profileState = this.model ? this.model.ProfileState : 0;
+    this.completedArr = this.completedArr.map((v, i) => {
+      return i < this.profileState;
+    });
+    this._changeDetector.detectChanges();
+  }
 }

@@ -6,7 +6,7 @@ import { HowellModule } from 'src/app/common/howell.module';
 import { MaterialModule } from 'src/app/material.module';
 import { CUSTOM_PIPES } from '../pipes';
 import { FormComponents } from './forms';
-import { GarbageProfileDetailsManager } from './garbage-profile-details-manager/garbage-profile-details-manager.component';
+import { GarbageProfileDetailsManagerComponent } from './garbage-profile-details-manager/garbage-profile-details-manager.component';
 import { GarbageProfileDetailsReactiveManagerComponent } from './garbage-profile-details-reactive-manager/garbage-profile-details-reactive-manager.component';
 import { GarbageProfilesLabelDetailsComponent } from './garbage-profiles-label-details/garbage-profiles-label-details.component';
 import { GarbageProfilesLabelManagerComponent } from './garbage-profiles-label-manager/garbage-profiles-label-manager.component';
@@ -17,7 +17,6 @@ import { GarbageProfilesMaterialPutoutComponent } from './garbage-profiles-mater
 import { GarbageProfilesMaterialRecordDetailsComponent } from './garbage-profiles-material-record-details/garbage-profiles-material-record-details.component';
 import { GarbageProfilesMaterialRecordTimelineComponent } from './garbage-profiles-material-record-timeline/garbage-profiles-material-record-timeline.component';
 import { GarbageProfilesMaterialRecordComponent } from './garbage-profiles-material-record/garbage-profiles-material-record.component';
-import { GarbageStationProfileDetailsComponent } from './garbage-station-profile-details/garbage-station-profile-details.component';
 import { GarbageStationProfileFilterComponent } from './garbage-station-profile-filter/garbage-station-profile-filter.component';
 import { GarbageStationProfileIndexComponent } from './garbage-station-profile-index/garbage-station-profile-index.component';
 import { GarbageStationProfileManagerComponent } from './garbage-station-profile-manager/garbage-station-profile-manager.component';
@@ -53,13 +52,11 @@ import { UnderwaterComponent } from './underwater/underwater.component';
     SystemModeComponent,
     UnderwaterComponent,
     StationArchiveComponent,
-    GarbageProfileDetailsManager,
 
     GarbageStationProfileIndexComponent,
     GarbageStationProfileManagerComponent,
     GarbageStationProfileFilterComponent,
     GarbageStationProfileSettingComponent,
-    GarbageStationProfileDetailsComponent,
     GarbageStationProfileRecordComponent,
     GarbageStationProfileRecordDetailsComponent,
     GarbageStationProfilePartialDataComponent,
@@ -74,6 +71,7 @@ import { UnderwaterComponent } from './underwater/underwater.component';
     GarbageProfilesMaterialPutoutComponent,
     GarbageProfilesMaterialRecordTimelineComponent,
 
+    GarbageProfileDetailsManagerComponent,
     GarbageProfileDetailsReactiveManagerComponent,
 
     GarbageProfilesLabelManagerComponent,

@@ -29,7 +29,7 @@ export class MaintenanceProfileForm3Component implements OnInit {
     return this.stepIndex < this.profileState;
   }
   profileState = 0;
-  stepIndex = 1;
+  stepIndex = 2;
   model?: MaintenanceProfile;
 
   constructor(

@@ -25,7 +25,7 @@ export class MaintenanceProfileForm4Component implements OnInit {
     return this.stepIndex < this.profileState;
   }
   profileState = 0;
-  stepIndex = 1;
+  stepIndex = 3;
   model?: MaintenanceProfile;
   constructor(
     public sourceTool: MaintenanceProfilesSourceTools,
