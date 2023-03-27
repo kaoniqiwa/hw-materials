@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DateTimePickerView } from 'src/app/common/directives/date-time-picker/date-time-picker.directive';
+import { UserType } from 'src/app/enum/user-type.enum';
 import { MaintenanceProfilesLanguageTools } from 'src/app/garbage-profiles/tools/maintenance-profile-language.too';
 import { MaintenanceProfilesSourceTools } from 'src/app/garbage-profiles/tools/maintenance-profile-source.tool';
 import { Contract } from 'src/app/network/entity/contact.entity';
@@ -20,11 +21,16 @@ export class MaintenanceProfileForm2Component implements OnInit {
 
   @Input() params: DistributeMaintenanceProfileParams =
     new DistributeMaintenanceProfileParams();
-  profileState = 0;
 
+  get disabled() {
+    return this.stepIndex < this.profileState;
+  }
+
+  profileState = 0;
   stepIndex = 1;
-  contracts: Contract[] = [];
   model?: MaintenanceProfile;
+
+  contracts: Contract[] = [];
 
   constructor(
     public sourceTool: MaintenanceProfilesSourceTools,
@@ -37,25 +43,22 @@ export class MaintenanceProfileForm2Component implements OnInit {
   private async _init() {
     let contracts = await this._business.listContracts();
     console.log(contracts);
-
-    this.contracts = contracts.filter((contract) => contract.UserType == 3);
-
+    this.contracts = contracts.filter(
+      (contract) =>
+        contract.UserType == UserType.maintenance_admin ||
+        contract.UserType == UserType.maintenance
+    );
     if (this.formId) {
       this.model = await this._business.getMaintenanceModel(this.formId);
       console.log('model', this.model);
-
       this.profileState = this.model.ProfileState;
-
       this.params.MaintenanceUserId = this.model.MaintenanceUserId
         ? this.model.MaintenanceUserId
         : this.contracts.length
         ? this.contracts[0].Id
         : '';
-      this.params.MaintenanceDeadline = this.model.MaintenanceDeadline;
-    } else {
-      this.params.MaintenanceUserId = this.contracts.length
-        ? this.contracts[0].Id
-        : '';
+      if (this.model.MaintenanceDeadline)
+        this.params.MaintenanceDeadline = this.model.MaintenanceDeadline;
     }
   }
 }

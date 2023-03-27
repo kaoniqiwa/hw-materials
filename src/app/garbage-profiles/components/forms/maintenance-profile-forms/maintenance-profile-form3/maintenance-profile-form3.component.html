@@ -1,62 +1,14 @@
 <div class="maintenance-form maintenance-form3">
-  {{ params | json }}
   <div class="hw-form">
-    <div class="hw-form-group">
+    <div class="hw-form-group" style="flex-basis: 100%">
       <div class="title">
         <span class="hw-form-label">
-          {{ languageTool["FaultType"] }}
+          {{ languageTool["ConstructionReason"] }}
         </span>
       </div>
       <div class="content">
-        <select [(ngModel)]="params.FaultType">
-          <option
-            [ngValue]="faultType.Value"
-            *ngFor="let faultType of this.sourceTool['FaultType']"
-          >
-            {{ faultType.Name }}
-          </option>
-        </select>
-      </div>
-    </div>
-    <div class="hw-form-group">
-      <div class="title">
-        <span class="hw-form-label">
-          {{ languageTool["MaintenanceUserId"] }}
-        </span>
-      </div>
-      <div class="content">
-        <input type="text" [(ngModel)]="params.FaultDescription" />
-      </div>
-    </div>
-    <div class="hw-form-group">
-      <div class="title">
-        <span class="hw-form-label">
-          {{ languageTool["MaintenanceUserId"] }}
-        </span>
-      </div>
-      <div class="content">
-        <input
-          type="radio"
-          [(ngModel)]="params.Repaired"
-          value="true"
-          name="Repaired"
-        />
-        <input
-          type="radio"
-          [(ngModel)]="params.Repaired"
-          value="false"
-          name="Repaired"
-        />
-      </div>
-    </div>
-    <div class="hw-form-group">
-      <div class="title">
-        <span class="hw-form-label">
-          {{ languageTool["SceneImageUrls"] }}
-        </span>
-      </div>
-      <div class="content">
-        <!-- <input type="text" [(ngModel)]="params.FaultDescription" /> -->
+        <textarea [disabled]="disabled" [(ngModel)]="params.ConstructionReason">
+        </textarea>
       </div>
     </div>
   </div>

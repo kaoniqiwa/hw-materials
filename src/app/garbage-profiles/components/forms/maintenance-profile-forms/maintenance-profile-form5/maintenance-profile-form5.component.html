@@ -1,0 +1,72 @@
+<div class="maintenance-form maintenance-form4">
+  {{ params | json }}
+  <div class="hw-form">
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label"> 是否完成 </span>
+      </div>
+      <div class="content">
+        <select
+          [(ngModel)]="params.Repaired"
+          (ngModelChange)="changeRepaired()"
+        >
+          <option [ngValue]="true">完成</option>
+          <option [ngValue]="false">未完成</option>
+        </select>
+      </div>
+    </div>
+    <div class="hw-form-group" *ngIf="params.Repaired">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["FaultType"] }}
+        </span>
+      </div>
+      <div class="content">
+        <app-select-control [(selected)]="params.FaultType">
+          <option
+            [ngValue]="faultType.Value"
+            *ngFor="let faultType of this.sourceTool['FaultType']"
+          >
+            {{ faultType.Name }}
+          </option>
+        </app-select-control>
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["FaultDescription"] }}
+        </span>
+      </div>
+      <div class="content">
+        <input type="text" [(ngModel)]="params.FaultDescription" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["MaterialItems"] }}
+        </span>
+      </div>
+      <div class="content">
+        <button class="hw-blue-btn" (click)="showPutout = !showPutout">
+          物料出库
+        </button>
+      </div>
+    </div>
+    <div class="hw-form-group" style="flex-basis: 100%">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["SceneImageUrls"] }}
+        </span>
+      </div>
+
+      <div class="content" style="height: 220px">
+        <howell-picture-upload-control
+          (upload)="uploadImage($event)"
+          [image]="params.SceneImageUrls[0]"
+        ></howell-picture-upload-control>
+      </div>
+    </div>
+  </div>
+</div>

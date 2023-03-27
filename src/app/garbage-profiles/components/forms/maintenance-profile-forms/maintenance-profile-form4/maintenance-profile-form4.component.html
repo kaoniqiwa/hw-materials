@@ -1,0 +1,43 @@
+<div class="maintenance-form maintenance-form4">
+  <div class="hw-form">
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label"> 是否同意 </span>
+      </div>
+      <div class="content">
+        <select [(ngModel)]="params.ApproveOrNot">
+          <option [ngValue]="true">同意</option>
+          <option [ngValue]="false">不同意</option>
+        </select>
+      </div>
+    </div>
+    <div class="hw-form-group" *ngIf="!params.ApproveOrNot">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["ConstructionApprovalReason"] }}
+        </span>
+      </div>
+      <div class="content">
+        <input
+          [disabled]="disabled"
+          type="text"
+          [(ngModel)]="params.ConstructionApprovalReason"
+        />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["MaintenanceDeadline"] }}
+        </span>
+      </div>
+      <div class="content">
+        <input
+          type="text"
+          DateTimePicker
+          [(date)]="params.MaintenanceDeadline"
+        />
+      </div>
+    </div>
+  </div>
+</div>
