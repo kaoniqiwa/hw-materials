@@ -13,6 +13,9 @@ import { MaintenanceProfileForm5Business } from './maintenance-profile-form5.bus
   providers: [MaintenanceProfileForm5Business],
 })
 export class MaintenanceProfileForm5Component implements OnInit {
+  profileState = 0;
+  stepIndex = 4;
+
   @Input() formId = '';
 
   @Input()
@@ -20,11 +23,15 @@ export class MaintenanceProfileForm5Component implements OnInit {
 
   @Output()
   paramsChange = new EventEmitter();
+
+  private _disabled = this.stepIndex < this.profileState;
+  @Input()
   get disabled() {
-    return this.stepIndex < this.profileState;
+    return this._disabled;
   }
-  profileState = 0;
-  stepIndex = 4;
+  set disabled(val: boolean) {
+    this._disabled = val;
+  }
   model?: MaintenanceProfile;
   showPutout = false;
 

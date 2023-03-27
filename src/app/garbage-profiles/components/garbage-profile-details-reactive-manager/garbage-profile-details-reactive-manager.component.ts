@@ -49,8 +49,8 @@ export class GarbageProfileDetailsReactiveManagerComponent implements OnInit {
 
   viewMode = ViewMode.Stepper;
   profileState = 0;
-  labelData: Array<ValueNamePair> = this.sourceTool['ProfileState'];
   maxProfileState = 6;
+  labelData: Array<ValueNamePair> = this.sourceTool['ProfileState'];
   completedArr: boolean[] = [];
   model: GarbageStationProfile | null = null;
   templateExpression: TemplateRef<any> | null = null;

@@ -14,6 +14,9 @@ import { MaintenanceProfileForm4Business } from './maintenance-profile-form4.bus
   providers: [MaintenanceProfileForm4Business],
 })
 export class MaintenanceProfileForm4Component implements OnInit {
+  profileState = 0;
+  stepIndex = 3;
+
   @Input() formId = '';
 
   @Input()
@@ -21,11 +24,15 @@ export class MaintenanceProfileForm4Component implements OnInit {
 
   @Output()
   paramsChange = new EventEmitter();
+
+  private _disabled = this.stepIndex < this.profileState;
+  @Input()
   get disabled() {
-    return this.stepIndex < this.profileState;
+    return this._disabled;
   }
-  profileState = 0;
-  stepIndex = 3;
+  set disabled(val: boolean) {
+    this._disabled = val;
+  }
   model?: MaintenanceProfile;
   constructor(
     public sourceTool: MaintenanceProfilesSourceTools,

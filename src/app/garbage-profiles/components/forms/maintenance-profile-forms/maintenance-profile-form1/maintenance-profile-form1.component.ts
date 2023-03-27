@@ -26,11 +26,10 @@ import { MaintenanceProfileForm1Business } from './maintenance-profile-form1.bus
 export class MaintenanceProfileForm1Component implements OnInit {
   DateTimePickerView = DateTimePickerView;
 
-  @Input() formId?: string;
-
   profileState = 0;
-
   stepIndex = 0;
+
+  @Input() formId?: string;
 
   @Input()
   params: CreateMaintenanceProfileParams = new CreateMaintenanceProfileParams();
@@ -38,13 +37,19 @@ export class MaintenanceProfileForm1Component implements OnInit {
   paramsChange: EventEmitter<CreateMaintenanceProfileParams> =
     new EventEmitter();
 
+  private _disabled = this.stepIndex < this.profileState;
+  @Input()
+  get disabled() {
+    return this._disabled;
+  }
+  set disabled(val: boolean) {
+    this._disabled = val;
+  }
+
   garbageStationProfiles: GarbageStationProfile[] = [];
   selectedStationProfile?: GarbageStationProfile;
   model?: MaintenanceProfile;
 
-  get disabled() {
-    return this.stepIndex < this.profileState;
-  }
   constructor(
     public sourceTool: MaintenanceProfilesSourceTools,
     public languageTool: MaintenanceProfilesLanguageTools,

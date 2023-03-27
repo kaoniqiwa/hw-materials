@@ -1,1 +1,210 @@
-<p>garbage-profile-reactive-form1 works!</p>
+<div class="details-form">
+  <form [formGroup]="formGroup" class="hw-form" #ngForm="ngForm">
+    <div class="hw-form-group" style="flex-basis: 100%">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["ProfileName"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="ProfileName" />
+      </div>
+    </div>
+    <div class="hw-form-group" style="flex-basis: 100%">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["Labels"] }}
+        </span>
+      </div>
+      <div class="content">
+        <common-label-select [selectedNodes]="selectedNodes" [autoclose]="true">
+          <garbage-station-profile-label-tree
+            #tree
+            [defaultIds]="defaultIds"
+            (selectTreeNode)="selectTreeNode($event)"
+          ></garbage-station-profile-label-tree>
+        </common-label-select>
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["Province"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <select
+          #province
+          class="hw-form-select"
+          formControlName="Province"
+          (change)="changeDivision(province, DivisionLevel.Province)"
+        >
+          <option
+            [value]="province.Name"
+            [id]="province.Id"
+            *ngFor="let province of divisionInfo.Province"
+          >
+            {{ province.Name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["City"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <select
+          #city
+          class="hw-form-select"
+          formControlName="City"
+          (change)="changeDivision(city, DivisionLevel.City)"
+        >
+          <option
+            [value]="city.Name"
+            [id]="city.Id"
+            *ngFor="let city of divisionInfo.City"
+          >
+            {{ city.Name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["County"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <select
+          #county
+          class="hw-form-select"
+          formControlName="County"
+          (change)="changeDivision(county, DivisionLevel.County)"
+        >
+          <option
+            [value]="county.Name"
+            [id]="county.Id"
+            *ngFor="let county of divisionInfo.County"
+          >
+            {{ county.Name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["Street"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <select
+          #street
+          class="hw-form-select"
+          formControlName="Street"
+          (change)="changeDivision(street, DivisionLevel.Street)"
+        >
+          <option
+            [value]="street.Name"
+            [id]="street.Id"
+            *ngFor="let street of divisionInfo.Street"
+          >
+            {{ street.Name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["Committee"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <input
+          type="text"
+          formControlName="Committee"
+          [matAutocomplete]="auto"
+        />
+
+        <mat-autocomplete role="combobox" #auto="matAutocomplete">
+          <mat-option
+            *ngFor="let item of filteredOption | async"
+            [id]="item.Id"
+            [value]="item.Name"
+          >
+            <span>{{ item.Name }}</span>
+          </mat-option>
+        </mat-autocomplete>
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["Address"] }}
+        </span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="Address" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["Contact"] }}
+        </span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="Contact" />
+      </div>
+    </div>
+    <div class="hw-form-group">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["ContactPhoneNo"] }}
+        </span>
+      </div>
+      <div class="content">
+        <input type="number" maxlength="11" formControlName="ContactPhoneNo" />
+      </div>
+    </div>
+  </form>
+  <div class="hw-middle-btn-group">
+    <button
+      class="hw-green-btn"
+      type="button"
+      (click)="clickCreate()"
+      *ngIf="formState == FormState.add"
+    >
+      <i class="howell-icon-plus"></i> 创建
+    </button>
+    <button
+      class="hw-green-btn"
+      type="button"
+      *ngIf="formState == FormState.edit"
+      (click)="clickSave()"
+    >
+      <i class="howell-icon-save"></i> 保存
+    </button>
+
+    <button
+      class="hw-blue-btn"
+      type="button"
+      (click)="clickNext()"
+      *ngIf="profileState != maxProfileState"
+    >
+      下一步
+      <i class="howell-icon-arrowrightbold"></i>
+    </button>
+  </div>
+</div>

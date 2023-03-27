@@ -91,13 +91,9 @@ export class MaintenanceProfileReactiveForm1Component
       console.log('change data', data);
 
       this.divisionInfo = data;
-      console.log(this.formGroup.value);
 
-      // this._changeDetector.markForCheck();
-
-      // this.formGroup.
       // 数据加载完成，触发一次 valueChange
-      // this.Committee.updateValueAndValidity();
+      this.Committee.updateValueAndValidity();
     });
   }
   ngOnInit(): void {
