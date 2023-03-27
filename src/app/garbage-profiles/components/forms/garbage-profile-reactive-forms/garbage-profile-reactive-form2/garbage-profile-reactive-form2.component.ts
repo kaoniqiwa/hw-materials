@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { FormState } from 'src/app/enum/form-state.enum';
 import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/garbage-station-profile-language.tool';
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/garbage-station-profile-source.tool';
-import { GarbageProfileReactiveForm } from '../garbage-profile-reactive-form/garbage-profile-reactive-form.component';
+import { PartialData } from 'src/app/network/entity/partial-data.interface';
+import { Property } from 'src/app/network/entity/property.entity';
 import { GarbageProfileReactiveForm2Business } from './garbage-profile-reactive-form2.business';
 
 @Component({
@@ -11,13 +13,29 @@ import { GarbageProfileReactiveForm2Business } from './garbage-profile-reactive-
   styleUrls: ['./garbage-profile-reactive-form2.component.less'],
   providers: [GarbageProfileReactiveForm2Business],
 })
-export class GarbageProfileReactiveForm2Component extends GarbageProfileReactiveForm {
+export class GarbageProfileReactiveForm2Component {
+  @Input()
+  formId?: string;
+
+  @Input()
+  formState: FormState = FormState.none;
+
+  @Input() profileState = 0;
+
+  @Input() maxProfileState = 6;
+
+  @Output() close = new EventEmitter();
+  @Output() next = new EventEmitter();
+  @Output() previous = new EventEmitter();
+
+  FormState = FormState;
+  properties: Property[] = [];
+  partialData: PartialData | null = null;
+
   constructor(
-    protected override _business: GarbageProfileReactiveForm2Business,
-    protected override _toastrService: ToastrService,
-    protected override sourceTool: GarbageStationProfilesSourceTools,
-    protected override languageTool: GarbageStationProfilesLanguageTools
-  ) {
-    super(_business, _toastrService, sourceTool, languageTool);
-  }
+    public sourceTool: GarbageStationProfilesSourceTools,
+    public languageTool: GarbageStationProfilesLanguageTools,
+    private _business: GarbageProfileReactiveForm2Business,
+    private _toastrService: ToastrService
+  ) {}
 }

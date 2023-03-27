@@ -8,11 +8,6 @@ import {
   PartialRequest,
 } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
 import { GarbageStationProfilesRequestService } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
-import {
-  GetMaintenanceProfilePartialDatasParams,
-  GetMaintenanceProfilePropertiesParams,
-} from 'src/app/network/request/maintenance-profiles/maintenance-profiles.param';
-import { MaintenanceProfileRequestService } from 'src/app/network/request/maintenance-profiles/maintenance-profiles.service';
 import { GarbageProfileReactivePropertySearchInfo } from './garbage-profile-reactive-form.model';
 
 @Injectable()
@@ -38,10 +33,11 @@ export class GarbageProfileReactiveFormBusiness {
     let params = new GetPropertiesParams();
     if (searchInfo.Category) params.Category = searchInfo.Category;
     if (searchInfo.Name) params.Name = searchInfo.Name;
-    return this._garbageStationProfilesRequest.property.list(params);
+    let res = await this._garbageStationProfilesRequest.property.list(params);
+    return res.Data;
   }
 
-  getPartialData(id: string, propertyIds: string[]) {
+  async getPartialData(id: string, propertyIds: string[]) {
     let params = new GetPartialDatasParams();
     params.PropertyIds = propertyIds;
 
@@ -53,7 +49,10 @@ export class GarbageProfileReactiveFormBusiness {
     condition.PropertyId = 'Id';
     params.Conditions.push(condition);
 
-    return this._garbageStationProfilesRequest.partialData.list(params);
+    let res = await this._garbageStationProfilesRequest.partialData.list(
+      params
+    );
+    return res.Data[0];
   }
   createModel(model: GarbageStationProfile) {
     return this._garbageStationProfilesRequest.create(model);

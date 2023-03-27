@@ -18,7 +18,7 @@ import { GarbageProfileReactiveFormBusiness } from './garbage-profile-reactive-f
 @Directive({
   selector: 'garbage-profile-reactive-form',
 })
-export class GarbageProfileReactiveForm {
+export class GarbageProfileReactiveFormComponent {
   @Input()
   formId?: string;
 
@@ -55,10 +55,14 @@ export class GarbageProfileReactiveForm {
   clickSave() {
     // this.close.emit();
     console.log(this.formGroup.value);
+    this.checkForm();
   }
   clickNext() {
     console.log(this.formGroup.value);
 
-    this.next.emit();
+    // this.next.emit();
+    this.checkForm();
   }
+
+  protected checkForm() {}
 }

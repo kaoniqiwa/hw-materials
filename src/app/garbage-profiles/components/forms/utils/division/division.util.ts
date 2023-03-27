@@ -11,7 +11,7 @@ import { DivisionInfo, DivisionSearchInfo, NULL_KEY } from './division.model';
   providedIn: 'root',
 })
 export class DivisionUtil {
-  private _selectMap: Map<string, Division[]> = new Map();
+  private _selectMap: Map<string | null, Division[]> = new Map();
   private _divisionMap: Map<string, Division> = new Map();
   private _divisionSearchInfo: DivisionSearchInfo = {};
   private _divisionInfo: DivisionInfo = new DivisionInfo();
@@ -21,9 +21,16 @@ export class DivisionUtil {
     private _garbageProfilesBasicRequest: GarbageProfilesBasicRequestService
   ) {}
 
-  async getDivisionInfo(divisionMap: Map<DivisionLevel, string>) {
-    for (let [level, value] of divisionMap.entries()) {
-      let res = await this._getChildDivisionListByName(level, value);
+  async getChildDivisionListByName(divisionSource: Map<DivisionLevel, string>) {
+    this._divisionInfo = new DivisionInfo();
+    let parentId: string | undefined = void 0;
+
+    for (let [level, value] of divisionSource.entries()) {
+      let id = this._getDivisionIdByName(value, parentId);
+      parentId = id;
+
+      let res = await this._getChildDivisionListById(level, id);
+
       // console.log('key', level, res);
 
       let childLevel = EnumHelper.getDivisionChildLevel(level);
@@ -34,16 +41,10 @@ export class DivisionUtil {
       }
     }
     this.behaviorSubject.next(this._divisionInfo);
-  }
 
-  private async _getChildDivisionListByName(
-    level: DivisionLevel = DivisionLevel.None,
-    name: string = ''
-  ) {
-    let id = this._getDivisionIdByName(name);
-    return this._getChildDivisionListById(level, id);
+    return;
   }
-  async _getChildDivisionListById(
+  private async _getChildDivisionListById(
     level: DivisionLevel = DivisionLevel.None,
     ParentId?: string
   ) {
@@ -52,31 +53,24 @@ export class DivisionUtil {
         ParentIdIsNull: true,
       };
     } else {
-      if (!ParentId) return null;
+      if (!ParentId || !EnumHelper.getDivisionChildLevel(level)) return null;
+
       this._divisionSearchInfo = {
         ParentId,
       };
     }
-    let childLevel = EnumHelper.getDivisionChildLevel(level);
 
-    // level 为 Committee 时，无下级，不需要请求
-    if (childLevel) {
-      return this._getDivisionList(this._divisionSearchInfo);
-    }
-
-    return null;
+    return this._getDivisionList(this._divisionSearchInfo);
   }
   /**
    *  根据区划名称寻找区划ID
    * @param name
    * @returns
    */
-  private _getDivisionIdByName(name: string) {
+  private _getDivisionIdByName(name: string, parentId?: string) {
     for (let [key, value] of this._divisionMap.entries()) {
-      // console.log(key, value);
-      if (value.Name === name) {
-        // console.log(name + '的id: ' + key);
-
+      // 比如市辖区有多个，需要parentId约束
+      if (value.Name == name && value.ParentId == parentId) {
         return key;
       }
     }
@@ -89,7 +83,7 @@ export class DivisionUtil {
   private async _getDivisionList(searchInfo: DivisionSearchInfo) {
     let res: Division[] = [];
 
-    let key: string = '';
+    let key: string | null = NULL_KEY;
     if (searchInfo.ParentIdIsNull) {
       key = NULL_KEY;
     } else {

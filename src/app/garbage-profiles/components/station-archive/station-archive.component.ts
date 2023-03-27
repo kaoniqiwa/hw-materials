@@ -39,7 +39,7 @@ export class StationArchiveComponent implements OnDestroy {
 
       return data.id == this.id;
     });
-    console.log(this.config);
+    // console.log(this.config);
 
     this._subscription = this.router.events.subscribe((e) => {
       if (e instanceof Scroll) {

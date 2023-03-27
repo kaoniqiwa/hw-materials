@@ -153,7 +153,7 @@ export class MaintenanceProfileReactiveForm1Component
   }
 
   private _getDivisionInfo() {
-    this._divisionUtil.getDivisionInfo(this.divisionSource);
+    this._divisionUtil.getChildDivisionListByName(this.divisionSource);
   }
 
   private _filterValue(value: string) {

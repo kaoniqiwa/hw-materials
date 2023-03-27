@@ -13,4 +13,4 @@ export interface DivisionSearchInfo {
   ParentIdIsNull?: boolean;
 }
 
-export const NULL_KEY = 'null';
+export const NULL_KEY = null;

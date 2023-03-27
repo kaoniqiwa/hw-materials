@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -6,17 +13,21 @@ import {
   AbstractControl,
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import _ from 'lodash';
 import { map, Observable, startWith } from 'rxjs';
 import { CommonFlatNode } from 'src/app/common/components/common-tree/common-flat-node.model';
 import { ValidPhoneExp } from 'src/app/common/tools/tool';
 import { DivisionLevel } from 'src/app/enum/division-level.enum';
 import { EnumHelper } from 'src/app/enum/enum-helper';
+import { FormState } from 'src/app/enum/form-state.enum';
+import { PropertyCategory } from 'src/app/enum/property-category.enum';
 import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/tools/garbage-station-profile-language.tool';
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/garbage-station-profile-source.tool';
 import { Division } from 'src/app/network/entity/division.entity';
+import { PartialData } from 'src/app/network/entity/partial-data.interface';
+import { Property } from 'src/app/network/entity/property.entity';
 import { DivisionInfo } from '../../utils/division/division.model';
 import { DivisionUtil } from '../../utils/division/division.util';
-import { GarbageProfileReactiveForm } from '../garbage-profile-reactive-form/garbage-profile-reactive-form.component';
 import { GarbageProfileReactiveForm1Business } from './garbage-profile-reactive-form1.business';
 
 @Component({
@@ -25,10 +36,26 @@ import { GarbageProfileReactiveForm1Business } from './garbage-profile-reactive-
   styleUrls: ['./garbage-profile-reactive-form1.component.less'],
   providers: [GarbageProfileReactiveForm1Business],
 })
-export class GarbageProfileReactiveForm1Component
-  extends GarbageProfileReactiveForm
-  implements OnInit
-{
+export class GarbageProfileReactiveForm1Component implements OnInit {
+  @Input()
+  formId?: string;
+
+  @Input()
+  formState: FormState = FormState.none;
+
+  @Input() profileState = 0;
+
+  @Input() maxProfileState = 6;
+
+  @Output() close = new EventEmitter();
+  @Output() next = new EventEmitter();
+  @Output() previous = new EventEmitter();
+
+  stepIndex = 0;
+  FormState = FormState;
+  properties: Property[] = [];
+  partialData: PartialData | null = null;
+
   DivisionLevel = DivisionLevel;
 
   private defaultProvince = '江苏省';
@@ -51,7 +78,7 @@ export class GarbageProfileReactiveForm1Component
   divisionInfo: DivisionInfo = new DivisionInfo();
   filteredOption: Observable<Division[]>;
 
-  override formGroup = new FormGroup<{ [key: string]: AbstractControl<any> }>({
+  formGroup = new FormGroup<{ [key: string]: AbstractControl<any> }>({
     ProfileName: new FormControl(null, Validators.required),
 
     Province: new FormControl(this.defaultProvince, Validators.required),
@@ -70,15 +97,13 @@ export class GarbageProfileReactiveForm1Component
   }
 
   constructor(
-    protected override _business: GarbageProfileReactiveForm1Business,
-    protected override _toastrService: ToastrService,
-    protected override sourceTool: GarbageStationProfilesSourceTools,
-    protected override languageTool: GarbageStationProfilesLanguageTools,
-    protected _divisionUtil: DivisionUtil,
-    protected _changeDetector: ChangeDetectorRef
+    public sourceTool: GarbageStationProfilesSourceTools,
+    public languageTool: GarbageStationProfilesLanguageTools,
+    private _business: GarbageProfileReactiveForm1Business,
+    private _toastrService: ToastrService,
+    private _divisionUtil: DivisionUtil,
+    private _changeDetector: ChangeDetectorRef
   ) {
-    super(_business, _toastrService, sourceTool, languageTool);
-
     this.filteredOption = this.Committee.valueChanges.pipe(
       startWith(''),
       map((value) => {
@@ -86,7 +111,7 @@ export class GarbageProfileReactiveForm1Component
       })
     );
     this._divisionUtil.behaviorSubject.subscribe((data) => {
-      console.log('change data', data);
+      // console.log('change data', data);
 
       this.divisionInfo = data;
 
@@ -96,12 +121,30 @@ export class GarbageProfileReactiveForm1Component
   }
 
   ngOnInit(): void {
-    console.log(this.profileState);
+    console.log('profileState', this.profileState);
+    console.log('formState', this.formState);
+
     this._init();
-    this._getDivisionInfo();
+    this._divisionUtil.getChildDivisionListByName(this.divisionSource);
   }
 
-  private async _init() {}
+  clickCreate() {
+    this.close.emit();
+  }
+  clickPrev() {
+    this.previous.emit();
+  }
+  clickSave() {
+    // this.close.emit();
+    console.log(this.formGroup.value);
+  }
+  clickNext() {
+    console.log(this.formGroup.value);
+    this._checkForm();
+
+    // this.next.emit();
+  }
+
   selectTreeNode(nodes: CommonFlatNode[]) {
     this.selectedNodes = nodes;
     let ids = this.selectedNodes.map((n) => parseInt(n.Id));
@@ -109,53 +152,56 @@ export class GarbageProfileReactiveForm1Component
       Labels: ids,
     });
   }
-  changeDivision(selectEle: HTMLSelectElement, level: DivisionLevel) {
-    console.log('change division');
-    let selectedOption = selectEle.options[selectEle.selectedIndex];
-    let id = selectedOption.id;
-
+  changeDivision(level: DivisionLevel) {
     // 清空下级
     this._resetSelect(level);
 
     // 更新表单视图绑定,否则下拉框默认数据第一项
     this._changeDetector.detectChanges();
 
-    this.divisionSource.set(
-      DivisionLevel.Province,
-      Reflect.get(this.formGroup.value, 'Province')
-    );
-    this.divisionSource.set(
-      DivisionLevel.City,
-      Reflect.get(this.formGroup.value, 'City')
-    );
-    this.divisionSource.set(
-      DivisionLevel.County,
-      Reflect.get(this.formGroup.value, 'County')
-    );
-    this.divisionSource.set(
-      DivisionLevel.Street,
-      Reflect.get(this.formGroup.value, 'Street')
-    );
-    this.divisionSource.set(
-      DivisionLevel.Committee,
-      Reflect.get(this.formGroup.value, 'Committee')
-    );
-
-    this._getDivisionInfo();
+    this._getDivisionInfo(level);
   }
 
-  private _filterValue(value: string) {
-    if (value) {
-      let filterValue = value.toLocaleLowerCase();
-      return this.divisionInfo.Committee.filter((committee) =>
-        committee.Name.toLocaleLowerCase().includes(filterValue)
-      );
-    } else {
-      return this.divisionInfo.Committee.slice();
+  private async _init() {
+    this.properties = await this._business.getPropertyByCategory(
+      this.stepIndex + 1
+    );
+
+    let extra = await this._business.getPropertyByNames([
+      {
+        Name: 'Labels',
+        Category: PropertyCategory.operating,
+      },
+    ]);
+
+    this.properties.push(...extra.flat());
+    console.log(this.properties);
+
+    this.partialData = await this._getPartialData(this.properties);
+    console.log(this.partialData);
+
+    this._updateForm();
+  }
+  private _getPartialData(propertys: Property[]) {
+    if (this.formId) {
+      let propertyIds = propertys.map((property) => property.Id);
+      return this._business.getPartialData(this.formId, propertyIds);
     }
+    return null;
   }
-  private _getDivisionInfo() {
-    this._divisionUtil.getDivisionInfo(this.divisionSource);
+
+  private _getDivisionInfo(level: DivisionLevel) {
+    let curLevel: DivisionLevel | null = level;
+
+    while (curLevel) {
+      this.divisionSource.set(
+        curLevel,
+        Reflect.get(this.formGroup.value, curLevel)
+      );
+
+      curLevel = EnumHelper.getDivisionChildLevel(curLevel);
+    }
+    this._divisionUtil.getChildDivisionListByName(this.divisionSource);
   }
   private _resetSelect(level: DivisionLevel) {
     let patchValue: { [key: string]: any } = {
@@ -170,7 +216,48 @@ export class GarbageProfileReactiveForm1Component
       childLevel = EnumHelper.getDivisionChildLevel(childLevel);
     }
 
-    console.log('清空下级字段名: ', patchValue);
+    // console.log('清空下级字段名: ', patchValue);
     this.formGroup.patchValue(patchValue);
+  }
+  private _filterValue(value: string) {
+    if (value) {
+      let filterValue = value.toLocaleLowerCase();
+      return this.divisionInfo.Committee.filter((committee) =>
+        committee.Name.toLocaleLowerCase().includes(filterValue)
+      );
+    } else {
+      return this.divisionInfo.Committee.slice();
+    }
+  }
+  private _updateForm() {
+    if (this.partialData) {
+      let controls = this.formGroup.controls;
+      for (let [key, control] of Object.entries(controls)) {
+        if (
+          Reflect.get(this.partialData, key) != void 0 &&
+          Reflect.get(this.partialData, key) !== '' &&
+          Reflect.get(this.partialData, key) !== null
+        ) {
+          // 重新创建对象，比较差异
+          this.formGroup.patchValue({
+            [key]: _.cloneDeep(Reflect.get(this.partialData, key)),
+          });
+        }
+      }
+
+      this.defaultIds = this.partialData['Labels'];
+      this._changeDetector.detectChanges();
+
+      this._getDivisionInfo(DivisionLevel.None);
+    }
+  }
+  private _checkForm() {
+    console.log(this.formGroup.status);
+
+    if (this.formGroup.invalid) {
+      return false;
+    }
+
+    return true;
   }
 }

@@ -39,8 +39,9 @@
           #province
           class="hw-form-select"
           formControlName="Province"
-          (change)="changeDivision(province, DivisionLevel.Province)"
+          (change)="changeDivision(DivisionLevel.Province)"
         >
+          <option value="" style="display: none">请选择</option>
           <option
             [value]="province.Name"
             [id]="province.Id"
@@ -63,8 +64,10 @@
           #city
           class="hw-form-select"
           formControlName="City"
-          (change)="changeDivision(city, DivisionLevel.City)"
+          (change)="changeDivision(DivisionLevel.City)"
         >
+          <option value="" style="display: none">请选择</option>
+
           <option
             [value]="city.Name"
             [id]="city.Id"
@@ -87,8 +90,9 @@
           #county
           class="hw-form-select"
           formControlName="County"
-          (change)="changeDivision(county, DivisionLevel.County)"
+          (change)="changeDivision(DivisionLevel.County)"
         >
+          <option value="" style="display: none">请选择</option>
           <option
             [value]="county.Name"
             [id]="county.Id"
@@ -111,8 +115,9 @@
           #street
           class="hw-form-select"
           formControlName="Street"
-          (change)="changeDivision(street, DivisionLevel.Street)"
+          (change)="changeDivision(DivisionLevel.Street)"
         >
+          <option value="" style="display: none">请选择</option>
           <option
             [value]="street.Name"
             [id]="street.Id"
