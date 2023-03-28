@@ -29,6 +29,9 @@ import { GarbageStationProfileSettingComponent } from './garbage-station-profile
 import { HowellPictureControlMultipleComponent } from './howell-picture-control-multiple/howell-picture-control-multiple.component';
 import { HowellPictureControlComponent } from './howell-picture-control/howell-picture-control.component';
 import { HowellPictureUploadControlComponent } from './howell-picture-upload-control/howell-picture-upload-control.component';
+import { MaintenanceProfileDetailsConstructionApplyComponent } from './maintenance-profile-details-construction-apply/maintenance-profile-details-construction-apply.component';
+import { MaintenanceProfileDetailsConstructionApproveComponent } from './maintenance-profile-details-construction-approve/maintenance-profile-details-construction-approve.component';
+
 import { MaintenanceProfileDetailsManagerComponent } from './maintenance-profile-details-manager/maintenance-profile-details-manager.component';
 import { MaintenanceProfileDetailsReactiveManagerComponent } from './maintenance-profile-details-reactive-manager/maintenance-profile-details-reactive-manager.component';
 import { MaintenanceProfileFilterComponent } from './maintenance-profile-filter/maintenance-profile-filter.component';
@@ -87,6 +90,8 @@ import { UnderwaterComponent } from './underwater/underwater.component';
     MaintenanceProfileFilterComponent,
     MaintenanceProfileDetailsManagerComponent,
     MaintenanceProfileDetailsReactiveManagerComponent,
+    MaintenanceProfileDetailsConstructionApplyComponent,
+    MaintenanceProfileDetailsConstructionApproveComponent,
   ],
   imports: [
     MaterialModule,

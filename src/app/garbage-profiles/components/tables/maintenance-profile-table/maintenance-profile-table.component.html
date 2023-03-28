@@ -1,49 +1,102 @@
 <div class="garbage-station-profile-table vertical-layout">
-  <div
-    class="garbage-station-profile-table-main vertical-main"
-    WheelHorizontalScroll
-  >
-    <table
-      border="0"
-      cellpadding="0"
-      cellspacing="0"
-      matSort
-      (matSortChange)="sortData($event)"
-    >
-      <colgroup>
-        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
-      </colgroup>
-      <thead>
-        <tr>
-          <td
-            *ngFor="let name of names"
-            [mat-sort-header]="name"
-            [disableClear]="true"
-            [class]="name"
-            [start]="name === 'UpdateTime' ? 'desc' : ''"
+  <div class="garbage-station-profile-table-main vertical-main">
+    <div class="garbage-station-profile-table-main-table" WheelHorizontalScroll>
+      <table
+        border="0"
+        cellpadding="0"
+        cellspacing="0"
+        matSort
+        (matSortChange)="sortData($event)"
+      >
+        <colgroup>
+          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        </colgroup>
+        <thead>
+          <tr>
+            <td
+              *ngFor="let name of names"
+              [mat-sort-header]="name"
+              [disableClear]="true"
+              [class]="name"
+              [start]="name === 'UpdateTime' ? 'desc' : ''"
+            >
+              {{ language[name] }}
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let item of datas; let i = index"
+            [ngClass]="{
+              hover: this.hover === item,
+              selected: this.selected === item
+            }"
+            (click)="onselected(item)"
+            (mouseover)="onmouseover(item)"
+            (mouseout)="onmouseout()"
           >
-            {{ language[name] }}
-          </td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          *ngFor="let item of datas; let i = index"
-          [ngClass]="{
-            selected: this.selected === item
-          }"
-          (click)="onselected(item)"
-        >
-          <td *ngFor="let name of names" [class]="name">
-            <div
-              (click)="onitemclick($event, item, name)"
-              [innerHTML]="item[name + 'View']"
-            ></div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            <td *ngFor="let name of names" [class]="name">
+              <div
+                (click)="onitemclick($event, item, name)"
+                [innerHTML]="item[name + 'View']"
+              ></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="garbage-station-profile-table-main-lock">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <td class="center" style="padding: 12px">操作</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let item of datas; let i = index"
+            [ngClass]="{
+              hover: this.hover === item,
+              selected: this.selected === item
+            }"
+            (click)="onselected(item)"
+            (mouseover)="onmouseover(item)"
+            (mouseout)="onmouseout()"
+          >
+            <td class="operation center" style="padding: 12px">
+              <div (click)="ondetails($event, item)">
+                <i class="howell-icon-task_misson"></i>
+              </div>
+              <div
+                title="申请工程维修"
+                [attr.disabled]="options[item.Id].apply"
+                (click)="onapply($event, item, options[item.Id].apply)"
+              >
+                <i class="howell-icon-direction"></i>
+              </div>
+              <div
+                [attr.disabled]="options[item.Id].approveyes"
+                (click)="
+                  onapproveyes($event, item, options[item.Id].approveyes)
+                "
+                title="批准工程维修"
+              >
+                <i class="howell-icon-Check"></i>
+              </div>
+              <div
+                [attr.disabled]="options[item.Id].approveno"
+                (click)="onapproveno($event, item, options[item.Id].approveno)"
+                title="驳回工程维修"
+              >
+                <i class="howell-icon-Close"></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
+
   <div class="garbage-station-profile-table-main-footer footer" *ngIf="page">
     <div class="footer-item">
       <div class="footer-info">

@@ -44,3 +44,14 @@ export const MaintenanceProfileTableDefaultNames = [
 class KeyValue {
   [key: string]: number | undefined;
 }
+
+export class MaintenanceProfileTableOptions {
+  [key: string]: MaintenanceProfileTableItemOption;
+}
+
+export class MaintenanceProfileTableItemOption {
+  details: boolean = true;
+  apply: boolean = true;
+  approveyes: boolean = true;
+  approveno: boolean = false;
+}

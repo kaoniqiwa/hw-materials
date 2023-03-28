@@ -9,4 +9,6 @@ export class PartialData implements IPartialData {
 
 export class StatePartialData extends PartialData {
   ProfileState!: number;
+  ConstructionState?: number;
+  MaintenanceUserId?: string;
 }

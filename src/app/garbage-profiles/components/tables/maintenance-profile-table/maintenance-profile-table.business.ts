@@ -10,10 +10,7 @@ import { UserType } from 'src/app/enum/user-type.enum';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
 import { Condition } from 'src/app/network/entity/condition.entity';
 import { PagedList } from 'src/app/network/entity/page.entity';
-import {
-  IPartialData,
-  PartialData,
-} from 'src/app/network/entity/partial-data.interface';
+import { PartialData } from 'src/app/network/entity/partial-data.interface';
 import { PropertyValue } from 'src/app/network/entity/property-value.entity';
 import { User } from 'src/app/network/entity/user.model';
 import {
@@ -28,7 +25,7 @@ import { MaintenanceProfileTableArgs } from './maintenance-profile-table.model';
 @Injectable()
 export class MaintenanceProfileTableBusiness
   implements
-    IBusiness<PagedList<IPartialData>>,
+    IBusiness<PagedList<PartialData>>,
     IGet<PropertyValueModel>,
     IDownload
 {
@@ -46,7 +43,16 @@ export class MaintenanceProfileTableBusiness
     params.Asc = args.asc;
     params.Desc = args.desc;
     params.Conditions = this.getConditions(args, names);
-    params.PropertyIds = names;
+    params.PropertyIds = [...names];
+
+    let mest = ['ProfileState', 'ConstructionState'];
+
+    for (let i = 0; i < mest.length; i++) {
+      if (!params.PropertyIds.includes(mest[i])) {
+        params.PropertyIds.push(mest[i]);
+      }
+    }
+
     let url = await this.service.partialData.excel(params);
     return url.Url;
   }
@@ -61,7 +67,7 @@ export class MaintenanceProfileTableBusiness
     size: number = 10,
     names: string[],
     args: MaintenanceProfileTableArgs
-  ): Promise<PagedList<IPartialData>> {
+  ): Promise<PagedList<PartialData>> {
     let data = await this.getData(index, size, names, args);
     let model = this.converter.convert(data);
     return model;

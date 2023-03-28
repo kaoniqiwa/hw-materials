@@ -18,18 +18,6 @@
         >
           <i class="howell-icon-plus"></i> 创建工单
         </button>
-
-        <!-- <button class="hw-red-btn" (click)="todelete()" *ngIf="!!selected">
-          <i class="howell-icon-delete-bin"></i> 删除
-        </button> -->
-        <button
-          class="hw-cyan-btn"
-          *ngIf="!!selected && authority.operation"
-          (click)="tomodify()"
-        >
-          <i class="howell-icon-modification"></i>
-          {{ selected.ProfileState | maintenance_profile_state_step_pipe }}
-        </button>
       </div>
       <div class="filter">
         <div class="filter-item">
@@ -69,6 +57,10 @@
       [excel]="excel"
       (selectedChange)="onselected($event)"
       (itemclick)="onitemclick($event)"
+      (details)="todetails($event)"
+      (apply)="toapply($event)"
+      (approveyes)="toapprove($event, true)"
+      (approveyes)="toapprove($event, false)"
     >
     </maintenance-profile-table>
   </div>
@@ -125,4 +117,43 @@
 >
   <howell-picture-control-multiple [ids]="window.picture.multiple.ids">
   </howell-picture-control-multiple>
+</app-window>
+<app-window
+  [Model]="window.construction.apply"
+  [style]="window.construction.apply.style"
+  *ngIf="window.construction.apply.show"
+>
+  <div>
+    <maintenance-profile-form3
+      [formId]="window.construction.apply.id"
+      [(params)]="window.construction.apply.params"
+      [disabled]="false"
+    ></maintenance-profile-form3>
+  </div>
+  <div class="center">
+    <button class="hw-green-btn" (click)="onconstruction()">申请</button>
+  </div>
+</app-window>
+<app-window
+  [Model]="window.construction.approve"
+  [style]="window.construction.approve.style"
+  *ngIf="window.construction.approve.show"
+>
+  <div>
+    <!-- <maintenance-profile-form4
+      *ngIf="selected && selected.ProfileState === 2"
+      [formId]="window.construction.approve.id"
+      [(params)]="window.construction.approve.params"
+      [disabled]="false"
+    ></maintenance-profile-form4> -->
+    <maintenance-profile-details-construction-approve
+      [(params)]="window.construction.approve.params"
+      [profileId]="window.construction.approve.id"
+      (ok)="onconstruction()"
+    >
+    </maintenance-profile-details-construction-approve>
+  </div>
+  <div class="center">
+    <button class="hw-green-btn" (click)="onconstruction()">审批</button>
+  </div>
 </app-window>

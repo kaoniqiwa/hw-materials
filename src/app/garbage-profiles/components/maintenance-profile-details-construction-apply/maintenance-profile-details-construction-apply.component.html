@@ -1,0 +1,22 @@
+<div class="maintenance-profile-details-construction-apply">
+  <div class="maintenance-profile-details-construction-apply-head">
+    <div class="hw-form-label">{{ language["ConstructionReason"] }}</div>
+  </div>
+  <div class="maintenance-profile-details-construction-apply-body">
+    <div *ngIf="!data || !data.ConstructionState">
+      <textarea [(ngModel)]="params.ConstructionReason"></textarea>
+    </div>
+    <div
+      class="maintenance-profile-details-construction-apply-body-content"
+      *ngIf="!!data && !!data.ConstructionState"
+    >
+      {{ data.ConstructionReason }}
+    </div>
+  </div>
+  <div
+    class="maintenance-profile-details-construction-apply-foot"
+    *ngIf="!data || !data.ConstructionState"
+  >
+    <button class="hw-green-btn">申请</button>
+  </div>
+</div>

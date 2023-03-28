@@ -22,6 +22,8 @@ export class MaintenanceProfileDetailsManagerComponent implements OnInit {
   ok: EventEmitter<void> = new EventEmitter();
   @Output()
   cancel: EventEmitter<void> = new EventEmitter();
+  @Output()
+  construction: EventEmitter<MaintenanceProfile> = new EventEmitter();
 
   constructor(
     private business: MaintenanceProfileDetailsManagerBusiness,
@@ -37,12 +39,16 @@ export class MaintenanceProfileDetailsManagerComponent implements OnInit {
   params = new MaintenanceProfileDetailsManagerParams();
 
   ngOnInit(): void {
-    if (this.data) {
-      this.business.load(this.data.Id, this.data.ProfileState).then((data) => {
-        this.profile = data;
-        console.log(this.profile);
-      });
-    }
+    // if (this.data) {
+    //   this.business.load(this.data.Id, this.data.ProfileState).then((data) => {
+    //     this.profile = data;
+    //     console.log(this.profile);
+    //   });
+    // }
+  }
+
+  onconstruction() {
+    this.construction.emit();
   }
 
   validate(params: CreateMaintenanceProfileParams) {
@@ -109,7 +115,7 @@ export class MaintenanceProfileDetailsManagerComponent implements OnInit {
     }
   }
 
-  submit(state?: number) {
+  submit(state: number, ConstructionState?: number) {
     new Promise((ok, error) => {
       if (this.data) {
         switch (state) {
