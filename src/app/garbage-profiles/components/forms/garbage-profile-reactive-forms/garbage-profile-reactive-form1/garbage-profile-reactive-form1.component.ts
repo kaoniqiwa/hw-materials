@@ -29,6 +29,9 @@ import { Property } from 'src/app/network/entity/property.entity';
 import { DivisionInfo } from '../../utils/division/division.model';
 import { DivisionUtil } from '../../utils/division/division.util';
 import { GarbageProfileReactiveForm1Business } from './garbage-profile-reactive-form1.business';
+import { PartialRequest } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
+import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
+import { PartialResult } from 'src/app/network/entity/partial-result.entity';
 
 @Component({
   selector: 'garbage-profile-reactive-form1',
@@ -43,8 +46,6 @@ export class GarbageProfileReactiveForm1Component implements OnInit {
   @Input()
   formState: FormState = FormState.none;
 
-  @Input() profileState = 0;
-
   @Input() maxProfileState = 6;
 
   @Output() close = new EventEmitter();
@@ -52,11 +53,20 @@ export class GarbageProfileReactiveForm1Component implements OnInit {
   @Output() previous = new EventEmitter();
 
   stepIndex = 0;
+  profileState = 0;
   FormState = FormState;
   properties: Property[] = [];
   partialData: PartialData | null = null;
+  partialRequest = new PartialRequest();
+  simpleChanges: Record<string, any> = {};
+  willBeUpdated = false;
+  hasBeenModified = false;
+  showModify = false;
+
+  clickMode = '';
 
   DivisionLevel = DivisionLevel;
+  model: GarbageStationProfile | null = null;
 
   private defaultProvince = '江苏省';
   private defaultCity = '南京市';
@@ -134,9 +144,37 @@ export class GarbageProfileReactiveForm1Component implements OnInit {
   clickPrev() {
     this.previous.emit();
   }
-  clickSave() {
-    // this.close.emit();
-    console.log(this.formGroup.value);
+  async clickSave() {
+    this.clickMode = 'save';
+    let res: GarbageStationProfile | null | PartialResult<any> = null;
+    if (this.formState == FormState.add) {
+      res = await this.createModel();
+      if (res) {
+        this._toastrService.success('操作成功');
+        this.close.emit();
+      }
+    } else if (this.formState == FormState.edit) {
+      if (this._updatePartialData()) {
+        if (this.willBeUpdated) {
+          if (this.hasBeenModified) {
+            this.showModify = true;
+          } else {
+            let res = await this._business.updatePartial(this.partialRequest);
+            console.log(res);
+            if (res.Succeed) {
+              this._toastrService.success('操作成功');
+              this.close.emit();
+            } else {
+              this.partialData!['ProfileState'] = this.profileState;
+              this._toastrService.success('操作失败');
+            }
+          }
+        } else {
+          this._toastrService.success('无数据更新');
+          this.close.emit();
+        }
+      }
+    }
   }
   clickNext() {
     console.log(this.formGroup.value);
@@ -147,9 +185,8 @@ export class GarbageProfileReactiveForm1Component implements OnInit {
 
   selectTreeNode(nodes: CommonFlatNode[]) {
     this.selectedNodes = nodes;
-    let ids = this.selectedNodes.map((n) => parseInt(n.Id));
     this.formGroup.patchValue({
-      Labels: ids,
+      Labels: nodes.map((n) => parseInt(n.Id)),
     });
   }
   changeDivision(level: DivisionLevel) {
@@ -172,10 +209,13 @@ export class GarbageProfileReactiveForm1Component implements OnInit {
         Name: 'Labels',
         Category: PropertyCategory.operating,
       },
+      {
+        Name: 'ProfileState',
+      },
     ]);
 
     this.properties.push(...extra.flat());
-    console.log(this.properties);
+    // console.log(this.properties);
 
     this.partialData = await this._getPartialData(this.properties);
     console.log(this.partialData);
@@ -188,6 +228,88 @@ export class GarbageProfileReactiveForm1Component implements OnInit {
       return this._business.getPartialData(this.formId, propertyIds);
     }
     return null;
+  }
+  private async createModel() {
+    if (this._checkForm()) {
+      if (!this.model) {
+        this.model = new GarbageStationProfile();
+        this.model.ProfileState = 1;
+      }
+
+      let objData = _.cloneDeep(this.formGroup.value);
+      for (let [key, value] of Object.entries(objData)) {
+        if (value != void 0 && value !== '' && value !== null) {
+          Reflect.set(this.model, key, value);
+        }
+      }
+      this.model = await this._business.createModel(this.model);
+
+      console.log('result', this.model);
+
+      return this.model;
+    }
+    return null;
+  }
+  private _updatePartialData() {
+    if (this._checkForm()) {
+      if (this.partialData) {
+        if (this.partialData['ProfileState'] <= this.stepIndex) {
+          ++this.partialData['ProfileState'];
+          this.partialRequest.ModificationReason = '新建档案';
+          this.partialRequest.ModificationContent = '';
+          this.willBeUpdated = true;
+          this.hasBeenModified = false;
+
+          let newData = _.cloneDeep(this.formGroup.value);
+          for (let [key, value] of Object.entries(newData)) {
+            if (value != void 0 && value !== '' && value !== null) {
+              Reflect.set(this.partialData, key, value);
+            }
+          }
+        } else {
+          this.willBeUpdated = false;
+          this.hasBeenModified = false;
+          this.partialRequest.ModificationReason = '';
+          this.partialRequest.ModificationContent = '';
+
+          let oldData = this.partialData;
+          let newData = _.cloneDeep(this.formGroup.value);
+
+          for (let [key, value] of Object.entries(newData)) {
+            let newValue = value;
+            let oldValue = oldData[key];
+
+            if (value != void 0 && value !== '' && value !== null) {
+              if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
+                this.simpleChanges[key] = {
+                  OldValue: oldValue,
+                  NewValue: newValue,
+                };
+                this.partialData[key] = newValue;
+              }
+            }
+          }
+
+          if (Object.keys(this.simpleChanges).length) {
+            this.hasBeenModified = true;
+            this.willBeUpdated = true;
+            this.partialRequest.ModificationContent = JSON.stringify(
+              this.simpleChanges
+            );
+          } else {
+            this.hasBeenModified = false;
+            this.willBeUpdated = false;
+          }
+        }
+
+        this.partialRequest.Data = this.partialData;
+      } else {
+        this.willBeUpdated = false;
+        this.hasBeenModified = false;
+      }
+      return true;
+    }
+    return false;
   }
 
   private _getDivisionInfo(level: DivisionLevel) {
@@ -245,7 +367,7 @@ export class GarbageProfileReactiveForm1Component implements OnInit {
         }
       }
 
-      this.defaultIds = this.partialData['Labels'];
+      // this.defaultIds = this.partialData['Labels'];
       this._changeDetector.detectChanges();
 
       this._getDivisionInfo(DivisionLevel.None);
