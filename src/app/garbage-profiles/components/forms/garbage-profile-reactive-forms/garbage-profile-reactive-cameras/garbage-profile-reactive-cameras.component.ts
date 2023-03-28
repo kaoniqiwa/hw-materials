@@ -52,7 +52,7 @@ export class GarbageProfileReactiveCameras implements OnInit, OnChanges {
   });
 
   get Cameras() {
-    return this.formGroup.get('Cameras') as FormArray;
+    return this.formGroup.get('Cameras') as FormArray<FormGroup>;
   }
   constructor(
     public source: GarbageStationProfilesSourceTools,
@@ -74,7 +74,9 @@ export class GarbageProfileReactiveCameras implements OnInit, OnChanges {
       this._init();
     }
   }
-
+  change(camera: FormGroup) {
+    console.log(camera);
+  }
   private async _init() {
     this.updateFormByPartial();
   }
@@ -109,7 +111,12 @@ export class GarbageProfileReactiveCameras implements OnInit, OnChanges {
       this._toastrService.warning('请依次删除');
     }
   }
-
+  touchSpinChange(value: string, index: number, propertyName: string) {
+    let group = this.Cameras.at(index) as FormGroup;
+    group.patchValue({
+      [propertyName]: value,
+    });
+  }
   checkForm() {
     // console.log(this.Cameras.errors);
     if (this.Cameras.invalid) {
@@ -191,5 +198,13 @@ export class GarbageProfileReactiveCameras implements OnInit, OnChanges {
       this.Cameras.clear();
       this.addCamera();
     }
+  }
+
+  click(camera: FormGroup) {
+    console.log(camera);
+    camera.patchValue({
+      Model: 1,
+    });
+    console.log(camera.value);
   }
 }

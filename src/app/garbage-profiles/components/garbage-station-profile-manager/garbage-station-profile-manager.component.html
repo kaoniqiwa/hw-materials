@@ -131,6 +131,22 @@
   (closeEvent)="ondetailsclose()"
   style="z-index: 999"
 >
+  <garbage-profile-details-reactive-manager
+    [formId]="window.details.selected"
+    [formState]="window.details.form"
+    [selectedIndex]="window.details.state"
+    (closeDetails)="closeAndUpdate()"
+    (updateDetails)="ondetailsupdate()"
+    (recordEvent)="ondetailsputoutrecord($event)"
+  >
+  </garbage-profile-details-reactive-manager>
+</toast-window> -->
+
+<!-- <toast-window
+  *ngIf="window.details.show"
+  (closeEvent)="ondetailsclose()"
+  style="z-index: 999"
+>
   <garbage-profile-details-reactive-manager>
   </garbage-profile-details-reactive-manager>
 </toast-window> -->

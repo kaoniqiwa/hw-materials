@@ -44,11 +44,17 @@
               </div>
               <div class="hw-form-group" *ngIf="stepIndex != 5">
                 <div class="title">
-                  <span class="hw-form-label"> {{ language["Model"] }} </span>
+                  <span class="hw-form-label">
+                    {{ language["Model"] }}
+                  </span>
                   <span class="hw-form-icon">*</span>
                 </div>
                 <div class="content">
-                  <select class="hw-form-select" formControlName="Model">
+                  <select
+                    class="hw-form-select"
+                    formControlName="Model"
+                    (change)="change(camera)"
+                  >
                     <option
                       *ngFor="let model of source.Model"
                       [value]="model.Value"
@@ -79,9 +85,10 @@
                 <div class="content">
                   <input
                     type="text"
-                    appTouchSpin
+                    formControlName="Placement"
                     [options]="placementOptions"
-                    [(number)]="camera.value.Placement"
+                    appTouchSpin
+                    (touchSpinChange)="touchSpinChange($event, i, 'Placement')"
                   />
                 </div>
               </div>
@@ -130,7 +137,7 @@
                     type="text"
                     formControlName="Bitrate"
                     appTouchSpin
-                    [(number)]="camera.value.Bitrate"
+                    (touchSpinChange)="touchSpinChange($event, i, 'Bitrate')"
                   />
                 </div>
               </div>
@@ -202,7 +209,9 @@
                     type="text"
                     appTouchSpin
                     [options]="volumeOptions"
-                    [(number)]="camera.value.AudioVolume"
+                    (touchSpinChange)="
+                      touchSpinChange($event, i, 'AudioVolume')
+                    "
                   />
                 </div>
               </div>
