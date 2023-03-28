@@ -33,6 +33,7 @@ import { PartialRequest } from 'src/app/network/request/garbage-profiles/garbage
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { PartialResult } from 'src/app/network/entity/partial-result.entity';
 import { Modification } from '../../../../../common/components/modification-confirm/modification-confirm.model';
+import { FormStatusCode } from '../garbage-profile-reactive-form/garbage-profile-reactive-form.model';
 
 @Component({
   selector: 'garbage-profile-reactive-form1',
@@ -66,6 +67,7 @@ export class GarbageProfileReactiveForm1Component implements OnInit {
   hasBeenModified = false;
   showModify = false;
   clickMode = '';
+  statusCode = FormStatusCode.None;
 
   model: GarbageStationProfile | null = null;
 
@@ -146,6 +148,32 @@ export class GarbageProfileReactiveForm1Component implements OnInit {
   clickPrev() {
     this.previous.emit();
   }
+
+  private async sendPartialData() {
+    let res: null | PartialResult<any> = null;
+
+    if (this._updatePartialData()) {
+      if (this.willBeUpdated) {
+        if (this.hasBeenModified) {
+          this.showModify = true;
+        } else {
+          res = await this._business.updatePartial(this.partialRequest);
+          if (res) {
+            if (res.Succeed) {
+              this.statusCode = FormStatusCode.Success;
+            } else {
+              this.statusCode = FormStatusCode.Failed;
+            }
+          }
+        }
+      } else {
+        this.statusCode = FormStatusCode.NotModified;
+      }
+    } else {
+      this.statusCode = FormStatusCode.None;
+    }
+  }
+
   async clickSave() {
     this.clickMode = 'save';
     let res: GarbageStationProfile | null | PartialResult<any> = null;
@@ -156,25 +184,24 @@ export class GarbageProfileReactiveForm1Component implements OnInit {
         this.close.emit();
       }
     } else if (this.formState == FormState.edit) {
-      if (this._updatePartialData()) {
-        if (this.willBeUpdated) {
-          if (this.hasBeenModified) {
-            this.showModify = true;
-          } else {
-            let res = await this._business.updatePartial(this.partialRequest);
-            console.log(res);
-            if (res.Succeed) {
-              this._toastrService.success('操作成功');
-              this.close.emit();
-            } else {
-              this.partialData!['ProfileState'] = this.profileState;
-              this._toastrService.success('操作失败');
-            }
+      await this.sendPartialData();
+      switch (this.statusCode) {
+        case FormStatusCode.None:
+          break;
+        case FormStatusCode.Success:
+          this._toastrService.success('操作成功');
+          this.close.emit();
+          break;
+        case FormStatusCode.Failed:
+          this._toastrService.success('操作失败');
+          if (this.partialData) {
+            this.partialData['ProfileState'] = this.profileState;
           }
-        } else {
+          break;
+        case FormStatusCode.NotModified:
           this._toastrService.success('无数据更新');
           this.close.emit();
-        }
+          break;
       }
     }
   }
@@ -186,30 +213,28 @@ export class GarbageProfileReactiveForm1Component implements OnInit {
       res = await this._createModel();
       if (res) {
         this._toastrService.success('操作成功');
+        // 仅创建模型时，需要将新建的模型Id传给上级
         this.next.emit(res.Id);
       }
     } else if (this.formState == FormState.edit) {
-      if (this._updatePartialData()) {
-        if (this.willBeUpdated) {
-          if (this.hasBeenModified) {
-            this.showModify = true;
-          } else {
-            let res = await this._business.updatePartial(this.partialRequest);
-
-            console.log(res);
-            if (res.Succeed) {
-              this._toastrService.success('操作成功');
-
-              this.next.emit(res.Id);
-            } else {
-              this.partialData!['ProfileState'] = this.profileState;
-              this._toastrService.error('操作失败');
-            }
+      await this.sendPartialData();
+      switch (this.statusCode) {
+        case FormStatusCode.None:
+          break;
+        case FormStatusCode.Success:
+          this._toastrService.success('操作成功');
+          this.next.emit();
+          break;
+        case FormStatusCode.Failed:
+          this._toastrService.success('操作失败');
+          if (this.partialData) {
+            this.partialData['ProfileState'] = this.profileState;
           }
-        } else {
-          // this._toastrService.success('无数据更新');
-          this.next.emit(this.formId);
-        }
+          break;
+        case FormStatusCode.NotModified:
+          this._toastrService.success('无数据更新');
+          this.next.emit();
+          break;
       }
     }
   }
@@ -217,16 +242,18 @@ export class GarbageProfileReactiveForm1Component implements OnInit {
     this.partialRequest.ModificationReason = modification.reason;
     this.partialRequest.ModificationContent = modification.content;
     let res = await this._business.updatePartial(this.partialRequest);
-    console.log(res);
     if (res.Succeed) {
       this._toastrService.success('操作成功');
       if (this.clickMode == 'save') {
         this.close.emit();
       } else if ((this.clickMode = 'next')) {
-        this.next.emit(res.Id);
+        this.next.emit();
       }
+      // 可以不用设置
+      // this.statusCode = FormStatusCode.Success;
     } else {
       this._toastrService.error('操作失败');
+      // this.statusCode = FormStatusCode.Failed;
     }
   }
 
@@ -265,7 +292,7 @@ export class GarbageProfileReactiveForm1Component implements OnInit {
     // console.log(this.properties);
 
     this.partialData = await this._getPartialData(this.properties);
-    // console.log('partialData', this.partialData);
+    console.log('partialData', this.partialData);
 
     this._updateForm();
   }
@@ -400,8 +427,7 @@ export class GarbageProfileReactiveForm1Component implements OnInit {
   }
   private _updateForm() {
     if (this.partialData) {
-      let controls = this.formGroup.controls;
-      for (let [key, control] of Object.entries(controls)) {
+      for (let [key, control] of Object.entries(this.formGroup.controls)) {
         if (
           Reflect.get(this.partialData, key) != void 0 &&
           Reflect.get(this.partialData, key) !== '' &&
@@ -413,10 +439,12 @@ export class GarbageProfileReactiveForm1Component implements OnInit {
           });
         }
       }
+      this.defaultIds = this.partialData['Labels'];
 
-      // this.defaultIds = this.partialData['Labels'];
+      // change defaultIds
       this._changeDetector.detectChanges();
 
+      // 根据后台数据，重新拉取区划信息
       this._getDivisionInfo(DivisionLevel.None);
     }
   }

@@ -28,6 +28,7 @@ import { PartialResult } from 'src/app/network/entity/partial-result.entity';
 import { Property } from 'src/app/network/entity/property.entity';
 import { PartialRequest } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
 import { Modification } from '../../../../../common/components/modification-confirm/modification-confirm.model';
+import { FormStatusCode } from '../garbage-profile-reactive-form/garbage-profile-reactive-form.model';
 import { GarbageProfileReactiveForm3Business } from './garbage-profile-reactive-form3.business';
 
 @Component({
@@ -60,6 +61,7 @@ export class GarbageProfileReactiveForm3Component {
   hasBeenModified = false;
   showModify = false;
   clickMode = '';
+  statusCode = FormStatusCode.None;
 
   DateTimePickerView = DateTimePickerView;
 
@@ -87,78 +89,79 @@ export class GarbageProfileReactiveForm3Component {
   clickPrev() {
     this.previous.emit();
   }
-  async clickSave() {
-    this.clickMode = 'save';
-    let res: GarbageStationProfile | null | PartialResult<any> = null;
-    if (this.formState == FormState.add) {
-      // res = await this.createModel();
-      // if (res) {
-      //   this._toastrService.success('操作成功');
-      //   this.close.emit();
-      // }
-    } else if (this.formState == FormState.edit) {
-      if (this._updatePartialData()) {
-        if (this.willBeUpdated) {
-          if (this.hasBeenModified) {
-            this.showModify = true;
-          } else {
-            let res = await this._business.updatePartial(this.partialRequest);
-            console.log(res);
+  private async sendPartialData() {
+    let res: null | PartialResult<any> = null;
+
+    if (this._updatePartialData()) {
+      if (this.willBeUpdated) {
+        if (this.hasBeenModified) {
+          this.showModify = true;
+        } else {
+          res = await this._business.updatePartial(this.partialRequest);
+          if (res) {
             if (res.Succeed) {
-              this._toastrService.success('操作成功');
-              this.close.emit();
+              this.statusCode = FormStatusCode.Success;
             } else {
-              this.partialData!['ProfileState'] = this.profileState;
-              this._toastrService.success('操作失败');
+              this.statusCode = FormStatusCode.Failed;
             }
           }
-        } else {
-          this._toastrService.success('无数据更新');
-          this.close.emit();
         }
+      } else {
+        this.statusCode = FormStatusCode.NotModified;
       }
+    } else {
+      this.statusCode = FormStatusCode.None;
+    }
+  }
+  async clickSave() {
+    this.clickMode = 'save';
+
+    await this.sendPartialData();
+    switch (this.statusCode) {
+      case FormStatusCode.None:
+        break;
+      case FormStatusCode.Success:
+        this._toastrService.success('操作成功');
+        this.close.emit();
+        break;
+      case FormStatusCode.Failed:
+        this._toastrService.success('操作失败');
+        if (this.partialData) {
+          this.partialData['ProfileState'] = this.profileState;
+        }
+        break;
+      case FormStatusCode.NotModified:
+        this._toastrService.success('无数据更新');
+        this.close.emit();
+        break;
     }
   }
   async clickNext() {
     this.clickMode = 'next';
-    let res: GarbageStationProfile | null | PartialResult<any> | -1 = null;
-
-    if (this.formState == FormState.add) {
-      // res = await this.createModel();
-      // if (res) {
-      //   this._toastrService.success('操作成功');
-      //   this.next.emit(res.Id);
-      // }
-    } else if (this.formState == FormState.edit) {
-      if (this._updatePartialData()) {
-        if (this.willBeUpdated) {
-          if (this.hasBeenModified) {
-            this.showModify = true;
-          } else {
-            let res = await this._business.updatePartial(this.partialRequest);
-
-            console.log(res);
-            if (res.Succeed) {
-              this._toastrService.success('操作成功');
-
-              this.next.emit(res.Id);
-            } else {
-              this.partialData!['ProfileState'] = this.profileState;
-              this._toastrService.error('操作失败');
-            }
-          }
-        } else {
-          // this._toastrService.success('无数据更新');
-          this.next.emit(this.formId);
+    await this.sendPartialData();
+    switch (this.statusCode) {
+      case FormStatusCode.None:
+        break;
+      case FormStatusCode.Success:
+        this._toastrService.success('操作成功');
+        this.next.emit();
+        break;
+      case FormStatusCode.Failed:
+        this._toastrService.success('操作失败');
+        if (this.partialData) {
+          this.partialData['ProfileState'] = this.profileState;
         }
-      }
+        break;
+      case FormStatusCode.NotModified:
+        this._toastrService.success('无数据更新');
+        this.next.emit();
+        break;
     }
   }
   async clickConfirm(modification: Modification) {
     this.partialRequest.ModificationReason = modification.reason;
     this.partialRequest.ModificationContent = modification.content;
     let res = await this._business.updatePartial(this.partialRequest);
-    console.log(res);
     if (res.Succeed) {
       this._toastrService.success('操作成功');
       if (this.clickMode == 'save') {
@@ -191,7 +194,7 @@ export class GarbageProfileReactiveForm3Component {
     // console.log(this.properties);
 
     this.partialData = await this._getPartialData(this.properties);
-    // console.log(this.partialData);
+    console.log(this.partialData);
 
     this._updateForm();
   }
@@ -290,18 +293,34 @@ export class GarbageProfileReactiveForm3Component {
           });
         }
       }
-
-      // this.defaultIds = this.partialData['Labels'];
-      this._changeDetector.detectChanges();
     }
   }
   private _checkForm() {
-    console.log(this.formGroup.status);
-
     if (this.formGroup.invalid) {
+      for (let [key, control] of Object.entries(this.formGroup.controls)) {
+        if (control.invalid) {
+          if ('required' in control.errors!) {
+            this._toastrService.warning(this.languageTool[key] + '为必选项');
+            break;
+          }
+          if ('maxlength' in control.errors!) {
+            this._toastrService.warning(this.languageTool[key] + '长度不对');
+            break;
+          }
+          if ('pattern' in control.errors!) {
+            this._toastrService.warning(this.languageTool[key] + '格式不对');
+            break;
+          }
+          if ('identityRevealed' in control.errors!) {
+            this._toastrService.warning(
+              this.languageTool[key] + '至少选择一项'
+            );
+            break;
+          }
+        }
+      }
       return false;
     }
-
     return true;
   }
 }

@@ -1,18 +1,18 @@
 <div class="details-form">
   <div class="inner-form">
-    <garbage-profile-details-dynamic
+    <garbage-profile-reactive-cameras
       [formId]="formId"
       [state]="formState"
       [stepIndex]="stepIndex"
       [cameras]="cameras"
-    ></garbage-profile-details-dynamic>
+    ></garbage-profile-reactive-cameras>
   </div>
   <div class="hw-middle-btn-group">
     <button
       class="hw-blue-btn"
       type="button"
       (click)="clickPrev()"
-      *ngIf="profileState != profileState"
+      *ngIf="profileState != maxProfileState"
     >
       <i class="howell-icon-arrowleftbold"></i> 上一步
     </button>
@@ -28,7 +28,7 @@
       class="hw-blue-btn"
       type="button"
       (click)="clickNext()"
-      *ngIf="profileState != profileState"
+      *ngIf="profileState != maxProfileState"
     >
       下一步 <i class="howell-icon-arrowrightbold"></i>
     </button>

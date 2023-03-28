@@ -1,4 +1,4 @@
-import { GarbageProfileDetailsDynamicForm } from './garbage-profile-details-forms/garbage-profile-details-dynamic/garbage-profile-details-dynamic.component';
+import { GarbageProfileReactiveCameras } from './garbage-profile-reactive-forms/garbage-profile-reactive-cameras/garbage-profile-reactive-cameras.component';
 import { GarbageProfileDetailsForm1 } from './garbage-profile-details-forms/garbage-profile-details-form1/garbage-profile-details-form1.component';
 import { GarbageProfileDetailsForm2 } from './garbage-profile-details-forms/garbage-profile-details-form2/garbage-profile-details-form2.component';
 import { GarbageProfileDetailsForm3 } from './garbage-profile-details-forms/garbage-profile-details-form3/garbage-profile-details-form3.component';
@@ -22,6 +22,7 @@ import { MaintenanceProfileReactiveForm2Component } from './maintenance-profile-
 import { MaintenanceProfileReactiveForm3Component } from './maintenance-profile-reactive-forms/maintenance-profile-reactive-form3/maintenance-profile-reactive-form3.component';
 import { MaintenanceProfileReactiveForm4Component } from './maintenance-profile-reactive-forms/maintenance-profile-reactive-form4/maintenance-profile-reactive-form4.component';
 import { MaintenanceProfileReactiveForm5Component } from './maintenance-profile-reactive-forms/maintenance-profile-reactive-form5/maintenance-profile-reactive-form5.component';
+import { GarbageProfileDetailsDynamicForm } from './garbage-profile-details-forms/garbage-profile-details-dynamic/garbage-profile-details-dynamic.component';
 
 export const FormComponents = [
   GarbageProfileDetailsForm1,
@@ -33,6 +34,7 @@ export const FormComponents = [
   GarbageProfileDetailsDynamicForm,
 
   GarbageProfileReactiveFormComponent,
+  GarbageProfileReactiveCameras,
   GarbageProfileReactiveForm1Component,
   GarbageProfileReactiveForm2Component,
   GarbageProfileReactiveForm3Component,

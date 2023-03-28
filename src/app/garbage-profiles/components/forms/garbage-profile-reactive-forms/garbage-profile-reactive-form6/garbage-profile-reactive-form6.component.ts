@@ -28,6 +28,7 @@ import { PartialResult } from 'src/app/network/entity/partial-result.entity';
 import { Property } from 'src/app/network/entity/property.entity';
 import { PartialRequest } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
 import { Modification } from '../../../../../common/components/modification-confirm/modification-confirm.model';
+import { FormStatusCode } from '../garbage-profile-reactive-form/garbage-profile-reactive-form.model';
 import { GarbageProfileReactiveForm6Business } from './garbage-profile-reactive-form6.business';
 
 @Component({
@@ -60,6 +61,7 @@ export class GarbageProfileReactiveForm6Component {
   hasBeenModified = false;
   showModify = false;
   clickMode = '';
+  statusCode = FormStatusCode.None;
 
   cameras: Camera[] = [];
   currentIndex = 0;
@@ -123,7 +125,7 @@ export class GarbageProfileReactiveForm6Component {
       if (this.clickMode == 'save') {
         this.close.emit();
       } else if ((this.clickMode = 'next')) {
-        this.next.emit(res.Id);
+        this.next.emit();
       }
     } else {
       this._toastrService.error('操作失败');
@@ -187,7 +189,7 @@ export class GarbageProfileReactiveForm6Component {
     // console.log(this.properties);
 
     this.partialData = await this._getPartialData(this.properties);
-    console.log(this.partialData);
+    // console.log(this.partialData);
     if (this.partialData) {
       this.cameras = Reflect.get(this.partialData, 'Cameras');
     }
@@ -291,8 +293,7 @@ export class GarbageProfileReactiveForm6Component {
 
   private _updateForm() {
     if (this.partialData) {
-      let controls = this.formGroup.controls;
-      for (let [key, control] of Object.entries(controls)) {
+      for (let [key, control] of Object.entries(this.formGroup.controls)) {
         if (
           Reflect.get(this.partialData, key) != void 0 &&
           Reflect.get(this.partialData, key) !== '' &&
@@ -317,7 +318,7 @@ export class GarbageProfileReactiveForm6Component {
               Reflect.get(v, key) !== null
             ) {
               camera.patchValue({
-                [key]: Reflect.get(v, key),
+                [key]: _.cloneDeep(Reflect.get(v, key)),
               });
             }
           }
