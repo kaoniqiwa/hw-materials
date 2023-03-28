@@ -46,14 +46,31 @@ table {
 
       &.selected,
       &.selected:hover {
-        background: linear-gradient(to right,
-            rgb(117, 134, 224),
-            rgb(50, 134, 229));
+        // background: linear-gradient(to right,
+        //     rgb(117, 134, 224),
+        //     rgb(50, 134, 229));
+        background: rgb(117, 134, 224) !important;
 
         i,
         a {
           color: #cfd7ff;
+
+          &:hover {
+            color: white;
+          }
         }
+
+        & div[disabled=true] {
+
+          i,
+          a {
+            color: #99abb4 !important;
+          }
+        }
+      }
+
+      & div[disabled=true] {
+        color: #99abb4 !important;
       }
 
       td {
@@ -117,9 +134,10 @@ table {
       }
 
       &:hover {
-        background: linear-gradient(to right,
-            rgba(117, 134, 224, 0.5),
-            rgba(50, 134, 229, 0.5));
+        // background: linear-gradient(to right,
+        //     rgba(117, 134, 224, 0.5),
+        //     rgba(50, 134, 229, 0.5));
+        background: rgba(117, 134, 224, 0.5)
       }
 
       &.zoom:hover {

@@ -71,10 +71,10 @@ export class ConstructionApproveParams implements IParams {
   /**	String	不同意原因	O	*/
   ConstructionApprovalReason?: string;
   /**	Boolean	是否同意，true：同意，false：不同意	M	*/
-  ApproveOrNot!: boolean;
+  ApproveOrNot: boolean = false;
   /**	DateTime	维修截至时间，如果同意，需要重新填写截至时间	O/D	*/
   @Transform(transformDateTime)
-  MaintenanceDeadline?: Date;
+  MaintenanceDeadline?: Date = new Date();
 }
 export class SubmitMaintenanceProfileParams implements IParams {
   /**	Boolean	维修结果，	M	*/

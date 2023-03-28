@@ -1,141 +1,182 @@
-import { formatDate } from '@angular/common';
 import { Injectable } from '@angular/core';
+import { MaintenanceProfileModel } from 'src/app/model/maintenance-profile.model';
+import { MaterialItem } from 'src/app/network/entity/material-item.enitty';
 import { MaintenanceProfileRequestService } from 'src/app/network/request/maintenance-profiles/maintenance-profiles.service';
 import { IConverter } from '../../common/interfaces/converter.interface';
-import { PropertyDataType } from '../../enum/property-data-type.enum';
-import { PropertyModel } from '../../model/property.model';
 import { PartialData } from '../../network/entity/partial-data.interface';
-import { ValueNamePair } from '../../network/entity/value-name-pair.entity';
-import { GarbageStationProfilePropertyConverter } from '../garbage-statopm-profile/garbage-statopm-profile-property.converter';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MaintenanceProfilePartialDataConverter
-  implements IConverter<PartialData, Promise<PartialData>>
+  implements IConverter<PartialData, Promise<MaintenanceProfileModel>>
 {
-  constructor(
-    private service: MaintenanceProfileRequestService,
-    private converter: GarbageStationProfilePropertyConverter
-  ) {}
+  constructor(private service: MaintenanceProfileRequestService) {}
 
-  async convert(source: PartialData): Promise<PartialData> {
-    let view = 'View';
-    for (const key in source) {
-      source[key + view] = source[key];
+  async convert(source: PartialData): Promise<MaintenanceProfileModel> {
+    let model = new MaintenanceProfileModel();
+    model.Id = source.Id;
 
-      if (key === 'Id') {
-        continue;
+    model.Province = this.getItem<string>(source.Id, 'Province', source);
+    model.City = this.getItem<string>(source.Id, 'City', source);
+    model.County = this.getItem<string>(source.Id, 'County', source);
+    model.Street = this.getItem<string>(source.Id, 'Street', source);
+    model.Committee = this.getItem<string>(source.Id, 'Committee', source);
+    model.GarbageStationProfileId = this.getItem<string>(
+      source.Id,
+      'GarbageStationProfileId',
+      source
+    );
+    model.GarbageStationName = this.getItem<string>(
+      source.Id,
+      'GarbageStationName',
+      source
+    );
+    model.GarbageStationAddress = this.getItem<string>(
+      source.Id,
+      'GarbageStationAddress',
+      source
+    );
+    model.CreationPersonnel = this.getItem<string>(
+      source.Id,
+      'CreationPersonnel',
+      source
+    );
+    model.CreationUserId = this.getItem<string>(
+      source.Id,
+      'CreationUserId',
+      source
+    );
+    model.CreationTime = this.getItem<Date>(source.Id, 'CreationTime', source);
+    model.ProfileType = this.getItem<number>(source.Id, 'ProfileType', source);
+    model.MaintenanceType = this.getItem<number>(
+      source.Id,
+      'MaintenanceType',
+      source
+    );
+    model.MaintenanceDescription = this.getItem<string>(
+      source.Id,
+      'MaintenanceDescription',
+      source
+    );
+    model.Customer = this.getItem<string>(source.Id, 'Customer', source);
+    model.CustomerPhoneNo = this.getItem<string>(
+      source.Id,
+      'CustomerPhoneNo',
+      source
+    );
+    model.FaultDate = this.getItem<Date>(source.Id, 'FaultDate', source);
+    model.DistributionPersonnel = this.getItem<string>(
+      source.Id,
+      'DistributionPersonnel',
+      source
+    );
+    model.DistributionUserId = this.getItem<string>(
+      source.Id,
+      'DistributionUserId',
+      source
+    );
+    model.DistributionTime = this.getItem<Date>(
+      source.Id,
+      'DistributionTime',
+      source
+    );
+    model.MaintenancePersonnel = this.getItem<string>(
+      source.Id,
+      'MaintenancePersonnel',
+      source
+    );
+    model.MaintenanceUserId = this.getItem<string>(
+      source.Id,
+      'MaintenanceUserId',
+      source
+    );
+    model.MaintenanceDeadline = this.getItem<Date>(
+      source.Id,
+      'MaintenanceDeadline',
+      source
+    );
+    model.FaultType = this.getItem<number>(source.Id, 'FaultType', source);
+    model.FaultDescription = this.getItem<string>(
+      source.Id,
+      'FaultDescription',
+      source
+    );
+    model.MaterialItems = this.getItem<MaterialItem[]>(
+      source.Id,
+      'MaterialItems',
+      source
+    );
+    model.MaintenanceTime = this.getItem<Date>(
+      source.Id,
+      'MaintenanceTime',
+      source
+    );
+    model.SceneImageUrls = this.getItem<string[]>(
+      source.Id,
+      'SceneImageUrls',
+      source
+    );
+    model.ConstructionState = this.getItem<number>(
+      source.Id,
+      'ConstructionState',
+      source
+    );
+    model.ConstructionReason = this.getItem<string>(
+      source.Id,
+      'ConstructionReason',
+      source
+    );
+    model.ConstructionApplicationTime = this.getItem<Date>(
+      source.Id,
+      'ConstructionApplicationTime',
+      source
+    );
+    model.ConstructionApprovalReason = this.getItem<string>(
+      source.Id,
+      'ConstructionApprovalReason',
+      source
+    );
+    model.ConstructionApprovalTime = this.getItem<Date>(
+      source.Id,
+      'ConstructionApprovalTime',
+      source
+    );
+    model.CompletionPersonnel = this.getItem<string>(
+      source.Id,
+      'CompletionPersonnel',
+      source
+    );
+    model.CompletionUserId = this.getItem<string>(
+      source.Id,
+      'CompletionUserId',
+      source
+    );
+    model.CompletionTime = this.getItem<Date>(
+      source.Id,
+      'CompletionTime',
+      source
+    );
+    model.OutOfTime = this.getItem<number>(source.Id, 'OutOfTime', source);
+    model.UpdateTime = this.getItem<Date>(source.Id, 'UpdateTime', source);
+    model.ProfileState = this.getItem<number>(
+      source.Id,
+      'ProfileState',
+      source
+    );
+
+    return model;
+  }
+
+  getItem<T>(id: string, key: string, data: PartialData) {
+    return new Promise<T>((get) => {
+      if (data[key] !== undefined) {
+        get(data[key]);
+        return;
       }
-      let value = source[key];
-      let property = await this.service.property.get(key).then((x) => {
-        return this.converter.convert(x);
+      this.service.partialData.get(id, [key]).then((data) => {
+        get(data[key]);
       });
-
-      if (property.IsArray) {
-        source[key + view] = this.fromArray(value, property);
-      } else if (property.isEnum) {
-        source[key + view] = this.fromEnum(value, property.EnumeratedValues!);
-      } else {
-        switch (property.DataType) {
-          case PropertyDataType.DateTime:
-            source[key + view] = this.fromDateTime(value);
-            break;
-          case PropertyDataType.String:
-            source[key + view] = this.fromString(key, value);
-            break;
-          case PropertyDataType.Date:
-            source[key + view] = this.fromDate(value);
-            break;
-          case PropertyDataType.Time:
-            source[key + view] = this.fromTime(value);
-            break;
-          case PropertyDataType.Int32:
-            source[key + view] = this.fromInt32(value);
-            break;
-          case PropertyDataType.Double:
-            source[key + view] = this.fromDouble(value);
-            break;
-          case PropertyDataType.Object:
-            source[key + view] = this.fromObject(value);
-            break;
-          case PropertyDataType.Boolean:
-            source[key + view] = this.fromBoolean(value);
-            break;
-          default:
-            source[key + view] = value;
-            break;
-        }
-      }
-    }
-
-    return source;
-  }
-
-  fromString<T>(key: string, value: T) {
-    if (key.toLowerCase().includes('url')) {
-      return this.fromUrl(value);
-    }
-    return value;
-  }
-  fromDateTime(value: string) {
-    let date = new Date(value);
-    return formatDate(date, 'YYYY-MM-dd HH:mm:ss', 'en');
-  }
-  fromDate<T>(value: T) {
-    return value;
-  }
-  fromTime<T>(value: T) {
-    return value;
-  }
-  fromInt32<T>(value: T) {
-    return value;
-  }
-  fromDouble<T>(value: T) {
-    return value;
-  }
-  fromObject<T>(value: T) {
-    return value;
-  }
-  fromBoolean<T = boolean>(value: T) {
-    return value ? '是' : '否';
-  }
-
-  fromEnum(value: number, enums: ValueNamePair[]) {
-    if (value) {
-      let result = value.toString();
-      let keyvalue = enums.find((x) => x.Value === value);
-      if (keyvalue) {
-        result = keyvalue.Name;
-      }
-      return result;
-    }
-    return '无';
-  }
-
-  fromUrl<T>(value: T) {
-    return value ? `<a>查看</a>` : '无';
-  }
-  fromArray<T>(value: T[], property: PropertyModel) {
-    if (property.isEnum) {
-      return this.fromEnumArray(
-        value as unknown as number[],
-        property.EnumeratedValues!
-      );
-    }
-    return this.fromObjectArray(value);
-  }
-  fromObjectArray<T>(value: T[]) {
-    return `<a>【 ${value.length} 】</a>`;
-  }
-  fromInt32Array<T = number>(value: T[]) {}
-  fromEnumArray(array: number[], enums: ValueNamePair[]) {
-    let result = '';
-
-    let names = array.map((value) => {
-      let pair = enums.find((e) => e.Value === value);
-      return pair!.Name;
     });
-    return names.join(',');
   }
 }

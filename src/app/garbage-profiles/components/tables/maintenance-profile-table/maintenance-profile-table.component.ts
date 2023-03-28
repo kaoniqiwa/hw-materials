@@ -15,10 +15,15 @@ import { ProfilePropertyValueModel } from '../garbage-station-profile-table/garb
 import { PagedTableAbstractComponent } from '../table-paged-abstract.component';
 import { MaintenanceProfileTableConfigBusiness } from './maintenance-profile-table-config.business';
 import { MaintenanceProfileTableBusiness } from './maintenance-profile-table.business';
-import { MaintenanceProfileTableConverter } from './maintenance-profile-table.converter';
+import {
+  MaintenanceProfileTableConverter,
+  MaintenanceProfileTableItemConverter,
+} from './maintenance-profile-table.converter';
 import {
   MaintenanceProfileTableArgs,
   MaintenanceProfileTableDefaultNames,
+  MaintenanceProfileTableItemOption,
+  MaintenanceProfileTableOptions,
 } from './maintenance-profile-table.model';
 
 @Component({
@@ -30,6 +35,7 @@ import {
   ],
   providers: [
     MaintenanceProfileTableConverter,
+    MaintenanceProfileTableItemConverter,
     MaintenanceProfileTableConfigBusiness,
     MaintenanceProfileTableBusiness,
   ],
@@ -45,20 +51,28 @@ export class MaintenanceProfileTableComponent
 
   @Input()
   load?: EventEmitter<MaintenanceProfileTableArgs>;
+  @Input()
+  excel?: EventEmitter<string>;
 
   @Input()
   selected?: PartialData;
   @Output()
   selectedChange: EventEmitter<PartialData> = new EventEmitter();
+
   @Output()
   loaded: EventEmitter<PagedList<IPartialData>> = new EventEmitter();
   @Output()
   check: EventEmitter<IPartialData> = new EventEmitter();
   @Output()
   itemclick: EventEmitter<ProfilePropertyValueModel> = new EventEmitter();
-
-  @Input()
-  excel?: EventEmitter<string>;
+  @Output()
+  details: EventEmitter<PartialData> = new EventEmitter();
+  @Output()
+  approveno: EventEmitter<PartialData> = new EventEmitter();
+  @Output()
+  approveyes: EventEmitter<PartialData> = new EventEmitter();
+  @Output()
+  apply: EventEmitter<PartialData> = new EventEmitter();
 
   constructor(
     business: MaintenanceProfileTableBusiness,
@@ -72,8 +86,9 @@ export class MaintenanceProfileTableComponent
   names: string[] = MaintenanceProfileTableDefaultNames;
 
   properties: Property[] = [];
-
   widths: string[] = [];
+  hover?: PartialData;
+  options = new MaintenanceProfileTableOptions();
 
   ngOnInit(): void {
     this.tosubscribe();
@@ -102,13 +117,25 @@ export class MaintenanceProfileTableComponent
   async loadData(index: number, size: number = this.pageSize) {
     this.loading = true;
     this.selected = undefined;
-
+    this.options = new MaintenanceProfileTableOptions();
     this.business.config.get(this.args.tableIds).then((names) => {
       this.names = names;
+      this.options = {};
       this.business.load(index, size, this.names, this.args).then((paged) => {
         this.page = paged.Page;
         this.datas = paged.Data;
-        this.source.ProfileState;
+
+        this.datas.forEach((item) => {
+          let option = new MaintenanceProfileTableItemOption();
+          option.apply =
+            item['ProfileState'] !== 2 || !!item['ConstructionState'];
+          option.approveyes =
+            item['ProfileState'] === 2 || item['ConstructionState'] === 1;
+          option.approveno =
+            item['ProfileState'] === 2 || item['ConstructionState'] === 1;
+          this.options[item.Id] = option;
+        });
+
         this.loading = false;
       });
     });
@@ -160,5 +187,31 @@ export class MaintenanceProfileTableComponent
         this.itemclick.emit(model);
       }
     }
+  }
+  onmouseover(item: PartialData) {
+    this.hover = item;
+  }
+  onmouseout() {
+    this.hover = undefined;
+  }
+
+  ondetails(e: Event, item: PartialData) {
+    e.stopImmediatePropagation();
+    this.details.emit(item);
+  }
+  onapply(e: Event, item: PartialData, disabled: boolean) {
+    e.stopImmediatePropagation();
+    if (disabled) return;
+    this.apply.emit(item);
+  }
+  onapproveyes(e: Event, item: PartialData, disabled: boolean) {
+    e.stopImmediatePropagation();
+    if (disabled) return;
+    this.approveyes.emit(item);
+  }
+  onapproveno(e: Event, item: PartialData, disabled: boolean) {
+    e.stopImmediatePropagation();
+    if (disabled) return;
+    this.approveno.emit(item);
   }
 }

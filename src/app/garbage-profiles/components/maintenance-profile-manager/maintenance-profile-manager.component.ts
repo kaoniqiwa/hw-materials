@@ -7,7 +7,7 @@ import { UserType } from 'src/app/enum/user-type.enum';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
 import { MaintenanceProfile } from 'src/app/network/entity/maintenance-profile.entity';
 import {
-  IPartialData,
+  PartialData,
   StatePartialData,
 } from 'src/app/network/entity/partial-data.interface';
 import { User } from 'src/app/network/entity/user.model';
@@ -15,6 +15,7 @@ import { MaintenanceProfilesLanguageTools } from '../../tools/maintenance-profil
 import { MaintenanceProfilesSourceTools } from '../../tools/maintenance-profile-source.tool';
 import { ProfilePropertyValueModel } from '../tables/garbage-station-profile-table/garbage-station-profile-table.model';
 import { MaintenanceProfileTableArgs } from '../tables/maintenance-profile-table/maintenance-profile-table.model';
+import { MaintenanceProfileManagerConstructionBusiness } from './maintenance-profile-manager-construction.business';
 import { MaintenanceProfileManagerBusiness } from './maintenance-profile-manager.business';
 import {
   MaintenanceProfileAuthority,
@@ -25,7 +26,10 @@ import {
   selector: 'maintenance-profile-manager',
   templateUrl: './maintenance-profile-manager.component.html',
   styleUrls: ['./maintenance-profile-manager.component.less'],
-  providers: [MaintenanceProfileManagerBusiness],
+  providers: [
+    MaintenanceProfileManagerConstructionBusiness,
+    MaintenanceProfileManagerBusiness,
+  ],
 })
 export class MaintenanceProfileManagerComponent implements OnInit {
   @Input()
@@ -101,7 +105,7 @@ export class MaintenanceProfileManagerComponent implements OnInit {
     });
   }
 
-  async onselected(item?: IPartialData) {
+  async onselected(item?: PartialData) {
     if (!item) {
       this.selected = undefined;
       return;
@@ -113,6 +117,9 @@ export class MaintenanceProfileManagerComponent implements OnInit {
       let data = await this.business.get(this.selected.Id);
       if (data && 'ProfileState' in data) {
         this.selected.ProfileState = data['ProfileState'];
+      }
+      if (data && 'ConstructionState' in data) {
+        this.selected.ConstructionState = data['ConstructionState'];
       }
     }
     this.authority = this.getauthority(
@@ -177,12 +184,10 @@ export class MaintenanceProfileManagerComponent implements OnInit {
     this.window.details.data = undefined;
     this.window.details.show = true;
   }
-  tomodify() {
-    if (this.selected) {
-      let plain = instanceToPlain(this.selected);
-      this.window.details.data = plainToInstance(MaintenanceProfile, plain);
-      this.window.details.show = true;
-    }
+  todetails(item: PartialData) {
+    let plain = instanceToPlain(item);
+    this.window.details.data = plainToInstance(MaintenanceProfile, plain);
+    this.window.details.show = true;
   }
   ondetailsok() {
     this.load.emit(this.args);
@@ -194,5 +199,67 @@ export class MaintenanceProfileManagerComponent implements OnInit {
   onfilter(args: MaintenanceProfileTableArgs) {
     this.load.emit(args);
     this.onwindowclose();
+  }
+
+  toconstruction() {
+    if (this.selected) {
+      this.window.construction.state = this.selected.ConstructionState;
+      if (this.selected.ConstructionState === 1) {
+        this.window.construction.approve.id = this.selected.Id;
+        this.window.construction.approve.show = true;
+      } else {
+        this.window.construction.apply.id = this.selected.Id;
+        this.window.construction.apply.show = true;
+      }
+    }
+  }
+  toapply(item: PartialData) {
+    this.window.construction.apply.id = item.Id;
+    this.window.construction.apply.show = true;
+  }
+  toapprove(item: PartialData, agree: boolean) {
+    this.window.construction.approve.id = item.Id;
+    this.window.construction.approve.params.ApproveOrNot = agree;
+    this.window.construction.approve.show = true;
+  }
+
+  onconstruction() {
+    if (this.selected) {
+      switch (this.selected.ConstructionState) {
+        case 1:
+          this.business.construction
+            .approve(
+              this.window.construction.approve.id,
+              this.window.construction.approve.params
+            )
+            .then((x) => {
+              this.load.emit(this.args);
+              this.toastr.success('操作成功');
+              this.onwindowclose();
+            })
+            .catch((x) => {
+              this.toastr.error('操作失败');
+              console.error(x);
+            });
+          break;
+
+        default:
+          this.business.construction
+            .apply(
+              this.window.construction.apply.id,
+              this.window.construction.apply.params
+            )
+            .then((x) => {
+              this.load.emit(this.args);
+              this.toastr.success('操作成功');
+              this.onwindowclose();
+            })
+            .catch((x) => {
+              this.toastr.error('操作失败');
+              console.error(x);
+            });
+          break;
+      }
+    }
   }
 }
