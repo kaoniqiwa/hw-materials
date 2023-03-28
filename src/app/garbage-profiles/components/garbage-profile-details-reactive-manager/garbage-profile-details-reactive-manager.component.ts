@@ -2,8 +2,10 @@ import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import {
   ChangeDetectorRef,
   Component,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
   QueryList,
   TemplateRef,
   ViewChild,
@@ -15,6 +17,7 @@ import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { ViewMode } from 'src/app/enum/view-mode.enum';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
+import { PartialData } from 'src/app/network/entity/partial-data.interface';
 import { ValueNamePair } from 'src/app/network/entity/value-name-pair.entity';
 import { GarbageStationProfilesSourceTools } from '../../tools/garbage-station-profile-source.tool';
 import { GarbageProfileDetailsReactiveManagerBusiness } from './garbage-profile-details-reactive-manager.business';
@@ -38,6 +41,13 @@ export class GarbageProfileDetailsReactiveManagerComponent implements OnInit {
   set selectedIndex(index: number) {
     this._selectedIndex = index;
   }
+
+  @Output() closeDetails = new EventEmitter();
+  @Output() updateDetails = new EventEmitter();
+
+  @Output()
+  recordEvent = new EventEmitter<PartialData>();
+
   @ViewChild('stepperTemp', { static: true }) stepperTemp!: TemplateRef<any>;
   @ViewChild('tabTemp', { static: true }) tabTemp!: TemplateRef<any>;
   @ViewChild('expansionTemp', { static: true })
@@ -74,9 +84,9 @@ export class GarbageProfileDetailsReactiveManagerComponent implements OnInit {
   }
   private async _init() {
     await this._updateState();
-    // if (this.profileState == this.maxProfileState) {
-    //   this.viewMode = ViewMode.Expansion;
-    // }
+    if (this.profileState == this.maxProfileState) {
+      this.viewMode = ViewMode.Expansion;
+    }
     switch (this.viewMode) {
       case ViewMode.Stepper:
         this.templateExpression = this.stepperTemp;
@@ -99,14 +109,28 @@ export class GarbageProfileDetailsReactiveManagerComponent implements OnInit {
   opened(index: number) {
     this.selectedIndex = index;
   }
-  nextEvent() {
+  async nextEvent(id?: string) {
+    if (id) {
+      this.formId = id;
+    }
+
+    this.formState = FormState.edit;
+    await this._updateState();
+
     this.selectedIndex = Math.min(
       this.selectedIndex + 1,
       this.maxProfileState - 1
     );
   }
-  closeEvent() {}
-  previousEvent() {}
+  closeEvent() {
+    this.closeDetails.emit();
+  }
+  previousEvent() {
+    this.selectedIndex = Math.max(this.selectedIndex - 1, 0);
+  }
+  clickRecord(data: PartialData) {
+    this.recordEvent.emit(data);
+  }
   private async _updateState() {
     if (this.formId) {
       this.model = await this._business.getModel(this.formId);

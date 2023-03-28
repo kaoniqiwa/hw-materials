@@ -14,16 +14,13 @@ import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tool
 import { Camera } from 'src/app/network/entity/camera.entity';
 import { GPSPoint } from 'src/app/network/entity/gps-point.entity';
 import { GarbageProfileDetailsDynamicForm } from '../garbage-profile-details-dynamic/garbage-profile-details-dynamic.component';
-import { _GarbageProfileDetailsFormsBase } from '../garbage-profile-details-forms.common';
+import { _GarbageProfileDetailsFormsBase } from '../garbage-profile-details-form/garbage-profile-details-forms.common';
 import { GarbageProfileDetailsForm4Business } from './garbage-profile-details-form4.business';
 
 @Component({
   selector: 'garbage-profile-details-form4',
   templateUrl: './garbage-profile-details-form4.component.html',
-  styleUrls: [
-    './garbage-profile-details-form4.component.less',
-    '../garbage-profile-details.less',
-  ],
+  styleUrls: ['./garbage-profile-details-form4.component.less'],
   providers: [GarbageProfileDetailsForm4Business],
 })
 export class GarbageProfileDetailsForm4

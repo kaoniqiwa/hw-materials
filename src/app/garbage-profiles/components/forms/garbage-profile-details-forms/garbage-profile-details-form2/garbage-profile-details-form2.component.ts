@@ -24,16 +24,13 @@ import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tool
 import { MaterialItem } from 'src/app/network/entity/material-item.enitty';
 import { PartialData } from 'src/app/network/entity/partial-data.interface';
 import { PutOutMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
-import { _GarbageProfileDetailsFormsBase } from '../garbage-profile-details-forms.common';
+import { _GarbageProfileDetailsFormsBase } from '../garbage-profile-details-form/garbage-profile-details-forms.common';
 import { GarbageProfileDetailsForm2Business } from './garbage-profile-details-form2.business';
 
 @Component({
   selector: 'garbage-profile-details-form2',
   templateUrl: './garbage-profile-details-form2.component.html',
-  styleUrls: [
-    './garbage-profile-details-form2.component.less',
-    '../garbage-profile-details.less',
-  ],
+  styleUrls: ['./garbage-profile-details-form2.component.less'],
   providers: [GarbageProfileDetailsForm2Business],
 })
 export class GarbageProfileDetailsForm2

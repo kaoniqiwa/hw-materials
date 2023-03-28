@@ -5,7 +5,7 @@ import { GetPartialDatasParams } from 'src/app/network/request/garbage-profiles/
 import { GarbageStationProfilesRequestService } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
 
 @Injectable()
-export class ProfileDetailsBusiness {
+export class GarbageProfileDetailsBusiness {
   constructor(
     private _garbageStationProfilesRequest: GarbageStationProfilesRequestService
   ) {}

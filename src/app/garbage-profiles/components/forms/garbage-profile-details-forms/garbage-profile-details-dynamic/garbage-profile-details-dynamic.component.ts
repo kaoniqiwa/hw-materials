@@ -20,7 +20,6 @@ import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/to
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/garbage-station-profile-source.tool';
 import { Camera } from 'src/app/network/entity/camera.entity';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
-import { FormMode } from '../garbage-profile-details-forms.common';
 import { GarbageProfileDetailsDynamicBusiness } from './garbage-profile-details-dynamic.business';
 
 @Component({
@@ -39,8 +38,6 @@ export class GarbageProfileDetailsDynamicForm implements OnInit, OnChanges {
   @Input() stepIndex = 0;
 
   @Input() cameras: Camera[] = [];
-
-  formMode = FormMode.ByPartial;
 
   private model: GarbageStationProfile | null = null;
   placementOptions: HowellTouchSpinOptions = new HowellTouchSpinOptions();

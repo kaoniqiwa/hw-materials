@@ -5,7 +5,7 @@ import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-pr
 import { GetGarbageProfilesBasicDivisionsParams } from 'src/app/network/request/garbage-profiles/basics/garbage-profiles-basics.params';
 import { GarbageProfilesBasicRequestService } from 'src/app/network/request/garbage-profiles/basics/garbage-profiles-basics.service';
 import { GarbageStationProfilesRequestService } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
-import { GarbageProfileDetailFormsBusiness } from '../garbage-profile-details-forms.business';
+import { GarbageProfileDetailFormsBusiness } from '../garbage-profile-details-form/garbage-profile-details-forms.business';
 const NULL_KEY = 'null';
 
 @Injectable()

@@ -13,15 +13,16 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { FormControlStatus } from '@angular/forms';
+import { MatAccordion } from '@angular/material/expansion';
 import { MatStepper } from '@angular/material/stepper';
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { ViewMode } from 'src/app/enum/view-mode.enum';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { PartialData } from 'src/app/network/entity/partial-data.interface';
 import { ValueNamePair } from 'src/app/network/entity/value-name-pair.entity';
 import { GarbageStationProfilesSourceTools } from '../../tools/garbage-station-profile-source.tool';
-import { ProfileDetailsBusiness } from './garbage-profile-details-manager.business';
+import { GarbageProfileDetailsBusiness } from './garbage-profile-details-manager.business';
 
 @Component({
   selector: 'garbage-profile-details-manager',
@@ -29,14 +30,12 @@ import { ProfileDetailsBusiness } from './garbage-profile-details-manager.busine
   styleUrls: ['./garbage-profile-details-manager.component.less'],
   providers: [
     {
-      provide: ProfileDetailsBusiness,
-      useClass: ProfileDetailsBusiness,
+      provide: GarbageProfileDetailsBusiness,
+      useClass: GarbageProfileDetailsBusiness,
     },
   ],
 })
-export class GarbageProfileDetailsManagerComponent
-  implements OnInit, AfterViewInit
-{
+export class GarbageProfileDetailsManagerComponent implements OnInit {
   @Input()
   formId?: string;
 
@@ -62,26 +61,26 @@ export class GarbageProfileDetailsManagerComponent
   @ViewChild('tabTemp', { static: true }) tabTemp!: TemplateRef<any>;
   @ViewChild('expansionTemp', { static: true })
   expansionTemp!: TemplateRef<any>;
-  @ViewChild(MatStepper) matStepper!: MatStepper;
   @ViewChildren('step') stepList?: QueryList<TemplateRef<any>>;
+  @ViewChild(MatStepper) matStepper!: MatStepper;
+  @ViewChild(MatTabGroup) matTabGroup!: MatTabGroup;
+  @ViewChild(MatAccordion) matAccordion!: MatAccordion;
 
+  viewMode = ViewMode.Stepper;
   profileState = 0;
   maxProfileState = 6;
   labelData: Array<ValueNamePair> = this.sourceTool['ProfileState'];
-
   completedArr: boolean[] = [];
-
   model: GarbageStationProfile | null = null;
   templateExpression: TemplateRef<any> | null = null;
-  viewMode = ViewMode.Stepper;
-
+  templateController: MatStepper | MatTabGroup | null = null;
   getTemplate(index: number) {
     return this.stepList ? this.stepList.get(index) ?? null : null;
   }
   constructor(
     private sourceTool: GarbageStationProfilesSourceTools,
     private _changeDetector: ChangeDetectorRef,
-    private _business: ProfileDetailsBusiness
+    private _business: GarbageProfileDetailsBusiness
   ) {
     this.labelData = this.labelData.filter(
       (data) => data.Value <= this.maxProfileState
@@ -111,7 +110,7 @@ export class GarbageProfileDetailsManagerComponent
         break;
     }
   }
-  ngAfterViewInit(): void {}
+
   selectStepperChange(e: StepperSelectionEvent) {
     this.selectedIndex = e.selectedIndex;
   }
@@ -120,9 +119,6 @@ export class GarbageProfileDetailsManagerComponent
   }
   opened(index: number) {
     this.selectedIndex = index;
-  }
-  closed(index: number) {
-    // this.selectedIndex = -1;
   }
 
   closeEvent() {
@@ -135,11 +131,14 @@ export class GarbageProfileDetailsManagerComponent
     this.formState = FormState.edit;
     await this._updateState();
 
-    this.matStepper?.next();
+    this.selectedIndex = Math.min(
+      this.selectedIndex + 1,
+      this.maxProfileState - 1
+    );
   }
 
   previousEvent() {
-    this.matStepper?.previous();
+    this.selectedIndex = Math.max(this.selectedIndex - 1, 0);
   }
   clickRecord(data: PartialData) {
     this.recordEvent.emit(data);

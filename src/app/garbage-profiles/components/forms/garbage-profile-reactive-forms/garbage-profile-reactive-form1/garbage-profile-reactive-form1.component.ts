@@ -32,6 +32,7 @@ import { GarbageProfileReactiveForm1Business } from './garbage-profile-reactive-
 import { PartialRequest } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { PartialResult } from 'src/app/network/entity/partial-result.entity';
+import { Modification } from '../../../../../common/components/modification-confirm/modification-confirm.model';
 
 @Component({
   selector: 'garbage-profile-reactive-form1',
@@ -40,6 +41,8 @@ import { PartialResult } from 'src/app/network/entity/partial-result.entity';
   providers: [GarbageProfileReactiveForm1Business],
 })
 export class GarbageProfileReactiveForm1Component implements OnInit {
+  DivisionLevel = DivisionLevel;
+
   @Input()
   formId?: string;
 
@@ -62,10 +65,8 @@ export class GarbageProfileReactiveForm1Component implements OnInit {
   willBeUpdated = false;
   hasBeenModified = false;
   showModify = false;
-
   clickMode = '';
 
-  DivisionLevel = DivisionLevel;
   model: GarbageStationProfile | null = null;
 
   private defaultProvince = '江苏省';
@@ -109,10 +110,10 @@ export class GarbageProfileReactiveForm1Component implements OnInit {
   constructor(
     public sourceTool: GarbageStationProfilesSourceTools,
     public languageTool: GarbageStationProfilesLanguageTools,
-    private _business: GarbageProfileReactiveForm1Business,
     private _toastrService: ToastrService,
-    private _divisionUtil: DivisionUtil,
-    private _changeDetector: ChangeDetectorRef
+    private _changeDetector: ChangeDetectorRef,
+    private _business: GarbageProfileReactiveForm1Business,
+    private _divisionUtil: DivisionUtil
   ) {
     this.filteredOption = this.Committee.valueChanges.pipe(
       startWith(''),
@@ -131,16 +132,17 @@ export class GarbageProfileReactiveForm1Component implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('profileState', this.profileState);
-    console.log('formState', this.formState);
-
     this._init();
     this._divisionUtil.getChildDivisionListByName(this.divisionSource);
   }
-
-  clickCreate() {
-    this.close.emit();
+  async clickCreate() {
+    let res = await this._createModel();
+    if (res) {
+      this._toastrService.success('创建成功');
+      this.close.emit();
+    }
   }
+
   clickPrev() {
     this.previous.emit();
   }
@@ -148,7 +150,7 @@ export class GarbageProfileReactiveForm1Component implements OnInit {
     this.clickMode = 'save';
     let res: GarbageStationProfile | null | PartialResult<any> = null;
     if (this.formState == FormState.add) {
-      res = await this.createModel();
+      res = await this._createModel();
       if (res) {
         this._toastrService.success('操作成功');
         this.close.emit();
@@ -176,11 +178,56 @@ export class GarbageProfileReactiveForm1Component implements OnInit {
       }
     }
   }
-  clickNext() {
-    console.log(this.formGroup.value);
-    this._checkForm();
+  async clickNext() {
+    this.clickMode = 'next';
+    let res: GarbageStationProfile | null | PartialResult<any> | -1 = null;
 
-    // this.next.emit();
+    if (this.formState == FormState.add) {
+      res = await this._createModel();
+      if (res) {
+        this._toastrService.success('操作成功');
+        this.next.emit(res.Id);
+      }
+    } else if (this.formState == FormState.edit) {
+      if (this._updatePartialData()) {
+        if (this.willBeUpdated) {
+          if (this.hasBeenModified) {
+            this.showModify = true;
+          } else {
+            let res = await this._business.updatePartial(this.partialRequest);
+
+            console.log(res);
+            if (res.Succeed) {
+              this._toastrService.success('操作成功');
+
+              this.next.emit(res.Id);
+            } else {
+              this.partialData!['ProfileState'] = this.profileState;
+              this._toastrService.error('操作失败');
+            }
+          }
+        } else {
+          // this._toastrService.success('无数据更新');
+          this.next.emit(this.formId);
+        }
+      }
+    }
+  }
+  async clickConfirm(modification: Modification) {
+    this.partialRequest.ModificationReason = modification.reason;
+    this.partialRequest.ModificationContent = modification.content;
+    let res = await this._business.updatePartial(this.partialRequest);
+    console.log(res);
+    if (res.Succeed) {
+      this._toastrService.success('操作成功');
+      if (this.clickMode == 'save') {
+        this.close.emit();
+      } else if ((this.clickMode = 'next')) {
+        this.next.emit(res.Id);
+      }
+    } else {
+      this._toastrService.error('操作失败');
+    }
   }
 
   selectTreeNode(nodes: CommonFlatNode[]) {
@@ -218,7 +265,7 @@ export class GarbageProfileReactiveForm1Component implements OnInit {
     // console.log(this.properties);
 
     this.partialData = await this._getPartialData(this.properties);
-    console.log(this.partialData);
+    // console.log('partialData', this.partialData);
 
     this._updateForm();
   }
@@ -229,7 +276,7 @@ export class GarbageProfileReactiveForm1Component implements OnInit {
     }
     return null;
   }
-  private async createModel() {
+  private async _createModel() {
     if (this._checkForm()) {
       if (!this.model) {
         this.model = new GarbageStationProfile();
@@ -272,7 +319,7 @@ export class GarbageProfileReactiveForm1Component implements OnInit {
           this.partialRequest.ModificationReason = '';
           this.partialRequest.ModificationContent = '';
 
-          let oldData = this.partialData;
+          let oldData = _.cloneDeep(this.partialData);
           let newData = _.cloneDeep(this.formGroup.value);
 
           for (let [key, value] of Object.entries(newData)) {
@@ -374,9 +421,29 @@ export class GarbageProfileReactiveForm1Component implements OnInit {
     }
   }
   private _checkForm() {
-    console.log(this.formGroup.status);
-
     if (this.formGroup.invalid) {
+      for (let [key, control] of Object.entries(this.formGroup.controls)) {
+        if (control.invalid) {
+          if ('required' in control.errors!) {
+            this._toastrService.warning(this.languageTool[key] + '为必选项');
+            break;
+          }
+          if ('maxlength' in control.errors!) {
+            this._toastrService.warning(this.languageTool[key] + '长度不对');
+            break;
+          }
+          if ('pattern' in control.errors!) {
+            this._toastrService.warning(this.languageTool[key] + '格式不对');
+            break;
+          }
+          if ('identityRevealed' in control.errors!) {
+            this._toastrService.warning(
+              this.languageTool[key] + '至少选择一项'
+            );
+            break;
+          }
+        }
+      }
       return false;
     }
 

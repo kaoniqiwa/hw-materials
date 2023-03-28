@@ -1,1 +1,42 @@
-<p>garbage-profile-reactive-form5 works!</p>
+<div class="details-form">
+  <div class="inner-form">
+    <garbage-profile-details-dynamic
+      [formId]="formId"
+      [state]="formState"
+      [stepIndex]="stepIndex"
+      [cameras]="cameras"
+    ></garbage-profile-details-dynamic>
+  </div>
+  <div class="hw-middle-btn-group">
+    <button
+      class="hw-blue-btn"
+      type="button"
+      (click)="clickPrev()"
+      *ngIf="profileState != profileState"
+    >
+      <i class="howell-icon-arrowleftbold"></i> 上一步
+    </button>
+    <button
+      class="hw-green-btn"
+      type="button"
+      *ngIf="formState == FormState.edit"
+      (click)="clickSave()"
+    >
+      <i class="howell-icon-save"></i> 保存
+    </button>
+    <button
+      class="hw-blue-btn"
+      type="button"
+      (click)="clickNext()"
+      *ngIf="profileState != profileState"
+    >
+      下一步 <i class="howell-icon-arrowrightbold"></i>
+    </button>
+  </div>
+</div>
+<toast-window *ngIf="showModify" (closeEvent)="showModify = false">
+  <modification-confirm
+    (confirm)="clickConfirm($event)"
+    (cancel)="showModify = false"
+  ></modification-confirm>
+</toast-window>

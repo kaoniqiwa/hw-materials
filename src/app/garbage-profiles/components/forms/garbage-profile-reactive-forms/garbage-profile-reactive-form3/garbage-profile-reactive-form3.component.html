@@ -1,1 +1,76 @@
-<p>garbage-profile-reactive-form3 works!</p>
+<div class="details-form">
+  <form [formGroup]="formGroup" class="hw-form" #ngForm="ngForm">
+    <div class="hw-form-group" style="flex-basis: 100%">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["ConstructionContact"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="ConstructionContact" />
+      </div>
+    </div>
+    <div class="hw-form-group" style="flex-basis: 100%">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["ConstructionContactPhoneNo"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <input
+          type="number"
+          formControlName="ConstructionContactPhoneNo"
+          (keydown)="down($event)"
+        />
+      </div>
+    </div>
+    <div class="hw-form-group" style="flex-basis: 100%">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["ConstructionDate"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <input
+          type="text"
+          readonly
+          DateTimePicker
+          [format]="'yyyy年MM月dd日'"
+          [startView]="DateTimePickerView.month"
+          [minView]="DateTimePickerView.month"
+          [(date)]="ngForm.value.ConstructionDate"
+        />
+      </div>
+    </div>
+  </form>
+  <div class="hw-middle-btn-group">
+    <button
+      class="hw-blue-btn"
+      type="button"
+      (click)="clickPrev()"
+      *ngIf="profileState != maxProfileState"
+    >
+      <i class="howell-icon-arrowleftbold"></i> 上一步
+    </button>
+    <button class="hw-green-btn" type="button" (click)="clickSave()">
+      <i class="howell-icon-save"></i> 保存
+    </button>
+    <button
+      class="hw-blue-btn"
+      type="button"
+      (click)="clickNext()"
+      *ngIf="profileState != maxProfileState"
+    >
+      下一步 <i class="howell-icon-arrowrightbold"></i>
+    </button>
+  </div>
+</div>
+<toast-window *ngIf="showModify" (closeEvent)="showModify = false">
+  <modification-confirm
+    (confirm)="clickConfirm($event)"
+    (cancel)="showModify = false"
+  ></modification-confirm>
+</toast-window>

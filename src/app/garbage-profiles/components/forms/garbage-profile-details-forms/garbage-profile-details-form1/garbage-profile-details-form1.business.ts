@@ -3,7 +3,7 @@ import { Division } from 'src/app/network/entity/division.entity';
 import { GetGarbageProfilesBasicDivisionsParams } from 'src/app/network/request/garbage-profiles/basics/garbage-profiles-basics.params';
 import { GarbageProfilesBasicRequestService } from 'src/app/network/request/garbage-profiles/basics/garbage-profiles-basics.service';
 import { GarbageStationProfilesRequestService } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.service';
-import { GarbageProfileDetailFormsBusiness } from '../garbage-profile-details-forms.business';
+import { GarbageProfileDetailFormsBusiness } from '../garbage-profile-details-form/garbage-profile-details-forms.business';
 import { DivisionSearchInfo } from './garbage-profile-details-form1.model';
 const NULL_KEY = 'null';
 

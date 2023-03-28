@@ -13,7 +13,7 @@ import { Property } from 'src/app/network/entity/property.entity';
 import { PartialRequest } from 'src/app/network/request/garbage-profiles/garbage-station-profiles/garbage-station-profiles.params';
 import { GarbageProfileDetailFormsBusiness } from './garbage-profile-details-forms.business';
 import { PropertySearchInfo } from './garbage-profile-details.model';
-import { Modification } from './modification-confirm/modification-confirm.model';
+import { Modification } from 'src/app/common/components/modification-confirm/modification-confirm.model';
 
 export enum FormMode {
   ByModel,

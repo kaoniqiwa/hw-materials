@@ -6,7 +6,7 @@ import { GarbageStationProfilesLanguageTools } from 'src/app/garbage-profiles/to
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/garbage-station-profile-source.tool';
 import { Camera } from 'src/app/network/entity/camera.entity';
 import { GarbageProfileDetailsDynamicForm } from '../garbage-profile-details-dynamic/garbage-profile-details-dynamic.component';
-import { _GarbageProfileDetailsFormsBase } from '../garbage-profile-details-forms.common';
+import { _GarbageProfileDetailsFormsBase } from '../garbage-profile-details-form/garbage-profile-details-forms.common';
 import { GarbageProfileDetailsForm5Business } from './garbage-profile-details-form5.business';
 
 @Component({
@@ -14,7 +14,6 @@ import { GarbageProfileDetailsForm5Business } from './garbage-profile-details-fo
   templateUrl: './garbage-profile-details-form5.component.html',
   styleUrls: [
     './garbage-profile-details-form5.component.less',
-    '../garbage-profile-details.less',
   ],
   providers: [GarbageProfileDetailsForm5Business],
 })
