@@ -17,9 +17,7 @@ import { GarbageProfileDetailsForm6Business } from './garbage-profile-details-fo
 @Component({
   selector: 'garbage-profile-details-form6',
   templateUrl: './garbage-profile-details-form6.component.html',
-  styleUrls: [
-    './garbage-profile-details-form6.component.less',
-  ],
+  styleUrls: ['./garbage-profile-details-form6.component.less'],
   providers: [GarbageProfileDetailsForm6Business],
 })
 export class GarbageProfileDetailsForm6
@@ -145,27 +143,27 @@ export class GarbageProfileDetailsForm6
   }
 
   override checkForm() {
-    if (this.formGroup.get('BsStationId')?.invalid) {
-      this._toastrService.warning('业务平台厢房ID不能为空');
+    if (this.formGroup.invalid) {
+      if (this.formGroup.get('BsStationId')?.invalid) {
+        this._toastrService.warning('业务平台厢房ID不能为空');
 
-      return false;
-    }
-    this.validateCamera();
-    return true;
-  }
-
-  validateCamera() {
-    if (this.Cameras.invalid) {
-      for (let i = 0; i < this.Cameras.length; i++) {
-        let group = this.Cameras.at(i) as FormGroup;
-        if (group.invalid) {
-          for (let [key, control] of Object.entries(group.controls)) {
-            if (control.invalid) {
-              this._toastrService.warning(`摄像机${i + 1}信息无效`);
-              return false;
+        return false;
+      }
+      if (this.Cameras.invalid) {
+        for (let i = 0; i < this.Cameras.length; i++) {
+          let group = this.Cameras.at(i) as FormGroup;
+          if (group.invalid) {
+            for (let [key, control] of Object.entries(group.controls)) {
+              if (control.invalid) {
+                this._toastrService.warning(`摄像机${i + 1} 信息无效`);
+                break;
+              }
             }
+            break;
           }
         }
+
+        return false;
       }
     }
     return true;

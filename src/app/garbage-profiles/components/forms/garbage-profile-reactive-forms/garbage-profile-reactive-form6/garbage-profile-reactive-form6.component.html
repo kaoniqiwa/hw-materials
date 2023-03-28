@@ -1,1 +1,87 @@
-<p>garbage-profile-reactive-form6 works!</p>
+<div class="details-form">
+  <form class="hw-form" [formGroup]="formGroup">
+    <div class="hw-form-group" style="flex-basis: 100%">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["BsStationId"] }}
+        </span>
+        <span class="hw-form-icon">*</span>
+      </div>
+      <div class="content">
+        <input type="text" formControlName="BsStationId" />
+      </div>
+    </div>
+    <div class="hw-form-group" style="flex-basis: 100%">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["Cameras"] }}
+        </span>
+      </div>
+      <div class="content">
+        <div class="btn-bar">
+          <div
+            class="btn-item"
+            [class.active]="i == currentIndex"
+            (click)="currentIndex = i"
+            *ngFor="let camera of Cameras.controls; let i = index"
+          >
+            <span> 摄像机 {{ i + 1 }}</span>
+          </div>
+        </div>
+        <div formArrayName="Cameras" class="group-wrapper">
+          <div *ngFor="let camera of Cameras.controls; let i = index">
+            <form
+              class="hw-form"
+              [formGroupName]="i"
+              *ngIf="i == currentIndex"
+              #ngForm="ngForm"
+            >
+              <div class="hw-form-group">
+                <div class="title">
+                  <span class="hw-form-label">
+                    {{ languageTool["Name"] }}
+                  </span>
+                  <span class="hw-form-icon">*</span>
+                </div>
+                <div class="content">
+                  <input type="text" formControlName="Name" />
+                </div>
+              </div>
+              <div class="hw-form-group">
+                <div class="title">
+                  <span class="hw-form-label">
+                    {{ languageTool["BsCameraId"] }}
+                  </span>
+                  <span class="hw-form-icon">*</span>
+                </div>
+                <div class="content">
+                  <input type="text" formControlName="BsCameraId" />
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="hw-middle-btn-group">
+    <button
+      class="hw-blue-btn"
+      type="button"
+      (click)="clickPrev()"
+      *ngIf="profileState != maxProfileState"
+    >
+      <i class="howell-icon-arrowleftbold"></i> 上一步
+    </button>
+    <button class="hw-green-btn" type="button" (click)="clickSave()">
+      <i class="howell-icon-save"></i> 保存
+    </button>
+  </div>
+</div>
+
+<toast-window *ngIf="showModify" (closeEvent)="showModify = false">
+  <modification-confirm
+    (confirm)="clickConfirm($event)"
+    (cancel)="showModify = false"
+  ></modification-confirm>
+</toast-window>

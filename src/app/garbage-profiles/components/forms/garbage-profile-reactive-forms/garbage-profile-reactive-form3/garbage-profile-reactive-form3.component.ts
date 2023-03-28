@@ -188,10 +188,10 @@ export class GarbageProfileReactiveForm3Component {
     ]);
 
     this.properties.push(...extra.flat());
-    console.log(this.properties);
+    // console.log(this.properties);
 
     this.partialData = await this._getPartialData(this.properties);
-    console.log(this.partialData);
+    // console.log(this.partialData);
 
     this._updateForm();
   }

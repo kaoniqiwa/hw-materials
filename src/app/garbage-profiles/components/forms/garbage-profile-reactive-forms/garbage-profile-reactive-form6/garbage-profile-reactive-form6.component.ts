@@ -49,7 +49,7 @@ export class GarbageProfileReactiveForm6Component {
   @Output() next = new EventEmitter();
   @Output() previous = new EventEmitter();
 
-  stepIndex = 1;
+  stepIndex = 5;
   profileState = 0;
   FormState = FormState;
   properties: Property[] = [];
@@ -89,68 +89,27 @@ export class GarbageProfileReactiveForm6Component {
   }
   async clickSave() {
     this.clickMode = 'save';
-    let res: GarbageStationProfile | null | PartialResult<any> = null;
-    if (this.formState == FormState.add) {
-      // res = await this.createModel();
-      // if (res) {
-      //   this._toastrService.success('操作成功');
-      //   this.close.emit();
-      // }
-    } else if (this.formState == FormState.edit) {
-      if (this._updatePartialData()) {
-        if (this.willBeUpdated) {
-          if (this.hasBeenModified) {
-            this.showModify = true;
-          } else {
-            let res = await this._business.updatePartial(this.partialRequest);
-            console.log(res);
-            if (res.Succeed) {
-              this._toastrService.success('操作成功');
-              this.close.emit();
-            } else {
-              this.partialData!['ProfileState'] = this.profileState;
-              this._toastrService.success('操作失败');
-            }
-          }
+    if (this._updatePartialData()) {
+      if (this.willBeUpdated) {
+        if (this.hasBeenModified) {
+          this.showModify = true;
         } else {
-          this._toastrService.success('无数据更新');
-          this.close.emit();
-        }
-      }
-    }
-  }
-  async clickNext() {
-    this.clickMode = 'next';
-    let res: GarbageStationProfile | null | PartialResult<any> | -1 = null;
-
-    if (this.formState == FormState.add) {
-      // res = await this.createModel();
-      // if (res) {
-      //   this._toastrService.success('操作成功');
-      //   this.next.emit(res.Id);
-      // }
-    } else if (this.formState == FormState.edit) {
-      if (this._updatePartialData()) {
-        if (this.willBeUpdated) {
-          if (this.hasBeenModified) {
-            this.showModify = true;
+          // 创建档案，注意 profileState +1 问题
+          let res = await this._business.updatePartial(this.partialRequest);
+          console.log(res);
+          if (res.Succeed) {
+            this._toastrService.success('操作成功');
+            this.close.emit();
           } else {
-            let res = await this._business.updatePartial(this.partialRequest);
-
-            console.log(res);
-            if (res.Succeed) {
-              this._toastrService.success('操作成功');
-
-              this.next.emit(res.Id);
-            } else {
-              this.partialData!['ProfileState'] = this.profileState;
-              this._toastrService.error('操作失败');
-            }
+            // 提交前更新了ProfileState,提交失败重置原始值
+            if (this.partialData)
+              this.partialData['ProfileState'] = this.profileState;
+            this._toastrService.success('操作失败');
           }
-        } else {
-          // this._toastrService.success('无数据更新');
-          this.next.emit(this.formId);
         }
+      } else {
+        this._toastrService.success('无数据更新');
+        this.close.emit();
       }
     }
   }
@@ -176,7 +135,13 @@ export class GarbageProfileReactiveForm6Component {
   }
   newCamera() {
     return new FormGroup<{ [key: string]: AbstractControl }>({
-      Name: new FormControl(null, Validators.required),
+      Name: new FormControl(
+        {
+          value: null,
+          disabled: true,
+        },
+        Validators.required
+      ),
       Model: new FormControl(null),
       SerialNo: new FormControl(null),
       Placement: new FormControl(null),
@@ -219,7 +184,7 @@ export class GarbageProfileReactiveForm6Component {
     ]);
 
     this.properties.push(...extra.flat());
-    console.log(this.properties);
+    // console.log(this.properties);
 
     this.partialData = await this._getPartialData(this.properties);
     console.log(this.partialData);
@@ -245,7 +210,9 @@ export class GarbageProfileReactiveForm6Component {
           this.willBeUpdated = true;
           this.hasBeenModified = false;
 
-          let newData = _.cloneDeep(this.formGroup.value);
+          //  包含disabled控件
+          let newData = _.cloneDeep(this.formGroup.getRawValue());
+
           for (let [key, value] of Object.entries(newData)) {
             if (value != void 0 && value !== '' && value !== null) {
               Reflect.set(this.partialData, key, value);
@@ -258,9 +225,34 @@ export class GarbageProfileReactiveForm6Component {
           this.partialRequest.ModificationContent = '';
 
           let oldData = _.cloneDeep(this.partialData);
-          let newData = _.cloneDeep(this.formGroup.value);
+          let newData = _.cloneDeep(this.formGroup.getRawValue());
 
           for (let [key, value] of Object.entries(newData)) {
+            if (key == 'Cameras') {
+              let oldCameras = oldData['Cameras'] as Camera[];
+              let newCameras = newData['Cameras'] as Camera[];
+
+              let len = oldCameras.length;
+              for (let i = 0; i < len; i++) {
+                let newCamera = newCameras[i];
+                let oldCamera = oldCameras[i];
+
+                for (let [key, value] of Object.entries(newCamera)) {
+                  let oldValue = oldCamera[key as keyof Camera];
+                  let newValue = value;
+
+                  if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
+                    this.simpleChanges['Cameras' + (i + 1) + '.' + key] = {
+                      OldValue: oldValue,
+                      NewValue: newValue,
+                    };
+
+                    this.partialData['Cameras'][i][key] = newValue;
+                  }
+                }
+              }
+              continue;
+            }
             let newValue = value;
             let oldValue = oldData[key];
 
@@ -318,8 +310,7 @@ export class GarbageProfileReactiveForm6Component {
         this.cameras.forEach((v) => {
           let camera = this.newCamera();
 
-          let controls = camera.controls;
-          for (let [key, control] of Object.entries(controls)) {
+          for (let [key, control] of Object.entries(camera.controls)) {
             if (
               Reflect.get(v, key) != void 0 &&
               Reflect.get(v, key) !== '' &&
@@ -335,34 +326,36 @@ export class GarbageProfileReactiveForm6Component {
         });
       } else {
         this.Cameras.clear();
-
         this.addCamera();
       }
     }
   }
   private _checkForm() {
-    if (this.formGroup.get('BsStationId')?.invalid) {
-      this._toastrService.warning('业务平台厢房ID不能为空');
+    if (this.formGroup.invalid) {
+      if (this.formGroup.get('BsStationId')?.invalid) {
+        this._toastrService.warning('业务平台厢房ID不能为空');
 
-      return false;
-    }
-    this.validateCamera();
-    return true;
-  }
-  validateCamera() {
-    if (this.Cameras.invalid) {
-      for (let i = 0; i < this.Cameras.length; i++) {
-        let group = this.Cameras.at(i) as FormGroup;
-        if (group.invalid) {
-          for (let [key, control] of Object.entries(group.controls)) {
-            if (control.invalid) {
-              this._toastrService.warning(`摄像机${i + 1}信息无效`);
-              return false;
+        return false;
+      }
+      if (this.Cameras.invalid) {
+        for (let i = 0; i < this.Cameras.length; i++) {
+          let group = this.Cameras.at(i) as FormGroup;
+          if (group.invalid) {
+            for (let [key, control] of Object.entries(group.controls)) {
+              if (control.invalid) {
+                this._toastrService.warning(`摄像机${i + 1} 信息无效`);
+                break;
+              }
             }
+            // 防止抛出一堆错误
+            break;
           }
         }
+
+        return false;
       }
     }
+
     return true;
   }
 }

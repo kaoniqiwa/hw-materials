@@ -195,10 +195,10 @@ export class GarbageProfileReactiveForm5Component {
     ]);
 
     this.properties.push(...extra.flat());
-    console.log(this.properties);
+    // console.log(this.properties);
 
     this.partialData = await this._getPartialData(this.properties);
-    console.log(this.partialData);
+    // console.log(this.partialData);
     if (this.partialData) {
       this.cameras = Reflect.get(this.partialData, 'Cameras');
     }
