@@ -70,7 +70,7 @@ export class GarbageProfileReactiveForm2Component {
   RFImageUrl = '';
   FImageUrl = '';
   PowerImageUrl = '';
-  putOutMaterialsParams?: PutOutMaterialsParams;
+  putOutParams?: PutOutMaterialsParams;
 
   identityRevealedValidator: ValidatorFn = (
     control: AbstractControl
@@ -106,7 +106,6 @@ export class GarbageProfileReactiveForm2Component {
     ),
     GarbageStationType: new FormControl(2, Validators.required),
     Remarks: new FormControl(''),
-    MaterialItems: new FormControl([]),
   });
 
   constructor(
@@ -124,104 +123,82 @@ export class GarbageProfileReactiveForm2Component {
   clickPrev() {
     this.previous.emit();
   }
-  private async sendPartialData() {
-    let res: null | PartialResult<any> = null;
 
-    if (this._updatePartialData()) {
-      if (this.willBeUpdated) {
-        if (this.hasBeenModified) {
-          this.showModify = true;
-        } else {
-          res = await this._business.updatePartial(this.partialRequest);
-          if (res) {
-            if (res.Succeed) {
-              this.statusCode = FormStatusCode.Success;
-            } else {
-              this.statusCode = FormStatusCode.Failed;
-            }
-          }
-        }
-      } else {
-        this.statusCode = FormStatusCode.NotModified;
-      }
-    } else {
-      this.statusCode = FormStatusCode.None;
-    }
-  }
   async clickSave() {
     this.clickMode = 'save';
 
-    if (this._checkForm()) {
-      if (this.putOutMaterialsParams) {
-        await this._putoutMaterial(this.putOutMaterialsParams);
+    // 检测数据
+    if (this._updatePartialData()) {
+      if (this.willBeUpdated) {
+        // 需要更新partialData
+        if (this.hasBeenModified) {
+          // 修改信息,走弹窗
+          this.showModify = true;
+        } else {
+          // 创建信息，直接发送
+          if (await this._sendData()) {
+            this.close.emit();
+          }
+        }
+      } else {
+        // 没有更新表单字段，但是有出库
+        if (this.putOutParams) {
+          if (await this._sendData()) {
+            this.close.emit();
+          }
+        } else {
+          this._toastrService.success('无数据更新');
+          this.close.emit();
+        }
       }
     } else {
-      return;
-    }
-
-    await this.sendPartialData();
-    switch (this.statusCode) {
-      case FormStatusCode.None:
-        break;
-      case FormStatusCode.Success:
-        this._toastrService.success('操作成功');
-        this.close.emit();
-        break;
-      case FormStatusCode.Failed:
-        this._toastrService.success('操作失败');
-        if (this.partialData) {
-          this.partialData['ProfileState'] = this.profileState;
-        }
-        break;
-      case FormStatusCode.NotModified:
-        this._toastrService.success('无数据更新');
-        this.close.emit();
-        break;
+      // 验证失败
     }
   }
   async clickNext() {
     this.clickMode = 'next';
-    if (this._checkForm()) {
-      if (this.putOutMaterialsParams) {
-        await this._putoutMaterial(this.putOutMaterialsParams);
+    if (this._updatePartialData()) {
+      if (this.willBeUpdated) {
+        // 需要更新partialData
+        if (this.hasBeenModified) {
+          // 修改信息,走弹窗
+          this.showModify = true;
+        } else {
+          // 创建信息，直接发送
+          if (await this._sendData()) {
+            this.next.emit();
+          }
+        }
+      } else {
+        // 没有更新表单字段，但是有出库
+        if (this.putOutParams) {
+          if (await this._sendData()) {
+            this.next.emit();
+          }
+        } else {
+          this._toastrService.success('无数据更新');
+          this.next.emit();
+        }
       }
     } else {
-      return;
-    }
-    await this.sendPartialData();
-    switch (this.statusCode) {
-      case FormStatusCode.None:
-        break;
-      case FormStatusCode.Success:
-        this._toastrService.success('操作成功');
-        this.next.emit();
-        break;
-      case FormStatusCode.Failed:
-        this._toastrService.success('操作失败');
-        if (this.partialData) {
-          this.partialData['ProfileState'] = this.profileState;
-        }
-        break;
-      case FormStatusCode.NotModified:
-        this._toastrService.success('无数据更新');
-        this.next.emit();
-        break;
+      // 验证失败
     }
   }
   async clickConfirm(modification: Modification) {
     this.partialRequest.ModificationReason = modification.reason;
     this.partialRequest.ModificationContent = modification.content;
-    let res = await this._business.updatePartial(this.partialRequest);
-    if (res.Succeed) {
-      this._toastrService.success('操作成功');
+
+    if (await this._sendData()) {
       if (this.clickMode == 'save') {
         this.close.emit();
       } else if ((this.clickMode = 'next')) {
-        this.next.emit(res.Id);
+        this.next.emit();
       }
-    } else {
-      this._toastrService.error('操作失败');
     }
+  }
+  clickCancel() {
+    this.showModify = false;
+    // this.putOutParams = void 0;
   }
   changeCurrentWire() {
     this._updateValidator(!!this.formGroup.value['StrongCurrentWire']);
@@ -254,14 +231,34 @@ export class GarbageProfileReactiveForm2Component {
       }
     }
   }
+  private async _sendData() {
+    if (this.putOutParams) {
+      let res = await this._putoutMaterial(this.putOutParams);
+      if (res) {
+        this._toastrService.success('出库成功');
+      } else {
+        this._toastrService.error('出库失败');
+      }
+    }
+    let res2 = await this._business.updatePartial(this.partialRequest);
+    if (res2.Succeed) {
+      this._toastrService.success('更新成功');
+
+      return true;
+    } else {
+      this._toastrService.error('更新失败');
+      return false;
+    }
+  }
   private async _putoutMaterial(params: PutOutMaterialsParams) {
     if (this.partialData) {
       params.ProfileId = this.formId;
       let res = await this._business.putout(params);
       if (res) {
         let newItems = res.MaterialItems;
-        let oldItems = this.formGroup.get('MaterialItems')!
-          .value as MaterialItem[];
+        let oldItems = _.cloneDeep(
+          this.partialData['MaterialItems'] as MaterialItem[]
+        );
         newItems.forEach((item) => {
           let findItem = oldItems.find((oldItem) => oldItem.Id == item.Id);
           if (findItem) {
@@ -270,9 +267,9 @@ export class GarbageProfileReactiveForm2Component {
             oldItems.push(item);
           }
         });
-        this.formGroup.get('MaterialItems')!.patchValue(oldItems);
+        this.partialData['MaterialItems'] = oldItems;
         // 出库完成后清空
-        this.putOutMaterialsParams = void 0;
+        this.putOutParams = void 0;
         return res;
       } else {
         this._toastrService.error('出库失败');
@@ -284,25 +281,7 @@ export class GarbageProfileReactiveForm2Component {
   async okHandler(params: PutOutMaterialsParams) {
     this.showPutout = false;
 
-    this.putOutMaterialsParams = params;
-    if (this.partialData) {
-      if (this.partialData['ProfileState'] <= this.stepIndex) {
-        // 处于新建档案状态
-        console.log('先创建档案信息');
-      } else {
-        // 处于编辑状态，已经有勘察完成信息
-        await this._putoutMaterial(params);
-        this.partialData['MaterialItems'] =
-          this.formGroup.get('MaterialItems')!.value;
-
-        this.partialRequest.Data = this.partialData;
-        let res2 = await this._business.updatePartial(this.partialRequest);
-        console.log(res2);
-        if (res2) {
-          this._toastrService.success('出库成功');
-        }
-      }
-    }
+    this.putOutParams = params;
   }
   cancelHandler() {
     this.showPutout = false;
@@ -323,7 +302,7 @@ export class GarbageProfileReactiveForm2Component {
     // console.log(this.properties);
 
     this.partialData = await this._getPartialData(this.properties);
-    // console.log(this.partialData);
+    console.log(this.partialData);
 
     this._updateForm();
   }

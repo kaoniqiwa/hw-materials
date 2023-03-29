@@ -219,6 +219,6 @@
 <toast-window *ngIf="showModify" (closeEvent)="showModify = false">
   <modification-confirm
     (confirm)="clickConfirm($event)"
-    (cancel)="showModify = false"
+    (cancel)="clickCancel()"
   ></modification-confirm>
 </toast-window>
