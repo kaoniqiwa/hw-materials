@@ -7,6 +7,7 @@
       </div>
       <div class="content">
         <select
+          [disabled]="disabled"
           [(ngModel)]="params.Repaired"
           (ngModelChange)="changeRepaired()"
         >
@@ -23,7 +24,7 @@
         </span>
       </div>
       <div class="content">
-        <select [(ngModel)]="params.FaultType">
+        <select [disabled]="disabled" [(ngModel)]="params.FaultType">
           <option value="undefined" style="display: none">请选择</option>
           <option
             [ngValue]="faultType.Value"
@@ -96,19 +97,24 @@
             <div
               class="close-btn"
               (click)="deletePicture(i, $event)"
-              *ngIf="i != 0"
+              *ngIf="i != 0 && !disabled"
             >
               <i class="howell-icon-Close"></i>
             </div>
           </div>
-          <div class="plus-btn" (click)="addPicture()">
+          <div class="plus-btn" (click)="addPicture()" *ngIf="!disabled">
             <i class="howell-icon-pluscircle"></i>
           </div>
         </div>
 
         <div style="flex-grow: 1">
           <ng-container *ngFor="let url of imageUrls; let i = index">
-            <div *ngIf="i == currentIndex" style="height: 100%" [attr.id]="i">
+            <div
+              *ngIf="i == currentIndex"
+              style="height: 100%"
+              [attr.id]="i"
+              [style.pointer-events]="disabled ? 'none' : 'all'"
+            >
               <howell-picture-upload-control
                 [image]="url"
                 (upload)="upload($event, i)"
