@@ -64,31 +64,84 @@
             (mouseout)="onmouseout()"
           >
             <td class="operation center" style="padding: 12px">
-              <div (click)="ondetails($event, item)">
-                <i class="howell-icon-task_misson"></i>
+              <div
+                *ngIf="options[item.Id].details.visibled"
+                [attr.disabled]="!options[item.Id].details.enabled"
+                (click)="ondetails($event, item)"
+              >
+                <!-- <i class="howell-icon-task_misson"></i> -->
+                <i class="mdi mdi-content-paste"></i>
+              </div>
+              <div
+                title="分派维修工单"
+                *ngIf="options[item.Id].distribute.visibled"
+                [attr.disabled]="!options[item.Id].distribute.enabled"
+                (click)="
+                  ondistribute(
+                    $event,
+                    item,
+                    options[item.Id].distribute.enabled
+                  )
+                "
+              >
+                <!-- <i class="howell-icon-Subsystem"></i> -->
+                <i class="mdi mdi-worker"></i>
               </div>
               <div
                 title="申请工程维修"
-                [attr.disabled]="options[item.Id].apply"
-                (click)="onapply($event, item, options[item.Id].apply)"
+                *ngIf="options[item.Id].apply.visibled"
+                [attr.disabled]="!options[item.Id].apply.enabled"
+                (click)="onapply($event, item, options[item.Id].apply.enabled)"
               >
-                <i class="howell-icon-direction"></i>
+                <i class="mdi mdi-telegram"></i>
               </div>
+
               <div
-                [attr.disabled]="options[item.Id].approveyes"
+                *ngIf="options[item.Id].approveyes.visibled"
+                [attr.disabled]="!options[item.Id].approveyes.enabled"
                 (click)="
-                  onapproveyes($event, item, options[item.Id].approveyes)
+                  onapproveyes(
+                    $event,
+                    item,
+                    options[item.Id].approveyes.enabled
+                  )
                 "
                 title="批准工程维修"
               >
-                <i class="howell-icon-Check"></i>
+                <!-- <i class="howell-icon-Check"></i> -->
+                <i class="mdi mdi-comment-check-outline"></i>
               </div>
               <div
-                [attr.disabled]="options[item.Id].approveno"
-                (click)="onapproveno($event, item, options[item.Id].approveno)"
+                *ngIf="options[item.Id].approveno.visibled"
+                [attr.disabled]="!options[item.Id].approveno.enabled"
+                (click)="
+                  onapproveno($event, item, options[item.Id].approveno.enabled)
+                "
                 title="驳回工程维修"
               >
-                <i class="howell-icon-Close"></i>
+                <!-- <i class="howell-icon-Close"></i> -->
+                <i class="mdi mdi-comment-remove-outline"></i>
+              </div>
+              <div
+                *ngIf="options[item.Id].submit.visibled"
+                [attr.disabled]="!options[item.Id].submit.enabled"
+                (click)="
+                  onsubmit($event, item, options[item.Id].submit.enabled)
+                "
+                title="递交工程维修单"
+              >
+                <!-- <i class="howell-icon-publish"></i> -->
+                <i class="mdi mdi-arrow-up-bold-hexagon-outline"></i>
+              </div>
+              <div
+                *ngIf="options[item.Id].complate.visibled"
+                [attr.disabled]="!options[item.Id].complate.enabled"
+                (click)="
+                  onsubmit($event, item, options[item.Id].complate.enabled)
+                "
+                title="完成工单"
+              >
+                <i class="mdi mdi-content-save"></i>
               </div>
             </td>
           </tr>

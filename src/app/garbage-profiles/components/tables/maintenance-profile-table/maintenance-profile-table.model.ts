@@ -50,8 +50,16 @@ export class MaintenanceProfileTableOptions {
 }
 
 export class MaintenanceProfileTableItemOption {
-  details: boolean = true;
-  apply: boolean = true;
-  approveyes: boolean = true;
-  approveno: boolean = false;
+  distribute: Option = new Option();
+  details: Option = new Option();
+  apply: Option = new Option();
+  approveyes: Option = new Option();
+  approveno: Option = new Option();
+  submit: Option = new Option();
+  complate: Option = new Option();
+}
+
+class Option {
+  visibled: boolean = false;
+  enabled: boolean = false;
 }
