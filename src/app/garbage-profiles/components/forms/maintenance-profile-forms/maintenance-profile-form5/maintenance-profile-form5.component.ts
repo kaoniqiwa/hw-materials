@@ -45,6 +45,7 @@ export class MaintenanceProfileForm5Component implements OnInit, OnChanges {
   maxLength = 7;
   // 需要有初始图片选择
   imageUrls: Array<string> = Array(1);
+  putoutParams?: PutOutMaterialsParams;
 
   @Output()
   recordEvent = new EventEmitter<any>();
@@ -97,6 +98,8 @@ export class MaintenanceProfileForm5Component implements OnInit, OnChanges {
     this.showPutout = false;
 
     this.params.MaterialItems = params.MaterialItems;
+
+    this.putoutParams = params;
   }
   cancelHandler() {
     this.showPutout = false;
@@ -127,11 +130,8 @@ export class MaintenanceProfileForm5Component implements OnInit, OnChanges {
   }
 
   clickRecord() {
-    if (this.params.MaterialItems) {
-      if (this.params.MaterialItems) {
-        // this.showRecord = true;
-        this.recordEvent.emit(this.params.MaterialItems);
-      }
+    if (this.putoutParams) {
+      this.recordEvent.emit(this.putoutParams);
     }
   }
 }
