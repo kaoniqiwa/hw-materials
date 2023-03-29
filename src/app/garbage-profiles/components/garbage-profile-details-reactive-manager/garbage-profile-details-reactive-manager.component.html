@@ -72,6 +72,7 @@
 
 <ng-template #step1 #step let-value let-index="index">
   <garbage-profile-reactive-form1
+    *ngIf="index == selectedIndex"
     [formId]="formId"
     [formState]="formState"
     (next)="nextEvent($event)"
@@ -81,6 +82,7 @@
 </ng-template>
 <ng-template #step2 #step let-value let-index="index">
   <garbage-profile-reactive-form2
+    *ngIf="index == selectedIndex"
     [formId]="formId"
     [formState]="formState"
     (next)="nextEvent()"
@@ -91,6 +93,7 @@
 </ng-template>
 <ng-template #step3 #step let-value let-index="index">
   <garbage-profile-reactive-form3
+    *ngIf="index == selectedIndex"
     [formId]="formId"
     [formState]="formState"
     (next)="nextEvent()"
@@ -100,6 +103,7 @@
 </ng-template>
 <ng-template #step4 #step let-value let-index="index">
   <garbage-profile-reactive-form4
+    *ngIf="index == selectedIndex"
     [formId]="formId"
     [formState]="formState"
     (next)="nextEvent()"
@@ -109,6 +113,7 @@
 </ng-template>
 <ng-template #step5 #step let-value let-index="index">
   <garbage-profile-reactive-form5
+    *ngIf="index == selectedIndex"
     [formId]="formId"
     [formState]="formState"
     (next)="nextEvent()"
@@ -118,6 +123,7 @@
 </ng-template>
 <ng-template #step5 #step let-value let-index="index">
   <garbage-profile-reactive-form6
+    *ngIf="index == selectedIndex"
     [formId]="formId"
     [formState]="formState"
     (next)="nextEvent()"
