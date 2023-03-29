@@ -8,6 +8,7 @@ import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { ModificationConfirmComponent } from './modification-confirm/modification-confirm.component';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { PictureControlComponent } from './picture-control/picture-control.component';
+import { PictureUploadComponent } from './picture-upload/picture-upload.component';
 import { SelectControlComponent } from './select-control/select-control.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { SimpleSearchComponent } from './simple-search/simple-search.component';
@@ -32,4 +33,5 @@ export const CUSTOM_COMPONENTS = [
   PictureControlComponent,
   ToastWindowComponent,
   ModificationConfirmComponent,
+  PictureUploadComponent,
 ];

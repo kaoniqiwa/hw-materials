@@ -80,7 +80,6 @@ export class MaintenanceProfileForm1Component implements OnInit {
   }
 
   changeProfile(id: string) {
-    console.log('change', id);
     this.selectedStationProfile = this.garbageStationProfiles.find(
       (profile) => profile.Id == id
     );

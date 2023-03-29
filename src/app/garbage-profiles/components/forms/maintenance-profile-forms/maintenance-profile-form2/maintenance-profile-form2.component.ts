@@ -45,7 +45,6 @@ export class MaintenanceProfileForm2Component implements OnInit {
   }
   private async _init() {
     let contracts = await this._business.listContracts();
-    console.log(contracts);
     this.contracts = contracts.filter(
       (contract) =>
         contract.UserType == UserType.maintenance_admin ||
@@ -53,7 +52,6 @@ export class MaintenanceProfileForm2Component implements OnInit {
     );
     if (this.formId) {
       this.model = await this._business.getMaintenanceModel(this.formId);
-      console.log('model', this.model);
       this.params.MaintenanceUserId = this.model.MaintenanceUserId
         ? this.model.MaintenanceUserId
         : this.contracts.length

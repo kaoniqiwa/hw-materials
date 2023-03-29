@@ -1,5 +1,5 @@
 <div class="maintenance-form maintenance-form4">
-  {{ params | json }}
+  <!-- {{ params | json }} -->
   <div class="hw-form">
     <div class="hw-form-group">
       <div class="title">
@@ -15,33 +15,6 @@
         </select>
       </div>
     </div>
-    <div class="hw-form-group" *ngIf="params.Repaired">
-      <div class="title">
-        <span class="hw-form-label">
-          {{ languageTool["FaultType"] }}
-        </span>
-      </div>
-      <div class="content">
-        <app-select-control [(selected)]="params.FaultType">
-          <option
-            [ngValue]="faultType.Value"
-            *ngFor="let faultType of this.sourceTool['FaultType']"
-          >
-            {{ faultType.Name }}
-          </option>
-        </app-select-control>
-      </div>
-    </div>
-    <div class="hw-form-group">
-      <div class="title">
-        <span class="hw-form-label">
-          {{ languageTool["FaultDescription"] }}
-        </span>
-      </div>
-      <div class="content">
-        <input type="text" [(ngModel)]="params.FaultDescription" />
-      </div>
-    </div>
     <div class="hw-form-group">
       <div class="title">
         <span class="hw-form-label">
@@ -54,6 +27,35 @@
         </button>
       </div>
     </div>
+    <div class="hw-form-group" *ngIf="params.Repaired">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["FaultType"] }}
+        </span>
+      </div>
+      <div class="content">
+        <select [(ngModel)]="params.FaultType">
+          <option value="undefined" style="display: none">请选择</option>
+          <option
+            [ngValue]="faultType.Value"
+            *ngFor="let faultType of this.sourceTool['FaultType']"
+          >
+            {{ faultType.Name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="hw-form-group" *ngIf="params.FaultType == 99">
+      <div class="title">
+        <span class="hw-form-label">
+          {{ languageTool["FaultDescription"] }}
+        </span>
+      </div>
+      <div class="content">
+        <input type="text" [(ngModel)]="params.FaultDescription" />
+      </div>
+    </div>
+
     <div class="hw-form-group" style="flex-basis: 100%">
       <div class="title">
         <span class="hw-form-label">
@@ -61,12 +63,55 @@
         </span>
       </div>
 
-      <div class="content" style="height: 220px">
-        <!-- <howell-picture-upload-control
-          (upload)="uploadImage($event)"
-          [image]="params.SceneImageUrls[0]"
-        ></howell-picture-upload-control> -->
+      <div
+        class="content"
+        style="height: 250px; display: flex; flex-direction: column"
+      >
+        <div class="btn-bar">
+          <div
+            class="btn-item"
+            [class.active]="i == currentIndex"
+            (click)="currentIndex = i"
+            *ngFor="let url of imageUrls; let i = index"
+          >
+            <span> 图片 {{ i + 1 }}</span>
+            <div
+              class="close-btn"
+              (click)="deletePicture(i, $event)"
+              *ngIf="i != 0"
+            >
+              <i class="howell-icon-Close"></i>
+            </div>
+          </div>
+          <div class="plus-btn" (click)="addPicture()">
+            <i class="howell-icon-pluscircle"></i>
+          </div>
+        </div>
+
+        <div style="flex-grow: 1">
+          <ng-container *ngFor="let url of imageUrls; let i = index">
+            <div *ngIf="i == currentIndex" style="height: 100%" [attr.id]="i">
+              <howell-picture-upload-control
+                [image]="url"
+                (upload)="upload($event, i)"
+              ></howell-picture-upload-control>
+            </div>
+
+            <!-- <div style="height: 100%">
+              <picture-upload></picture-upload>
+            </div> -->
+          </ng-container>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+<toast-window *ngIf="showPutout" (closeEvent)="showPutout = false">
+  <div style="width: 1200px; height: 700px">
+    <garbage-profiles-material-putout
+      (ok)="okHandler($event)"
+      (cancel)="cancelHandler()"
+    ></garbage-profiles-material-putout>
+  </div>
+</toast-window>

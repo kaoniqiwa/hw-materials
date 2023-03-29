@@ -42,7 +42,6 @@ export class MaintenanceProfileForm4Component implements OnInit {
   private async _init() {
     if (this.formId) {
       this.model = await this._business.getMaintenanceModel(this.formId);
-      console.log('model', this.model);
 
       this.params.ConstructionApprovalReason =
         this.model.ConstructionApprovalReason;
