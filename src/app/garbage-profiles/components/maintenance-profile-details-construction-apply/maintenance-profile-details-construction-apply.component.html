@@ -5,7 +5,7 @@
   <div class="maintenance-profile-details-construction-apply-body">
     <textarea [(ngModel)]="params.ConstructionReason"></textarea>
     <div class="maintenance-profile-details-construction-apply-foot">
-      <button class="hw-green-btn">
+      <button class="hw-green-btn" (click)="submit()">
         <i class="mdi mdi-telegram"></i> 申请
       </button>
     </div>

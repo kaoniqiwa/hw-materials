@@ -46,14 +46,6 @@ export class MaintenanceProfileTableBusiness
     params.Conditions = this.getConditions(args, names, user);
     params.PropertyIds = [...names];
 
-    let mest = ['ProfileState', 'ConstructionState'];
-
-    for (let i = 0; i < mest.length; i++) {
-      if (!params.PropertyIds.includes(mest[i])) {
-        params.PropertyIds.push(mest[i]);
-      }
-    }
-
     let url = await this.service.partialData.excel(params);
     return url.Url;
   }
@@ -87,6 +79,15 @@ export class MaintenanceProfileTableBusiness
     params.PageSize = size;
     params.PropertyIds = args.tableIds;
     params.PropertyIds = names;
+
+    let mest = ['ProfileState', 'ConstructionState', 'MaintenanceUserId'];
+
+    for (let i = 0; i < mest.length; i++) {
+      if (!params.PropertyIds.includes(mest[i])) {
+        params.PropertyIds.push(mest[i]);
+      }
+    }
+
     params.Asc = args.asc;
 
     params.Desc = args.desc;

@@ -29,6 +29,20 @@
     </div>
   </div>
   <div class="maintenance-profile-details-construction-approve-foot">
-    <button class="hw-green-btn">申请</button>
+    <button
+      [ngClass]="{
+        'hw-green-btn': agree,
+        'hw-red-btn': !agree
+      }"
+      (click)="submit()"
+    >
+      <i
+        [ngClass]="{
+          'howell-icon-Check': agree,
+          'howell-icon-Close': !agree
+        }"
+      ></i>
+      {{ agree ? "同意" : "驳回" }}
+    </button>
   </div>
 </div>

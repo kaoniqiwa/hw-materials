@@ -144,6 +144,7 @@ export class MaintenanceProfileForm5Component implements OnInit, OnChanges {
   }
 
   onchiplistclicked(event: Event) {
+    if (this.disabled) return;
     this.showPutout = true;
   }
 }

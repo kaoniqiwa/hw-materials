@@ -149,7 +149,10 @@ export class MaintenanceProfileTableComponent
             option.submit.enabled =
               item['ProfileState'] === 2 &&
               (item['ConstructionState'] === 2 ||
-                item['ConstructionState'] === 3);
+                item['ConstructionState'] === 3) &&
+              this.user.Id === item['MaintenanceUserId'];
+
+            console.log(this.user.Id, item['MaintenanceUserId']);
 
             option.complate.enabled = item['ProfileState'] === 3;
             option.details.visibled = true;
@@ -166,6 +169,8 @@ export class MaintenanceProfileTableComponent
                 break;
               case UserType.maintenance:
                 option.apply.visibled = true;
+                option.submit.visibled = true;
+
                 break;
               default:
                 break;

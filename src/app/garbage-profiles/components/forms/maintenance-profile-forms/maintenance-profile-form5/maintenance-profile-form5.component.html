@@ -46,6 +46,8 @@
           #chipList
           WheelHorizontalScroll
           (click)="onchiplistclicked($event)"
+          [placeholder]="'请选择'"
+          [disabled]="disabled"
         >
           <mat-chip
             *ngFor="let material of params.MaterialItems"

@@ -49,7 +49,7 @@ export class MaintenanceProfileDetailsConstructionApproveComponent
     );
   }
 
-  onok() {
+  submit() {
     if (this.profileId) {
       this.business
         .approve(this.profileId, this.params)

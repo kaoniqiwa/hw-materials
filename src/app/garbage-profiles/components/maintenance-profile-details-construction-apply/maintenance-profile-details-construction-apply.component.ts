@@ -31,7 +31,7 @@ export class MaintenanceProfileDetailsConstructionApplyComponent
   params: ConstructionApplyParams = new ConstructionApplyParams();
   ngOnInit(): void {}
 
-  onok() {
+  submit() {
     if (this.profileId) {
       this.business
         .apply(this.profileId, this.params)
