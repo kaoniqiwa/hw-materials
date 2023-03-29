@@ -1,6 +1,5 @@
 import { DataWindowViewModel } from 'src/app/common/components/window-control/window.model';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
-import { MaintenanceProfile } from 'src/app/network/entity/maintenance-profile.entity';
 import { ConstructionApplyParams } from 'src/app/network/request/maintenance-profiles/maintenance-profiles.param';
 
 export class MaintenanceProfileWindow {
@@ -14,6 +13,7 @@ export class MaintenanceProfileWindow {
   distribute = new MaintenanceProfileDistributeWindow();
   construction = new MaintenanceProfileConstructionWindow();
   submit = new MaintenanceProfileSubmitWindow();
+  complete = new MaintenanceProfileCompleteWindow();
   clear() {
     this.setting.clear();
     this.details.clear();
@@ -24,6 +24,7 @@ export class MaintenanceProfileWindow {
     this.create.clear();
     this.distribute.clear();
     this.submit.clear();
+    this.complete.clear();
   }
   close() {
     this.setting.show = false;
@@ -37,6 +38,7 @@ export class MaintenanceProfileWindow {
     this.create.show = false;
     this.distribute.show = false;
     this.submit.show = false;
+    this.complete.show = false;
   }
 }
 class MaintenanceProfileSettingWindow extends DataWindowViewModel {
@@ -45,10 +47,10 @@ class MaintenanceProfileSettingWindow extends DataWindowViewModel {
 }
 class MaintenanceProfileDeatilsWindow extends DataWindowViewModel {
   clear(): void {
-    this.data = undefined;
+    this.id = '';
   }
   style = {};
-  data?: MaintenanceProfile;
+  id = '';
 }
 
 class MaintenanceProfileFilterWindow extends DataWindowViewModel {
@@ -157,6 +159,16 @@ class MaintenanceProfileSubmitWindow extends DataWindowViewModel {
   }
   style = {
     width: '50%',
+    height: 'auto',
+  };
+  id: string = '';
+}
+class MaintenanceProfileCompleteWindow extends DataWindowViewModel {
+  clear(): void {
+    this.id = '';
+  }
+  style = {
+    width: '500px',
     height: 'auto',
   };
   id: string = '';
