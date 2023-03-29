@@ -11,11 +11,7 @@
         <button class="hw-blue-btn" (click)="tosetting()">
           <i class="howell-icon-settingoutline"></i> 设置
         </button>
-        <button
-          class="hw-green-btn"
-          (click)="tocreate()"
-          *ngIf="authority.create"
-        >
+        <button class="hw-green-btn" (click)="tocreate()" *ngIf="cancreate">
           <i class="howell-icon-plus"></i> 创建工单
         </button>
       </div>
@@ -58,9 +54,11 @@
       (selectedChange)="onselected($event)"
       (itemclick)="onitemclick($event)"
       (details)="todetails($event)"
+      (distribute)="todistribute($event)"
       (apply)="toapply($event)"
       (approveyes)="toapprove($event, true)"
-      (approveyes)="toapprove($event, false)"
+      (approveno)="toapprove($event, false)"
+      (submit)="tosubmit($event)"
     >
     </maintenance-profile-table>
   </div>
@@ -118,42 +116,60 @@
   <howell-picture-control-multiple [ids]="window.picture.multiple.ids">
   </howell-picture-control-multiple>
 </app-window>
+
+<app-window
+  [Model]="window.create"
+  [style]="window.create.style"
+  *ngIf="window.create.show"
+>
+  <maintenance-profile-details-create (ok)="onwindowclose(true)">
+  </maintenance-profile-details-create>
+</app-window>
+<app-window
+  [Model]="window.distribute"
+  [style]="window.distribute.style"
+  *ngIf="window.distribute.show"
+>
+  <maintenance-profile-details-distribute
+    [profileId]="window.distribute.id"
+    (ok)="onwindowclose(true)"
+  >
+  </maintenance-profile-details-distribute>
+</app-window>
 <app-window
   [Model]="window.construction.apply"
   [style]="window.construction.apply.style"
   *ngIf="window.construction.apply.show"
 >
-  <div>
-    <maintenance-profile-form3
-      [formId]="window.construction.apply.id"
-      [(params)]="window.construction.apply.params"
-      [disabled]="false"
-    ></maintenance-profile-form3>
-  </div>
-  <div class="center">
-    <button class="hw-green-btn" (click)="onconstruction()">申请</button>
-  </div>
+  <maintenance-profile-details-construction-apply
+    [profileId]="window.distribute.id"
+    (ok)="onwindowclose(true)"
+  >
+  </maintenance-profile-details-construction-apply>
 </app-window>
+
 <app-window
   [Model]="window.construction.approve"
   [style]="window.construction.approve.style"
   *ngIf="window.construction.approve.show"
 >
-  <div>
-    <!-- <maintenance-profile-form4
-      *ngIf="selected && selected.ProfileState === 2"
-      [formId]="window.construction.approve.id"
-      [(params)]="window.construction.approve.params"
-      [disabled]="false"
-    ></maintenance-profile-form4> -->
-    <maintenance-profile-details-construction-approve
-      [(params)]="window.construction.approve.params"
-      [profileId]="window.construction.approve.id"
-      (ok)="onconstruction()"
-    >
-    </maintenance-profile-details-construction-approve>
-  </div>
-  <div class="center">
-    <button class="hw-green-btn" (click)="onconstruction()">审批</button>
-  </div>
+  <maintenance-profile-details-construction-approve
+    [profileId]="window.construction.approve.id"
+    [agree]="window.construction.approve.agree"
+    (ok)="onwindowclose(true)"
+  >
+  </maintenance-profile-details-construction-approve>
 </app-window>
+<app-window
+  [Model]="window.submit"
+  [style]="window.submit.style"
+  *ngIf="window.submit.show"
+>
+  <maintenance-profile-details-submit
+    [profileId]="window.submit.id"
+    (ok)="onwindowclose(true)"
+  >
+  </maintenance-profile-details-submit>
+</app-window>
+
+<app-window> </app-window>

@@ -6,7 +6,7 @@
 
 
   &-body {
-    height: calc(100% - 36px - 32px - 10px * 2);
+    height: calc(100% - 52px - 32px - 10px * 2);
     display: flex;
     padding: 10px 0;
     color: #cfd7ff;
@@ -59,10 +59,13 @@
           box-sizing: border-box;
         }
 
-
-
         &.list {
           height: calc(100% - 36px - 200px - 100px - 10px * 2);
+          box-sizing: border-box;
+
+          &.only {
+            height: calc(100% - 36px);
+          }
 
           .item-content {
             overflow-y: auto;

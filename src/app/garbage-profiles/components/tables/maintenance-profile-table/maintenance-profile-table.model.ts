@@ -1,5 +1,4 @@
 import { Duration } from 'src/app/model/duration.model';
-import { User } from 'src/app/network/entity/user.model';
 
 export class MaintenanceProfileTableArgs {
   constructor() {
@@ -18,8 +17,6 @@ export class MaintenanceProfileTableArgs {
   desc?: string;
 
   enums: KeyValue = new KeyValue();
-
-  user?: User;
 
   reset() {
     for (const key in this.enums) {

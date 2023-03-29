@@ -1,21 +1,7 @@
 import { DataWindowViewModel } from 'src/app/common/components/window-control/window.model';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
 import { MaintenanceProfile } from 'src/app/network/entity/maintenance-profile.entity';
-import {
-  ConstructionApplyParams,
-  ConstructionApproveParams,
-} from 'src/app/network/request/maintenance-profiles/maintenance-profiles.param';
-
-export class MaintenanceProfileAuthority {
-  create = false;
-  distribute = false;
-  construction = {
-    apply: false,
-    approve: false,
-  };
-  complate = false;
-  operation = false;
-}
+import { ConstructionApplyParams } from 'src/app/network/request/maintenance-profiles/maintenance-profiles.param';
 
 export class MaintenanceProfileWindow {
   setting = new MaintenanceProfileSettingWindow();
@@ -23,7 +9,11 @@ export class MaintenanceProfileWindow {
   filter = new MaintenanceProfileFilterWindow();
   picture = new MaintenanceProfilePictureWindow();
   partial = new MaintenanceProfilePartialDataWindow();
+
+  create = new MaintenanceProfileCreateWindow();
+  distribute = new MaintenanceProfileDistributeWindow();
   construction = new MaintenanceProfileConstructionWindow();
+  submit = new MaintenanceProfileSubmitWindow();
   clear() {
     this.setting.clear();
     this.details.clear();
@@ -31,6 +21,9 @@ export class MaintenanceProfileWindow {
     this.picture.clear();
     this.partial.clear();
     this.construction.clear();
+    this.create.clear();
+    this.distribute.clear();
+    this.submit.clear();
   }
   close() {
     this.setting.show = false;
@@ -41,6 +34,9 @@ export class MaintenanceProfileWindow {
     this.partial.show = false;
     this.construction.apply.show = false;
     this.construction.approve.show = false;
+    this.create.show = false;
+    this.distribute.show = false;
+    this.submit.show = false;
   }
 }
 class MaintenanceProfileSettingWindow extends DataWindowViewModel {
@@ -118,15 +114,14 @@ class MaintenanceProfileConstructionApplyWindow extends DataWindowViewModel {
 
 class MaintenanceProfileConstructionApproveWindow extends DataWindowViewModel {
   clear(): void {
-    this.params = new ConstructionApproveParams();
     this.id = '';
   }
   style = {
     width: '50%',
     height: 'auto',
   };
-  params: ConstructionApproveParams = new ConstructionApproveParams();
   id = '';
+  agree!: boolean;
 }
 
 class MaintenanceProfileConstructionWindow extends DataWindowViewModel {
@@ -138,4 +133,31 @@ class MaintenanceProfileConstructionWindow extends DataWindowViewModel {
   apply = new MaintenanceProfileConstructionApplyWindow();
   approve = new MaintenanceProfileConstructionApproveWindow();
   state?: number;
+}
+class MaintenanceProfileCreateWindow extends DataWindowViewModel {
+  clear(): void {}
+  style = {
+    width: '50%',
+    height: 'auto',
+  };
+}
+class MaintenanceProfileDistributeWindow extends DataWindowViewModel {
+  clear(): void {
+    this.id = '';
+  }
+  style = {
+    width: '50%',
+    height: 'auto',
+  };
+  id: string = '';
+}
+class MaintenanceProfileSubmitWindow extends DataWindowViewModel {
+  clear(): void {
+    this.id = '';
+  }
+  style = {
+    width: '50%',
+    height: 'auto',
+  };
+  id: string = '';
 }

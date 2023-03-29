@@ -37,12 +37,13 @@ export class MaintenanceProfileTableBusiness
   ) {}
   async download(
     args: MaintenanceProfileTableArgs,
-    names: string[]
+    names: string[],
+    user: User
   ): Promise<string> {
     let params = new GetPartialDatasExcelParams();
     params.Asc = args.asc;
     params.Desc = args.desc;
-    params.Conditions = this.getConditions(args, names);
+    params.Conditions = this.getConditions(args, names, user);
     params.PropertyIds = [...names];
 
     let mest = ['ProfileState', 'ConstructionState'];
@@ -66,9 +67,10 @@ export class MaintenanceProfileTableBusiness
     index: number,
     size: number = 10,
     names: string[],
-    args: MaintenanceProfileTableArgs
+    args: MaintenanceProfileTableArgs,
+    user: User
   ): Promise<PagedList<PartialData>> {
-    let data = await this.getData(index, size, names, args);
+    let data = await this.getData(index, size, names, args, user);
     let model = this.converter.convert(data);
     return model;
   }
@@ -77,7 +79,8 @@ export class MaintenanceProfileTableBusiness
     index: number,
     size: number = 10,
     names: string[],
-    args: MaintenanceProfileTableArgs
+    args: MaintenanceProfileTableArgs,
+    user: User
   ): Promise<PagedList<PartialData>> {
     let params = new GetPartialDatasParams();
     params.PageIndex = index;
@@ -96,13 +99,18 @@ export class MaintenanceProfileTableBusiness
     let all = await this.service.property.all();
     params.Conditions = this.getConditions(
       args,
-      all.map((x) => x.Path)
+      all.map((x) => x.Path),
+      user
     );
 
     return this.service.partialData.list(params);
   }
 
-  private getConditions(args: MaintenanceProfileTableArgs, names: string[]) {
+  private getConditions(
+    args: MaintenanceProfileTableArgs,
+    names: string[],
+    user: User
+  ) {
     let conditions: Condition[] = [];
 
     if (args.name) {
@@ -127,8 +135,8 @@ export class MaintenanceProfileTableBusiness
       }
     }
 
-    if (args.user) {
-      let condition = this.getConditionByUser(args.user);
+    if (user) {
+      let condition = this.getConditionByUser(user);
       if (condition) {
         conditions.push(condition);
       }
@@ -143,9 +151,7 @@ export class MaintenanceProfileTableBusiness
       case UserType.maintenance:
         condition.PropertyId = 'MaintenanceUserId';
         condition.Value = user.Id;
-
         break;
-
       default:
         return undefined;
     }

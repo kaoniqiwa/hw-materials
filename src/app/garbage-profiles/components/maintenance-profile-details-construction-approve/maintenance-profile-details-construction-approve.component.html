@@ -1,43 +1,13 @@
 <div class="maintenance-profile-details-construction-approve">
   <div class="maintenance-profile-details-construction-approve-head">
-    <div class="hw-simple-title">工程维修申请审批</div>
+    <div class="hw-simple-title">维修工程申请</div>
   </div>
   <div class="maintenance-profile-details-construction-approve-body">
-    <div>
-      <div *ngIf="!data || data.ConstructionState === 1">
-        <!-- <section class="example-section">
-          <mat-slide-toggle
-            class="example-margin"
-            [color]="'primary'"
-            [(ngModel)]="params.ApproveOrNot"
-          >
-            <div *ngIf="!params.ApproveOrNot">不同意</div>
-            <div *ngIf="params.ApproveOrNot">同意</div>
-          </mat-slide-toggle>
-        </section> -->
-        <mat-radio-group [(ngModel)]="params.ApproveOrNot">
-          <mat-radio-button [color]="'primary'" [value]="false">
-            <div class="hw-simple-title">不同意</div>
-          </mat-radio-button>
-          <mat-radio-button [color]="'primary'" [value]="true">
-            <div class="hw-simple-title">同意</div>
-          </mat-radio-button>
-        </mat-radio-group>
-      </div>
-    </div>
-    <div>
-      <div class="hw-form-label">
-        {{ language["ConstructionApprovalReason"] }}
-      </div>
-      <div *ngIf="!data || data.ConstructionState === 1">
-        <textarea [(ngModel)]="params.ConstructionApprovalReason"></textarea>
-      </div>
-    </div>
     <div *ngIf="params.ApproveOrNot">
       <div class="hw-form-label">
         {{ language["ConstructionApplicationTime"] }}
       </div>
-      <div *ngIf="!data || data.ConstructionState === 1">
+      <div>
         <input
           type="text"
           DateTimePicker
@@ -49,11 +19,16 @@
         />
       </div>
     </div>
+    <div>
+      <div class="hw-form-label">
+        {{ language["ConstructionApprovalReason"] }}
+      </div>
+      <div>
+        <textarea [(ngModel)]="params.ConstructionApprovalReason"></textarea>
+      </div>
+    </div>
   </div>
-  <div
-    class="maintenance-profile-details-construction-approve-foot"
-    *ngIf="!data || !data.ConstructionState"
-  >
+  <div class="maintenance-profile-details-construction-approve-foot">
     <button class="hw-green-btn">申请</button>
   </div>
 </div>

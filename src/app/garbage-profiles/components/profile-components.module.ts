@@ -29,11 +29,15 @@ import { GarbageStationProfileSettingComponent } from './garbage-station-profile
 import { HowellPictureControlMultipleComponent } from './howell-picture-control-multiple/howell-picture-control-multiple.component';
 import { HowellPictureControlComponent } from './howell-picture-control/howell-picture-control.component';
 import { HowellPictureUploadControlComponent } from './howell-picture-upload-control/howell-picture-upload-control.component';
+import { MaintenanceProfileDetailsCompleteComponent } from './maintenance-profile-details-complete/maintenance-profile-details-complete.component';
 import { MaintenanceProfileDetailsConstructionApplyComponent } from './maintenance-profile-details-construction-apply/maintenance-profile-details-construction-apply.component';
 import { MaintenanceProfileDetailsConstructionApproveComponent } from './maintenance-profile-details-construction-approve/maintenance-profile-details-construction-approve.component';
+import { MaintenanceProfileDetailsCreateComponent } from './maintenance-profile-details-create/maintenance-profile-details-create.component';
+import { MaintenanceProfileDetailsDistributeComponent } from './maintenance-profile-details-distribute/maintenance-profile-details-distribute.component';
 
 import { MaintenanceProfileDetailsManagerComponent } from './maintenance-profile-details-manager/maintenance-profile-details-manager.component';
 import { MaintenanceProfileDetailsReactiveManagerComponent } from './maintenance-profile-details-reactive-manager/maintenance-profile-details-reactive-manager.component';
+import { MaintenanceProfileDetailsSubmitComponent } from './maintenance-profile-details-submit/maintenance-profile-details-submit.component';
 import { MaintenanceProfileFilterComponent } from './maintenance-profile-filter/maintenance-profile-filter.component';
 import { MaintenanceProfileIndexComponent } from './maintenance-profile-index/maintenance-profile-index.component';
 import { MaintenanceProfileManagerComponent } from './maintenance-profile-manager/maintenance-profile-manager.component';
@@ -90,8 +94,12 @@ import { UnderwaterComponent } from './underwater/underwater.component';
     MaintenanceProfileFilterComponent,
     MaintenanceProfileDetailsManagerComponent,
     MaintenanceProfileDetailsReactiveManagerComponent,
+    MaintenanceProfileDetailsCreateComponent,
+    MaintenanceProfileDetailsDistributeComponent,
     MaintenanceProfileDetailsConstructionApplyComponent,
     MaintenanceProfileDetailsConstructionApproveComponent,
+    MaintenanceProfileDetailsSubmitComponent,
+    MaintenanceProfileDetailsCompleteComponent,
   ],
   imports: [
     MaterialModule,

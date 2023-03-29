@@ -10,17 +10,13 @@ import {
   PartialData,
   StatePartialData,
 } from 'src/app/network/entity/partial-data.interface';
-import { User } from 'src/app/network/entity/user.model';
 import { MaintenanceProfilesLanguageTools } from '../../tools/maintenance-profile-language.too';
 import { MaintenanceProfilesSourceTools } from '../../tools/maintenance-profile-source.tool';
 import { ProfilePropertyValueModel } from '../tables/garbage-station-profile-table/garbage-station-profile-table.model';
 import { MaintenanceProfileTableArgs } from '../tables/maintenance-profile-table/maintenance-profile-table.model';
 import { MaintenanceProfileManagerConstructionBusiness } from './maintenance-profile-manager-construction.business';
 import { MaintenanceProfileManagerBusiness } from './maintenance-profile-manager.business';
-import {
-  MaintenanceProfileAuthority,
-  MaintenanceProfileWindow,
-} from './maintenance-profile-manager.model';
+import { MaintenanceProfileWindow } from './maintenance-profile-manager.model';
 
 @Component({
   selector: 'maintenance-profile-manager',
@@ -42,59 +38,15 @@ export class MaintenanceProfileManagerComponent implements OnInit {
     private toastr: ToastrService,
     local: LocalStorageService
   ) {
-    this.user = local.user;
-    this.args.user = this.user;
-    this.authority = this.getauthority(local.user.UserType);
+    this.cancreate = local.user.UserType === UserType.admin;
   }
-  user: User;
   title = '维修工单档案';
   args: MaintenanceProfileTableArgs = new MaintenanceProfileTableArgs();
   load: EventEmitter<MaintenanceProfileTableArgs> = new EventEmitter();
   excel: EventEmitter<string> = new EventEmitter();
   window: MaintenanceProfileWindow = new MaintenanceProfileWindow();
   selected?: StatePartialData;
-
-  authority: MaintenanceProfileAuthority;
-
-  getauthority(type: UserType, state?: number) {
-    let authority = new MaintenanceProfileAuthority();
-    switch (type) {
-      case UserType.admin:
-        authority.create = true;
-        authority.distribute = false;
-        authority.construction.apply = false;
-        authority.construction.approve = false;
-        authority.complate = true;
-        if (state === 4) {
-          authority.operation = true;
-        }
-        break;
-      case UserType.maintenance_admin:
-        authority.create = false;
-        authority.distribute = true;
-        authority.construction.apply = true;
-        authority.construction.approve = true;
-        authority.complate = false;
-        if (state === 1 || state === 2 || state === 3) {
-          authority.operation = true;
-        }
-        break;
-      case UserType.maintenance:
-        authority.create = false;
-        authority.distribute = false;
-        authority.construction.apply = true;
-        authority.construction.approve = false;
-        authority.complate = false;
-        if (state === 2) {
-          authority.operation = true;
-        }
-        break;
-
-      default:
-        break;
-    }
-    return authority;
-  }
+  cancreate: boolean = false;
 
   ngOnInit(): void {
     this.args.enums['ProfileState'] = this.state;
@@ -122,10 +74,6 @@ export class MaintenanceProfileManagerComponent implements OnInit {
         this.selected.ConstructionState = data['ConstructionState'];
       }
     }
-    this.authority = this.getauthority(
-      this.user.UserType,
-      this.selected.ProfileState
-    );
   }
   async onitemclick(model: ProfilePropertyValueModel) {
     if (model.model.PropertyId && model.model.Value) {
@@ -162,9 +110,12 @@ export class MaintenanceProfileManagerComponent implements OnInit {
     this.excel.emit(this.title);
   }
 
-  onwindowclose() {
+  onwindowclose(load: boolean = false) {
     this.window.clear();
     this.window.close();
+    if (load) {
+      this.load.emit(this.args);
+    }
   }
 
   tosetting() {
@@ -180,10 +131,6 @@ export class MaintenanceProfileManagerComponent implements OnInit {
     this.load.emit(this.args);
   }
 
-  tocreate() {
-    this.window.details.data = undefined;
-    this.window.details.show = true;
-  }
   todetails(item: PartialData) {
     let plain = instanceToPlain(item);
     this.window.details.data = plainToInstance(MaintenanceProfile, plain);
@@ -213,53 +160,25 @@ export class MaintenanceProfileManagerComponent implements OnInit {
       }
     }
   }
+
+  tocreate() {
+    this.window.create.show = true;
+  }
+  todistribute(item: PartialData) {
+    this.window.distribute.id = item.Id;
+    this.window.distribute.show = true;
+  }
   toapply(item: PartialData) {
     this.window.construction.apply.id = item.Id;
     this.window.construction.apply.show = true;
   }
   toapprove(item: PartialData, agree: boolean) {
     this.window.construction.approve.id = item.Id;
-    this.window.construction.approve.params.ApproveOrNot = agree;
+    this.window.construction.approve.agree = agree;
     this.window.construction.approve.show = true;
   }
-
-  onconstruction() {
-    if (this.selected) {
-      switch (this.selected.ConstructionState) {
-        case 1:
-          this.business.construction
-            .approve(
-              this.window.construction.approve.id,
-              this.window.construction.approve.params
-            )
-            .then((x) => {
-              this.load.emit(this.args);
-              this.toastr.success('操作成功');
-              this.onwindowclose();
-            })
-            .catch((x) => {
-              this.toastr.error('操作失败');
-              console.error(x);
-            });
-          break;
-
-        default:
-          this.business.construction
-            .apply(
-              this.window.construction.apply.id,
-              this.window.construction.apply.params
-            )
-            .then((x) => {
-              this.load.emit(this.args);
-              this.toastr.success('操作成功');
-              this.onwindowclose();
-            })
-            .catch((x) => {
-              this.toastr.error('操作失败');
-              console.error(x);
-            });
-          break;
-      }
-    }
+  tosubmit(item: PartialData) {
+    this.window.submit.id = item.Id;
+    this.window.submit.show = true;
   }
 }

@@ -105,6 +105,8 @@ export class MaintenanceProfileForm5Component implements OnInit, OnChanges {
 
     this.putoutParams = params;
 
+    this.params.MaterialItems = params.MaterialItems;
+
     this.putoutEvent.emit(this.putoutParams);
   }
   cancelHandler() {
@@ -139,5 +141,9 @@ export class MaintenanceProfileForm5Component implements OnInit, OnChanges {
     if (this.putoutParams) {
       this.recordEvent.emit(this.putoutParams);
     }
+  }
+
+  onchiplistclicked(event: Event) {
+    this.showPutout = true;
   }
 }

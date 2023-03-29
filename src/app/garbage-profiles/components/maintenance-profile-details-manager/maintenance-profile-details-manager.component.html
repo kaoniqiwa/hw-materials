@@ -3,12 +3,22 @@
     <div class="hw-simple-title">维修工单档案</div>
   </div>
   <div class="maintenance-details-body vertical-main">
-    <maintenance-profile-form5
-      *ngIf="data && data.ProfileState >= 2"
+    <maintenance-profile-form1
+      [(params)]="params.create"
+      [formId]="data ? data.Id : ''"
+      [disabled]="true"
+    ></maintenance-profile-form1>
+    <maintenance-profile-form2
+      id="form2"
+      *ngIf="data && data.ProfileState >= 1"
       [formId]="data.Id"
-      [(params)]="params.submit"
-      [disabled]="data.ProfileState >= 2"
-    ></maintenance-profile-form5>
+      [disabled]="true"
+    ></maintenance-profile-form2>
+    <maintenance-profile-form3
+      *ngIf="data && !!data.ConstructionState"
+      [formId]="data.Id"
+      [disabled]="true"
+    ></maintenance-profile-form3>
     <maintenance-profile-form4
       *ngIf="
         data &&
@@ -20,51 +30,11 @@
       [(params)]="params.constructionapprove"
       [disabled]="true"
     ></maintenance-profile-form4>
-    <maintenance-profile-form3
-      *ngIf="data && !!data.ConstructionState"
-      [formId]="data.Id"
-      [(params)]="params.constructionapply"
-      [disabled]="true"
-    ></maintenance-profile-form3>
-    <maintenance-profile-form2
-      id="form2"
-      *ngIf="data && data.ProfileState >= 1"
-      [formId]="data.Id"
-      [params]="params.distribute"
-      [disabled]="data.ProfileState > 1"
-    ></maintenance-profile-form2>
-    <maintenance-profile-form1
-      [(params)]="params.create"
-      [formId]="data ? data.Id : ''"
-      [disabled]="!!data"
-    ></maintenance-profile-form1>
-
-    <!-- <maintenance-profile-details-construction-apply
-      *ngIf="data"
-      [profileId]="data.Id"
-      [(params)]="params.constructionapply"
-    ></maintenance-profile-details-construction-apply> -->
-    4
-    <!-- 5
     <maintenance-profile-form5
-      *ngIf="profile && profile.ProfileState >= 2"
-      [formId]="profile.Id"
+      *ngIf="data && data.ProfileState >= 2"
+      [formId]="data.Id"
       [(params)]="params.submit"
-      [disabled]="profile.ProfileState >= 2"
-    ></maintenance-profile-form5> -->
-  </div>
-  <div class="maintenance-details-foot">
-    <button class="hw-green-btn" *ngIf="!data" (click)="create(params.create)">
-      <i class="howell-icon-plus"></i> 创建
-    </button>
-
-    <button
-      class="hw-green-btn"
-      *ngIf="data"
-      (click)="submit(data.ProfileState, data.ConstructionState)"
-    >
-      <i class="howell-icon-direction"></i>
-      {{ data.ProfileState | maintenance_profile_state_step_pipe }}
-    </button>
+      [disabled]="true"
+    ></maintenance-profile-form5>
   </div>
 </div>

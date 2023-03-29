@@ -34,17 +34,31 @@
         </select>
       </div>
     </div>
-    <div class="hw-form-group">
+    <div class="hw-form-group" style="width: 100%; flex-basis: 100%">
       <div class="title">
         <span class="hw-form-label">
           {{ languageTool["MaterialItems"] }}
         </span>
       </div>
-      <div class="content">
-        <button class="hw-blue-btn" (click)="showPutout = !showPutout">
-          物料出库
-        </button>
-        <button class="hw-blue-btn" (click)="clickRecord()">出库记录</button>
+      <div class="content" style="width: 100%">
+        <mat-chip-list
+          class="material-chip-list"
+          #chipList
+          WheelHorizontalScroll
+          (click)="onchiplistclicked($event)"
+        >
+          <mat-chip
+            *ngFor="let material of params.MaterialItems"
+            [title]="material.Name + ':' + material.Number"
+          >
+            <div class="mat-chip-item">
+              <div class="mat-chip-item-title">{{ material.Name }}：</div>
+              <div class="mat-chip-item-value">
+                <b>{{ material.Number }}</b>
+              </div>
+            </div>
+          </mat-chip>
+        </mat-chip-list>
       </div>
     </div>
     <div class="hw-form-group" *ngIf="params.FaultType == 99">
@@ -110,6 +124,8 @@
     <garbage-profiles-material-putout
       (ok)="okHandler($event)"
       (cancel)="cancelHandler()"
+      [onlyMaterials]="true"
+      [items]="params.MaterialItems"
     ></garbage-profiles-material-putout>
   </div>
 </toast-window>

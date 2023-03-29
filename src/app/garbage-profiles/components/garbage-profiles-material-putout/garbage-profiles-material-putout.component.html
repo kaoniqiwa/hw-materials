@@ -1,5 +1,7 @@
 <div class="garbage-profiles-material-putout">
-  <div class="hw-simple-title">物料出库</div>
+  <div class="hw-simple-title">
+    {{ onlyMaterials ? "物料信息" : "物料出库" }}
+  </div>
   <div class="garbage-profiles-material-putout-body">
     <div class="garbage-profiles-material-putout-body-tree">
       <div class="garbage-profiles-material-putout-body-title">
@@ -16,7 +18,12 @@
       <div class="garbage-profiles-material-putout-body-title">
         <div class="hw-simple-title">出库信息</div>
       </div>
-      <div class="garbage-profiles-material-putout-body-content-item list">
+      <div
+        class="garbage-profiles-material-putout-body-content-item list"
+        [ngClass]="{
+          only: onlyMaterials
+        }"
+      >
         <div class="item-title">出库物料：</div>
         <div class="item-content">
           <div class="list-content">
@@ -48,13 +55,17 @@
       </div>
       <div
         class="garbage-profiles-material-putout-body-content-item description"
+        *ngIf="!onlyMaterials"
       >
         <div class="item-title">备注：</div>
         <div class="item-content">
           <textarea [(ngModel)]="description" rows="3"></textarea>
         </div>
       </div>
-      <div class="garbage-profiles-material-putout-body-content-item image">
+      <div
+        class="garbage-profiles-material-putout-body-content-item image"
+        *ngIf="!onlyMaterials"
+      >
         <div class="item-title">照片凭证：</div>
         <div class="item-content">
           <howell-picture-upload-control

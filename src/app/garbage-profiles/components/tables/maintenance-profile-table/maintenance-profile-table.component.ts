@@ -112,7 +112,7 @@ export class MaintenanceProfileTableComponent
     }
     if (this.excel) {
       this.excel.subscribe((title) => {
-        this.business.download(this.args, this.names).then((x) => {
+        this.business.download(this.args, this.names, this.user).then((x) => {
           let link = document.createElement('a');
           link.href = x;
           link.download = title;
@@ -129,51 +129,53 @@ export class MaintenanceProfileTableComponent
     this.business.config.get(this.args.tableIds).then((names) => {
       this.names = names;
       this.options = {};
-      this.business.load(index, size, this.names, this.args).then((paged) => {
-        this.page = paged.Page;
-        this.datas = paged.Data;
+      this.business
+        .load(index, size, this.names, this.args, this.user)
+        .then((paged) => {
+          this.page = paged.Page;
+          this.datas = paged.Data;
 
-        this.datas.forEach((item) => {
-          let option = new MaintenanceProfileTableItemOption();
-          option.details.visibled = true;
-          option.details.enabled = true;
-          option.distribute.enabled = item['ProfileState'] === 1;
-          option.apply.enabled =
-            item['ProfileState'] === 2 && !item['ConstructionState'];
-          option.approveyes.enabled =
-            item['ProfileState'] === 2 && item['ConstructionState'] === 1;
-          option.approveno.enabled =
-            item['ProfileState'] === 2 && item['ConstructionState'] === 1;
-          option.submit.enabled =
-            item['ProfileState'] === 2 &&
-            (item['ConstructionState'] === 2 ||
-              item['ConstructionState'] === 3);
+          this.datas.forEach((item) => {
+            let option = new MaintenanceProfileTableItemOption();
+            option.details.visibled = true;
+            option.details.enabled = true;
+            option.distribute.enabled = item['ProfileState'] === 1;
+            option.apply.enabled =
+              item['ProfileState'] === 2 && !item['ConstructionState'];
+            option.approveyes.enabled =
+              item['ProfileState'] === 2 && item['ConstructionState'] === 1;
+            option.approveno.enabled =
+              item['ProfileState'] === 2 && item['ConstructionState'] === 1;
+            option.submit.enabled =
+              item['ProfileState'] === 2 &&
+              (item['ConstructionState'] === 2 ||
+                item['ConstructionState'] === 3);
 
-          option.complate.enabled = item['ProfileState'] === 3;
-          option.details.visibled = true;
-          switch (this.user.UserType) {
-            case UserType.admin:
-              option.complate.visibled = true;
-              break;
-            case UserType.maintenance_admin:
-              option.apply.visibled = true;
-              option.distribute.visibled = true;
-              option.approveyes.visibled = true;
-              option.approveno.visibled = true;
-              option.submit.visibled = true;
-              break;
-            case UserType.maintenance:
-              option.apply.visibled = true;
-              break;
-            default:
-              break;
-          }
+            option.complate.enabled = item['ProfileState'] === 3;
+            option.details.visibled = true;
+            switch (this.user.UserType) {
+              case UserType.admin:
+                option.complate.visibled = true;
+                break;
+              case UserType.maintenance_admin:
+                option.apply.visibled = true;
+                option.distribute.visibled = true;
+                option.approveyes.visibled = true;
+                option.approveno.visibled = true;
+                option.submit.visibled = true;
+                break;
+              case UserType.maintenance:
+                option.apply.visibled = true;
+                break;
+              default:
+                break;
+            }
 
-          this.options[item.Id] = option;
+            this.options[item.Id] = option;
+          });
+
+          this.loading = false;
         });
-
-        this.loading = false;
-      });
     });
   }
 
@@ -235,29 +237,24 @@ export class MaintenanceProfileTableComponent
     e.stopImmediatePropagation();
     this.details.emit(item);
   }
-  onapply(e: Event, item: PartialData, disabled: boolean) {
+  onapply(e: Event, item: PartialData, enabled: boolean) {
     e.stopImmediatePropagation();
-    if (disabled) return;
-    this.apply.emit(item);
+    if (enabled) this.apply.emit(item);
   }
-  onapproveyes(e: Event, item: PartialData, disabled: boolean) {
+  onapproveyes(e: Event, item: PartialData, enabled: boolean) {
     e.stopImmediatePropagation();
-    if (disabled) return;
-    this.approveyes.emit(item);
+    if (enabled) this.approveyes.emit(item);
   }
-  onapproveno(e: Event, item: PartialData, disabled: boolean) {
+  onapproveno(e: Event, item: PartialData, enabled: boolean) {
     e.stopImmediatePropagation();
-    if (disabled) return;
-    this.approveno.emit(item);
+    if (enabled) this.approveno.emit(item);
   }
-  ondistribute(e: Event, item: PartialData, disabled: boolean) {
+  ondistribute(e: Event, item: PartialData, enabled: boolean) {
     e.stopImmediatePropagation();
-    if (disabled) return;
-    this.distribute.emit(item);
+    if (enabled) this.distribute.emit(item);
   }
-  onsubmit(e: Event, item: PartialData, disabled: boolean) {
+  onsubmit(e: Event, item: PartialData, enabled: boolean) {
     e.stopImmediatePropagation();
-    if (disabled) return;
-    this.submit.emit(item);
+    if (enabled) this.submit.emit(item);
   }
 }

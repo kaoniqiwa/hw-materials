@@ -1,0 +1,17 @@
+<div class="maintenance-profile-details-submit">
+  <div class="maintenance-profile-details-submit-head">
+    <div class="hw-simple-title">创建维修工单</div>
+  </div>
+  <div class="maintenance-profile-details-submit-body">
+    <maintenance-profile-form5
+      (putoutEvent)="toputout($event)"
+      [(params)]="params.submit"
+    ></maintenance-profile-form5>
+  </div>
+  <div class="maintenance-profile-details-submit-foot">
+    <button class="hw-green-btn" (click)="submit()">
+      <i class="mdi mdi-arrow-up-bold-hexagon-outline"></i>
+      提交
+    </button>
+  </div>
+</div>
