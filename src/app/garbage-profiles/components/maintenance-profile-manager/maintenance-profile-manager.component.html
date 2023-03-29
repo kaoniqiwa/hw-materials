@@ -59,6 +59,7 @@
       (approveyes)="toapprove($event, true)"
       (approveno)="toapprove($event, false)"
       (submit)="tosubmit($event)"
+      (complete)="tocomplete($event)"
     >
     </maintenance-profile-table>
   </div>
@@ -74,17 +75,7 @@
     (cancel)="onwindowclose()"
   ></maintenance-profile-setting>
 </app-window>
-<app-window
-  [Model]="window.details"
-  [style]="window.details.style"
-  *ngIf="window.details.show"
->
-  <maintenance-profile-details-manager
-    [data]="window.details.data"
-    (cancel)="onwindowclose()"
-    (ok)="ondetailsok()"
-  ></maintenance-profile-details-manager>
-</app-window>
+
 <app-window
   [Model]="window.filter"
   [style]="window.filter.style"
@@ -172,4 +163,26 @@
   </maintenance-profile-details-submit>
 </app-window>
 
-<app-window> </app-window>
+<app-window
+  [Model]="window.complete"
+  [style]="window.complete.style"
+  *ngIf="window.complete.show"
+>
+  <maintenance-profile-details-complete
+    [profileId]="window.complete.id"
+    (ok)="onwindowclose(true)"
+    (details)="todetails($event)"
+    (cancel)="onwindowclose()"
+  ></maintenance-profile-details-complete>
+</app-window>
+<app-window
+  [Model]="window.details"
+  [style]="window.details.style"
+  *ngIf="window.details.show"
+>
+  <maintenance-profile-details-manager
+    [profileId]="window.details.id"
+    (cancel)="onwindowclose()"
+    (ok)="ondetailsok()"
+  ></maintenance-profile-details-manager>
+</app-window>

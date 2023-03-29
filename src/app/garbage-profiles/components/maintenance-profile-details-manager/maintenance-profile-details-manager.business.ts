@@ -18,8 +18,8 @@ export class MaintenanceProfileDetailsManagerBusiness
   implements IBusiness<PartialData, MaintenanceProfile>
 {
   constructor(private service: MaintenanceProfileRequestService) {}
-  async load(id: string, state: number): Promise<MaintenanceProfile> {
-    let names = await this.getNames(state);
+  async load(id: string): Promise<MaintenanceProfile> {
+    let names = [];
     names.push('ProfileState');
     names.push('ConstructionState');
     let data = await this.getData(id, names);

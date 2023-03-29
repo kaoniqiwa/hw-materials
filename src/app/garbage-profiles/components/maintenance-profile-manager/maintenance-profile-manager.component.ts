@@ -5,7 +5,6 @@ import { ToastrService } from 'ngx-toastr';
 import { LocalStorageService } from 'src/app/common/service/local-storage.service';
 import { UserType } from 'src/app/enum/user-type.enum';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
-import { MaintenanceProfile } from 'src/app/network/entity/maintenance-profile.entity';
 import {
   PartialData,
   StatePartialData,
@@ -131,9 +130,13 @@ export class MaintenanceProfileManagerComponent implements OnInit {
     this.load.emit(this.args);
   }
 
-  todetails(item: PartialData) {
-    let plain = instanceToPlain(item);
-    this.window.details.data = plainToInstance(MaintenanceProfile, plain);
+  todetails(item: PartialData | string) {
+    if (typeof item === 'string') {
+      this.window.details.id = item;
+    } else {
+      this.window.details.id = item.Id;
+    }
+
     this.window.details.show = true;
   }
   ondetailsok() {
@@ -146,19 +149,6 @@ export class MaintenanceProfileManagerComponent implements OnInit {
   onfilter(args: MaintenanceProfileTableArgs) {
     this.load.emit(args);
     this.onwindowclose();
-  }
-
-  toconstruction() {
-    if (this.selected) {
-      this.window.construction.state = this.selected.ConstructionState;
-      if (this.selected.ConstructionState === 1) {
-        this.window.construction.approve.id = this.selected.Id;
-        this.window.construction.approve.show = true;
-      } else {
-        this.window.construction.apply.id = this.selected.Id;
-        this.window.construction.apply.show = true;
-      }
-    }
   }
 
   tocreate() {
@@ -180,5 +170,9 @@ export class MaintenanceProfileManagerComponent implements OnInit {
   tosubmit(item: PartialData) {
     this.window.submit.id = item.Id;
     this.window.submit.show = true;
+  }
+  tocomplete(item: PartialData) {
+    this.window.complete.id = item.Id;
+    this.window.complete.show = true;
   }
 }

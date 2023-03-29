@@ -46,17 +46,24 @@ export class GarbageStationProfileIndexComponent implements OnInit {
   model?: GarbageStationProfileIndexModel;
   private user: User;
   ngOnInit(): void {
-    if (this.user.UserType === UserType.admin) {
-      this.business.load().then((x) => {
-        this.model = x;
-      });
-    } else if (this.user.UserType === UserType.maintenance_admin) {
-      console.log(this.router);
-      let url = this.router.url.replace(
-        RoutePath.station_profile_index,
-        RoutePath.maintenance_profile_index
-      );
-      this.router.navigateByUrl(url);
+    switch (this.user.UserType) {
+      case UserType.admin:
+        this.business.load().then((x) => {
+          this.model = x;
+        });
+        break;
+      case UserType.maintenance:
+      case UserType.maintenance_admin:
+        console.log(this.router);
+        let url = this.router.url.replace(
+          RoutePath.station_profile_index,
+          RoutePath.maintenance_profile_index
+        );
+        this.router.navigateByUrl(url);
+        break;
+
+      default:
+        break;
     }
   }
 }

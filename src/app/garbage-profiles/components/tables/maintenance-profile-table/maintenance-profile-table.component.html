@@ -137,9 +137,9 @@
                 *ngIf="options[item.Id].complate.visibled"
                 [attr.disabled]="!options[item.Id].complate.enabled"
                 (click)="
-                  onsubmit($event, item, options[item.Id].complate.enabled)
+                  oncomplete($event, item, options[item.Id].complate.enabled)
                 "
-                title="完成工单"
+                title="结束工单"
               >
                 <i class="mdi mdi-content-save"></i>
               </div>

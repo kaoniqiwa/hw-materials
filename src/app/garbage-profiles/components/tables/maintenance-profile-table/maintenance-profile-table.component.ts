@@ -80,6 +80,8 @@ export class MaintenanceProfileTableComponent
   distribute: EventEmitter<PartialData> = new EventEmitter();
   @Output()
   submit: EventEmitter<PartialData> = new EventEmitter();
+  @Output()
+  complete: EventEmitter<PartialData> = new EventEmitter();
   constructor(
     business: MaintenanceProfileTableBusiness,
     public source: MaintenanceProfilesSourceTools,
@@ -151,8 +153,6 @@ export class MaintenanceProfileTableComponent
               (item['ConstructionState'] === 2 ||
                 item['ConstructionState'] === 3) &&
               this.user.Id === item['MaintenanceUserId'];
-
-            console.log(this.user.Id, item['MaintenanceUserId']);
 
             option.complate.enabled = item['ProfileState'] === 3;
             option.details.visibled = true;
@@ -261,5 +261,9 @@ export class MaintenanceProfileTableComponent
   onsubmit(e: Event, item: PartialData, enabled: boolean) {
     e.stopImmediatePropagation();
     if (enabled) this.submit.emit(item);
+  }
+  oncomplete(e: Event, item: PartialData, enabled: boolean) {
+    e.stopImmediatePropagation();
+    if (enabled) this.complete.emit(item);
   }
 }

@@ -16,7 +16,7 @@ import { MaintenanceProfileDetailsManagerParams } from './maintenance-profile-de
 })
 export class MaintenanceProfileDetailsManagerComponent implements OnInit {
   @Input()
-  data?: MaintenanceProfile;
+  profileId?: string;
 
   @Output()
   ok: EventEmitter<void> = new EventEmitter();
@@ -35,16 +35,15 @@ export class MaintenanceProfileDetailsManagerComponent implements OnInit {
   }
 
   user: User;
-  profile?: MaintenanceProfile;
+  data?: MaintenanceProfile;
   params = new MaintenanceProfileDetailsManagerParams();
 
   ngOnInit(): void {
-    // if (this.data) {
-    //   this.business.load(this.data.Id, this.data.ProfileState).then((data) => {
-    //     this.profile = data;
-    //     console.log(this.profile);
-    //   });
-    // }
+    if (this.profileId) {
+      this.business.load(this.profileId).then((data) => {
+        this.data = data;
+      });
+    }
   }
 
   onconstruction() {
