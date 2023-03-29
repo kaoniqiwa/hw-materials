@@ -109,7 +109,7 @@ export class MaintenanceProfileForm5Component implements OnInit, OnChanges {
   }
   deletePicture(index: number, e: Event) {
     e.stopPropagation();
-    if (index == this.params.SceneImageUrls.length - 1) {
+    if (index == this.imageUrls.length - 1) {
       this.params.SceneImageUrls.splice(index, 1);
       this.imageUrls.splice(index, 1);
       if (this.currentIndex == index) {
