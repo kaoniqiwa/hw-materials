@@ -39,6 +39,13 @@ export class MaintenanceProfileForm5Component implements OnInit, OnChanges {
   set disabled(val: boolean) {
     this._disabled = val;
   }
+
+  @Output()
+  recordEvent = new EventEmitter<any>();
+
+  @Output()
+  putoutEvent = new EventEmitter<any>();
+
   model?: MaintenanceProfile;
   showPutout = false;
   currentIndex = 0;
@@ -46,9 +53,6 @@ export class MaintenanceProfileForm5Component implements OnInit, OnChanges {
   // 需要有初始图片选择
   imageUrls: Array<string> = Array(1);
   putoutParams?: PutOutMaterialsParams;
-
-  @Output()
-  recordEvent = new EventEmitter<any>();
 
   constructor(
     public sourceTool: MaintenanceProfilesSourceTools,
@@ -97,9 +101,11 @@ export class MaintenanceProfileForm5Component implements OnInit, OnChanges {
   okHandler(params: PutOutMaterialsParams) {
     this.showPutout = false;
 
-    this.params.MaterialItems = params.MaterialItems;
+    // this.params.MaterialItems = params.MaterialItems;
 
     this.putoutParams = params;
+
+    this.putoutEvent.emit(this.putoutParams);
   }
   cancelHandler() {
     this.showPutout = false;
