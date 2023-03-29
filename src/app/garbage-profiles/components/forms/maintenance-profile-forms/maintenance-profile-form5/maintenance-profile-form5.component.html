@@ -25,6 +25,7 @@
         <button class="hw-blue-btn" (click)="showPutout = !showPutout">
           物料出库
         </button>
+        <button class="hw-blue-btn" (click)="clickRecord()">出库记录</button>
       </div>
     </div>
     <div class="hw-form-group" *ngIf="params.Repaired">
@@ -96,10 +97,6 @@
                 (upload)="upload($event, i)"
               ></howell-picture-upload-control>
             </div>
-
-            <!-- <div style="height: 100%">
-              <picture-upload></picture-upload>
-            </div> -->
           </ng-container>
         </div>
       </div>

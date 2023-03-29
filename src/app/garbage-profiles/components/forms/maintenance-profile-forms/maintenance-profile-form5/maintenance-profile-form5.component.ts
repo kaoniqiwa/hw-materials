@@ -45,9 +45,10 @@ export class MaintenanceProfileForm5Component implements OnInit, OnChanges {
   maxLength = 7;
   // 需要有初始图片选择
   imageUrls: Array<string> = Array(1);
-  trackFn = (_: number, item: string) => {
-    return item;
-  };
+
+  @Output()
+  recordEvent = new EventEmitter<any>();
+
   constructor(
     public sourceTool: MaintenanceProfilesSourceTools,
     public languageTool: MaintenanceProfilesLanguageTools,
@@ -124,7 +125,13 @@ export class MaintenanceProfileForm5Component implements OnInit, OnChanges {
 
     this.imageUrls[index] = Medium.jpg(id);
   }
-  click() {
-    console.log(this.params.SceneImageUrls);
+
+  clickRecord() {
+    if (this.params.MaterialItems) {
+      if (this.params.MaterialItems) {
+        // this.showRecord = true;
+        this.recordEvent.emit(this.params.MaterialItems);
+      }
+    }
   }
 }
