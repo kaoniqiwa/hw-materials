@@ -47,7 +47,7 @@ export class MaintenanceProfileForm3Component implements OnInit {
   private async _init() {
     if (this.formId) {
       this.model = await this._business.getMaintenanceModel(this.formId);
-      this.params.ConstructionReason = this.model.MaintenanceUserId ?? '';
+      this.params.ConstructionReason = this.model.ConstructionReason ?? '';
     }
   }
 }

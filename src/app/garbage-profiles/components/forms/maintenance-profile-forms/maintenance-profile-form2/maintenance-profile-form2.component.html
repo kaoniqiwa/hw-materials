@@ -7,19 +7,12 @@
         </span>
       </div>
       <div class="content">
-        <!-- <select [(ngModel)]="params.MaintenanceUserId" [disabled]="disabled">
+        <select [(ngModel)]="params.MaintenanceUserId" [disabled]="disabled">
+          <option value="" style="display: none">请选择</option>
           <option [ngValue]="contract.Id" *ngFor="let contract of contracts">
             {{ contract.Name }}
           </option>
-        </select> -->
-        <app-select-control
-          [(selected)]="params.MaintenanceUserId"
-          [disabled]="disabled"
-        >
-          <option [ngValue]="contract.Id" *ngFor="let contract of contracts">
-            {{ contract.Name }}
-          </option>
-        </app-select-control>
+        </select>
       </div>
     </div>
     <div class="hw-form-group">
