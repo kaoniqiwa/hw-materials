@@ -3,6 +3,7 @@
   height: 100%;
   overflow: hidden;
   background: #050719;
+  background-image: url(src/assets/img/bg.jpg);
   position: relative;
 
   .login-bg {
@@ -74,12 +75,10 @@
       width: 69%;
       height: 2px;
       margin: 0 auto;
-      background-image: linear-gradient(
-        to right,
-        rgba(0, 0, 0, 0),
-        #6997ff,
-        rgba(0, 0, 0, 0)
-      );
+      background-image: linear-gradient(to right,
+          rgba(0, 0, 0, 0),
+          #6997ff,
+          rgba(0, 0, 0, 0));
     }
 
     .login-form {
@@ -148,7 +147,7 @@
         margin: -11px auto -10px;
         border: none;
 
-        & > div {
+        &>div {
           display: flex;
           align-items: center;
           position: relative;
@@ -169,7 +168,7 @@
             }
           }
 
-          input + label {
+          input+label {
             cursor: pointer;
             color: #5e6ebf;
           }

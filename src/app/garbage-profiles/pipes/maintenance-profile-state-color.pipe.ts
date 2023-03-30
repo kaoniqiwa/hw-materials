@@ -16,7 +16,7 @@ export class MaintenanceProfileStateColorPipe implements PipeTransform {
       case 4: // 维修未完成
         return '#ef6464';
       case 5: // 确认完成
-        return '#cyan';
+        return 'cyan';
       default:
         return '#cfd7ff';
     }
