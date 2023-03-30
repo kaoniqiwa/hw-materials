@@ -51,8 +51,10 @@ export class MaintenanceProfileIndexComponent implements OnInit {
         this.model = x;
       });
     } else {
-      let url = `${this.router.url}/${RoutePath.profile_manager}`;
-      this.router.navigateByUrl(url);
+      if (this.router.url.indexOf(RoutePath.profile_manager) < 0) {
+        let url = `${this.router.url}/${RoutePath.profile_manager}`;
+        this.router.navigateByUrl(url);
+      }
     }
   }
 

@@ -128,7 +128,6 @@ export class MaintenanceProfileTableComponent
     this.loading = true;
     this.selected = undefined;
     this.options = new MaintenanceProfileTableOptions();
-    console.log(this.args.tableIds);
     this.business.config.get(this.args.tableIds).then((names) => {
       this.names = names;
       this.options = {};
