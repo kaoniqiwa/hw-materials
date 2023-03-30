@@ -75,6 +75,7 @@
           >
             <td class="operation center" style="padding: 12px">
               <div
+                title="维修工单详情"
                 *ngIf="options[item.Id].details.visibled"
                 [attr.disabled]="!options[item.Id].details.enabled"
                 (click)="ondetails($event, item)"
