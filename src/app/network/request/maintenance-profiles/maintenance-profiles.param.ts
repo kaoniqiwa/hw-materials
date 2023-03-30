@@ -93,7 +93,7 @@ export class DistributeMaintenanceProfileParams implements IParams {
   MaintenanceUserId?: string;
   /**	DateTime	维修截至时间	O */
   @Transform(transformDateTime)
-  MaintenanceDeadline?: Date = new Date();
+  MaintenanceDeadline?: Date;
 }
 export class ConstructionApplyParams implements IParams {
   /**	String	申请原因	M */

@@ -26,6 +26,8 @@ export class SelectControlComponent
   cannull: boolean = true;
   @Input()
   default: boolean = false;
+  @Input()
+  disabled: boolean = false;
 
   @Input()
   public set style(v: any) {

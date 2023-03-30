@@ -59,7 +59,7 @@
   </mat-option>
 </mat-select> -->
 <div class="select-control" [ngStyle]="style">
-  <select #element [(ngModel)]="selected">
+  <select #element [(ngModel)]="selected" [disabled]="disabled">
     <ng-content></ng-content>
   </select>
   <div

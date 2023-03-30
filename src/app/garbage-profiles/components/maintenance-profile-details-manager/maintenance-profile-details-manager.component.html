@@ -10,12 +10,12 @@
     ></maintenance-profile-form1>
     <maintenance-profile-form2
       id="form2"
-      *ngIf="data && data.ProfileState >= 1"
+      *ngIf="data && data.ProfileState > 1"
       [formId]="data.Id"
       [disabled]="true"
     ></maintenance-profile-form2>
     <maintenance-profile-form3
-      *ngIf="data && !!data.ConstructionState"
+      *ngIf="data && data.ProfileState >= 2 && !data.ConstructionState"
       [formId]="data.Id"
       [disabled]="true"
     ></maintenance-profile-form3>
@@ -31,7 +31,7 @@
       [disabled]="true"
     ></maintenance-profile-form4>
     <maintenance-profile-form5
-      *ngIf="data && data.ProfileState >= 2"
+      *ngIf="data && data.ProfileState >= 3"
       [formId]="data.Id"
       [(params)]="params.submit"
       [disabled]="true"

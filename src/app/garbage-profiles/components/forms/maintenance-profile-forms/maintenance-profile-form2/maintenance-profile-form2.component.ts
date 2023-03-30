@@ -44,6 +44,19 @@ export class MaintenanceProfileForm2Component implements OnInit {
     this._init();
   }
   private async _init() {
+    if (!this.params.MaintenanceDeadline) {
+      let today = new Date();
+      today.setDate(today.getDate() + 1);
+      this.params.MaintenanceDeadline = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate(),
+        23,
+        59,
+        59
+      );
+    }
+
     let contracts = await this._business.listContracts();
     this.contracts = contracts.filter(
       (contract) =>
