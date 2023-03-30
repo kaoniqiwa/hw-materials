@@ -20,6 +20,8 @@ export class MaintenanceProfileDetailsConstructionApplyComponent
   profileId!: string;
   @Output()
   ok: EventEmitter<void> = new EventEmitter();
+  @Output()
+  details: EventEmitter<string> = new EventEmitter();
   constructor(
     public language: MaintenanceProfilesLanguageTools,
     private business: MaintenanceProfileDetailsConstructionApplyBusiness,
@@ -44,5 +46,9 @@ export class MaintenanceProfileDetailsConstructionApplyComponent
           console.log(x);
         });
     }
+  }
+
+  ondetails() {
+    this.details.emit(this.profileId);
   }
 }

@@ -1,9 +1,42 @@
 <div class="maintenance-profile-details-distribute">
   <div class="maintenance-profile-details-distribute-head">
     <div class="hw-simple-title">维修工单派单</div>
+    <a title="维修工单详情" (click)="ondetails()"
+      ><i class="mdi mdi-content-paste"></i
+    ></a>
   </div>
   <div class="maintenance-profile-details-distribute-body">
-    <maintenance-profile-form2 [params]="params"></maintenance-profile-form2>
+    <!-- <maintenance-profile-form2 [params]="params"></maintenance-profile-form2> -->
+    <div class="hw-form">
+      <div class="hw-form-group">
+        <div class="title">
+          <span class="hw-form-label">{{
+            language["DistributionPersonnel"]
+          }}</span>
+        </div>
+        <div class="content">
+          <app-select-control [(selected)]="params.MaintenanceUserId">
+            <option [value]="contract.Id" *ngFor="let contract of contracts">
+              {{ contract.Name }}
+            </option>
+          </app-select-control>
+        </div>
+      </div>
+      <div class="hw-form-group">
+        <div class="title">
+          <span class="hw-form-label">
+            {{ language["MaintenanceDeadline"] }}
+          </span>
+        </div>
+        <div class="content">
+          <input
+            type="text"
+            DateTimePicker
+            [(date)]="params.MaintenanceDeadline"
+          />
+        </div>
+      </div>
+    </div>
   </div>
   <div class="maintenance-profile-details-distribute-foot">
     <button class="hw-green-btn" (click)="submit()">

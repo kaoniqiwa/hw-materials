@@ -6,11 +6,11 @@
     是否完结这个工单<a (click)="todetails()">查看</a>
   </div>
   <div class="maintenance-profile-details-complete-foot">
-    <button class="hw-green-btn">
+    <button class="hw-green-btn" (click)="onsubmit()">
       <i class="mdi mdi-content-save"></i>
       完结
     </button>
-    <button class="hw-blue-btn">
+    <button class="hw-blue-btn" (click)="oncancel()">
       <i class="howell-icon-Close"></i>
       取消
     </button>

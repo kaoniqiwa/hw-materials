@@ -62,8 +62,11 @@ export class MaintenanceProfileTableBusiness
     args: MaintenanceProfileTableArgs,
     user: User
   ): Promise<PagedList<PartialData>> {
-    let data = await this.getData(index, size, names, args, user);
-    let model = this.converter.convert(data);
+    let skip: string[] = [];
+    let data = await this.getData(index, size, names, args, user, skip);
+
+    let model = this.converter.convert(data, skip);
+
     return model;
   }
 
@@ -72,19 +75,21 @@ export class MaintenanceProfileTableBusiness
     size: number = 10,
     names: string[],
     args: MaintenanceProfileTableArgs,
-    user: User
+    user: User,
+    skip: string[]
   ): Promise<PagedList<PartialData>> {
     let params = new GetPartialDatasParams();
     params.PageIndex = index;
     params.PageSize = size;
     params.PropertyIds = args.tableIds;
-    params.PropertyIds = names;
+    params.PropertyIds = [...names];
 
     let mest = ['ProfileState', 'ConstructionState', 'MaintenanceUserId'];
 
     for (let i = 0; i < mest.length; i++) {
-      if (!params.PropertyIds.includes(mest[i])) {
+      if (!names.includes(mest[i])) {
         params.PropertyIds.push(mest[i]);
+        skip.push(mest[i]);
       }
     }
 
@@ -92,10 +97,8 @@ export class MaintenanceProfileTableBusiness
 
     params.Desc = args.desc;
 
-    if (!params.Asc && !params.Desc && params.PropertyIds) {
-      if (params.PropertyIds.includes('UpdateTime')) {
-        params.Desc = 'UpdateTime';
-      }
+    if (!params.Asc && !params.Desc) {
+      params.Desc = 'UpdateTime';
     }
     let all = await this.service.property.all();
     params.Conditions = this.getConditions(

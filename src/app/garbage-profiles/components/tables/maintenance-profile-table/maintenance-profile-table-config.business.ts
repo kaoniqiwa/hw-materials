@@ -21,7 +21,6 @@ export class MaintenanceProfileTableConfigBusiness {
     if (!ids || ids.length === 0) {
       ids = MaintenanceProfileTableDefaultNames;
     }
-
     return ids;
   }
 }

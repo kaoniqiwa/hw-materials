@@ -1,6 +1,9 @@
 <div class="maintenance-profile-details-construction-apply">
   <div class="maintenance-profile-details-construction-apply-head">
     <div class="hw-simple-title">{{ language["ConstructionReason"] }}</div>
+    <a title="维修工单详情" (click)="ondetails()"
+      ><i class="mdi mdi-content-paste"></i
+    ></a>
   </div>
   <div class="maintenance-profile-details-construction-apply-body">
     <textarea [(ngModel)]="params.ConstructionReason"></textarea>

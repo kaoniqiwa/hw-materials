@@ -15,6 +15,8 @@ export class MaintenanceProfileDetailsSubmitComponent {
   profileId!: string;
   @Output()
   ok: EventEmitter<void> = new EventEmitter();
+  @Output()
+  details: EventEmitter<string> = new EventEmitter();
   constructor(
     private business: MaintenanceProfileDetailsSubmitBusiness,
     private language: MaintenanceProfilesLanguageTools,
@@ -51,5 +53,8 @@ export class MaintenanceProfileDetailsSubmitComponent {
           console.error(x);
         });
     }
+  }
+  ondetails() {
+    this.details.emit(this.profileId);
   }
 }

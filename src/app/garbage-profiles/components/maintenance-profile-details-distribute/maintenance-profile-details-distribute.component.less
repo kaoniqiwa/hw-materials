@@ -4,8 +4,24 @@
 
   &-head {
     height: 40px;
+    display: flex;
+    align-items: center;
+
+    &>* {
+      margin-right: 10px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
   }
 
+  &-body {
+    .hw-form-group {
+      flex-basis: 99%;
+      width: 100%;
+    }
+  }
 
   &-foot {
     height: 50px;

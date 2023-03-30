@@ -7,24 +7,14 @@ export class MaintenanceConstructionStateColorPipe implements PipeTransform {
 
   transform(state: number) {
     switch (state) {
-      case 1:
-        return '#ef6464';
-      case 2:
-        return '#ffba00';
-      case 3:
+      case 1: //  申请工程维修
         return '#ff0';
-      case 4:
+      case 2: //  已批准工程维修
         return '#21E452';
-      case 5:
-        return 'cyan';
-      case 6:
-        return '#6997ff';
-      case 7:
-        return '#ca98f9';
-      case 8:
-        return '#fff';
+      case 3: //  驳回工程维修
+        return '#ef6464';
       default:
-        return '#fff';
+        return '#cfd7ff';
     }
   }
 }

@@ -124,6 +124,7 @@
   <maintenance-profile-details-distribute
     [profileId]="window.distribute.id"
     (ok)="onwindowclose(true)"
+    (details)="todetails($event)"
   >
   </maintenance-profile-details-distribute>
 </app-window>
@@ -135,6 +136,7 @@
   <maintenance-profile-details-construction-apply
     [profileId]="window.construction.apply.id"
     (ok)="onwindowclose(true)"
+    (details)="todetails($event)"
   >
   </maintenance-profile-details-construction-apply>
 </app-window>
@@ -148,6 +150,7 @@
     [profileId]="window.construction.approve.id"
     [agree]="window.construction.approve.agree"
     (ok)="onwindowclose(true)"
+    (details)="todetails($event)"
   >
   </maintenance-profile-details-construction-approve>
 </app-window>
@@ -159,6 +162,7 @@
   <maintenance-profile-details-submit
     [profileId]="window.submit.id"
     (ok)="onwindowclose(true)"
+    (details)="todetails($event)"
   >
   </maintenance-profile-details-submit>
 </app-window>

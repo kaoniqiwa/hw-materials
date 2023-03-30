@@ -21,6 +21,8 @@ export class MaintenanceProfileDetailsConstructionApproveComponent
   profileId!: string;
   @Input()
   agree: boolean = false;
+  @Output()
+  details: EventEmitter<string> = new EventEmitter();
 
   @Output()
   ok: EventEmitter<void> = new EventEmitter();
@@ -62,5 +64,8 @@ export class MaintenanceProfileDetailsConstructionApproveComponent
           console.log(x);
         });
     }
+  }
+  ondetails() {
+    this.details.emit(this.profileId);
   }
 }

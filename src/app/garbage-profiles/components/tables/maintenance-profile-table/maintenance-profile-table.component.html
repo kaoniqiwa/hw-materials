@@ -37,6 +37,16 @@
           >
             <td *ngFor="let name of names" [class]="name">
               <div
+                [ngStyle]="{
+                  color:
+                    name === 'ConstructionState'
+                      ? (item['ConstructionState']
+                        | maintenance_construction_state_color_pipe)
+                      : name === 'ProfileState'
+                      ? (item['ProfileState']
+                        | maintenance_profile_state_color_pipe)
+                      : ''
+                }"
                 (click)="onitemclick($event, item, name)"
                 [innerHTML]="item[name + 'View']"
               ></div>

@@ -1,6 +1,9 @@
 <div class="maintenance-profile-details-submit">
   <div class="maintenance-profile-details-submit-head">
     <div class="hw-simple-title">创建维修工单</div>
+    <a title="维修工单详情" (click)="ondetails()"
+      ><i class="mdi mdi-content-paste"></i
+    ></a>
   </div>
   <div class="maintenance-profile-details-submit-body">
     <maintenance-profile-form5 [(params)]="params"></maintenance-profile-form5>

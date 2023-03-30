@@ -128,6 +128,7 @@ export class MaintenanceProfileTableComponent
     this.loading = true;
     this.selected = undefined;
     this.options = new MaintenanceProfileTableOptions();
+    console.log(this.args.tableIds);
     this.business.config.get(this.args.tableIds).then((names) => {
       this.names = names;
       this.options = {};
@@ -143,7 +144,9 @@ export class MaintenanceProfileTableComponent
             option.details.enabled = true;
             option.distribute.enabled = item['ProfileState'] === 1;
             option.apply.enabled =
-              item['ProfileState'] === 2 && !item['ConstructionState'];
+              item['ProfileState'] === 2 &&
+              !item['ConstructionState'] &&
+              this.user.Id === item['MaintenanceUserId'];
             option.approveyes.enabled =
               item['ProfileState'] === 2 && item['ConstructionState'] === 1;
             option.approveno.enabled =

@@ -148,7 +148,7 @@ class MaintenanceProfileDistributeWindow extends DataWindowViewModel {
     this.id = '';
   }
   style = {
-    width: '50%',
+    width: '25%',
     height: 'auto',
   };
   id: string = '';

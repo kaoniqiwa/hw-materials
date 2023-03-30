@@ -24,7 +24,7 @@ export class MaintenanceProfileTableConverter
     public converter: MaintenanceProfileTableItemConverter
   ) {}
 
-  async convert(source: PagedList<PartialData>, ...res: any[]) {
+  async convert(source: PagedList<PartialData>, skip?: string[]) {
     return new Promise<PagedList<PartialData>>((resolve) => {
       wait(
         () => {
@@ -34,7 +34,7 @@ export class MaintenanceProfileTableConverter
           let paged = new PagedList<PartialData>();
           paged.Page = source.Page;
           let all = source.Data.map((x) => {
-            return this.converter.convert(x);
+            return this.converter.convert(x, skip);
           });
           Promise.all(all).then((data) => {
             paged.Data = data;
@@ -55,12 +55,15 @@ export class MaintenanceProfileTableItemConverter
     private converter: GarbageStationProfilePropertyConverter
   ) {}
 
-  async convert(source: PartialData): Promise<PartialData> {
+  async convert(source: PartialData, skip?: string[]): Promise<PartialData> {
     let view = 'View';
     for (const key in source) {
       source[key + view] = source[key];
 
       if (key === 'Id') {
+        continue;
+      }
+      if (skip && skip.includes(key)) {
         continue;
       }
       let value = source[key];
