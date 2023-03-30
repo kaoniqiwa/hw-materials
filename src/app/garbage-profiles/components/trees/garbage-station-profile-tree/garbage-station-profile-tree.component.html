@@ -1,0 +1,18 @@
+<div class="garbage-station-profile-tree hw-tree">
+  <div class="search-wrapper" *ngIf="showSearchBar">
+    <howell-simple-search
+      placeHolder="名称"
+      (search)="searchEventHandler($event)"
+    ></howell-simple-search>
+  </div>
+  <div class="tree-container">
+    <howell-common-tree
+      [isAsync]="false"
+      [dataSubject]="dataSubject"
+      [defaultIds]="defaultIds"
+      [selectStrategy]="selectStrategy"
+      (selectTreeNode)="selectTreeNodeHandler($event)"
+      [loaded]="loaded"
+    ></howell-common-tree>
+  </div>
+</div>

@@ -21,7 +21,8 @@
       <div
         class="garbage-profiles-material-putout-body-content-item list"
         [ngClass]="{
-          only: onlyMaterials
+          only: onlyMaterials,
+          profile: !profileId
         }"
       >
         <div class="item-title">出库物料：</div>
@@ -39,7 +40,7 @@
                     [options]="{
                       verticalbuttons: true,
                       min: 1,
-                      max: max
+                      max: quantitys[item.Id]
                     }"
                     appTouchSpin
                     [(number)]="item.Number"
@@ -51,6 +52,26 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div
+        class="garbage-profiles-material-putout-body-content-item"
+        *ngIf="!profileId"
+      >
+        <div class="item-title">档案：</div>
+        <div class="item-content">
+          <common-label-select
+            [selectedNodes]="tree1.profile.nodes"
+            [autoclose]="true"
+            [(showDropDown)]="tree1.profile.show"
+            [height]="'400px'"
+          >
+            <howell-garbage-station-profile-tree
+              #tree
+              [defaultIds]="tree1.profile.ids"
+              (selectTreeNode)="tree1.profile.onselected($event)"
+            ></howell-garbage-station-profile-tree>
+          </common-label-select>
         </div>
       </div>
       <div

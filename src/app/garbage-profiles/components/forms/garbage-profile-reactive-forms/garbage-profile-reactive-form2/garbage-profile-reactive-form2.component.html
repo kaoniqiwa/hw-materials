@@ -210,6 +210,7 @@
 <toast-window *ngIf="showPutout" (closeEvent)="showPutout = false">
   <div style="width: 1200px; height: 700px">
     <garbage-profiles-material-putout
+      [profileId]="formId"
       (ok)="okHandler($event)"
       (cancel)="cancelHandler()"
     ></garbage-profiles-material-putout>

@@ -1,7 +1,4 @@
-import {
-  DataWindowViewModel,
-  WindowViewModel,
-} from 'src/app/common/components/window-control/window.model';
+import { DataWindowViewModel } from 'src/app/common/components/window-control/window.model';
 import { MaterialRecordModel } from 'src/app/model/material-record.model';
 import { MaterialModel } from 'src/app/model/material.model';
 import { MaterialCategory } from 'src/app/network/entity/material-category.entity';
@@ -10,7 +7,7 @@ export class GarbageProfilesMaterialWindow {
   details = new GarbageProfilesMaterialDetailsWindow();
   record = new GarbageProfilesMaterialRecordWindow();
   putin = new GarbageProfilesMaterialPutInWindow();
-  putout = new GarbageProfilesMaterialRecordWindow();
+  putout = new GarbageProfilesMaterialPutOutWindow();
   picture = new GarbageProfilesMaterialPictureWindow();
   timeline = new GarbageProfilesMaterialTimelineWindow();
   close() {
@@ -22,7 +19,9 @@ export class GarbageProfilesMaterialWindow {
     this.timeline.show = false;
   }
   clear() {
+    this.details.clear();
     this.record.clear();
+    this.putin.clear();
     this.putout.clear();
     this.picture.clear();
     this.timeline.clear();
@@ -56,12 +55,20 @@ class GarbageProfilesMaterialRecordWindow extends DataWindowViewModel {
     this.details.show = true;
   }
 }
-class GarbageProfilesMaterialDetailsWindow extends WindowViewModel {}
-class GarbageProfilesMaterialPutInWindow extends WindowViewModel {
+class GarbageProfilesMaterialDetailsWindow extends DataWindowViewModel {
+  clear(): void {}
+}
+class GarbageProfilesMaterialPutInWindow extends DataWindowViewModel {
+  clear(): void {}
   style = {};
 }
-class GarbageProfilesMaterialPutOutWindow extends WindowViewModel {
+class GarbageProfilesMaterialPutOutWindow extends DataWindowViewModel {
+  clear(): void {
+    this.id = undefined;
+  }
   style = {};
+  id?: string;
+  override show = true;
 }
 class GarbageProfilesMaterialPictureWindow extends DataWindowViewModel {
   clear(): void {

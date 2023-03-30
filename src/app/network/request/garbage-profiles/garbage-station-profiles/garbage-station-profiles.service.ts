@@ -7,7 +7,10 @@ import { ExcelUrl } from 'src/app/network/entity/excel-url.entity';
 import { GarbageStationProfile } from 'src/app/network/entity/garbage-station-profile.entity';
 import { Label } from 'src/app/network/entity/label.entity';
 import { PagedList } from 'src/app/network/entity/page.entity';
-import { IPartialData } from 'src/app/network/entity/partial-data.interface';
+import {
+  IPartialData,
+  PartialData,
+} from 'src/app/network/entity/partial-data.interface';
 import { PartialResult } from 'src/app/network/entity/partial-result.entity';
 import { ProfileStateStatisticResult } from 'src/app/network/entity/profile-state-statistic-result.entity';
 import { Property } from 'src/app/network/entity/property.entity';
@@ -228,7 +231,7 @@ class GarbageStationProfilesPartialDatasRequestService {
 
   list<T extends IIdModel = any>(
     args: GetPartialDatasParams<T> = new GetPartialDatasParams()
-  ): Promise<PagedList<IPartialData>> {
+  ): Promise<PagedList<PartialData>> {
     let url = GarbageStationProfilesUrl.partialData.list();
     let plain = instanceToPlain(args);
 

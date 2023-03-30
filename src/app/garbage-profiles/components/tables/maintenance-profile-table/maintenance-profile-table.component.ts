@@ -227,6 +227,9 @@ export class MaintenanceProfileTableComponent
     }
     let property = await value.Property;
     if (property) {
+      if (property.Name === 'MaterialItems') {
+        return;
+      }
       if (property.DataType === PropertyDataType.Object) {
         e.stopImmediatePropagation();
         this.itemclick.emit(model);

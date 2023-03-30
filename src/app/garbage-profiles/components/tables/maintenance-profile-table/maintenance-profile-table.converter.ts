@@ -9,6 +9,7 @@ import { GarbageStationProfilePropertyConverter } from 'src/app/converter/garbag
 import { PropertyDataType } from 'src/app/enum/property-data-type.enum';
 import { GarbageStationProfilesSourceTools } from 'src/app/garbage-profiles/tools/garbage-station-profile-source.tool';
 import { PropertyModel } from 'src/app/model/property.model';
+import { MaterialItem } from 'src/app/network/entity/material-item.enitty';
 
 import { PagedList } from 'src/app/network/entity/page.entity';
 import { PartialData } from 'src/app/network/entity/partial-data.interface';
@@ -161,6 +162,13 @@ export class MaintenanceProfileTableItemConverter
         value as unknown as number[],
         property.EnumeratedValues!
       );
+    }
+    if (property.Name === 'MaterialItems') {
+      let items = value.map((x) => {
+        let item = x as unknown as MaterialItem;
+        return `${item.Name}:<b>${item.Number}</b>`;
+      });
+      return items.join(', ');
     }
     return this.fromObjectArray(value);
   }
