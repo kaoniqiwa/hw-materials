@@ -42,6 +42,7 @@ export class MaintenanceProfileForm2Component implements OnInit {
   ) {}
   ngOnInit(): void {
     this._init();
+    console.log(this.disabled);
   }
   private async _init() {
     if (!this.params.MaintenanceDeadline) {
@@ -56,13 +57,15 @@ export class MaintenanceProfileForm2Component implements OnInit {
         59
       );
     }
+    if (!this.disabled) {
+      let contracts = await this._business.listContracts();
+      this.contracts = contracts.filter(
+        (contract) =>
+          contract.UserType == UserType.maintenance_admin ||
+          contract.UserType == UserType.maintenance
+      );
+    }
 
-    let contracts = await this._business.listContracts();
-    this.contracts = contracts.filter(
-      (contract) =>
-        contract.UserType == UserType.maintenance_admin ||
-        contract.UserType == UserType.maintenance
-    );
     if (this.formId) {
       this.model = await this._business.getMaintenanceModel(this.formId);
       this.params.MaintenanceUserId = this.model.MaintenanceUserId
