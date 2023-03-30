@@ -4,6 +4,8 @@ import { RoutePath } from 'src/app/app-routing.path';
 import { LocalStorageService } from 'src/app/common/service/local-storage.service';
 import { ValidPathExp } from 'src/app/common/tools/tool';
 import { UserType } from 'src/app/enum/user-type.enum';
+import { ConstructionStateStatisticItem } from 'src/app/network/entity/construction-state-statistic-item.entity';
+import { ConstructionStateStatisticResult } from 'src/app/network/entity/construction-state-statistic-result.entity';
 import { User } from 'src/app/network/entity/user.model';
 import { MaintenanceProfilesLanguageTools } from '../../tools/maintenance-profile-language.too';
 import { MaintenanceProfileIndexBusiness } from './maintenance-profile-index.business';
@@ -44,11 +46,25 @@ export class MaintenanceProfileIndexComponent implements OnInit {
   }
   show = true;
   model?: MaintenanceProfileIndexModel;
+
+  constructionItems: ConstructionStateStatisticItem[] = [];
+  constructionTotal = 0;
+
   private user: User;
   ngOnInit(): void {
     if (this.user.UserType !== UserType.maintenance) {
       this.business.load().then((x) => {
         this.model = x;
+      });
+
+      this.business.getConstructionData().then((x) => {
+        this.constructionItems = x.Items;
+
+        this.constructionTotal = x.Items.reduce((prev, cur) => {
+          return prev + cur.Number;
+        }, 0);
+
+        console.log('全部状态', this.constructionTotal);
       });
     } else {
       if (this.router.url.indexOf(RoutePath.profile_manager) < 0) {

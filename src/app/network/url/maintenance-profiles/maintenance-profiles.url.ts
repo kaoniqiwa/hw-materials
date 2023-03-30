@@ -72,4 +72,8 @@ class MaintenanceProfilesStatisticsUrl extends AbstractUrl {
   state() {
     return `${this.basic()}/ProfileState`;
   }
+
+  constructionState() {
+    return `${this.basic()}/ConstructionState`;
+  }
 }

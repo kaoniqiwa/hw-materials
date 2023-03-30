@@ -18,16 +18,27 @@
       >
         {{ item.Number }}
       </div>
-      <!-- <card>
-        <div class="item">
-          <div class="hw-simple-title-1">
-            {{ language["ProfileState-" + item.ProfileState] }}
-          </div>
-          <div [class]="'number'">
-            {{ item.Number }}
-          </div>
-        </div>
-      </card> -->
+    </div>
+  </div>
+  <div class="construction-statistics">
+    <div
+      *ngFor="let item of constructionItems"
+      class="card"
+      [class]="'construction-state-' + item.ConstructionState"
+      [routerLink]="['profile-manager']"
+      [queryParams]="{ constructionState: item.ConstructionState }"
+    >
+      <div class="hw-simple-title-1">
+        {{ language["ConstructionState-" + item.ConstructionState] }}
+      </div>
+      <div
+        class="hw-simple-title"
+        [ngStyle]="{
+          color: item.ConstructionState | maintenance_profile_state_color_pipe
+        }"
+      >
+        {{ item.Number }}
+      </div>
     </div>
   </div>
   <div class="card" [routerLink]="['profile-manager']">

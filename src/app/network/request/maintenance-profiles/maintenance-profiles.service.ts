@@ -3,6 +3,7 @@ import { instanceToPlain } from 'class-transformer';
 import { wait } from 'src/app/common/tools/tool';
 import { ConditionOperator } from 'src/app/enum/condition-operator.enum';
 import { Condition } from '../../entity/condition.entity';
+import { ConstructionStateStatisticResult } from '../../entity/construction-state-statistic-result.entity';
 import { ExcelUrl } from '../../entity/excel-url.entity';
 import { MaintenanceProfile } from '../../entity/maintenance-profile.entity';
 import { PartialData } from '../../entity/partial-data.interface';
@@ -20,6 +21,7 @@ import {
   ConstructionApproveParams,
   CreateMaintenanceProfileParams,
   DistributeMaintenanceProfileParams,
+  GetMaintenanceProfileConstructionStateStatisticsParams,
   GetMaintenanceProfilePartialDatasExcelParams,
   GetMaintenanceProfilePartialDatasParams,
   GetMaintenanceProfilePropertiesParams,
@@ -250,5 +252,12 @@ class MaintenanceProfileStatisticsRequestService {
     let url = MaintenanceProfilesUrl.statistic().state();
     let plain = instanceToPlain(instance);
     return this.basic.post(url, ProfileStateStatisticResult, plain);
+  }
+  constructionState(
+    instance: GetMaintenanceProfileConstructionStateStatisticsParams = new GetMaintenanceProfileConstructionStateStatisticsParams()
+  ) {
+    let url = MaintenanceProfilesUrl.statistic().constructionState();
+    let plain = instanceToPlain(instance);
+    return this.basic.post(url, ConstructionStateStatisticResult, plain);
   }
 }
