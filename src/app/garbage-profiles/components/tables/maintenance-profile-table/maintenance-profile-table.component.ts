@@ -241,31 +241,24 @@ export class MaintenanceProfileTableComponent
   }
 
   ondetails(e: Event, item: PartialData) {
-    e.stopImmediatePropagation();
     this.details.emit(item);
   }
   onapply(e: Event, item: PartialData, enabled: boolean) {
-    e.stopImmediatePropagation();
     if (enabled) this.apply.emit(item);
   }
   onapproveyes(e: Event, item: PartialData, enabled: boolean) {
-    e.stopImmediatePropagation();
     if (enabled) this.approveyes.emit(item);
   }
   onapproveno(e: Event, item: PartialData, enabled: boolean) {
-    e.stopImmediatePropagation();
     if (enabled) this.approveno.emit(item);
   }
   ondistribute(e: Event, item: PartialData, enabled: boolean) {
-    e.stopImmediatePropagation();
     if (enabled) this.distribute.emit(item);
   }
   onsubmit(e: Event, item: PartialData, enabled: boolean) {
-    e.stopImmediatePropagation();
     if (enabled) this.submit.emit(item);
   }
   oncomplete(e: Event, item: PartialData, enabled: boolean) {
-    e.stopImmediatePropagation();
     if (enabled) this.complete.emit(item);
   }
 }

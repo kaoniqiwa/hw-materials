@@ -77,13 +77,18 @@ export class SidenavComponent implements OnInit, OnChanges, OnDestroy {
                 switch (user.UserType) {
                   case UserType.maintenance:
                   case UserType.maintenance_admin:
-                    let index = data.children.findIndex(
-                      (x) => x.id === RoutePath.station_profile_index
-                    );
-                    if (index >= 0) {
-                      // data.children.splice(index, 1);
-                      data.children[index].hideSelf = true;
-                    }
+                    let paths = [
+                      RoutePath.station_profile_index,
+                      RoutePath.material_manager,
+                    ];
+                    paths.forEach((path) => {
+                      let index = data.children.findIndex((x) => x.id === path);
+                      if (index >= 0) {
+                        // data.children.splice(index, 1);
+                        data.children[index].hideSelf = true;
+                      }
+                    });
+
                     break;
 
                   default:
