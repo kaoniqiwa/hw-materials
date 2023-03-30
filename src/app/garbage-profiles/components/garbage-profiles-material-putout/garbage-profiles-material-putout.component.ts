@@ -4,11 +4,17 @@ import { MaterialItemModel } from 'src/app/model/material-item.model';
 import { MaterialModel } from 'src/app/model/material.model';
 import { MaterialItem } from 'src/app/network/entity/material-item.enitty';
 import { PutOutMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
+import { GarbageProfilesMaterialPutoutBusiness } from './garbage-profiles-material-putout.business';
+import {
+  MaterialQuantitys,
+  TreeModel,
+} from './garbage-profiles-material-putout.model';
 
 @Component({
   selector: 'garbage-profiles-material-putout',
   templateUrl: './garbage-profiles-material-putout.component.html',
   styleUrls: ['./garbage-profiles-material-putout.component.less'],
+  providers: [GarbageProfilesMaterialPutoutBusiness],
 })
 export class GarbageProfilesMaterialPutoutComponent implements OnInit {
   @Output()
@@ -19,6 +25,10 @@ export class GarbageProfilesMaterialPutoutComponent implements OnInit {
   items?: MaterialItem[];
   @Output()
   cancel: EventEmitter<void> = new EventEmitter();
+  @Input()
+  profileId?: string;
+
+  constructor(private business: GarbageProfilesMaterialPutoutBusiness) {}
   ngOnInit(): void {
     if (this.items) {
       this.selectedIds = this.items.map((x) => x.Id.toString());
@@ -30,12 +40,27 @@ export class GarbageProfilesMaterialPutoutComponent implements OnInit {
         return model;
       });
     }
+    this.loadData();
   }
   description: string = '';
   image?: string;
-  max = Number.MAX_VALUE;
+
+  quantitys = new MaterialQuantitys();
   materials: MaterialItemModel[] = [];
   selectedIds: string[] = [];
+  tree1 = {
+    profile: new TreeModel(),
+  };
+
+  loadData() {
+    this.business.materials.load().then((material) => {
+      this.quantitys = {};
+      material.forEach((x) => {
+        this.quantitys[x.Id] = x.Quantity;
+      });
+    });
+  }
+
   onTreeNodeSelected(nodes: CommonFlatNode[]) {
     this.materials = nodes
       .filter((x) => {
@@ -73,6 +98,8 @@ export class GarbageProfilesMaterialPutoutComponent implements OnInit {
   }
   onok() {
     let params = new PutOutMaterialsParams();
+    params.ProfileId = this.profileId || this.tree1.profile.id;
+
     params.MaterialItems = this.materials;
     params.Description = this.description;
     if (this.image) {

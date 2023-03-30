@@ -170,6 +170,9 @@ export class MaintenanceProfilePartialDataConverter
 
   getItem<T>(id: string, key: string, data: PartialData) {
     return new Promise<T>((get) => {
+      if (key === 'MaterialItems') {
+        debugger;
+      }
       if (data[key] !== undefined) {
         get(data[key]);
         return;

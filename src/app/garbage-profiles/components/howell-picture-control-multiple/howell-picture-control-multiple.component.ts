@@ -11,13 +11,7 @@ export class HowellPictureControlMultipleComponent implements OnInit {
   @Input()
   contain: boolean = false;
 
-  ngOnInit(): void {
-    if (this.ids.length > 0) {
-      this.id = this.ids[this.index];
-    }
-  }
-
-  id?: string;
+  ngOnInit(): void {}
 
   index = 0;
 }

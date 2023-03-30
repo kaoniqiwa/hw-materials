@@ -1,7 +1,10 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { MaterialModel } from 'src/app/model/material.model';
-import { PutInMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
+import {
+  PutInMaterialsParams,
+  PutOutMaterialsParams,
+} from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
 import { GarbageProfilesMaterialTableArgs } from '../tables/garbage-profiles-material-table/garbage-profiles-material-table.model';
 import { GarbageProfilesMaterialManagerSourceBusiness } from './garbage-profiles-material-manager-source.business';
 import { GarbageProfilesMaterialManagerBusiness } from './garbage-profiles-material-manager.business';
@@ -57,7 +60,7 @@ export class GarbageProfilesMaterialManagerComponent implements OnInit {
     this.window.close();
   }
 
-  onputin() {
+  toputin() {
     this.window.putin.show = true;
   }
   onputinok(item: PutInMaterialsParams) {
@@ -75,8 +78,23 @@ export class GarbageProfilesMaterialManagerComponent implements OnInit {
         this.window.putin.show = false;
       });
   }
-  onputout() {
+  toputout() {
     this.window.putout.show = true;
+  }
+  onputout(params: PutOutMaterialsParams) {
+    this.business
+      .putout(params)
+      .then((x) => {
+        this.toastr.success('出库成功');
+        this.load.emit(this.args);
+      })
+      .catch((x) => {
+        this.toastr.warning('出库失败');
+        console.error(x);
+      })
+      .finally(() => {
+        this.window.putout.show = false;
+      });
   }
 
   onpicture(urls?: string[]) {

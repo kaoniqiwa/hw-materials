@@ -1,6 +1,10 @@
 <div class="howell-picture-control-multiple">
-  <howell-picture-control
-    [id]="id"
-    [contain]="contain"
-  ></howell-picture-control>
+  <mat-tab-group>
+    <mat-tab [label]="'照片' + (i + 1)" *ngFor="let id of ids; let i = index"
+      ><howell-picture-control
+        [id]="id"
+        [contain]="contain"
+      ></howell-picture-control
+    ></mat-tab>
+  </mat-tab-group>
 </div>

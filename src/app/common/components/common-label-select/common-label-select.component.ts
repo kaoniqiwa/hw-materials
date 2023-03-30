@@ -28,6 +28,8 @@ export class CommonLabelSelecComponent
 {
   @Input()
   showDropDown = false;
+  @Output()
+  showDropDownChange: EventEmitter<boolean> = new EventEmitter();
 
   @Input()
   selectedNodes: CommonFlatNode[] = [];
@@ -54,7 +56,10 @@ export class CommonLabelSelecComponent
   ngOnInit(): void {}
   ngAfterViewInit(): void {
     this.subscription = fromEvent(this.document.body, 'click').subscribe(() => {
-      if (this.autoclose) this.showDropDown = false;
+      if (this.autoclose) {
+        this.showDropDown = false;
+        this.showDropDownChange.emit(this.showDropDown);
+      }
     });
   }
   ngAfterContentInit(): void {}
@@ -65,6 +70,7 @@ export class CommonLabelSelecComponent
   toggleHandler(e: Event) {
     e.stopPropagation();
     this.showDropDown = !this.showDropDown;
+    this.showDropDownChange.emit(this.showDropDown);
     this.toggleDropDown.emit(this.showDropDown);
   }
   removeNode(e: Event, node: CommonFlatNode) {
@@ -76,5 +82,6 @@ export class CommonLabelSelecComponent
   }
   closeDropDown() {
     this.showDropDown = false;
+    this.showDropDownChange.emit(this.showDropDown);
   }
 }
