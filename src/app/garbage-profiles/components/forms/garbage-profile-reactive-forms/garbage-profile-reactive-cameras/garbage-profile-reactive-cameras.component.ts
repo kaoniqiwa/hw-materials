@@ -13,6 +13,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import _ from 'lodash';
 import { ToastrService } from 'ngx-toastr';
 import { HowellTouchSpinOptions } from 'src/app/common/directives/touch-spin/touch-spin.class';
 import { FormState } from 'src/app/enum/form-state.enum';
@@ -74,9 +75,7 @@ export class GarbageProfileReactiveCameras implements OnInit, OnChanges {
       this._init();
     }
   }
-  change(camera: FormGroup) {
-    console.log(camera);
-  }
+
   private async _init() {
     this.updateFormByPartial();
   }
@@ -172,7 +171,6 @@ export class GarbageProfileReactiveCameras implements OnInit, OnChanges {
       }
     }
   }
-  addControl(name: string, validators: ValidatorFn | ValidatorFn[]) {}
   updateFormByPartial() {
     if (this.cameras.length) {
       this.Cameras.clear();
@@ -198,13 +196,5 @@ export class GarbageProfileReactiveCameras implements OnInit, OnChanges {
       this.Cameras.clear();
       this.addCamera();
     }
-  }
-
-  click(camera: FormGroup) {
-    console.log(camera);
-    camera.patchValue({
-      Model: 1,
-    });
-    console.log(camera.value);
   }
 }

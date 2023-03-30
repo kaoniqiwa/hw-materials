@@ -1,4 +1,5 @@
 <div class="reactive-cameras">
+  <!-- {{ Cameras.value | json }} -->
   <form [formGroup]="formGroup" class="hw-form">
     <div class="hw-form-group" style="flex-basis: 100%">
       <div class="title">
@@ -25,6 +26,7 @@
             <i class="howell-icon-pluscircle"></i>
           </div>
         </div>
+
         <div formArrayName="Cameras" class="group-wrapper">
           <div *ngFor="let camera of Cameras.controls; let i = index">
             <form
@@ -44,17 +46,11 @@
               </div>
               <div class="hw-form-group" *ngIf="stepIndex != 5">
                 <div class="title">
-                  <span class="hw-form-label">
-                    {{ language["Model"] }}
-                  </span>
+                  <span class="hw-form-label"> {{ language["Model"] }} </span>
                   <span class="hw-form-icon">*</span>
                 </div>
                 <div class="content">
-                  <select
-                    class="hw-form-select"
-                    formControlName="Model"
-                    (change)="change(camera)"
-                  >
+                  <select class="hw-form-select" formControlName="Model">
                     <option
                       *ngFor="let model of source.Model"
                       [value]="model.Value"
@@ -83,11 +79,17 @@
                   <span class="hw-form-icon">*</span>
                 </div>
                 <div class="content">
+                  <!-- <input
+                    formControlName="Placement"
+                    type="text"
+                    appTouchSpin
+                    [(number)]="camera.value.Placement"
+                  /> -->
+
                   <input
                     type="text"
-                    formControlName="Placement"
-                    [options]="placementOptions"
                     appTouchSpin
+                    [number]="camera.value.Placement"
                     (touchSpinChange)="touchSpinChange($event, i, 'Placement')"
                   />
                 </div>
@@ -137,6 +139,7 @@
                     type="text"
                     formControlName="Bitrate"
                     appTouchSpin
+                    [number]="camera.value.Bitrate"
                     (touchSpinChange)="touchSpinChange($event, i, 'Bitrate')"
                   />
                 </div>
@@ -209,6 +212,7 @@
                     type="text"
                     appTouchSpin
                     [options]="volumeOptions"
+                    [number]="camera.value.AudioVolume"
                     (touchSpinChange)="
                       touchSpinChange($event, i, 'AudioVolume')
                     "

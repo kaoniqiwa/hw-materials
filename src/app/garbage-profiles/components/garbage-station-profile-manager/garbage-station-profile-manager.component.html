@@ -68,18 +68,6 @@
   </div>
 </div>
 
-<!-- <app-window
-  [Model]="window.details"
-  [style]="window.details.style"
-  *ngIf="window.details.show"
->
-  <garbage-station-profile-details
-    [formId]="selectedId"
-    [state]="window.details.state"
-  >
-  </garbage-station-profile-details>
-</app-window> -->
-
 <app-window
   [Model]="window.record.modification.table"
   [style]="window.record.modification.table.style"
@@ -101,16 +89,7 @@
   </garbage-station-profile-record-details>
 </app-window>
 
-<!-- <toast-window *ngIf="window.details.show" (closeEvent)="closeAndUpdate()">
-  <garbage-station-profile-details
-    [formId]="selectedId"
-    [state]="window.details.state"
-    (closeDetails)="closeAndUpdate()"
-  >
-  </garbage-station-profile-details>
-</toast-window> -->
-
-<toast-window
+<!-- <toast-window
   *ngIf="window.details.show"
   (closeEvent)="ondetailsclose()"
   style="z-index: 999"
@@ -124,9 +103,9 @@
     (recordEvent)="ondetailsputoutrecord($event)"
   >
   </garbage-profile-details-manager>
-</toast-window>
+</toast-window> -->
 
-<!-- <toast-window
+<toast-window
   *ngIf="window.details.show"
   (closeEvent)="ondetailsclose()"
   style="z-index: 999"
@@ -140,16 +119,7 @@
     (recordEvent)="ondetailsputoutrecord($event)"
   >
   </garbage-profile-details-reactive-manager>
-</toast-window> -->
-
-<!-- <toast-window
-  *ngIf="window.details.show"
-  (closeEvent)="ondetailsclose()"
-  style="z-index: 999"
->
-  <garbage-profile-details-reactive-manager>
-  </garbage-profile-details-reactive-manager>
-</toast-window> -->
+</toast-window>
 
 <app-window
   [Model]="window.setting"

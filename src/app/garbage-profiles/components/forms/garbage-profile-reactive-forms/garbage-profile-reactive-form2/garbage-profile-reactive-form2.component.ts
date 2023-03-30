@@ -167,6 +167,10 @@ export class GarbageProfileReactiveForm2Component {
           // 创建信息，直接发送
           if (await this._sendData()) {
             this.next.emit();
+          } else {
+            if (this.partialData) {
+              this.partialData['ProfileState'] = this.profileState;
+            }
           }
         }
       } else {
