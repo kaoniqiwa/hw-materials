@@ -14,11 +14,9 @@
     display: flex;
 
     .sidenav {
-      background-image: linear-gradient(
-        to right,
-        rgba(216, 244, 255, 0) 97%,
-        rgba(216, 244, 255, 0.1) 100%
-      );
+      background-image: linear-gradient(to right,
+          rgba(216, 244, 255, 0) 97%,
+          rgba(216, 244, 255, 0.1) 100%);
     }
 
     .sidenav-main {
@@ -29,6 +27,7 @@
       flex-direction: column;
       position: relative; // 重要，给弹窗定位用
       width: 0;
+      background-image: url(src/assets/img/bg.jpg);
 
       .sidenav-nav {
         margin-bottom: 15px;
@@ -37,6 +36,7 @@
       .sidenav-content {
         flex-grow: 1;
         overflow: hidden;
+
         // border: 1px solid red;
       }
     }
