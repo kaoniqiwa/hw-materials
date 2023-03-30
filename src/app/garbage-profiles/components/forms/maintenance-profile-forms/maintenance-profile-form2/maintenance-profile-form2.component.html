@@ -7,11 +7,18 @@
         </span>
       </div>
       <div class="content">
-        <select [(ngModel)]="params.MaintenanceUserId" [disabled]="disabled">
+        <select [(ngModel)]="params.MaintenanceUserId" *ngIf="!disabled">
           <option [ngValue]="contract.Id" *ngFor="let contract of contracts">
             {{ contract.Name }}
           </option>
         </select>
+
+        <input
+          type="text"
+          [disabled]="disabled"
+          [value]="model ? model.MaintenancePersonnel : ''"
+          *ngIf="disabled"
+        />
       </div>
     </div>
     <div class="hw-form-group">
