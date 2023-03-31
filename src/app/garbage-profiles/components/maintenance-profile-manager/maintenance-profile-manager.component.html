@@ -100,15 +100,6 @@
 </app-window>
 
 <app-window
-  [Model]="window.picture.multiple"
-  [style]="window.picture.multiple.style"
-  *ngIf="window.picture.multiple.show"
->
-  <howell-picture-control-multiple [ids]="window.picture.multiple.ids">
-  </howell-picture-control-multiple>
-</app-window>
-
-<app-window
   [Model]="window.create"
   [style]="window.create.style"
   *ngIf="window.create.show"
@@ -188,5 +179,15 @@
     [profileId]="window.details.id"
     (cancel)="onwindowclose()"
     (ok)="ondetailsok()"
+    (pictures)="onpictures($event)"
   ></maintenance-profile-details-manager>
+</app-window>
+
+<app-window
+  [Model]="window.picture.multiple"
+  [style]="window.picture.multiple.style"
+  *ngIf="window.picture.multiple.show"
+>
+  <howell-picture-control-multiple [ids]="window.picture.multiple.ids">
+  </howell-picture-control-multiple>
 </app-window>

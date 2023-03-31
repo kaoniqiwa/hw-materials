@@ -68,7 +68,6 @@ class GarbageProfilesMaterialPutOutWindow extends DataWindowViewModel {
   }
   style = {};
   id?: string;
-  override show = true;
 }
 class GarbageProfilesMaterialPictureWindow extends DataWindowViewModel {
   clear(): void {

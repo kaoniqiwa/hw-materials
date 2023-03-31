@@ -1,4 +1,41 @@
 .maintenance-details {
+
+  .form {
+    &-list {
+      display: flex;
+      flex-wrap: wrap;
+
+      &-item {
+        width: 50%;
+
+        &.full {
+          width: 100%;
+        }
+
+        &-title {
+          width: 170px;
+          min-width: 170px;
+
+        }
+
+        &-value {
+          color: white;
+          display: flex;
+
+          &>div {
+            margin-right: 5px;
+            background-color: rgba(117, 134, 224, 0.3);
+            padding: 5px 10px;
+
+            &:last-child {
+              margin-right: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
   &-foot {
     width: 100%;
     height: 50px;

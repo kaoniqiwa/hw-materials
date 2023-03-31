@@ -5,7 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class MaintenanceConstructionStateColorPipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) {}
 
-  transform(state: number) {
+  transform(state?: number) {
     switch (state) {
       case 1: //  申请工程维修
         return '#ff0';
