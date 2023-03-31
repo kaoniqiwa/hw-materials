@@ -34,7 +34,8 @@
       <div
         class="hw-simple-title"
         [ngStyle]="{
-          color: item.ConstructionState | maintenance_profile_state_color_pipe
+          color:
+            item.ConstructionState | maintenance_construction_state_color_pipe
         }"
       >
         {{ item.Number }}
