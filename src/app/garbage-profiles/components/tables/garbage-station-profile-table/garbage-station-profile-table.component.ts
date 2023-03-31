@@ -60,6 +60,8 @@ export class GarbageStationProfileTableComponent
 
   @Input()
   excel?: EventEmitter<string>;
+  @Output()
+  details: EventEmitter<PartialData> = new EventEmitter();
 
   constructor(
     business: GarbageStationProfileTableBusiness,
@@ -75,6 +77,7 @@ export class GarbageStationProfileTableComponent
   properties: Property[] = [];
 
   widths: string[] = [];
+  hover?: PartialData;
 
   ngOnInit(): void {
     this.tosubscribe();
@@ -161,5 +164,14 @@ export class GarbageStationProfileTableComponent
         this.itemclick.emit(model);
       }
     }
+  }
+  onmouseover(item: PartialData) {
+    this.hover = item;
+  }
+  onmouseout() {
+    this.hover = undefined;
+  }
+  ondetails(e: Event, item: PartialData) {
+    this.details.emit(item);
   }
 }

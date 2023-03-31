@@ -1,13 +1,9 @@
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { IObjectModel } from 'src/app/common/interfaces/model.interface';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
-import {
-  IPartialData,
-  PartialData,
-} from 'src/app/network/entity/partial-data.interface';
+import { PartialData } from 'src/app/network/entity/partial-data.interface';
 import { PutOutMaterialsParams } from 'src/app/network/request/garbage-profiles/materials/garbage-profiles-materials.param';
 import { GarbageStationProfilesLanguageTools } from '../../tools/garbage-station-profile-language.tool';
 import { GarbageStationProfilesSourceTools } from '../../tools/garbage-station-profile-source.tool';
@@ -44,7 +40,7 @@ export class GarbageStationProfileManagerComponent implements OnInit {
 
   args: GarbageStationProfileTableArgs = new GarbageStationProfileTableArgs();
 
-  selected?: IPartialData;
+  // selected?: IPartialData;
 
   window = new GarbageStationProfileWindow();
   load: EventEmitter<GarbageStationProfileTableArgs> = new EventEmitter();
@@ -59,9 +55,6 @@ export class GarbageStationProfileManagerComponent implements OnInit {
     });
   }
 
-  onselected(item?: IPartialData) {
-    this.selected = item;
-  }
   onwindowclose() {
     this.window.clear();
     this.window.close();
@@ -70,24 +63,22 @@ export class GarbageStationProfileManagerComponent implements OnInit {
     this.window.details.form = FormState.add;
     this.window.details.show = true;
   }
-  async onmodify() {
-    if (this.selected) {
-      this.window.details.form = FormState.edit;
-      this.window.details.selected = this.selected.Id;
-      if ('ProfileState' in this.selected) {
-        this.window.details.state = Math.max(
-          (this.selected['ProfileState'] as number) - 1,
-          0
-        );
-      } else {
-        let data = await this.business.get(this.selected.Id);
-        if (data) {
-          this.window.details.state = Math.max(data['ProfileState'] - 1, 0);
-        }
+  async onmodify(item: PartialData) {
+    this.window.details.form = FormState.edit;
+    this.window.details.selected = item.Id;
+    if ('ProfileState' in item) {
+      this.window.details.state = Math.max(
+        (item['ProfileState'] as number) - 1,
+        0
+      );
+    } else {
+      let data = await this.business.get(item.Id);
+      if (data) {
+        this.window.details.state = Math.max(data['ProfileState'] - 1, 0);
       }
-
-      this.window.details.show = true;
     }
+
+    this.window.details.show = true;
   }
   onsetting() {
     this.window.setting.show = true;
@@ -139,12 +130,11 @@ export class GarbageStationProfileManagerComponent implements OnInit {
   todelete() {
     this.window.confirm.show = true;
   }
-  ondelete() {
-    if (this.selected) {
-      this.business.delete(this.selected.Id).then((x) => {
+  ondelete(item: PartialData) {
+    if (item) {
+      this.business.delete(item.Id).then((x) => {
         this.load.emit(this.args);
         this.toastr.success(`成功删除档案文件`);
-        this.selected = undefined;
       });
     }
     this.onwindowclose();
@@ -182,14 +172,13 @@ export class GarbageStationProfileManagerComponent implements OnInit {
     this.excel.emit(this.title);
   }
 
-  toputout(profile: IObjectModel) {
+  toputout(profile: PartialData) {
     this.window.putout.show = true;
-    this.window.putout.profile = profile;
+    this.window.putout.id = profile.Id;
   }
   onputoutok(params: PutOutMaterialsParams) {
-    if (this.window.putout.profile) {
-      params.ProfileId = this.window.putout.profile.Id as string;
-      params.ProfileName = this.window.putout.profile.Name;
+    if (this.window.putout.id) {
+      params.ProfileId = this.window.putout.id;
       this.business.putout
         .putout(params)
         .then((x) => {

@@ -21,9 +21,9 @@
         <!-- <button class="hw-red-btn" (click)="todelete()" *ngIf="!!selected">
           <i class="howell-icon-delete-bin"></i> 删除
         </button> -->
-        <button class="hw-cyan-btn" *ngIf="!!selected" (click)="onmodify()">
+        <!-- <button class="hw-cyan-btn" *ngIf="!!selected" (click)="onmodify()">
           <i class="howell-icon-modification"></i> 编辑
-        </button>
+        </button> -->
       </div>
       <div class="filter">
         <div class="filter-item">
@@ -61,8 +61,8 @@
       [load]="load"
       [excel]="excel"
       [args]="args"
-      (selectedChange)="onselected($event)"
       (itemclick)="onitemclick($event)"
+      (details)="onmodify($event)"
     >
     </garbage-station-profile-table>
   </div>
@@ -140,7 +140,7 @@
   <howell-picture-control [id]="window.picture.urlId"> </howell-picture-control>
 </app-window>
 
-<app-window
+<!-- <app-window
   [Model]="window.confirm"
   [style]="window.confirm.style"
   *ngIf="window.confirm.show"
@@ -152,7 +152,7 @@
       <button class="hw-blue-btn" (click)="onwindowclose()">取消</button>
     </div>
   </div>
-</app-window>
+</app-window> -->
 
 <app-window
   [Model]="window.filter"
@@ -174,7 +174,7 @@
   *ngIf="window.putout.show"
 >
   <garbage-profiles-material-putout
-    [profileId]="selected?.Id"
+    [profileId]="window.putout.id"
     (cancel)="window.putout.show = false"
     (ok)="onputoutok($event)"
   ></garbage-profiles-material-putout>
@@ -188,6 +188,5 @@
   <garbage-station-profile-partial-data
     [model]="window.partial.model"
     [profileId]="window.partial.id"
-    (putout)="toputout($event)"
   ></garbage-station-profile-partial-data>
 </app-window>

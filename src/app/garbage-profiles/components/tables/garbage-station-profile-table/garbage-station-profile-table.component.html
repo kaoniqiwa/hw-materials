@@ -1,58 +1,88 @@
 <div class="garbage-station-profile-table vertical-layout">
-  <div
-    class="garbage-station-profile-table-main vertical-main"
-    WheelHorizontalScroll
-  >
-    <table
-      border="0"
-      cellpadding="0"
-      cellspacing="0"
-      matSort
-      (matSortChange)="sortData($event)"
-    >
-      <colgroup>
-        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
-      </colgroup>
-      <thead>
-        <tr>
-          <td
-            *ngFor="let name of names"
-            [mat-sort-header]="name"
-            [disableClear]="true"
-            [class]="name"
-            [start]="name === 'UpdateTime' ? 'desc' : ''"
+  <div class="garbage-station-profile-table-main vertical-main">
+    <div class="garbage-station-profile-table-main-table" WheelHorizontalScroll>
+      <table
+        border="0"
+        cellpadding="0"
+        cellspacing="0"
+        matSort
+        (matSortChange)="sortData($event)"
+      >
+        <colgroup>
+          <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+        </colgroup>
+        <thead>
+          <tr>
+            <td
+              *ngFor="let name of names"
+              [mat-sort-header]="name"
+              [disableClear]="true"
+              [class]="name"
+              [start]="name === 'UpdateTime' ? 'desc' : ''"
+            >
+              {{ language[name] }}
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let item of datas; let i = index"
+            [ngClass]="{
+              hover: this.hover === item,
+              selected: this.selected === item
+            }"
+            (click)="onselected(item)"
+            (mouseover)="onmouseover(item)"
+            (mouseout)="onmouseout()"
           >
-            {{ language[name] }}
-          </td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          *ngFor="let item of datas; let i = index"
-          [ngClass]="{
-            selected: this.selected === item
-          }"
-          (click)="onselected(item)"
-        >
-          <td *ngFor="let name of names" [class]="name">
-            <div
-              (click)="onitemclick($event, item, name)"
-              [ngStyle]="{
-                color:
-                  name === 'ProfileState'
-                    ? (item[name] | garbage_station_profile_state_color_pipe)
-                    : undefined
-              }"
-              [innerHTML]="
-                name === 'Labels'
-                  ? (item[name + 'View'] | async)
-                  : item[name + 'View']
-              "
-            ></div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            <td *ngFor="let name of names" [class]="name">
+              <div
+                (click)="onitemclick($event, item, name)"
+                [ngStyle]="{
+                  color:
+                    name === 'ProfileState'
+                      ? (item[name] | garbage_station_profile_state_color_pipe)
+                      : undefined
+                }"
+                [innerHTML]="
+                  name === 'Labels'
+                    ? (item[name + 'View'] | async)
+                    : item[name + 'View']
+                "
+              ></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="garbage-station-profile-table-main-lock">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <td class="center" style="padding: 12px">操作</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let item of datas; let i = index"
+            [ngClass]="{
+              hover: this.hover === item,
+              selected: this.selected === item
+            }"
+            (click)="onselected(item)"
+            (mouseover)="onmouseover(item)"
+            (mouseout)="onmouseout()"
+          >
+            <td class="operation center" style="padding: 12px">
+              <div title="编辑" (click)="ondetails($event, item)">
+                <i class="howell-icon-modification"></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
   <div class="garbage-station-profile-table-main-footer footer" *ngIf="page">
     <div class="footer-item">

@@ -1,5 +1,4 @@
-import { WindowViewModel } from 'src/app/common/components/window-control/window.model';
-import { IObjectModel } from 'src/app/common/interfaces/model.interface';
+import { DataWindowViewModel } from 'src/app/common/components/window-control/window.model';
 import { FormState } from 'src/app/enum/form-state.enum';
 import { ModificationRecordModel } from 'src/app/model/modification-record.model';
 import { PropertyValueModel } from 'src/app/model/property-value.model';
@@ -23,6 +22,7 @@ export class GarbageStationProfileWindow {
     this.filter.clear();
     this.putout.clear();
     this.record.material.clear();
+    this.record.material.clear();
     this.record.modification.clear();
   }
   close() {
@@ -39,12 +39,8 @@ export class GarbageStationProfileWindow {
   }
 }
 
-abstract class ClearWindowViewModel extends WindowViewModel {
-  clear(): void {}
-}
-
-class GarbageStationProfileDetailsWindow extends ClearWindowViewModel {
-  override clear(): void {
+class GarbageStationProfileDetailsWindow extends DataWindowViewModel {
+  clear(): void {
     this.form = FormState.none;
     this.selected = undefined;
     this.state = 0;
@@ -57,11 +53,12 @@ class GarbageStationProfileDetailsWindow extends ClearWindowViewModel {
   state: number = 0;
   selected?: string;
 }
-class GarbageStationProfileSettingWindow extends ClearWindowViewModel {
+class GarbageStationProfileSettingWindow extends DataWindowViewModel {
+  clear(): void {}
   style = { width: '60%' };
 }
-class GarbageStationProfilePictureWindow extends ClearWindowViewModel {
-  override clear(): void {
+class GarbageStationProfilePictureWindow extends DataWindowViewModel {
+  clear(): void {
     this.urlId = undefined;
   }
   style = {
@@ -71,11 +68,12 @@ class GarbageStationProfilePictureWindow extends ClearWindowViewModel {
   urlId?: string;
 }
 
-class GarbageStationProfileRecordModificationTableWindow extends ClearWindowViewModel {
+class GarbageStationProfileRecordModificationTableWindow extends DataWindowViewModel {
+  clear(): void {}
   style = {};
 }
-class GarbageStationProfileRecordModificationDetailsWindow extends ClearWindowViewModel {
-  override clear(): void {
+class GarbageStationProfileRecordModificationDetailsWindow extends DataWindowViewModel {
+  clear(): void {
     this.model = undefined;
   }
   style = {
@@ -97,19 +95,22 @@ class GarbageStationProfileRecordModificationWindow {
     this.details.show = true;
   }
 }
-class GarbageStationProfileRecordMaterialWindow extends ClearWindowViewModel {}
+class GarbageStationProfileRecordMaterialWindow extends DataWindowViewModel {
+  clear(): void {}
+}
 class GarbageStationProfileRecordWindow {
   material = new GarbageStationProfileRecordMaterialWindow();
   modification = new GarbageStationProfileRecordModificationWindow();
 }
-class GarbageStationProfileConfirmWindow extends ClearWindowViewModel {
+class GarbageStationProfileConfirmWindow extends DataWindowViewModel {
+  clear(): void {}
   style = {
     width: '300px',
     height: '100px',
   };
 }
-class GarbageStationProfilePartialDataWindow extends ClearWindowViewModel {
-  override clear(): void {
+class GarbageStationProfilePartialDataWindow extends DataWindowViewModel {
+  clear(): void {
     this.model = undefined;
     this.id = undefined;
   }
@@ -121,14 +122,16 @@ class GarbageStationProfilePartialDataWindow extends ClearWindowViewModel {
   model?: PropertyValueModel;
   id?: string;
 }
-class GarbageStationProfileFilterWindow extends ClearWindowViewModel {
+class GarbageStationProfileFilterWindow extends DataWindowViewModel {
+  clear(): void {}
   style = {
     width: '800px',
     height: 'auto',
   };
 }
-class GarbageStationProfileMaterialPutoutWindow extends ClearWindowViewModel {
+class GarbageStationProfileMaterialPutoutWindow extends DataWindowViewModel {
+  clear(): void {}
   style = {};
 
-  profile?: IObjectModel;
+  id?: string;
 }

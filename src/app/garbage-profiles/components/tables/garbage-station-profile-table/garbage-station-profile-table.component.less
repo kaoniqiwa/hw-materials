@@ -2,6 +2,48 @@
   height: 100%;
   overflow-x: auto;
 
+  &-main {
+    display: flex;
+    justify-content: start;
+    @lock-width: 100px;
+
+    &-table {
+      height: 100%;
+      width: calc(100% - @lock-width);
+      overflow-x: auto;
+      overflow-y: hidden;
+
+
+    }
+
+    &-lock {
+      height: 100%;
+      width: @lock-width;
+      overflow-x: scroll;
+      overflow-y: hidden;
+
+      table {
+        width: 100%;
+
+        .operation {
+          i {
+            font-size: 22px;
+          }
+
+
+          div[disabled=true] {
+            i {
+              color: #99abb4 !important;
+            }
+          }
+
+        }
+      }
+    }
+
+  }
+
+
 
   table {
     td {
@@ -23,6 +65,10 @@
           color: white;
         }
       }
+    }
+
+    tr.hover {
+      background: rgba(117, 134, 224, 0.5);
     }
   }
 }
