@@ -1,0 +1,40 @@
+<div class="maintenance-details vertical-layout">
+  <div class="maintenance-details-header vertical-header">
+    <div class="hw-simple-title">维修工单档案</div>
+  </div>
+  <div class="maintenance-details-body vertical-main">
+    <maintenance-profile-form1
+      [(params)]="params.create"
+      [formId]="data ? data.Id : ''"
+      [disabled]="true"
+    ></maintenance-profile-form1>
+    <maintenance-profile-form2
+      id="form2"
+      *ngIf="data && data.ProfileState > 1"
+      [formId]="data.Id"
+      [disabled]="true"
+    ></maintenance-profile-form2>
+    <maintenance-profile-form3
+      *ngIf="data && data.ProfileState >= 2 && !data.ConstructionState"
+      [formId]="data.Id"
+      [disabled]="true"
+    ></maintenance-profile-form3>
+    <maintenance-profile-form4
+      *ngIf="
+        data &&
+        data.ProfileState >= 2 &&
+        data.ConstructionState &&
+        data.ConstructionState > 0
+      "
+      [formId]="data.Id"
+      [(params)]="params.constructionapprove"
+      [disabled]="true"
+    ></maintenance-profile-form4>
+    <maintenance-profile-form5
+      *ngIf="data && data.ProfileState >= 3"
+      [formId]="data.Id"
+      [(params)]="params.submit"
+      [disabled]="true"
+    ></maintenance-profile-form5>
+  </div>
+</div>

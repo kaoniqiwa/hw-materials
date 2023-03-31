@@ -105,6 +105,11 @@ export class MaintenanceProfileManagerComponent implements OnInit {
     }
   }
 
+  onpictures(ids: string[]) {
+    this.window.picture.multiple.ids = ids;
+    this.window.picture.multiple.show = true;
+  }
+
   toexcel() {
     this.excel.emit(this.title);
   }

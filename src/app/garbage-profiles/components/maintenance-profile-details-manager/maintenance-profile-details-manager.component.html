@@ -1,40 +1,280 @@
-<div class="maintenance-details vertical-layout">
+<div class="maintenance-details vertical-layout" *ngIf="data">
   <div class="maintenance-details-header vertical-header">
     <div class="hw-simple-title">维修工单档案</div>
   </div>
   <div class="maintenance-details-body vertical-main">
-    <maintenance-profile-form1
-      [(params)]="params.create"
-      [formId]="data ? data.Id : ''"
-      [disabled]="true"
-    ></maintenance-profile-form1>
-    <maintenance-profile-form2
-      id="form2"
-      *ngIf="data && data.ProfileState > 1"
-      [formId]="data.Id"
-      [disabled]="true"
-    ></maintenance-profile-form2>
-    <maintenance-profile-form3
-      *ngIf="data && data.ProfileState >= 2 && !data.ConstructionState"
-      [formId]="data.Id"
-      [disabled]="true"
-    ></maintenance-profile-form3>
-    <maintenance-profile-form4
-      *ngIf="
-        data &&
-        data.ProfileState >= 2 &&
-        data.ConstructionState &&
-        data.ConstructionState > 0
-      "
-      [formId]="data.Id"
-      [(params)]="params.constructionapprove"
-      [disabled]="true"
-    ></maintenance-profile-form4>
-    <maintenance-profile-form5
-      *ngIf="data && data.ProfileState >= 3"
-      [formId]="data.Id"
-      [(params)]="params.submit"
-      [disabled]="true"
-    ></maintenance-profile-form5>
+    <div class="form">
+      <div class="form-list">
+        <div
+          class="form-list-item"
+          [ngClass]="{
+            full: !data.OutOfTime
+          }"
+          *ngIf="debug || data.ProfileState"
+        >
+          <div class="form-list-item-title">
+            {{ language["ProfileState"] }}：
+          </div>
+          <div
+            class="form-list-item-value"
+            [ngStyle]="{
+              color: data.ProfileState | maintenance_profile_state_color_pipe
+            }"
+          >
+            {{ language["ProfileState-" + data.ProfileState] }}
+          </div>
+        </div>
+        <div class="form-list-item" *ngIf="debug || data.OutOfTime">
+          <div class="form-list-item-title">{{ language["OutOfTime"] }}：</div>
+          <div class="form-list-item-value">
+            {{ data.OutOfTime | date : "yyyy年MM月dd日 HH:mm:ss" }}
+          </div>
+        </div>
+        <div class="form-list-item" *ngIf="debug || data.GarbageStationName">
+          <div class="form-list-item-title">
+            {{ language["GarbageStationName"] }}：
+          </div>
+          <div class="form-list-item-value">
+            {{ data.GarbageStationName }}
+          </div>
+        </div>
+        <div class="form-list-item" *ngIf="debug || data.CreationTime">
+          <div class="form-list-item-title">
+            {{ language["CreationTime"] }}：
+          </div>
+          <div class="form-list-item-value">
+            {{ data.CreationTime | date : "yyyy年MM月dd日 HH:mm:ss" }}
+          </div>
+        </div>
+        <div
+          class="form-list-item full"
+          *ngIf="debug || data.GarbageStationAddress"
+        >
+          <div class="form-list-item-title">
+            {{ language["GarbageStationAddress"] }}：
+          </div>
+          <div class="form-list-item-value">
+            {{ data.Province }} {{ data.City === "市辖区" ? "" : data.City }}
+            {{ data.County }} {{ data.Street }} {{ data.Committee }}
+            {{ data.GarbageStationAddress }}
+          </div>
+        </div>
+        <div class="form-list-item" *ngIf="debug || data.ProfileType">
+          <div class="form-list-item-title">
+            {{ language["ProfileType"] }}：
+          </div>
+          <div class="form-list-item-value">
+            {{ language["ProfileType-" + data.ProfileType] }}
+          </div>
+        </div>
+        <div class="form-list-item" *ngIf="debug || data.MaintenanceType">
+          <div class="form-list-item-title">
+            {{ language["MaintenanceType"] }}：
+          </div>
+          <div class="form-list-item-value">
+            {{ language["MaintenanceType-" + data.MaintenanceType] }}
+          </div>
+        </div>
+        <div class="form-list-item" *ngIf="debug || data.Customer">
+          <div class="form-list-item-title">{{ language["Customer"] }}：</div>
+          <div class="form-list-item-value">
+            {{ data.Customer }}
+          </div>
+        </div>
+        <div class="form-list-item" *ngIf="debug || data.CustomerPhoneNo">
+          <div class="form-list-item-title">
+            {{ language["CustomerPhoneNo"] }}：
+          </div>
+          <div class="form-list-item-value">
+            {{ data.CustomerPhoneNo }}
+          </div>
+        </div>
+
+        <div class="form-list-item" *ngIf="debug || data.FaultDate">
+          <div class="form-list-item-title">{{ language["FaultDate"] }}：</div>
+          <div class="form-list-item-value">
+            {{ data.FaultDate | date : "yyyy年MM月dd日 HH:mm:ss" }}
+          </div>
+        </div>
+        <div
+          class="form-list-item full"
+          *ngIf="debug || data.MaintenanceDescription"
+        >
+          <div class="form-list-item-title">
+            {{ language["MaintenanceDescription"] }}：
+          </div>
+          <div class="form-list-item-value">
+            {{ data.MaintenanceDescription }}
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="form-list-item" *ngIf="debug || data.DistributionPersonnel">
+          <div class="form-list-item-title">
+            {{ language["DistributionPersonnel"] }}：
+          </div>
+          <div class="form-list-item-value">
+            {{ data.DistributionPersonnel }}
+          </div>
+        </div>
+        <div class="form-list-item" *ngIf="debug || data.DistributionTime">
+          <div class="form-list-item-title">
+            {{ language["DistributionTime"] }}：
+          </div>
+          <div class="form-list-item-value">
+            {{ data.DistributionTime | date : "yyyy年MM月dd日 HH:mm:ss" }}
+          </div>
+        </div>
+        <div class="form-list-item" *ngIf="debug || data.MaintenancePersonnel">
+          <div class="form-list-item-title">
+            {{ language["MaintenancePersonnel"] }}：
+          </div>
+          <div class="form-list-item-value">
+            {{ data.MaintenancePersonnel }}
+          </div>
+        </div>
+        <div class="form-list-item" *ngIf="debug || data.MaintenanceDeadline">
+          <div class="form-list-item-title">
+            {{ language["MaintenanceDeadline"] }}：
+          </div>
+          <div class="form-list-item-value">
+            {{ data.MaintenanceDeadline | date : "yyyy年MM月dd日 HH:mm:ss" }}
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="form-list-item" *ngIf="debug || data.FaultType">
+          <div class="form-list-item-title">{{ language["FaultType"] }}：</div>
+          <div class="form-list-item-value">
+            {{ language["FaultType-" + data.FaultType] }}
+          </div>
+        </div>
+
+        <div class="form-list-item" *ngIf="debug || data.MaintenanceTime">
+          <div class="form-list-item-title">
+            {{ language["MaintenanceTime"] }}：
+          </div>
+          <div class="form-list-item-value">
+            {{ data.MaintenanceTime | date : "yyyy年MM月dd日 HH:mm:ss" }}
+          </div>
+        </div>
+        <div
+          class="form-list-item full"
+          *ngIf="debug || (data.MaterialItems && data.MaterialItems.length > 0)"
+        >
+          <div class="form-list-item-title">
+            {{ language["MaterialItems"] }}：
+          </div>
+          <div class="form-list-item-value">
+            <div *ngFor="let item of data.MaterialItems">
+              {{ item.Name }}：<b>{{ item.Number }}</b>
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-list-item"
+          *ngIf="
+            debug || (data.SceneImageUrls && data.SceneImageUrls.length > 0)
+          "
+        >
+          <div class="form-list-item-title">
+            {{ language["SceneImageUrls"] }}：
+          </div>
+          <div class="form-list-item-value">
+            <a (click)="onpictures(data.SceneImageUrls)">查看</a>
+          </div>
+        </div>
+
+        <div class="form-list-item full" *ngIf="debug || data.FaultDescription">
+          <div class="form-list-item-title">
+            {{ language["FaultDescription"] }}：
+          </div>
+          <div class="form-list-item-value">
+            {{ data.FaultDescription }}
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="form-list-item" *ngIf="debug || data.ConstructionState">
+          <div class="form-list-item-title">
+            {{ language["ConstructionState"] }}：
+          </div>
+          <div
+            class="form-list-item-value"
+            [ngStyle]="{
+              color:
+                data.ConstructionState
+                | maintenance_construction_state_color_pipe
+            }"
+          >
+            {{ language["ConstructionState-" + data.ConstructionState] }}
+          </div>
+        </div>
+        <div
+          class="form-list-item full"
+          *ngIf="debug || data.ConstructionReason"
+        >
+          <div class="form-list-item-title">
+            {{ language["ConstructionReason"] }}：
+          </div>
+          <div class="form-list-item-value">
+            {{ data.ConstructionReason }}
+          </div>
+        </div>
+        <div
+          class="form-list-item"
+          *ngIf="debug || data.ConstructionApplicationTime"
+        >
+          <div class="form-list-item-title">
+            {{ language["ConstructionApplicationTime"] }}：
+          </div>
+          <div class="form-list-item-value">
+            {{
+              data.ConstructionApplicationTime
+                | date : "yyyy年MM月dd日 HH:mm:ss"
+            }}
+          </div>
+        </div>
+        <div
+          class="form-list-item full"
+          *ngIf="debug || data.ConstructionApprovalReason"
+        >
+          <div class="form-list-item-title">
+            {{ language["ConstructionApprovalReason"] }}：
+          </div>
+          <div class="form-list-item-value">
+            {{ data.ConstructionApprovalReason }}
+          </div>
+        </div>
+        <div
+          class="form-list-item"
+          *ngIf="debug || data.ConstructionApprovalTime"
+        >
+          <div class="form-list-item-title">
+            {{ language["ConstructionApprovalTime"] }}：
+          </div>
+          <div class="form-list-item-value">
+            {{
+              data.ConstructionApprovalTime | date : "yyyy年MM月dd日 HH:mm:ss"
+            }}
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="form-list-item" *ngIf="debug || data.CompletionPersonnel">
+          <div class="form-list-item-title">
+            {{ language["CompletionPersonnel"] }}：
+          </div>
+          <div class="form-list-item-value">
+            {{ data.CompletionPersonnel }}
+          </div>
+        </div>
+        <div class="form-list-item" *ngIf="debug || data.CompletionTime">
+          <div class="form-list-item-title">
+            {{ language["CompletionTime"] }}：
+          </div>
+          <div class="form-list-item-value">
+            {{ data.CompletionTime | date : "yyyy年MM月dd日 HH:mm:ss" }}
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+      </div>
+    </div>
   </div>
 </div>

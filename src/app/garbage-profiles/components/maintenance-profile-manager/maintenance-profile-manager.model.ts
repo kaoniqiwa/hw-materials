@@ -49,7 +49,9 @@ class MaintenanceProfileDeatilsWindow extends DataWindowViewModel {
   clear(): void {
     this.id = '';
   }
-  style = {};
+  style = {
+    width: '70%',
+  };
   id = '';
 }
 
