@@ -71,11 +71,11 @@ export class GarbageProfileReactiveForm1Component implements OnInit {
 
   model: GarbageStationProfile | null = null;
 
-  private defaultProvince = '江苏省';
-  private defaultCity = '南京市';
-  private defaultCounty = '玄武区';
-  private defaultStreet = '新街口街道';
-  private defaultCommittee = '';
+  defaultProvince = '上海市';
+  defaultCity = '市辖区';
+  defaultCounty = '虹口区';
+  defaultStreet = '江湾镇街道';
+  defaultCommittee = '';
 
   divisionSource = new Map([
     [DivisionLevel.None, ''],
