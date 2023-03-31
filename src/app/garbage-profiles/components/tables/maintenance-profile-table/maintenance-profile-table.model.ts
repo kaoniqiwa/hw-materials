@@ -39,7 +39,7 @@ export const MaintenanceProfileTableDefaultNames = [
 ];
 
 class KeyValue {
-  [key: string]: number | undefined;
+  [key: string]: number | undefined | null;
 }
 
 export class MaintenanceProfileTableOptions {

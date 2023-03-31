@@ -5,7 +5,7 @@
       class="card"
       [class]="'state-' + item.ProfileState"
       [routerLink]="['profile-manager']"
-      [queryParams]="{ state: item.ProfileState }"
+      [queryParams]="{ profile: item.ProfileState }"
     >
       <div class="hw-simple-title-1">
         {{ language["ProfileState-" + item.ProfileState] }}
@@ -23,10 +23,10 @@
   <div class="construction-statistics">
     <div
       *ngFor="let item of constructionItems"
-      class="card"
+      class="card construction"
       [class]="'construction-state-' + item.ConstructionState"
       [routerLink]="['profile-manager']"
-      [queryParams]="{ constructionState: item.ConstructionState }"
+      [queryParams]="{ construction: item.ConstructionState }"
     >
       <div class="hw-simple-title-1">
         {{ language["ConstructionState-" + item.ConstructionState] }}

@@ -161,8 +161,8 @@ export class MaintenanceProfileTableBusiness
     }
     return condition;
   }
-  private getConditionByName(value: number, name: string) {
-    let condition = new Condition<number>();
+  private getConditionByName(value: number | null, name: string) {
+    let condition = new Condition<number | null>();
     condition.Value = value;
     condition.PropertyId = name;
     condition.Operator = ConditionOperator.Eq;

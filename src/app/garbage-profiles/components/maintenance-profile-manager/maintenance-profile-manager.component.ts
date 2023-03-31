@@ -50,8 +50,18 @@ export class MaintenanceProfileManagerComponent implements OnInit {
   ngOnInit(): void {
     this.args.enums['ProfileState'] = this.state;
     this.activeRoute.queryParams.subscribe((params) => {
-      if ('state' in params) {
-        this.args.enums['ProfileState'] = parseInt(params['state']);
+      let key = 'profile';
+      if (key in params) {
+        this.args.enums['ProfileState'] = parseInt(params[key]);
+      }
+      key = 'construction';
+      if (key in params) {
+        let value = parseInt(params[key]);
+        if (value === 0) {
+          this.args.enums['ConstructionState'] = null;
+        } else {
+          this.args.enums['ConstructionState'] = value;
+        }
       }
     });
   }
