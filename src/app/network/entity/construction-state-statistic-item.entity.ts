@@ -1,7 +1,0 @@
-/** 厢房档案状态数量统计 */
-export class ConstructionStateStatisticItem {
-  /**	Int32	状态	M */
-  ConstructionState!: number;
-  /**	Int32	数量	M */
-  Number!: number;
-}

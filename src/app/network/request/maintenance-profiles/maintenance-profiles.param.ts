@@ -118,7 +118,3 @@ export class GetMaintenanceProfileStateStatisticsParams extends DurationParams {
   /**	Int32[]	档案状态	O */
   ProfileStates?: number[];
 }
-export class GetMaintenanceProfileConstructionStateStatisticsParams extends DurationParams {
-  /**	Int32[]	档案状态	O */
-  ConstructionStates?: number[];
-}
