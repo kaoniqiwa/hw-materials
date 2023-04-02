@@ -52,16 +52,24 @@ const routes: Routes = [
               {
                 path: 'station-profile-index',
                 component: GarbageStationProfileIndexComponent,
-
+                data: {
+                  breadcrumb: '厢房档案',
+                },
                 children: [
                   {
                     path: 'profile-manager',
                     component: GarbageStationProfileManagerComponent,
+                    data: {
+                      breadcrumb: '厢房档案管理',
+                    },
                   },
 
                   {
                     path: 'label-manager',
                     component: GarbageProfilesLabelManagerComponent,
+                    data: {
+                      breadcrumb: '厢房标签管理',
+                    },
                   },
                 ],
               },
@@ -69,6 +77,9 @@ const routes: Routes = [
               {
                 path: 'material-manager',
                 component: GarbageProfilesMaterialManagerComponent,
+                data: {
+                  breadcrumb: '物料档案',
+                },
               },
               {
                 path: 'label-manager',
@@ -77,11 +88,16 @@ const routes: Routes = [
               {
                 path: 'maintenance-profile-index',
                 component: MaintenanceProfileIndexComponent,
-
+                data: {
+                  breadcrumb: '维修工档案',
+                },
                 children: [
                   {
                     path: 'profile-manager',
                     component: MaintenanceProfileManagerComponent,
+                    data: {
+                      breadcrumb: '维修工档案管理',
+                    },
                   },
                 ],
               },
@@ -97,4 +113,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class GarbageProfilesRoutingModule {}
+export class GarbageProfilesRoutingModule { }
