@@ -73,8 +73,8 @@ export class GarbageStationProfileTableBusiness
     let params = new GetPartialDatasParams();
     params.PageIndex = index;
     params.PageSize = size;
-    params.PropertyIds = args.tableIds;
-    params.PropertyIds = names;
+    // params.PropertyIds = args.tableIds;
+    // params.PropertyIds = names;
     params.Asc = args.asc;
 
     params.Desc = args.desc;
@@ -85,6 +85,8 @@ export class GarbageStationProfileTableBusiness
       }
     }
     let all = await this.service.property.all();
+    let paths = all.map((x) => x.Path);
+    params.PropertyIds = paths;
     params.Conditions = this.getConditions(
       args,
       all.map((x) => x.Path)

@@ -41,6 +41,7 @@ export interface ProfilePropertyValueModel {
   model: PropertyValueModel;
 }
 export const GarbageStationProfileTableDefaultNames = [
+  'Number',
   'ProfileName',
   'Province',
   'County',

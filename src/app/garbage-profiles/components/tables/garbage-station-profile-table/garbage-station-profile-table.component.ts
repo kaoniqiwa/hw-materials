@@ -166,10 +166,10 @@ export class GarbageStationProfileTableComponent
     }
   }
   onmouseover(item: PartialData) {
-    this.hover = item;
+    // this.hover = item;
   }
   onmouseout() {
-    this.hover = undefined;
+    // this.hover = undefined;
   }
   ondetails(e: Event, item: PartialData) {
     this.details.emit(item);

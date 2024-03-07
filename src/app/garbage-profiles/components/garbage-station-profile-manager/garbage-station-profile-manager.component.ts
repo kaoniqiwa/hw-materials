@@ -34,7 +34,9 @@ export class GarbageStationProfileManagerComponent implements OnInit {
     private business: GarbageStationProfileManagerBusiness,
     private toastr: ToastrService,
     private activeRoute: ActivatedRoute
-  ) {}
+  ) {
+    console.log(this.source);
+  }
 
   title = '厢房档案';
 

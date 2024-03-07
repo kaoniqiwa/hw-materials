@@ -12,12 +12,12 @@ export class GarbageStationProfileTableConfigBusiness {
   ) {}
 
   async get(ids?: string[]) {
-    if (!ids) {
-      ids = (await this.config.config.get(
-        this.local.user.Id,
-        UserConfigType.GarbageStationProfileProperty
-      )) as string[];
-    }
+    // if (!ids) {
+    //   ids = (await this.config.config.get(
+    //     this.local.user.Id,
+    //     UserConfigType.GarbageStationProfileProperty
+    //   )) as string[];
+    // }
     if (!ids || ids.length === 0) {
       ids = GarbageStationProfileTableDefaultNames;
     }
